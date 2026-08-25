@@ -1,139 +1,58 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S00",
-  "status": "completed",
-  "branch": "resolve-from-git",
+  "segment": "S01",
+  "status": "segment_pushed",
+  "branch": "segment/S01-constitution",
+  "base": {
+    "segment": "S00",
+    "tag": "s00-complete",
+    "commit": "37e2632191c8d8085b6fabccad8cade74114b85b"
+  },
   "local_head": "resolve-from-git",
-  "checkpoint_commit": "a4c97e5",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
-  "remote_web": "https://github.com/SunArthurX/saber-harness",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "bootstrap_segment_head": "d291f845832e7e85398e6d036067b7f26f1f4b75",
-  "main_head": "resolve-from-git",
-  "verified_main_checkpoints": [
-    "c9f2021ee4c20f6beb255f4afd0c04be1967de43",
-    "54a3ea6fc77bf44ea306bf9654d7f80051c73327",
-    "28d82d5ab88b304c9970e9bdb153d450f7cd77f7",
-    "5e4ae764b6ee72434a3c5ad5241e8ead90eb5a8f"
-  ],
+  "verified_segment_checkpoint": "4244fdea9cbd8be098e3ff09c9e5fc5c2eb00bbf",
+  "main_head": "37e2632191c8d8085b6fabccad8cade74114b85b",
   "checks": [
     {
-      "id": "S00-VERIFY-LOCAL",
+      "id": "S01-VERIFY-CONSTITUTION",
+      "command": "node scripts/verify-s01.mjs",
+      "exit_code": 0,
+      "result": "68 checks passed"
+    },
+    {
+      "id": "S01-VERIFY-TRACEABILITY",
+      "command": "validate docs/traceability.yaml through scripts/lib/traceability.mjs",
+      "exit_code": 0,
+      "result": "58 requirements, 50 P0 requirements and 9 required families; no validation errors"
+    },
+    {
+      "id": "S01-VERIFY-GOVERNANCE-TESTS",
+      "command": "node --test scripts/tests/*.test.mjs",
+      "exit_code": 0,
+      "result": "10 tests passed"
+    },
+    {
+      "id": "S01-VERIFY-S00-REGRESSION",
       "command": "node scripts/verify-s00.mjs",
       "exit_code": 0,
-      "result": "42 structural checks passed"
+      "result": "296 repository checks passed with S01 as the active Segment"
     },
     {
-      "id": "S00-VERIFY-CONTENT",
-      "command": "rg secret patterns excluding .git and tmp",
+      "id": "S01-VERIFY-STRUCTURE",
+      "command": "verify PC-01..10, NG-01..08, INV-01..08, E0..E7, ADR-001..006, TB-01..10, four data classes and TM-01..16",
       "exit_code": 0,
-      "result": "no secret-pattern findings"
+      "result": "all exact and minimum cardinality gates passed"
     },
     {
-      "id": "S00-VERIFY-DIFF",
-      "command": "git diff --check",
+      "id": "S01-VERIFY-REMOTE-BRANCH",
+      "command": "compare git rev-parse HEAD with git ls-remote origin refs/heads/segment/S01-constitution",
       "exit_code": 0,
-      "result": "no whitespace errors"
-    },
-    {
-      "id": "S00-CHECKPOINT-COMMIT",
-      "command": "git show --no-patch --format=%h:%s a4c97e5",
-      "exit_code": 0,
-      "result": "a4c97e5:wip(S00): bootstrap local repository and model handoff"
-    },
-    {
-      "id": "S00-VERIFY-REMOTE",
-      "command": "compare git rev-parse HEAD with git ls-remote origin refs/heads/segment/S00-repo-bootstrap",
-      "exit_code": 0,
-      "result": "local and remote SHA matched at 6904ac37aa2a544c1ece8efbc1714d2cca1e01eb"
-    },
-    {
-      "id": "S00-VERIFY-REPOSITORY",
-      "command": "gh repo view SunArthurX/saber-harness --json nameWithOwner,visibility,url,defaultBranchRef",
-      "exit_code": 0,
-      "result": "private repository exists and Segment branch was the initial default"
-    },
-    {
-      "id": "S00-VERIFY-CI",
-      "command": "inspect GitHub Actions runs 32844298118, 32844423935, and 32844468044",
-      "exit_code": 0,
-      "result": "Segment push, pull request, and main verification runs succeeded"
-    },
-    {
-      "id": "S00-VERIFY-PR",
-      "command": "gh pr view 1 --repo SunArthurX/saber-harness --json state,mergedAt,mergeCommit,url",
-      "exit_code": 0,
-      "result": "PR #1 merged at 2026-08-25T11:51:25Z as c9f2021ee4c20f6beb255f4afd0c04be1967de43"
-    },
-    {
-      "id": "S00-VERIFY-CLEAN-CLONE",
-      "command": "clone origin/main into a new temporary directory, run node scripts/verify-s00.mjs, and compare clone SHA with refs/heads/main",
-      "exit_code": 0,
-      "result": "165 checks passed; clone and remote main matched at c9f2021ee4c20f6beb255f4afd0c04be1967de43"
-    },
-    {
-      "id": "S00-VERIFY-BRANCH-PROTECTION",
-      "command": "GitHub REST branch protection and repository Rulesets APIs",
-      "exit_code": 1,
-      "result": "HTTP 403: upgrade to GitHub Pro or make this private repository public"
-    },
-    {
-      "id": "S00-VERIFY-FINAL-EVIDENCE-PR",
-      "command": "inspect PR #2 and main runs 32844807020 and 32844807053",
-      "exit_code": 0,
-      "result": "PR #2 merged as 54a3ea6fc77bf44ea306bf9654d7f80051c73327; repository verification and main provenance passed"
-    },
-    {
-      "id": "S00-VERIFY-FINAL-CLEAN-CLONE",
-      "command": "clone origin/main into a second new temporary directory, run node scripts/verify-s00.mjs, and compare SHA",
-      "exit_code": 0,
-      "result": "171 checks passed; clone and remote main matched at 54a3ea6fc77bf44ea306bf9654d7f80051c73327"
-    },
-    {
-      "id": "S00-VERIFY-CURRENT-ACTIONS",
-      "command": "inspect PR #5, main runs 32845280696 and 32845280555, job annotations, and a clean clone",
-      "exit_code": 0,
-      "result": "official Action runtimes pinned by SHA; both main runs passed with zero repository-verification annotations; clone and remote main matched at 28d82d5ab88b304c9970e9bdb153d450f7cd77f7"
-    },
-    {
-      "id": "S00-VERIFY-PRE-PUBLICATION",
-      "command": "run local verifier and tests; scan tracked files and all Git revisions for common credentials, private keys, raw PDFs, environment files, certificates, and tmp artifacts",
-      "exit_code": 0,
-      "result": "204 repository checks and 5 policy tests passed; no sensitive-material findings"
-    },
-    {
-      "id": "S00-VERIFY-PUBLIC-VISIBILITY",
-      "command": "gh repo view SunArthurX/saber-harness --json visibility,isPrivate,url,defaultBranchRef",
-      "exit_code": 0,
-      "result": "repository is PUBLIC, isPrivate=false, default branch main"
-    },
-    {
-      "id": "S00-APPLY-BRANCH-PROTECTION",
-      "command": "node scripts/configure-main-protection.mjs --apply",
-      "exit_code": 0,
-      "result": "repository settings and all eight protected-main assertions passed"
-    },
-    {
-      "id": "S00-VERIFY-STRICT-REMOTE",
-      "command": "node scripts/verify-remote-s00.mjs",
-      "exit_code": 0,
-      "result": "remote, public visibility, merge settings, successful main workflows, and all protected-main assertions passed"
-    },
-    {
-      "id": "S00-VERIFY-PROTECTED-MAIN-MERGE",
-      "command": "inspect PR #6 and main workflow runs 32846263100 and 32846262937",
-      "exit_code": 0,
-      "result": "PR #6 merged as 5e4ae764b6ee72434a3c5ad5241e8ead90eb5a8f through protected main; repository verification and main provenance passed"
-    },
-    {
-      "id": "S00-VERIFY-PROTECTED-CLEAN-CLONE",
-      "command": "clone protected origin/main into a new temporary directory; run local verification, governance tests, strict remote verification, and compare SHA",
-      "exit_code": 0,
-      "result": "204 repository checks and 6 tests passed; strict remote verification passed; clone and remote main matched at 5e4ae764b6ee72434a3c5ad5241e8ead90eb5a8f"
+      "result": "local and remote matched at 4244fdea9cbd8be098e3ff09c9e5fc5c2eb00bbf"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-25T12:13:07Z"
+  "last_verified_at": "2026-08-25T12:31:44Z"
 }

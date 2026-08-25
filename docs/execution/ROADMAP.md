@@ -8,8 +8,8 @@ Completed Segment:
 
 - S00 — official repository, remote and model-neutral continuity skeleton.
 
-Next Segment:
+Current Segment:
 
-- S01 — product constitution, requirement traceability and architecture decisions.
+- S01 — product constitution, requirement traceability and architecture decisions (`in_progress`).
 
-Start S01 only from the protected `origin/main` that contains the atomic S00 completion record.
+S01 started from protected `origin/main` at the `s00-complete` tag. S02 must not begin until the S01 PR ratifies the constitution and trust boundaries and the clean-clone Gate passes.

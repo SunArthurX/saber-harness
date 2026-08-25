@@ -45,6 +45,10 @@ This verifier includes repository structure, continuity state, Markdown fences, 
 
 Later Segments must add their own focused verification without deleting earlier checks.
 
+For S01 and later run:
+
+    node scripts/verify-s01.mjs
+
 ## Cross-model handoff
 
 Before changing model/provider or stopping:

@@ -2,66 +2,87 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S00
-  name: repo-bootstrap
+  id: S01
+  name: constitution
+  status: in_progress
+  objective: freeze product authority, traceable requirements, architecture decisions, evolution boundaries, trust boundaries, data classes and threat model
+predecessor:
+  segment: S00
   status: completed
-  objective: establish the authoritative Git remote and model-neutral handoff skeleton
+  tag: s00-complete
+  commit: 37e2632191c8d8085b6fabccad8cade74114b85b
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: resolve-from-git
+  branch: segment/S01-constitution
   local_head: resolve-from-git
-  checkpoint_commit: a4c97e5
   remote_head: resolve-from-git
-  bootstrap_segment_head: d291f845832e7e85398e6d036067b7f26f1f4b75
-  main_head: resolve-from-git
-  verified_main_checkpoint: 5e4ae764b6ee72434a3c5ad5241e8ead90eb5a8f
+  verified_segment_checkpoint: 4244fdea9cbd8be098e3ff09c9e5fc5c2eb00bbf
+  main_head: 37e2632191c8d8085b6fabccad8cade74114b85b
   remote_verified: true
-  clean: true
+  protected_main_verified: true
+  clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-25"
-  last_checkpoint_at: "2026-08-25T12:13:07Z"
+  last_checkpoint_at: "2026-08-25T12:31:44Z"
 acceptance:
   required:
-    - local_git_repository
-    - continuity_pack
-    - local_verification
-    - local_checkpoint_commit
+    - s00_tagged_base
     - configured_remote
+    - product_constitution
+    - v1_non_goals
+    - requirement_catalog
+    - p0_no_orphans
+    - six_accepted_adrs
+    - eight_architecture_invariants
+    - evolution_boundaries_e0_e7
+    - trust_boundary_signoff
+    - data_classification
+    - threat_model_v0
+    - local_verification
+    - governance_unit_tests
     - verified_segment_push
     - required_ci
-    - s00_pull_request
+    - protected_pr_merge
     - clean_clone_gate
-    - protected_main_baseline
-    - completion_record_merged
   passed:
-    - local_git_repository
-    - continuity_pack
-    - local_verification
-    - local_checkpoint_commit
+    - s00_tagged_base
     - configured_remote
+    - product_constitution
+    - v1_non_goals
+    - requirement_catalog
+    - p0_no_orphans
+    - six_accepted_adrs
+    - eight_architecture_invariants
+    - evolution_boundaries_e0_e7
+    - trust_boundary_signoff
+    - data_classification
+    - threat_model_v0
+    - local_verification
+    - governance_unit_tests
     - verified_segment_push
-    - required_ci
-    - s00_pull_request
-    - clean_clone_gate
-    - protected_main_baseline
-    - completion_record_merged
   failed: []
-  pending: []
+  pending:
+    - required_ci
+    - protected_pr_merge
+    - clean_clone_gate
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-25T12:13:07Z"
+  last_verified_at: "2026-08-25T12:31:44Z"
 decisions:
-  - docs/execution/DECISIONS.md#dec-0001
-  - docs/execution/DECISIONS.md#dec-0003
-  - docs/execution/DECISIONS.md#dec-0004
-  - docs/execution/DECISIONS.md#dec-0005
+  - docs/governance/PRODUCT-CONSTITUTION.md
+  - docs/adr/ADR-001-rust-trusted-core.md
+  - docs/adr/ADR-002-versioned-local-control-protocol.md
+  - docs/adr/ADR-003-sqlcipher-local-fact-store.md
+  - docs/adr/ADR-004-events-transactional-projections.md
+  - docs/adr/ADR-005-content-addressed-encrypted-blobs.md
+  - docs/adr/ADR-006-canonical-schema-codegen.md
 blockers: []
 next_action:
-  command: create segment/S01-constitution from the protected origin/main after the S00 completion PR is merged
-  description: begin S01 product constitution, requirement traceability, ADR, threat model, and data classification work
+  command: open the S01 protected PR and require repository-verification
+  description: ratify the constitution, non-goals and trust boundaries through the repository-owner merge event

@@ -63,11 +63,23 @@ const segments = plan.match(/^## S\d{2}：/gm) ?? [];
 check(segments.length === 25, "segment-count", String(segments.length));
 
 const state = readText("docs/execution/STATE.yaml");
-check(state.includes("id: S00"), "state-segment", "S00");
-check(/status: (in_progress|completed)/.test(state), "state-status", "recognized");
+const currentSegment = state.match(/^current_segment:\n(?:  .+\n)*?  id: (S\d{2})$/m)?.[1];
+const currentSegmentStatus = state.match(/^current_segment:\n(?:  .+\n)*?  status: (in_progress|completed)$/m)?.[1];
+check(/^S\d{2}$/.test(currentSegment ?? ""), "state-segment", currentSegment ?? "missing");
+check(["in_progress", "completed"].includes(currentSegmentStatus), "state-status", currentSegmentStatus ?? "missing");
 check(state.includes("remote: git@github.com:SunArthurX/saber-harness.git"), "remote-recorded", "origin");
 check(state.includes("visibility: public"), "visibility-recorded", "public");
-const segmentCompleted = state.includes("status: completed");
+const segmentCompleted = currentSegmentStatus === "completed";
+if (currentSegment !== "S00") {
+  check(state.includes("segment: S00"), "s00-predecessor", "S00");
+  check(state.includes("tag: s00-complete"), "s00-completion-tag", "s00-complete");
+  try {
+    const tagCommit = execFileSync("git", ["rev-parse", "s00-complete^{}"], {cwd: root, encoding: "utf8"}).trim();
+    check(/^[0-9a-f]{40}$/.test(tagCommit), "s00-tag-resolves", tagCommit);
+  } catch (error) {
+    check(false, "s00-tag-resolves", error.message);
+  }
+}
 
 const acceptanceBlock = state.match(/^acceptance:\n([\s\S]*?)^evidence:/m)?.[1] ?? "";
 function acceptanceList(name) {
@@ -100,7 +112,7 @@ if (state.includes("remote_verified: true")) {
 let evidence;
 try {
   evidence = JSON.parse(readText("docs/execution/EVIDENCE.json"));
-  check(evidence.segment === "S00", "evidence-segment", evidence.segment);
+  check(evidence.segment === currentSegment, "evidence-segment", evidence.segment);
   check(evidence.remote === "git@github.com:SunArthurX/saber-harness.git", "evidence-remote", "origin");
   check(evidence.visibility === "PUBLIC", "evidence-visibility", "PUBLIC");
   if (segmentCompleted) check(evidence.status === "completed", "evidence-completion-consistency", evidence.status);
