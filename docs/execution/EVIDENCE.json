@@ -12,8 +12,8 @@
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
-  "remote_head": "pending-first-push",
-  "verified_segment_checkpoint": "pending-first-push",
+  "remote_head": "resolve-from-git",
+  "verified_segment_checkpoint": "4ea8aa70da8cc10a52b1249d475d611faeb378a8",
   "main_head": "b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0",
   "verified_main_checkpoint": "b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0",
   "checks": [
@@ -33,13 +33,13 @@
       "id": "S02-VERIFY-PNPM",
       "command": "pnpm verify",
       "exit_code": 0,
-      "result": "Biome, typecheck, build, 2 TypeScript tests, license policy, S00/S01/S02 verifiers and 10 governance tests passed"
+      "result": "Biome, typecheck, build, 2 TypeScript tests, license policy, S00/S01/S02 verifiers and 12 governance tests passed"
     },
     {
       "id": "S02-VERIFY-STRUCTURE",
       "command": "node scripts/verify-s02.mjs",
       "exit_code": 0,
-      "result": "61 monorepo, toolchain, CI and supply-chain contract checks passed"
+      "result": "62 monorepo, toolchain, CI and supply-chain contract checks passed"
     },
     {
       "id": "S02-VERIFY-DEPENDENCIES",
@@ -58,8 +58,20 @@
       "command": "inspect GitHub security_and_analysis settings",
       "exit_code": 0,
       "result": "secret scanning, push protection and Dependabot security updates enabled"
+    },
+    {
+      "id": "S02-VERIFY-HOSTED-CI",
+      "command": "inspect GitHub Actions runs 32850995449 and 32850995632",
+      "exit_code": 0,
+      "result": "repository verification, Linux, macOS, Windows, pnpm audit and RustSec audit passed"
+    },
+    {
+      "id": "S02-VERIFY-REMOTE-BRANCH",
+      "command": "node scripts/verify-remote-s02.mjs --branch segment/S02-monorepo-ci",
+      "exit_code": 0,
+      "result": "branch SHA, hosted workflows, security settings and five protected-main required checks passed at 4ea8aa70da8cc10a52b1249d475d611faeb378a8"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-25T12:50:56Z"
+  "last_verified_at": "2026-08-25T13:06:51Z"
 }

@@ -26,18 +26,18 @@ git:
   default_branch: main
   branch: segment/S02-monorepo-ci
   local_head: resolve-from-git
-  remote_head: pending-first-push
-  verified_segment_checkpoint: pending-first-push
+  remote_head: resolve-from-git
+  verified_segment_checkpoint: 4ea8aa70da8cc10a52b1249d475d611faeb378a8
   main_head: b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0
   verified_main_checkpoint: b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-25"
-  last_checkpoint_at: "2026-08-25T12:50:56Z"
+  last_checkpoint_at: "2026-08-25T13:06:51Z"
 acceptance:
   required:
     - s01_tagged_base
@@ -69,23 +69,23 @@ acceptance:
     - dependency_audit
     - secret_scan
     - remote_security_controls
+    - three_platform_ci
     - bootstrap_acceptance
     - local_verification
-  failed: []
-  pending:
-    - three_platform_ci
     - verified_segment_push
     - required_ci
+  failed: []
+  pending:
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-25T12:50:56Z"
+  last_verified_at: "2026-08-25T13:06:51Z"
 decisions:
   - docs/execution/DECISIONS.md#dec-0006--pin-both-language-ecosystems-and-verify-on-three-desktop-operating-systems
   - docs/execution/DECISIONS.md#dec-0007--use-layered-repository-and-hosted-supply-chain-defenses
 blockers: []
 next_action:
-  command: commit and push segment/S02-monorepo-ci, then wait for Linux, macOS and Windows CI
-  description: prove the skeleton and locked toolchain on clean hosted runners before protected-main integration
+  command: open and merge the S02 implementation PR through the five required checks
+  description: integrate the verified skeleton through protected main, then run a clean-clone Gate
