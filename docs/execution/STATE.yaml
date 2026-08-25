@@ -17,14 +17,15 @@ git:
   checkpoint_commit: a4c97e5
   remote_head: resolve-from-git
   bootstrap_segment_head: d291f845832e7e85398e6d036067b7f26f1f4b75
-  main_head: c9f2021ee4c20f6beb255f4afd0c04be1967de43
+  main_head: resolve-from-git
+  verified_main_checkpoint: 54a3ea6fc77bf44ea306bf9654d7f80051c73327
   remote_verified: true
   clean: true
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-25"
-  last_checkpoint_at: "2026-08-25T11:52:51Z"
+  last_checkpoint_at: "2026-08-25T11:56:28Z"
 acceptance:
   required:
     - local_git_repository
@@ -52,7 +53,7 @@ acceptance:
     - clean_clone_gate
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-25T11:52:51Z"
+  last_verified_at: "2026-08-25T11:56:28Z"
 decisions:
   - docs/execution/DECISIONS.md#dec-0001
   - docs/execution/DECISIONS.md#dec-0003
