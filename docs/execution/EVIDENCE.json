@@ -1,77 +1,77 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S01",
-  "status": "completed",
-  "branch": "segment/S01-complete",
+  "segment": "S02",
+  "status": "in_progress",
+  "branch": "segment/S02-monorepo-ci",
   "base": {
-    "segment": "S00",
-    "tag": "s00-complete",
-    "commit": "37e2632191c8d8085b6fabccad8cade74114b85b"
+    "segment": "S01",
+    "tag": "s01-complete",
+    "commit": "b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "verified_segment_checkpoint": "4244fdea9cbd8be098e3ff09c9e5fc5c2eb00bbf",
-  "main_head": "resolve-from-git",
-  "verified_main_checkpoint": "f9bb7d3e3892ff78d46055ad5b056e116a437010",
+  "verified_segment_checkpoint": "4ea8aa70da8cc10a52b1249d475d611faeb378a8",
+  "main_head": "b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0",
+  "verified_main_checkpoint": "b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0",
   "checks": [
     {
-      "id": "S01-VERIFY-CONSTITUTION",
-      "command": "node scripts/verify-s01.mjs",
+      "id": "S02-VERIFY-TOOLCHAIN",
+      "command": "node scripts/bootstrap.mjs --check",
       "exit_code": 0,
-      "result": "68 checks passed"
+      "result": "Node.js 24.15.0, pnpm 11.23.0, rustc and cargo 1.98.0 matched exact pins"
     },
     {
-      "id": "S01-VERIFY-TRACEABILITY",
-      "command": "validate docs/traceability.yaml through scripts/lib/traceability.mjs",
+      "id": "S02-VERIFY-RUST",
+      "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --locked -- -D warnings && cargo test --workspace --locked",
       "exit_code": 0,
-      "result": "58 requirements, 50 P0 requirements and 9 required families; no validation errors"
+      "result": "format and clippy passed; 2 Rust tests passed"
     },
     {
-      "id": "S01-VERIFY-GOVERNANCE-TESTS",
-      "command": "node --test scripts/tests/*.test.mjs",
+      "id": "S02-VERIFY-PNPM",
+      "command": "pnpm verify",
       "exit_code": 0,
-      "result": "10 tests passed"
+      "result": "Biome, typecheck, build, 2 TypeScript tests, license policy, S00/S01/S02 verifiers and 12 governance tests passed"
     },
     {
-      "id": "S01-VERIFY-S00-REGRESSION",
-      "command": "node scripts/verify-s00.mjs",
+      "id": "S02-VERIFY-STRUCTURE",
+      "command": "node scripts/verify-s02.mjs",
       "exit_code": 0,
-      "result": "296 repository checks passed with S01 as the active Segment"
+      "result": "62 monorepo, toolchain, CI and supply-chain contract checks passed"
     },
     {
-      "id": "S01-VERIFY-STRUCTURE",
-      "command": "verify PC-01..10, NG-01..08, INV-01..08, E0..E7, ADR-001..006, TB-01..10, four data classes and TM-01..16",
+      "id": "S02-VERIFY-DEPENDENCIES",
+      "command": "pnpm audit --prod --audit-level high",
       "exit_code": 0,
-      "result": "all exact and minimum cardinality gates passed"
+      "result": "no known vulnerabilities found"
     },
     {
-      "id": "S01-VERIFY-REMOTE-BRANCH",
-      "command": "compare git rev-parse HEAD with git ls-remote origin refs/heads/segment/S01-constitution",
+      "id": "S02-VERIFY-NEW-MACHINE",
+      "command": "pnpm acceptance:new-machine",
       "exit_code": 0,
-      "result": "local and remote matched at 4244fdea9cbd8be098e3ff09c9e5fc5c2eb00bbf"
+      "result": "all local acceptance gates passed in 7 seconds against the 1800-second limit"
     },
     {
-      "id": "S01-VERIFY-CONSTITUTION-SIGNOFF",
-      "command": "inspect protected PR #8 and merge commit",
+      "id": "S02-VERIFY-REMOTE-SECURITY",
+      "command": "inspect GitHub security_and_analysis settings",
       "exit_code": 0,
-      "result": "repository owner merged PR #8 as f9bb7d3e3892ff78d46055ad5b056e116a437010, ratifying the constitution, non-goals and trust boundaries"
+      "result": "secret scanning, push protection and Dependabot security updates enabled"
     },
     {
-      "id": "S01-VERIFY-MAIN-CI",
-      "command": "inspect GitHub Actions runs 32848257249 and 32848257178",
+      "id": "S02-VERIFY-HOSTED-CI",
+      "command": "inspect GitHub Actions runs 32850995449 and 32850995632",
       "exit_code": 0,
-      "result": "repository verification and main provenance passed on f9bb7d3e3892ff78d46055ad5b056e116a437010"
+      "result": "repository verification, Linux, macOS, Windows, pnpm audit and RustSec audit passed"
     },
     {
-      "id": "S01-VERIFY-CLEAN-CLONE",
-      "command": "clone protected origin/main; run S00, S01, governance tests and strict remote verification; compare SHA",
+      "id": "S02-VERIFY-REMOTE-BRANCH",
+      "command": "node scripts/verify-remote-s02.mjs --branch segment/S02-monorepo-ci",
       "exit_code": 0,
-      "result": "298 S00 checks, 68 S01 checks and 10 tests passed; strict remote verification passed; clone and remote main matched at f9bb7d3e3892ff78d46055ad5b056e116a437010"
+      "result": "branch SHA, hosted workflows, security settings and five protected-main required checks passed at 4ea8aa70da8cc10a52b1249d475d611faeb378a8"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-25T12:35:02Z"
+  "last_verified_at": "2026-08-25T13:06:51Z"
 }

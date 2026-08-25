@@ -1,0 +1,16 @@
+[package]
+name = "saber-core"
+description = "Minimal trusted-core executable skeleton for Saber"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license-file.workspace = true
+repository.workspace = true
+publish = false
+
+[dependencies]
+saber-core-protocol = { path = "../core-protocol" }
+
+[lints]
+workspace = true

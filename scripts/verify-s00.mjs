@@ -1,6 +1,6 @@
-import {execFileSync} from "node:child_process";
-import {lstatSync, readdirSync, readFileSync} from "node:fs";
-import {extname, join, relative} from "node:path";
+import { execFileSync } from "node:child_process";
+import { lstatSync, readdirSync, readFileSync } from "node:fs";
+import { extname, join, relative } from "node:path";
 
 const root = process.cwd();
 const requiredFiles = [
@@ -31,7 +31,7 @@ const requiredFiles = [
   "scripts/configure-main-protection.mjs",
   "scripts/verify-remote-s00.mjs",
   "scripts/lib/github-protection.mjs",
-  "scripts/tests/github-protection.test.mjs"
+  "scripts/tests/github-protection.test.mjs",
 ];
 
 const failures = [];
@@ -39,9 +39,9 @@ const passes = [];
 
 function check(condition, name, detail) {
   if (condition) {
-    passes.push({name, detail});
+    passes.push({ name, detail });
   } else {
-    failures.push({name, detail});
+    failures.push({ name, detail });
   }
 }
 
@@ -63,8 +63,8 @@ const segments = plan.match(/^## S\d{2}：/gm) ?? [];
 check(segments.length === 25, "segment-count", String(segments.length));
 
 const state = readText("docs/execution/STATE.yaml");
-const currentSegment = state.match(/^current_segment:\n(?:  .+\n)*?  id: (S\d{2})$/m)?.[1];
-const currentSegmentStatus = state.match(/^current_segment:\n(?:  .+\n)*?  status: (in_progress|completed)$/m)?.[1];
+const currentSegment = state.match(/^current_segment:\n(?: {2}.+\n)*? {2}id: (S\d{2})$/m)?.[1];
+const currentSegmentStatus = state.match(/^current_segment:\n(?: {2}.+\n)*? {2}status: (in_progress|completed)$/m)?.[1];
 check(/^S\d{2}$/.test(currentSegment ?? ""), "state-segment", currentSegment ?? "missing");
 check(["in_progress", "completed"].includes(currentSegmentStatus), "state-status", currentSegmentStatus ?? "missing");
 check(state.includes("remote: git@github.com:SunArthurX/saber-harness.git"), "remote-recorded", "origin");
@@ -74,7 +74,7 @@ if (currentSegment !== "S00") {
   check(state.includes("segment: S00"), "s00-predecessor", "S00");
   check(state.includes("tag: s00-complete"), "s00-completion-tag", "s00-complete");
   try {
-    const tagCommit = execFileSync("git", ["rev-parse", "s00-complete^{}"], {cwd: root, encoding: "utf8"}).trim();
+    const tagCommit = execFileSync("git", ["rev-parse", "s00-complete^{}"], { cwd: root, encoding: "utf8" }).trim();
     check(/^[0-9a-f]{40}$/.test(tagCommit), "s00-tag-resolves", tagCommit);
   } catch (error) {
     check(false, "s00-tag-resolves", error.message);
@@ -84,7 +84,7 @@ if (currentSegment !== "S00") {
 const acceptanceBlock = state.match(/^acceptance:\n([\s\S]*?)^evidence:/m)?.[1] ?? "";
 function acceptanceList(name) {
   const match = acceptanceBlock.match(new RegExp(`^  ${name}:(?: \\[\\])?\\n?((?:    - [^\\n]+\\n?)*)`, "m"));
-  return (match?.[1]?.match(/^    - (.+)$/gm) ?? []).map((line) => line.slice(6));
+  return (match?.[1]?.match(/^ {4}- (.+)$/gm) ?? []).map((line) => line.slice(6));
 }
 
 const requiredAcceptance = acceptanceList("required");
@@ -92,17 +92,30 @@ const passedAcceptance = acceptanceList("passed");
 const failedAcceptance = acceptanceList("failed");
 const pendingAcceptance = acceptanceList("pending");
 const classifiedAcceptance = [...passedAcceptance, ...failedAcceptance, ...pendingAcceptance];
-check(new Set(requiredAcceptance).size === requiredAcceptance.length, "acceptance-required-unique", String(requiredAcceptance.length));
-check(new Set(classifiedAcceptance).size === classifiedAcceptance.length, "acceptance-state-exclusive", String(classifiedAcceptance.length));
 check(
-  requiredAcceptance.length === classifiedAcceptance.length && requiredAcceptance.every((item) => classifiedAcceptance.includes(item)),
+  new Set(requiredAcceptance).size === requiredAcceptance.length,
+  "acceptance-required-unique",
+  String(requiredAcceptance.length),
+);
+check(
+  new Set(classifiedAcceptance).size === classifiedAcceptance.length,
+  "acceptance-state-exclusive",
+  String(classifiedAcceptance.length),
+);
+check(
+  requiredAcceptance.length === classifiedAcceptance.length &&
+    requiredAcceptance.every((item) => classifiedAcceptance.includes(item)),
   "acceptance-state-complete",
-  `${classifiedAcceptance.length}/${requiredAcceptance.length}`
+  `${classifiedAcceptance.length}/${requiredAcceptance.length}`,
 );
 if (segmentCompleted) {
   check(failedAcceptance.length === 0, "completed-without-failures", "true");
   check(pendingAcceptance.length === 0, "completed-without-pending", "true");
-  check(classifiedAcceptance.length === passedAcceptance.length, "completed-all-acceptance-passed", `${passedAcceptance.length}/${requiredAcceptance.length}`);
+  check(
+    classifiedAcceptance.length === passedAcceptance.length,
+    "completed-all-acceptance-passed",
+    `${passedAcceptance.length}/${requiredAcceptance.length}`,
+  );
 }
 if (state.includes("remote_verified: true")) {
   check(passedAcceptance.includes("configured_remote"), "remote-state-consistency", "configured_remote passed");
@@ -121,11 +134,15 @@ try {
 }
 
 if (evidence?.status === "acceptance_blocked_external") {
-  check(pendingAcceptance.includes("protected_main_baseline"), "blocker-state-consistency", "protected_main_baseline pending");
+  check(
+    pendingAcceptance.includes("protected_main_baseline"),
+    "blocker-state-consistency",
+    "protected_main_baseline pending",
+  );
   check(
     evidence.known_blockers?.includes("private-branch-protection-entitlement"),
     "blocker-evidence-consistency",
-    "private-branch-protection-entitlement"
+    "private-branch-protection-entitlement",
   );
 }
 
@@ -137,7 +154,7 @@ const secretPatterns = [
   /gh[pousr]_[A-Za-z0-9]{20,}/,
   /sk-[A-Za-z0-9]{32,}/,
   /sk-(?:proj|svcacct)-[A-Za-z0-9_-]{20,}/,
-  /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/
+  /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----/,
 ];
 
 function scan(directory) {
@@ -168,14 +185,9 @@ function scan(directory) {
 scan(root);
 
 try {
-  const tracked = execFileSync("git", ["ls-files", "-z"], {cwd: root})
-    .toString("utf8")
-    .split("\0")
-    .filter(Boolean);
-  const unsafeTracked = tracked.filter((file) =>
-    file.startsWith("tmp/") ||
-    /(^|\/)\.env(?:\.|$)/.test(file) ||
-    /\.(?:pem|key|p12)$/.test(file)
+  const tracked = execFileSync("git", ["ls-files", "-z"], { cwd: root }).toString("utf8").split("\0").filter(Boolean);
+  const unsafeTracked = tracked.filter(
+    (file) => file.startsWith("tmp/") || /(^|\/)\.env(?:\.|$)/.test(file) || /\.(?:pem|key|p12)$/.test(file),
   );
   check(unsafeTracked.length === 0, "tracked-file-safety", unsafeTracked.join(", ") || "clean");
 } catch (error) {

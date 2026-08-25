@@ -49,6 +49,14 @@ For S01 and later run:
 
     node scripts/verify-s01.mjs
 
+For S02 and later run:
+
+    pnpm acceptance:new-machine
+
+For the strict remote S02 Gate run after CI succeeds:
+
+    node scripts/verify-remote-s02.mjs --branch segment/S02-monorepo-ci
+
 ## Cross-model handoff
 
 Before changing model/provider or stopping:

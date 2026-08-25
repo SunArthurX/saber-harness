@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-08-25",
+  "runtime": {
+    "node": "24.15.0",
+    "node_lts": "Krypton",
+    "npm": "11.12.1",
+    "pnpm": "11.23.0",
+    "rust": "1.98.0"
+  },
+  "format_and_types": {
+    "biome": "2.5.10",
+    "types_node": "24.13.3",
+    "typescript": "7.0.2"
+  },
+  "schema_codegen": {
+    "json_schema_to_typescript": "15.0.4",
+    "typify": "0.7.0"
+  },
+  "database_migration": {
+    "sqlx_cli": "0.9.0"
+  },
+  "supply_chain": {
+    "cargo_audit": "0.22.2",
+    "cargo_deny": "0.20.2"
+  },
+  "ci_actions": {
+    "actions_checkout": {
+      "version": "7.0.1",
+      "sha": "3d3c42e5aac5ba805825da76410c181273ba90b1"
+    },
+    "actions_setup_node": {
+      "version": "7.0.0",
+      "sha": "820762786026740c76f36085b0efc47a31fe5020"
+    },
+    "pnpm_action_setup": {
+      "version": "6.0.10",
+      "sha": "ff378ebe6b225b0680b81c1ad4498ae0d1d3a5e3"
+    },
+    "actions_cache": {
+      "version": "6.1.0",
+      "sha": "55cc8345863c7cc4c66a329aec7e433d2d1c52a9"
+    },
+    "rustsec_audit_check": {
+      "version": "2.0.0",
+      "sha": "69366f33c96575abad1ee0dba8212993eecbe998"
+    }
+  }
+}
