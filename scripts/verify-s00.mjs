@@ -13,6 +13,7 @@ const requiredFiles = [
   "SECURITY.md",
   ".github/CODEOWNERS",
   ".github/pull_request_template.md",
+  ".github/workflows/main-provenance.yml",
   ".github/workflows/repository-verification.yml",
   "docs/企业级本地CodingAgent-IDE产品与架构方案.md",
   "docs/企业级开发执行与跨模型接力计划.md",

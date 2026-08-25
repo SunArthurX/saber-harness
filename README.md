@@ -25,5 +25,6 @@ The same zero-dependency verification runs in GitHub Actions for Segment branche
 - Official remote: `https://github.com/SunArthurX/saber-harness`
 - Visibility: private
 - Changes use `segment/Sxx-slug` branches and pull requests.
-- `main` is the protected integration branch.
+- `main` is the integration branch and changes are merged through CI-verified pull requests.
+- The current GitHub account plan does not support protection or Rulesets for private repositories. A main-provenance workflow detects direct pushes until the repository is transferred or the account is upgraded.
 - The current license posture is private and proprietary; see `LICENSE`.

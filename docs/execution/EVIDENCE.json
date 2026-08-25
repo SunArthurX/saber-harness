@@ -2,14 +2,16 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S00",
-  "status": "local_checkpoint_created",
-  "branch": "segment/S00-repo-bootstrap",
+  "status": "acceptance_blocked_external",
+  "branch": "segment/S00-final-evidence",
   "local_head": "resolve-from-git",
   "checkpoint_commit": "a4c97e5",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "remote_web": "https://github.com/SunArthurX/saber-harness",
   "visibility": "PRIVATE",
-  "remote_head": "6904ac37aa2a544c1ece8efbc1714d2cca1e01eb",
+  "remote_head": "resolve-from-git",
+  "bootstrap_segment_head": "d291f845832e7e85398e6d036067b7f26f1f4b75",
+  "main_head": "c9f2021ee4c20f6beb255f4afd0c04be1967de43",
   "checks": [
     {
       "id": "S00-VERIFY-LOCAL",
@@ -46,10 +48,34 @@
       "command": "gh repo view SunArthurX/saber-harness --json nameWithOwner,visibility,url,defaultBranchRef",
       "exit_code": 0,
       "result": "private repository exists and Segment branch was the initial default"
+    },
+    {
+      "id": "S00-VERIFY-CI",
+      "command": "inspect GitHub Actions runs 32844298118, 32844423935, and 32844468044",
+      "exit_code": 0,
+      "result": "Segment push, pull request, and main verification runs succeeded"
+    },
+    {
+      "id": "S00-VERIFY-PR",
+      "command": "gh pr view 1 --repo SunArthurX/saber-harness --json state,mergedAt,mergeCommit,url",
+      "exit_code": 0,
+      "result": "PR #1 merged at 2026-08-25T11:51:25Z as c9f2021ee4c20f6beb255f4afd0c04be1967de43"
+    },
+    {
+      "id": "S00-VERIFY-CLEAN-CLONE",
+      "command": "clone origin/main into a new temporary directory, run node scripts/verify-s00.mjs, and compare clone SHA with refs/heads/main",
+      "exit_code": 0,
+      "result": "165 checks passed; clone and remote main matched at c9f2021ee4c20f6beb255f4afd0c04be1967de43"
+    },
+    {
+      "id": "S00-VERIFY-BRANCH-PROTECTION",
+      "command": "GitHub REST branch protection and repository Rulesets APIs",
+      "exit_code": 1,
+      "result": "HTTP 403: upgrade to GitHub Pro or make this private repository public"
     }
   ],
   "known_blockers": [
-    "s00-governance-in-progress"
+    "private-branch-protection-entitlement"
   ],
-  "last_verified_at": "2026-08-25T11:44:21Z"
+  "last_verified_at": "2026-08-25T11:52:51Z"
 }
