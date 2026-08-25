@@ -1,0 +1,33 @@
+project: saber
+roadmap_version: "1.0"
+current_segment:
+  id: S00
+  name: repo-bootstrap
+  status: planned
+  objective: establish the authoritative Git remote and model-neutral handoff skeleton
+git:
+  remote: null
+  branch: null
+  local_head: null
+  remote_head: null
+  clean: null
+execution:
+  provider: null
+  model: null
+  started_at: null
+  last_checkpoint_at: null
+acceptance:
+  required: []
+  passed: []
+  failed: []
+evidence:
+  file: docs/execution/EVIDENCE.json
+  last_verified_at: null
+decisions: []
+blockers:
+  - id: remote-missing
+    description: current workspace is not a Git repository and has no remote
+    owner: user
+next_action:
+  command: null
+  description: obtain or create the official remote repository

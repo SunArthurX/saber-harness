@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "project": "saber",
+  "segment": "S00",
+  "status": "local_verification_passed",
+  "branch": "segment/S00-repo-bootstrap",
+  "local_head": null,
+  "remote": null,
+  "remote_head": null,
+  "checks": [
+    {
+      "id": "S00-VERIFY-LOCAL",
+      "command": "node scripts/verify-s00.mjs",
+      "exit_code": 0,
+      "result": "42 structural checks passed"
+    },
+    {
+      "id": "S00-VERIFY-CONTENT",
+      "command": "rg secret patterns excluding .git and tmp",
+      "exit_code": 0,
+      "result": "no secret-pattern findings"
+    },
+    {
+      "id": "S00-VERIFY-DIFF",
+      "command": "git diff --check",
+      "exit_code": 0,
+      "result": "no whitespace errors"
+    }
+  ],
+  "known_blockers": [
+    "remote-missing",
+    "ci-provider-undecided",
+    "license-undecided"
+  ],
+  "last_verified_at": "2026-08-25T11:42:57Z"
+}

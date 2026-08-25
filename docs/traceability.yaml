@@ -1,0 +1,41 @@
+schema_version: 1
+project: saber
+requirements:
+  - id: OPS-REPO-001
+    statement: development state is stored in an authoritative Git repository
+    owner: tech-lead
+    segment: S00
+    evidence:
+      - .git
+      - docs/execution/STATE.yaml
+    test: S00-VERIFY-LOCAL
+    status: implemented-local
+  - id: OPS-HANDOFF-001
+    statement: a new coding model can resume from repository state without prior hidden reasoning
+    owner: agent-architect
+    segment: S00
+    evidence:
+      - AGENTS.md
+      - docs/execution/STATE.yaml
+      - docs/execution/HANDOFF.md
+      - docs/execution/EVIDENCE.json
+    test: S00-VERIFY-CONTINUITY
+    status: verified-local
+  - id: OPS-PUSH-001
+    statement: every completed Segment is pushed and local HEAD equals the remote branch SHA
+    owner: release-owner
+    segment: S00
+    evidence:
+      - docs/execution/EVIDENCE.json
+    test: S00-VERIFY-REMOTE
+    status: blocked
+    blocker: remote-missing
+  - id: SEC-REPO-001
+    statement: secrets and private scratch artifacts are excluded from commits
+    owner: security
+    segment: S00
+    evidence:
+      - .gitignore
+      - AGENTS.md
+    test: S00-VERIFY-CONTENT
+    status: verified-local

@@ -1,0 +1,57 @@
+project: saber
+roadmap_version: "1.0"
+architecture_version: "2.0"
+current_segment:
+  id: S00
+  name: repo-bootstrap
+  status: in_progress
+  objective: establish the authoritative Git remote and model-neutral handoff skeleton
+git:
+  repository_initialized: true
+  remote: null
+  default_branch: main
+  branch: segment/S00-repo-bootstrap
+  local_head: null
+  remote_head: null
+  remote_verified: false
+  clean: false
+execution:
+  provider: openai
+  model: codex-current
+  started_at: "2026-08-25"
+  last_checkpoint_at: "2026-08-25T11:42:57Z"
+acceptance:
+  required:
+    - local_git_repository
+    - continuity_pack
+    - local_verification
+    - local_checkpoint_commit
+    - configured_remote
+    - verified_segment_push
+    - protected_main_baseline
+  passed:
+    - local_git_repository
+    - continuity_pack
+    - local_verification
+  failed: []
+  pending:
+    - local_checkpoint_commit
+    - configured_remote
+    - verified_segment_push
+    - protected_main_baseline
+evidence:
+  file: docs/execution/EVIDENCE.json
+  last_verified_at: "2026-08-25T11:42:57Z"
+decisions:
+  - docs/execution/DECISIONS.md#dec-0001
+blockers:
+  - id: remote-missing
+    description: no Git remote URL or hosting platform has been provided
+    owner: user
+    blocks:
+      - configured_remote
+      - verified_segment_push
+      - protected_main_baseline
+next_action:
+  command: git add .editorconfig .gitattributes .gitignore AGENTS.md README.md docs scripts
+  description: review the explicit S00 staging set and create a WIP checkpoint commit

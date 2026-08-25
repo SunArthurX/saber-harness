@@ -1,0 +1,31 @@
+# Local research extraction and scratch files
+tmp/
+
+# Editors and operating systems
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+credentials/
+secrets/
+
+# Build and dependency outputs
+node_modules/
+target/
+dist/
+build/
+coverage/
+
+# Logs and local databases
+*.log
+*.db
+*.db-shm
+*.db-wal
