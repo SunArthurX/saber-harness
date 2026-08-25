@@ -2,9 +2,10 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S00",
-  "status": "local_verification_passed",
+  "status": "local_checkpoint_created",
   "branch": "segment/S00-repo-bootstrap",
-  "local_head": null,
+  "local_head": "resolve-from-git",
+  "checkpoint_commit": "a4c97e5",
   "remote": null,
   "remote_head": null,
   "checks": [
@@ -25,6 +26,12 @@
       "command": "git diff --check",
       "exit_code": 0,
       "result": "no whitespace errors"
+    },
+    {
+      "id": "S00-CHECKPOINT-COMMIT",
+      "command": "git show --no-patch --format=%h:%s a4c97e5",
+      "exit_code": 0,
+      "result": "a4c97e5:wip(S00): bootstrap local repository and model handoff"
     }
   ],
   "known_blockers": [
@@ -32,5 +39,5 @@
     "ci-provider-undecided",
     "license-undecided"
   ],
-  "last_verified_at": "2026-08-25T11:42:57Z"
+  "last_verified_at": "2026-08-25T11:44:21Z"
 }

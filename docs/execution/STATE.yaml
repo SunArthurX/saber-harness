@@ -11,15 +11,16 @@ git:
   remote: null
   default_branch: main
   branch: segment/S00-repo-bootstrap
-  local_head: null
+  local_head: resolve-from-git
+  checkpoint_commit: a4c97e5
   remote_head: null
   remote_verified: false
-  clean: false
+  clean: true
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-25"
-  last_checkpoint_at: "2026-08-25T11:42:57Z"
+  last_checkpoint_at: "2026-08-25T11:44:21Z"
 acceptance:
   required:
     - local_git_repository
@@ -41,7 +42,7 @@ acceptance:
     - protected_main_baseline
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-25T11:42:57Z"
+  last_verified_at: "2026-08-25T11:44:21Z"
 decisions:
   - docs/execution/DECISIONS.md#dec-0001
 blockers:
@@ -53,5 +54,5 @@ blockers:
       - verified_segment_push
       - protected_main_baseline
 next_action:
-  command: git add .editorconfig .gitattributes .gitignore AGENTS.md README.md docs scripts
-  description: review the explicit S00 staging set and create a WIP checkpoint commit
+  command: git remote add origin <official-remote-url>
+  description: obtain the official remote URL, configure origin, push the Segment branch, and verify the remote SHA

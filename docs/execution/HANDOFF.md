@@ -32,13 +32,14 @@ S00 is not complete until:
 - Platform-neutral repository and handoff skeleton created.
 - Local S00 verifier passed 42 structural checks.
 - Secret-pattern scan passed with no findings outside ignored scratch data.
+- Local checkpoint commit created: `a4c97e5` (`wip(S00): bootstrap local repository and model handoff`).
 
 ## Still required
 
 | Item | State | Required input/action |
 |---|---|---|
 | Local S00 verification | passed | node scripts/verify-s00.mjs; 42 checks |
-| Checkpoint commit | pending | stage reviewed S00 files and commit |
+| Checkpoint commit | passed | local commit `a4c97e5` |
 | Remote configuration | blocked | user provides existing URL or hosting/owner/name/visibility |
 | Remote push/SHA verification | blocked | configure origin, push Segment branch, compare SHA |
 | Protected main baseline | blocked | select hosting platform and protection/review rules |
@@ -52,11 +53,11 @@ S00 is not complete until:
 
 ## Next action
 
-1. Run local verification.
-2. Review staged files for secrets and unrelated data.
-3. Create wip(S00) local checkpoint.
-4. Obtain the official remote information.
-5. Configure origin, push, and verify SHA.
+1. Obtain the official remote information.
+2. Configure `origin` without changing the existing local history.
+3. Push `segment/S00-repo-bootstrap` and verify the remote SHA.
+4. Establish the main-branch review/protection baseline.
+5. Merge only after the S00 acceptance evidence is complete.
 
 ## Forbidden assumptions
 
