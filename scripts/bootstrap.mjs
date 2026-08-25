@@ -4,6 +4,8 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
+import { executableName } from "./lib/executable.mjs";
+
 const root = process.cwd();
 const versions = JSON.parse(readFileSync(join(root, "tools/versions.json"), "utf8"));
 const install = process.argv.includes("--install");
@@ -20,7 +22,7 @@ function run(command, args) {
 }
 
 if (install) {
-  run("corepack", ["install", "--global", `pnpm@${versions.runtime.pnpm}`]);
+  run(executableName("corepack"), ["install", "--global", `pnpm@${versions.runtime.pnpm}`]);
   run("rustup", [
     "toolchain",
     "install",
@@ -45,7 +47,7 @@ function output(command, args) {
 
 const actual = {
   node: process.versions.node,
-  pnpm: output("pnpm", ["--version"]),
+  pnpm: output(executableName("pnpm"), ["--version"]),
   rust: output("rustc", ["--version"]).match(/^rustc ([^ ]+)/)?.[1],
   cargo: output("cargo", ["--version"]).match(/^cargo ([^ ]+)/)?.[1],
 };
