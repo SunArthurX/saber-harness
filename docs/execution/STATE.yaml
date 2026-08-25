@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S00
   name: repo-bootstrap
-  status: in_progress
+  status: completed
   objective: establish the authoritative Git remote and model-neutral handoff skeleton
 git:
   repository_initialized: true
@@ -18,14 +18,14 @@ git:
   remote_head: resolve-from-git
   bootstrap_segment_head: d291f845832e7e85398e6d036067b7f26f1f4b75
   main_head: resolve-from-git
-  verified_main_checkpoint: 28d82d5ab88b304c9970e9bdb153d450f7cd77f7
+  verified_main_checkpoint: 5e4ae764b6ee72434a3c5ad5241e8ead90eb5a8f
   remote_verified: true
   clean: true
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-25"
-  last_checkpoint_at: "2026-08-25T12:04:47Z"
+  last_checkpoint_at: "2026-08-25T12:13:07Z"
 acceptance:
   required:
     - local_git_repository
@@ -50,12 +50,12 @@ acceptance:
     - s00_pull_request
     - clean_clone_gate
     - protected_main_baseline
-  failed: []
-  pending:
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-25T12:09:17Z"
+  last_verified_at: "2026-08-25T12:13:07Z"
 decisions:
   - docs/execution/DECISIONS.md#dec-0001
   - docs/execution/DECISIONS.md#dec-0003
@@ -63,5 +63,5 @@ decisions:
   - docs/execution/DECISIONS.md#dec-0005
 blockers: []
 next_action:
-  command: merge the S00 protection-tooling PR through required CI, re-run the clean-clone gate, then merge the atomic S00 completion record
-  description: complete the final repository-record gate without bypassing protected main
+  command: create segment/S01-constitution from the protected origin/main after the S00 completion PR is merged
+  description: begin S01 product constitution, requirement traceability, ADR, threat model, and data classification work

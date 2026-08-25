@@ -1,5 +1,7 @@
 # S00 Handoff
 
+Status: completed atomically when the S00 completion PR is merged through protected main.
+
 ## Identity
 
 - Project: Saber
@@ -50,8 +52,10 @@ S00 is not complete until:
 - Pre-publication tracked-file and full-history scans found no common credentials, private keys, raw PDFs, `.env` files, certificates, or extraction scratch data.
 - Repository visibility changed to public while the all-rights-reserved license posture was preserved.
 - `configure-main-protection.mjs --apply` succeeded and the strict remote verifier proved all eight main-protection assertions.
+- PR #6 merged the public-visibility decision and protection tooling as `5e4ae764b6ee72434a3c5ad5241e8ead90eb5a8f`; both resulting main workflows passed.
+- A fresh clone of protected `main` passed 204 repository checks, 6 governance tests, strict remote verification, and matched `origin/main` at `5e4ae764b6ee72434a3c5ad5241e8ead90eb5a8f`.
 
-## Still required
+## Acceptance result
 
 | Item | State | Required input/action |
 |---|---|---|
@@ -63,7 +67,8 @@ S00 is not complete until:
 | Protected main baseline | passed | strict remote verifier proved required CI/PR, admin enforcement, linear history, conversation resolution, and force-push/deletion prohibitions |
 | S00 pull request | passed | PR #1 merged through green CI |
 | Clean-clone gate | passed | 165 checks; clone SHA equals remote main SHA |
-| License/NOTICE | passed for S00 | private proprietary interim posture in `LICENSE` |
+| License/NOTICE | passed for S00 | publicly readable, proprietary, all rights reserved in `LICENSE` |
+| Atomic completion record | passed on merge | this record is merged only through protected main with required CI |
 
 ## Risks
 
@@ -73,10 +78,9 @@ S00 is not complete until:
 
 ## Next action
 
-1. Merge the protection tooling and public-visibility evidence through required CI.
-2. Re-run strict remote verification from `main`.
-3. Re-run the clean-clone gate.
-4. Merge the atomic S00 completion record, then start S01.
+1. Confirm the atomic S00 completion PR and its main workflows are green.
+2. Create `segment/S01-constitution` from protected `origin/main`.
+3. Follow the S01 Gate in the enterprise execution plan without weakening S00 controls.
 
 ## Forbidden assumptions
 

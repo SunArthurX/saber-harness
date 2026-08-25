@@ -20,7 +20,7 @@ requirements:
       - docs/execution/HANDOFF.md
       - docs/execution/EVIDENCE.json
     test: S00-VERIFY-CONTINUITY
-    status: verified-local
+    status: verified-main
   - id: OPS-PUSH-001
     statement: every completed Segment is pushed and local HEAD equals the remote branch SHA
     owner: release-owner
@@ -37,4 +37,14 @@ requirements:
       - .gitignore
       - AGENTS.md
     test: S00-VERIFY-CONTENT
-    status: verified-local
+    status: verified-main
+  - id: OPS-PROTECT-001
+    statement: main accepts changes only through strict required CI and pull-request protection without force push or deletion
+    owner: release-owner
+    segment: S00
+    evidence:
+      - scripts/configure-main-protection.mjs
+      - scripts/verify-remote-s00.mjs
+      - docs/execution/EVIDENCE.json
+    test: S00-VERIFY-STRICT-REMOTE
+    status: verified-main

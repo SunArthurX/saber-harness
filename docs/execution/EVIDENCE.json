@@ -2,7 +2,7 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S00",
-  "status": "protection_verified_completion_pending",
+  "status": "completed",
   "branch": "resolve-from-git",
   "local_head": "resolve-from-git",
   "checkpoint_commit": "a4c97e5",
@@ -15,7 +15,8 @@
   "verified_main_checkpoints": [
     "c9f2021ee4c20f6beb255f4afd0c04be1967de43",
     "54a3ea6fc77bf44ea306bf9654d7f80051c73327",
-    "28d82d5ab88b304c9970e9bdb153d450f7cd77f7"
+    "28d82d5ab88b304c9970e9bdb153d450f7cd77f7",
+    "5e4ae764b6ee72434a3c5ad5241e8ead90eb5a8f"
   ],
   "checks": [
     {
@@ -119,8 +120,20 @@
       "command": "node scripts/verify-remote-s00.mjs",
       "exit_code": 0,
       "result": "remote, public visibility, merge settings, successful main workflows, and all protected-main assertions passed"
+    },
+    {
+      "id": "S00-VERIFY-PROTECTED-MAIN-MERGE",
+      "command": "inspect PR #6 and main workflow runs 32846263100 and 32846262937",
+      "exit_code": 0,
+      "result": "PR #6 merged as 5e4ae764b6ee72434a3c5ad5241e8ead90eb5a8f through protected main; repository verification and main provenance passed"
+    },
+    {
+      "id": "S00-VERIFY-PROTECTED-CLEAN-CLONE",
+      "command": "clone protected origin/main into a new temporary directory; run local verification, governance tests, strict remote verification, and compare SHA",
+      "exit_code": 0,
+      "result": "204 repository checks and 6 tests passed; strict remote verification passed; clone and remote main matched at 5e4ae764b6ee72434a3c5ad5241e8ead90eb5a8f"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-25T12:09:17Z"
+  "last_verified_at": "2026-08-25T12:13:07Z"
 }

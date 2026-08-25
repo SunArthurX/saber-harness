@@ -67,6 +67,7 @@ check(state.includes("id: S00"), "state-segment", "S00");
 check(/status: (in_progress|completed)/.test(state), "state-status", "recognized");
 check(state.includes("remote: git@github.com:SunArthurX/saber-harness.git"), "remote-recorded", "origin");
 check(state.includes("visibility: public"), "visibility-recorded", "public");
+const segmentCompleted = state.includes("status: completed");
 
 const acceptanceBlock = state.match(/^acceptance:\n([\s\S]*?)^evidence:/m)?.[1] ?? "";
 function acceptanceList(name) {
@@ -86,6 +87,11 @@ check(
   "acceptance-state-complete",
   `${classifiedAcceptance.length}/${requiredAcceptance.length}`
 );
+if (segmentCompleted) {
+  check(failedAcceptance.length === 0, "completed-without-failures", "true");
+  check(pendingAcceptance.length === 0, "completed-without-pending", "true");
+  check(classifiedAcceptance.length === passedAcceptance.length, "completed-all-acceptance-passed", `${passedAcceptance.length}/${requiredAcceptance.length}`);
+}
 if (state.includes("remote_verified: true")) {
   check(passedAcceptance.includes("configured_remote"), "remote-state-consistency", "configured_remote passed");
   check(passedAcceptance.includes("verified_segment_push"), "remote-push-consistency", "verified_segment_push passed");
@@ -97,6 +103,7 @@ try {
   check(evidence.segment === "S00", "evidence-segment", evidence.segment);
   check(evidence.remote === "git@github.com:SunArthurX/saber-harness.git", "evidence-remote", "origin");
   check(evidence.visibility === "PUBLIC", "evidence-visibility", "PUBLIC");
+  if (segmentCompleted) check(evidence.status === "completed", "evidence-completion-consistency", evidence.status);
 } catch (error) {
   check(false, "evidence-json", error.message);
 }
