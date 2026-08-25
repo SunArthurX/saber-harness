@@ -20,10 +20,12 @@ This repository is currently in Segment S02: reproducible monorepo and multi-pla
 
 Run:
 
-    corepack install --global pnpm@11.23.0
+    # First install Node.js 24.15.0 with NVM, Volta, mise, asdf, fnm or nodenv.
     node scripts/bootstrap.mjs --install
     pnpm install --frozen-lockfile
     pnpm acceptance:new-machine
+
+The bootstrap resolver checks the active executable, `PATH` and common version-manager locations, then re-executes itself with exactly Node.js 24.15.0. In unusual layouts, set `SABER_NODE_PATH` to the exact Node executable. Package-manager subprocesses inherit that selected runtime; a different system Node earlier on `PATH` is not accepted or used.
 
 For focused and strict remote verification, run:
 
