@@ -1,15 +1,23 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { executableName } from "../lib/executable.mjs";
+import { commandSpec } from "../lib/executable.mjs";
 
-test("Windows package-manager shims use cmd entrypoints", () => {
-  assert.equal(executableName("pnpm", "win32"), "pnpm.cmd");
-  assert.equal(executableName("corepack", "win32"), "corepack.cmd");
+test("Windows package-manager shims use a constrained command interpreter", () => {
+  assert.deepEqual(commandSpec("pnpm", ["--version"], { platform: "win32", comspec: "cmd.exe" }), {
+    command: "cmd.exe",
+    args: ["/d", "/s", "/c", "pnpm --version"],
+  });
+  assert.throws(() => commandSpec("pnpm", ["--version&whoami"], { platform: "win32" }), /unsafe argument/);
 });
 
 test("native executables and POSIX commands remain unchanged", () => {
-  assert.equal(executableName("cargo", "win32"), "cargo");
-  assert.equal(executableName("pnpm", "darwin"), "pnpm");
-  assert.equal(executableName("pnpm", "linux"), "pnpm");
+  assert.deepEqual(commandSpec("cargo", ["--version"], { platform: "win32" }), {
+    command: "cargo",
+    args: ["--version"],
+  });
+  assert.deepEqual(commandSpec("pnpm", ["--version"], { platform: "linux" }), {
+    command: "pnpm",
+    args: ["--version"],
+  });
 });

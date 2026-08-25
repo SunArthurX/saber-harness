@@ -4,7 +4,7 @@ import { execFileSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { executableName } from "./lib/executable.mjs";
+import { commandSpec } from "./lib/executable.mjs";
 
 const root = process.cwd();
 const failures = [];
@@ -32,9 +32,8 @@ for (const path of ["package.json", "apps/cli/package.json", "packages/agent-run
 
 let licenses;
 try {
-  licenses = JSON.parse(
-    execFileSync(executableName("pnpm"), ["licenses", "list", "--json"], { cwd: root, encoding: "utf8" }),
-  );
+  const invocation = commandSpec("pnpm", ["licenses", "list", "--json"]);
+  licenses = JSON.parse(execFileSync(invocation.command, invocation.args, { cwd: root, encoding: "utf8" }));
 } catch (error) {
   fail(`pnpm license inventory failed: ${error.message}`);
 }

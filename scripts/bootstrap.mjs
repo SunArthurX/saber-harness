@@ -4,7 +4,7 @@ import { execFileSync, spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { executableName } from "./lib/executable.mjs";
+import { commandSpec } from "./lib/executable.mjs";
 
 const root = process.cwd();
 const versions = JSON.parse(readFileSync(join(root, "tools/versions.json"), "utf8"));
@@ -17,12 +17,13 @@ if (!install && !checkOnly) {
 }
 
 function run(command, args) {
-  const result = spawnSync(command, args, { cwd: root, encoding: "utf8", stdio: "inherit" });
+  const invocation = commandSpec(command, args);
+  const result = spawnSync(invocation.command, invocation.args, { cwd: root, encoding: "utf8", stdio: "inherit" });
   if (result.status !== 0) process.exit(result.status ?? 1);
 }
 
 if (install) {
-  run(executableName("corepack"), ["install", "--global", `pnpm@${versions.runtime.pnpm}`]);
+  run("corepack", ["install", "--global", `pnpm@${versions.runtime.pnpm}`]);
   run("rustup", [
     "toolchain",
     "install",
@@ -38,7 +39,8 @@ if (install) {
 
 function output(command, args) {
   try {
-    return execFileSync(command, args, { cwd: root, encoding: "utf8" }).trim();
+    const invocation = commandSpec(command, args);
+    return execFileSync(invocation.command, invocation.args, { cwd: root, encoding: "utf8" }).trim();
   } catch (error) {
     console.error(`Unable to run ${command}: ${error.message}`);
     process.exit(1);
@@ -47,7 +49,7 @@ function output(command, args) {
 
 const actual = {
   node: process.versions.node,
-  pnpm: output(executableName("pnpm"), ["--version"]),
+  pnpm: output("pnpm", ["--version"]),
   rust: output("rustc", ["--version"]).match(/^rustc ([^ ]+)/)?.[1],
   cargo: output("cargo", ["--version"]).match(/^cargo ([^ ]+)/)?.[1],
 };

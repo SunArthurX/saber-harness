@@ -2,22 +2,23 @@
 
 import { spawnSync } from "node:child_process";
 
-import { executableName } from "./lib/executable.mjs";
+import { commandSpec } from "./lib/executable.mjs";
 
 const startedAt = Date.now();
 const limitSeconds = 30 * 60;
 const commands = [
   ["node", ["scripts/bootstrap.mjs", "--check"]],
-  [executableName("pnpm"), ["install", "--frozen-lockfile"]],
+  ["pnpm", ["install", "--frozen-lockfile"]],
   ["cargo", ["fmt", "--all", "--", "--check"]],
   ["cargo", ["clippy", "--workspace", "--all-targets", "--locked", "--", "-D", "warnings"]],
   ["cargo", ["test", "--workspace", "--locked"]],
-  [executableName("pnpm"), ["verify"]],
+  ["pnpm", ["verify"]],
 ];
 
 for (const [command, args] of commands) {
   console.log(`\n> ${command} ${args.join(" ")}`);
-  const result = spawnSync(command, args, { cwd: process.cwd(), stdio: "inherit" });
+  const invocation = commandSpec(command, args);
+  const result = spawnSync(invocation.command, invocation.args, { cwd: process.cwd(), stdio: "inherit" });
   if (result.status !== 0) process.exit(result.status ?? 1);
 }
 
