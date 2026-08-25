@@ -2,7 +2,7 @@
 
 Saber is a local-first, model-neutral and governable CodingAgent IDE/runtime.
 
-Segment S03—the canonical domain schema, deterministic code-generation and local control protocol foundation—is completed on the atomic completion merge. The next implementation Segment is S04: SQLCipher event storage and the Run state machine.
+Segment S03—the canonical domain schema, deterministic code-generation and local control protocol foundation—is complete. Segment S04 is implementing SQLCipher event storage and the trusted Run state machine.
 
 ## Authoritative documents
 

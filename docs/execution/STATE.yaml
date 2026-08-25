@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S03
-  name: domain-protocol
-  status: completed
-  objective: establish canonical domain schemas, deterministic Rust and TypeScript generation, and the bounded versioned local control protocol contract
+  id: S04
+  name: event-store
+  status: in_progress
+  objective: implement the SQLCipher fact store, transactional event projections, trusted Run state machine and crash-safe side-effect recovery
 predecessor:
-  segment: S02
+  segment: S03
   status: completed
-  tag: s02-complete
-  commit: 333272ce33fb54316a08ce8014ae63081c080a8c
+  tag: s03-complete
+  commit: e673a18ba12fac1aabb42e1e1ed31d7c30e961dd
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -21,47 +21,51 @@ completed_segments:
   - segment: S02
     tag: s02-complete
     commit: 333272ce33fb54316a08ce8014ae63081c080a8c
+  - segment: S03
+    tag: s03-complete
+    commit: e673a18ba12fac1aabb42e1e1ed31d7c30e961dd
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S03-complete
+  branch: segment/S04-event-store
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: 776a7d1244546ec3f5da3e15de4ada745363ae68
-  main_head: cb16be2ee9fea1880033e3e78867f09dbd16451d
-  verified_main_checkpoint: cb16be2ee9fea1880033e3e78867f09dbd16451d
-  remote_verified: true
+  verified_segment_checkpoint: pending
+  main_head: e673a18ba12fac1aabb42e1e1ed31d7c30e961dd
+  verified_main_checkpoint: e673a18ba12fac1aabb42e1e1ed31d7c30e961dd
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-25"
-  last_checkpoint_at: "2026-08-25T14:19:53Z"
+  last_checkpoint_at: "2026-08-25T14:38:08Z"
 acceptance:
   required:
-    - s02_tagged_base
-    - configured_remote
-    - canonical_json_schemas
-    - ten_domain_entities
-    - event_envelope
-    - closed_objects
-    - deterministic_codegen
-    - generated_rust_types
-    - generated_typescript_types
-    - json_rpc_envelope
-    - local_transport_contract
-    - n_n_minus_1_compatibility
-    - frame_limit
-    - deadline_enforcement
-    - idempotency_contract
-    - unknown_method_denial
-    - invalid_state_denial
-    - cross_language_roundtrip
-    - fuzz_contract
+    - s03_tagged_base
+    - sqlcipher_codec_required
+    - key_custody_boundary
+    - encrypted_schema
+    - event_projection_atomicity
+    - trusted_run_state_machine
+    - verified_success_constraint
+    - idempotency_exact_replay
+    - audit_hash_chain
+    - artifact_integrity
+    - encrypted_blob_metadata
+    - outbox_intent_result
+    - projection_replay_equivalence
+    - crash_tail_repair
+    - wrong_key_denial
+    - key_rotation
+    - migration
+    - kill9_reconciliation
+    - disk_full_fault
+    - db_busy_fault
     - local_verification
     - verified_segment_push
     - required_ci
@@ -69,40 +73,42 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s02_tagged_base
-    - configured_remote
-    - canonical_json_schemas
-    - ten_domain_entities
-    - event_envelope
-    - closed_objects
-    - deterministic_codegen
-    - generated_rust_types
-    - generated_typescript_types
-    - json_rpc_envelope
-    - local_transport_contract
-    - n_n_minus_1_compatibility
-    - frame_limit
-    - deadline_enforcement
-    - idempotency_contract
-    - unknown_method_denial
-    - invalid_state_denial
-    - cross_language_roundtrip
-    - fuzz_contract
+    - s03_tagged_base
+    - sqlcipher_codec_required
+    - encrypted_schema
+    - event_projection_atomicity
+    - trusted_run_state_machine
+    - verified_success_constraint
+    - idempotency_exact_replay
+    - audit_hash_chain
+  failed: []
+  pending:
+    - key_custody_boundary
+    - artifact_integrity
+    - encrypted_blob_metadata
+    - outbox_intent_result
+    - projection_replay_equivalence
+    - crash_tail_repair
+    - wrong_key_denial
+    - key_rotation
+    - migration
+    - kill9_reconciliation
+    - disk_full_fault
+    - db_busy_fault
     - local_verification
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-25T14:19:53Z"
+  last_verified_at: "2026-08-25T14:38:08Z"
 decisions:
-  - docs/adr/ADR-002-versioned-local-control-protocol.md
-  - docs/adr/ADR-006-canonical-schema-codegen.md
+  - docs/adr/ADR-003-sqlcipher-local-fact-store.md
+  - docs/adr/ADR-004-events-transactional-projections.md
+  - docs/adr/ADR-005-content-addressed-encrypted-blobs.md
 blockers: []
 next_action:
-  command: after the atomic S03 completion PR is merged and tagged, create segment/S04-event-store from protected origin/main
-  description: implement the SQLCipher event store, transactional projections and Run state machine
+  command: implement production OS key custody, artifact/blob APIs, durable outbox reconciliation, replay and fault-injection tests
+  description: complete S04 without treating the current in-memory test key provider as production key custody
