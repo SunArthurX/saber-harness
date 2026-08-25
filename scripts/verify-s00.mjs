@@ -66,6 +66,7 @@ const state = readText("docs/execution/STATE.yaml");
 check(state.includes("id: S00"), "state-segment", "S00");
 check(/status: (in_progress|completed)/.test(state), "state-status", "recognized");
 check(state.includes("remote: git@github.com:SunArthurX/saber-harness.git"), "remote-recorded", "origin");
+check(state.includes("visibility: public"), "visibility-recorded", "public");
 
 const acceptanceBlock = state.match(/^acceptance:\n([\s\S]*?)^evidence:/m)?.[1] ?? "";
 function acceptanceList(name) {
@@ -95,6 +96,7 @@ try {
   evidence = JSON.parse(readText("docs/execution/EVIDENCE.json"));
   check(evidence.segment === "S00", "evidence-segment", evidence.segment);
   check(evidence.remote === "git@github.com:SunArthurX/saber-harness.git", "evidence-remote", "origin");
+  check(evidence.visibility === "PUBLIC", "evidence-visibility", "PUBLIC");
 } catch (error) {
   check(false, "evidence-json", error.message);
 }

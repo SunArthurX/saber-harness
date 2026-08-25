@@ -10,7 +10,7 @@ import {
 
 test("repository evaluation accepts the S00 governance settings", () => {
   const checks = evaluateRepository({
-    private: true,
+    visibility: "public",
     default_branch: "main",
     allow_squash_merge: true,
     allow_merge_commit: false,
@@ -19,6 +19,19 @@ test("repository evaluation accepts the S00 governance settings", () => {
     allow_update_branch: true
   });
   assert.equal(checks.every(({passed}) => passed), true);
+});
+
+test("repository evaluation rejects unexpected private visibility", () => {
+  const checks = evaluateRepository({
+    visibility: "private",
+    default_branch: "main",
+    allow_squash_merge: true,
+    allow_merge_commit: false,
+    allow_rebase_merge: false,
+    delete_branch_on_merge: true,
+    allow_update_branch: true
+  });
+  assert.equal(checks.find(({id}) => id === "repository-public")?.passed, false);
 });
 
 test("protection evaluation rejects a missing required check", () => {

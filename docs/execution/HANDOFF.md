@@ -5,7 +5,7 @@
 - Project: Saber
 - Segment: S00 — repository bootstrap
 - Branch: resolve from the checked-out Git ref; authoritative integration state is `origin/main`
-- Remote: `git@github.com:SunArthurX/saber-harness.git` (private)
+- Remote: `git@github.com:SunArthurX/saber-harness.git` (public, proprietary)
 - Previous execution environment: Codex desktop
 - Handoff date: 2026-08-25
 
@@ -46,6 +46,10 @@ S00 is not complete until:
 - A second clean clone passed the expanded 171 checks and matched `origin/main` at `54a3ea6fc77bf44ea306bf9654d7f80051c73327`.
 - PR #5 upgraded and immutably pinned the official GitHub Action runtimes; `main` reached `28d82d5ab88b304c9970e9bdb153d450f7cd77f7`.
 - Main runs `32845280696` (repository verification) and `32845280555` (PR provenance) passed; the repository-verification job had zero annotations.
+- The owner explicitly approved public visibility on 2026-08-25.
+- Pre-publication tracked-file and full-history scans found no common credentials, private keys, raw PDFs, `.env` files, certificates, or extraction scratch data.
+- Repository visibility changed to public while the all-rights-reserved license posture was preserved.
+- `configure-main-protection.mjs --apply` succeeded and the strict remote verifier proved all eight main-protection assertions.
 
 ## Still required
 
@@ -56,7 +60,7 @@ S00 is not complete until:
 | Remote configuration | passed | private `SunArthurX/saber-harness` repository |
 | Remote push/SHA verification | passed | SHA equality verified at `6904ac37...` |
 | Repository verification CI | passed | push, PR, and main runs succeeded |
-| Protected main baseline | blocked externally | GitHub HTTP 403: private protection requires Pro or eligible organization plan |
+| Protected main baseline | passed | strict remote verifier proved required CI/PR, admin enforcement, linear history, conversation resolution, and force-push/deletion prohibitions |
 | S00 pull request | passed | PR #1 merged through green CI |
 | Clean-clone gate | passed | 165 checks; clone SHA equals remote main SHA |
 | License/NOTICE | passed for S00 | private proprietary interim posture in `LICENSE` |
@@ -69,11 +73,10 @@ S00 is not complete until:
 
 ## Next action
 
-1. Keep the repository private.
-2. Upgrade the authenticated GitHub account to Pro or transfer the repository to an eligible private organization.
-3. Run `node scripts/configure-main-protection.mjs --apply`.
-4. Run `node scripts/verify-remote-s00.mjs` and require exit code 0.
-5. Re-run the clean-clone gate and then mark S00 completed.
+1. Merge the protection tooling and public-visibility evidence through required CI.
+2. Re-run strict remote verification from `main`.
+3. Re-run the clean-clone gate.
+4. Merge the atomic S00 completion record, then start S01.
 
 ## Forbidden assumptions
 
@@ -81,4 +84,4 @@ S00 is not complete until:
 - Do not invent a GitHub/GitLab/Gitee owner.
 - Do not commit raw private source PDFs or extracted scratch data.
 - Do not force push.
-- Do not make the repository public merely to unlock no-cost branch protection.
+- Do not imply that public readability grants reuse rights; the current license remains proprietary.

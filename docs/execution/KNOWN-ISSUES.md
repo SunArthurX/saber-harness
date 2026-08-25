@@ -21,11 +21,10 @@
 
 ## KI-0004 — Private main protection is unavailable on the current GitHub plan
 
-- Status: open S00 blocker
+- Status: resolved 2026-08-25 by explicit owner-approved public visibility
 - Evidence: GitHub REST API returned HTTP 403 for both branch protection and repository Rulesets
 - Provider response: upgrade to GitHub Pro or make the repository public
 - Safety decision: do not expose private research to bypass a platform entitlement
 - Compensating controls: private visibility, CODEOWNERS, squash-only merge setting, passing PR CI, main-provenance detection workflow, explicit no-force-push repository instructions
-- Owner action: upgrade the authenticated account or transfer the private repository to an eligible organization plan
-- Prepared remediation: `node scripts/configure-main-protection.mjs --apply`
-- Completion evidence: `node scripts/verify-remote-s00.mjs` exits 0 and proves required PR, `repository-verification`, linear history, conversation resolution, no force push, and no deletion on `main`
+- Resolution: pre-publication history scan passed, repository visibility changed to public, and `node scripts/configure-main-protection.mjs --apply` succeeded
+- Completion evidence: `node scripts/verify-remote-s00.mjs` exited 0 and proved required PR, `repository-verification`, admin enforcement, linear history, conversation resolution, no force push, and no deletion on `main`

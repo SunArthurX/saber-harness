@@ -82,9 +82,9 @@ export function classifyGitHubFailure(error) {
   return "github-api-error";
 }
 
-export function evaluateRepository(repository) {
+export function evaluateRepository(repository, {expectedVisibility = "public"} = {}) {
   return [
-    [repository?.private === true, "repository-private"],
+    [repository?.visibility === expectedVisibility, `repository-${expectedVisibility}`],
     [repository?.default_branch === "main", "default-branch-main"],
     [repository?.allow_squash_merge === true, "squash-merge-enabled"],
     [repository?.allow_merge_commit === false, "merge-commit-disabled"],
