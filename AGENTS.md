@@ -36,6 +36,8 @@ For S00 run:
 
     node scripts/verify-s00.mjs
 
+This verifier includes repository structure, continuity state, Markdown fences, whitespace, tracked-file safety and common credential-pattern checks. Do not bypass a failure; fix it or record a justified, reviewed exception.
+
 Later Segments must add their own focused verification without deleting earlier checks.
 
 ## Cross-model handoff

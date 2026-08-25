@@ -18,7 +18,7 @@ Reason:
 
 ## DEC-0002 — Do not choose hosting, visibility or license implicitly
 
-Status: accepted for S00
+Status: superseded by DEC-0003
 Date: 2026-08-25
 
 Decision:
@@ -29,3 +29,22 @@ Decision:
 Reason:
 
 - Those choices affect data exposure, governance and legal rights.
+
+## DEC-0003 — Use the authenticated private GitHub repository
+
+Status: accepted for S00
+Date: 2026-08-25
+
+Decision:
+
+- Use the only authenticated Git hosting identity discovered on the execution machine: `SunArthurX` on GitHub.
+- Use the workspace-derived repository name `saber-harness`.
+- Keep the repository private and proprietary while product security, data classification, and licensing are still being established.
+- Use GitHub Actions for the initial CI baseline and `@SunArthurX` as the bootstrap CODEOWNER.
+- Permit later transfer to an organization through an explicit governance decision without changing repository history.
+
+Reason:
+
+- The user explicitly requested a remote checkpoint after every completed Segment.
+- A private repository minimizes exposure of research and evolving security designs.
+- The selected account is authenticated and the target repository name was previously unused, so the target is unambiguous and verifiable.

@@ -9,7 +9,7 @@ requirements:
       - .git
       - docs/execution/STATE.yaml
     test: S00-VERIFY-LOCAL
-    status: implemented-local
+    status: verified-remote
   - id: OPS-HANDOFF-001
     statement: a new coding model can resume from repository state without prior hidden reasoning
     owner: agent-architect
@@ -28,8 +28,7 @@ requirements:
     evidence:
       - docs/execution/EVIDENCE.json
     test: S00-VERIFY-REMOTE
-    status: blocked
-    blocker: remote-missing
+    status: verified-segment-remote
   - id: SEC-REPO-001
     statement: secrets and private scratch artifacts are excluded from commits
     owner: security

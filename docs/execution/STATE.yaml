@@ -8,13 +8,15 @@ current_segment:
   objective: establish the authoritative Git remote and model-neutral handoff skeleton
 git:
   repository_initialized: true
-  remote: null
+  remote: git@github.com:SunArthurX/saber-harness.git
+  remote_web: https://github.com/SunArthurX/saber-harness
+  visibility: private
   default_branch: main
   branch: segment/S00-repo-bootstrap
   local_head: resolve-from-git
   checkpoint_commit: a4c97e5
-  remote_head: null
-  remote_verified: false
+  remote_head: 6904ac37aa2a544c1ece8efbc1714d2cca1e01eb
+  remote_verified: true
   clean: true
 execution:
   provider: openai
@@ -30,6 +32,9 @@ acceptance:
     - configured_remote
     - verified_segment_push
     - protected_main_baseline
+    - required_ci
+    - s00_pull_request
+    - clean_clone_gate
   passed:
     - local_git_repository
     - continuity_pack
@@ -40,19 +45,23 @@ acceptance:
     - configured_remote
     - verified_segment_push
     - protected_main_baseline
+    - required_ci
+    - s00_pull_request
+    - clean_clone_gate
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-25T11:44:21Z"
 decisions:
   - docs/execution/DECISIONS.md#dec-0001
 blockers:
-  - id: remote-missing
-    description: no Git remote URL or hosting platform has been provided
-    owner: user
+  - id: s00-governance-in-progress
+    description: CI, main protection, S00 pull request, and clean-clone acceptance are being established
+    owner: execution-agent
     blocks:
-      - configured_remote
-      - verified_segment_push
       - protected_main_baseline
+      - required_ci
+      - s00_pull_request
+      - clean_clone_gate
 next_action:
-  command: git remote add origin <official-remote-url>
-  description: obtain the official remote URL, configure origin, push the Segment branch, and verify the remote SHA
+  command: node scripts/verify-s00.mjs
+  description: verify and commit the S00 governance baseline, then create main and the S00 pull request

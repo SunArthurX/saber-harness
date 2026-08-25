@@ -18,6 +18,12 @@ Run:
 
     node scripts/verify-s00.mjs
 
-## Current limitation
+The same zero-dependency verification runs in GitHub Actions for Segment branches, pull requests, and `main`.
 
-The local repository has no configured remote. S00 cannot be marked complete until a remote is configured, the Segment branch is pushed, the remote SHA is verified, and the bootstrap change is merged into a protected main branch.
+## Repository governance
+
+- Official remote: `https://github.com/SunArthurX/saber-harness`
+- Visibility: private
+- Changes use `segment/Sxx-slug` branches and pull requests.
+- `main` is the protected integration branch.
+- The current license posture is private and proprietary; see `LICENSE`.
