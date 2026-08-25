@@ -10,7 +10,7 @@ git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
-  visibility: private
+  visibility: public
   default_branch: main
   branch: resolve-from-git
   local_head: resolve-from-git
@@ -18,14 +18,14 @@ git:
   remote_head: resolve-from-git
   bootstrap_segment_head: d291f845832e7e85398e6d036067b7f26f1f4b75
   main_head: resolve-from-git
-  verified_main_checkpoint: 54a3ea6fc77bf44ea306bf9654d7f80051c73327
+  verified_main_checkpoint: 28d82d5ab88b304c9970e9bdb153d450f7cd77f7
   remote_verified: true
   clean: true
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-25"
-  last_checkpoint_at: "2026-08-25T11:56:28Z"
+  last_checkpoint_at: "2026-08-25T12:04:47Z"
 acceptance:
   required:
     - local_git_repository
@@ -38,36 +38,30 @@ acceptance:
     - s00_pull_request
     - clean_clone_gate
     - protected_main_baseline
+    - completion_record_merged
   passed:
     - local_git_repository
     - continuity_pack
     - local_verification
-  failed: []
-  pending:
     - local_checkpoint_commit
     - configured_remote
     - verified_segment_push
-    - protected_main_baseline
     - required_ci
     - s00_pull_request
     - clean_clone_gate
+    - protected_main_baseline
+  failed: []
+  pending:
+    - completion_record_merged
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-25T11:56:28Z"
+  last_verified_at: "2026-08-25T12:09:17Z"
 decisions:
   - docs/execution/DECISIONS.md#dec-0001
   - docs/execution/DECISIONS.md#dec-0003
   - docs/execution/DECISIONS.md#dec-0004
-blockers:
-  - id: private-branch-protection-entitlement
-    description: GitHub returned HTTP 403 because branch protection and Rulesets for this private repository require GitHub Pro or an eligible organization plan
-    owner: repository-owner
-    blocks:
-      - protected_main_baseline
-    safe_options:
-      - upgrade the authenticated GitHub account to Pro
-      - transfer the private repository to an organization plan that supports protection
-    rejected_option: make the repository public because it would expose private research and evolving security design
+  - docs/execution/DECISIONS.md#dec-0005
+blockers: []
 next_action:
-  command: enable branch protection after an eligible private-repository plan is available
-  description: require repository-verification, pull requests, linear history, conversation resolution, and prohibit force pushes/deletion on main
+  command: merge the S00 protection-tooling PR through required CI, re-run the clean-clone gate, then merge the atomic S00 completion record
+  description: complete the final repository-record gate without bypassing protected main

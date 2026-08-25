@@ -32,7 +32,7 @@ Reason:
 
 ## DEC-0003 — Use the authenticated private GitHub repository
 
-Status: accepted for S00
+Status: superseded by DEC-0005
 Date: 2026-08-25
 
 Decision:
@@ -51,7 +51,7 @@ Reason:
 
 ## DEC-0004 — Preserve private visibility when remote protection is unavailable
 
-Status: accepted for S00
+Status: superseded by DEC-0005
 Date: 2026-08-25
 
 Decision:
@@ -65,3 +65,21 @@ Reason:
 
 - Public visibility would expose private research and an evolving security architecture.
 - Falsely equating detective workflow checks with preventative branch protection would weaken the governance model at its foundation.
+
+## DEC-0005 — Publish the repository with proprietary rights reserved
+
+Status: accepted for S00
+Date: 2026-08-25
+
+Decision:
+
+- Change `SunArthurX/saber-harness` visibility from private to public following the repository owner's explicit instruction.
+- Preserve the proprietary, all-rights-reserved license posture; public readability does not grant an open-source license.
+- Run a tracked-file and full-Git-history credential/material scan before changing visibility.
+- Enable GitHub protected-main controls immediately after publication and require machine-verifiable remote acceptance.
+
+Reason:
+
+- Public repositories support the required GitHub protection controls on the current account plan.
+- The owner explicitly accepted public visibility after the private-plan limitation was reported.
+- Pre-publication scans found no common credentials, private keys, raw source PDFs, `.env` files, or ignored extraction artifacts in Git history.

@@ -27,7 +27,11 @@ const requiredFiles = [
   "docs/templates/HANDOFF.md",
   "docs/templates/SEGMENT-CHECKLIST.md",
   "docs/templates/STATE.yaml.example",
-  "docs/templates/NEXT-MODEL-PROMPT.md"
+  "docs/templates/NEXT-MODEL-PROMPT.md",
+  "scripts/configure-main-protection.mjs",
+  "scripts/verify-remote-s00.mjs",
+  "scripts/lib/github-protection.mjs",
+  "scripts/tests/github-protection.test.mjs"
 ];
 
 const failures = [];
@@ -62,13 +66,48 @@ const state = readText("docs/execution/STATE.yaml");
 check(state.includes("id: S00"), "state-segment", "S00");
 check(/status: (in_progress|completed)/.test(state), "state-status", "recognized");
 check(state.includes("remote: git@github.com:SunArthurX/saber-harness.git"), "remote-recorded", "origin");
+check(state.includes("visibility: public"), "visibility-recorded", "public");
 
+const acceptanceBlock = state.match(/^acceptance:\n([\s\S]*?)^evidence:/m)?.[1] ?? "";
+function acceptanceList(name) {
+  const match = acceptanceBlock.match(new RegExp(`^  ${name}:(?: \\[\\])?\\n?((?:    - [^\\n]+\\n?)*)`, "m"));
+  return (match?.[1]?.match(/^    - (.+)$/gm) ?? []).map((line) => line.slice(6));
+}
+
+const requiredAcceptance = acceptanceList("required");
+const passedAcceptance = acceptanceList("passed");
+const failedAcceptance = acceptanceList("failed");
+const pendingAcceptance = acceptanceList("pending");
+const classifiedAcceptance = [...passedAcceptance, ...failedAcceptance, ...pendingAcceptance];
+check(new Set(requiredAcceptance).size === requiredAcceptance.length, "acceptance-required-unique", String(requiredAcceptance.length));
+check(new Set(classifiedAcceptance).size === classifiedAcceptance.length, "acceptance-state-exclusive", String(classifiedAcceptance.length));
+check(
+  requiredAcceptance.length === classifiedAcceptance.length && requiredAcceptance.every((item) => classifiedAcceptance.includes(item)),
+  "acceptance-state-complete",
+  `${classifiedAcceptance.length}/${requiredAcceptance.length}`
+);
+if (state.includes("remote_verified: true")) {
+  check(passedAcceptance.includes("configured_remote"), "remote-state-consistency", "configured_remote passed");
+  check(passedAcceptance.includes("verified_segment_push"), "remote-push-consistency", "verified_segment_push passed");
+}
+
+let evidence;
 try {
-  const evidence = JSON.parse(readText("docs/execution/EVIDENCE.json"));
+  evidence = JSON.parse(readText("docs/execution/EVIDENCE.json"));
   check(evidence.segment === "S00", "evidence-segment", evidence.segment);
   check(evidence.remote === "git@github.com:SunArthurX/saber-harness.git", "evidence-remote", "origin");
+  check(evidence.visibility === "PUBLIC", "evidence-visibility", "PUBLIC");
 } catch (error) {
   check(false, "evidence-json", error.message);
+}
+
+if (evidence?.status === "acceptance_blocked_external") {
+  check(pendingAcceptance.includes("protected_main_baseline"), "blocker-state-consistency", "protected_main_baseline pending");
+  check(
+    evidence.known_blockers?.includes("private-branch-protection-entitlement"),
+    "blocker-evidence-consistency",
+    "private-branch-protection-entitlement"
+  );
 }
 
 const textExtensions = new Set([".md", ".yaml", ".yml", ".json", ".mjs", ""]);

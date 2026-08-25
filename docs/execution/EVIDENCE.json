@@ -2,19 +2,20 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S00",
-  "status": "acceptance_blocked_external",
+  "status": "protection_verified_completion_pending",
   "branch": "resolve-from-git",
   "local_head": "resolve-from-git",
   "checkpoint_commit": "a4c97e5",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "remote_web": "https://github.com/SunArthurX/saber-harness",
-  "visibility": "PRIVATE",
+  "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
   "bootstrap_segment_head": "d291f845832e7e85398e6d036067b7f26f1f4b75",
   "main_head": "resolve-from-git",
   "verified_main_checkpoints": [
     "c9f2021ee4c20f6beb255f4afd0c04be1967de43",
-    "54a3ea6fc77bf44ea306bf9654d7f80051c73327"
+    "54a3ea6fc77bf44ea306bf9654d7f80051c73327",
+    "28d82d5ab88b304c9970e9bdb153d450f7cd77f7"
   ],
   "checks": [
     {
@@ -88,10 +89,38 @@
       "command": "clone origin/main into a second new temporary directory, run node scripts/verify-s00.mjs, and compare SHA",
       "exit_code": 0,
       "result": "171 checks passed; clone and remote main matched at 54a3ea6fc77bf44ea306bf9654d7f80051c73327"
+    },
+    {
+      "id": "S00-VERIFY-CURRENT-ACTIONS",
+      "command": "inspect PR #5, main runs 32845280696 and 32845280555, job annotations, and a clean clone",
+      "exit_code": 0,
+      "result": "official Action runtimes pinned by SHA; both main runs passed with zero repository-verification annotations; clone and remote main matched at 28d82d5ab88b304c9970e9bdb153d450f7cd77f7"
+    },
+    {
+      "id": "S00-VERIFY-PRE-PUBLICATION",
+      "command": "run local verifier and tests; scan tracked files and all Git revisions for common credentials, private keys, raw PDFs, environment files, certificates, and tmp artifacts",
+      "exit_code": 0,
+      "result": "204 repository checks and 5 policy tests passed; no sensitive-material findings"
+    },
+    {
+      "id": "S00-VERIFY-PUBLIC-VISIBILITY",
+      "command": "gh repo view SunArthurX/saber-harness --json visibility,isPrivate,url,defaultBranchRef",
+      "exit_code": 0,
+      "result": "repository is PUBLIC, isPrivate=false, default branch main"
+    },
+    {
+      "id": "S00-APPLY-BRANCH-PROTECTION",
+      "command": "node scripts/configure-main-protection.mjs --apply",
+      "exit_code": 0,
+      "result": "repository settings and all eight protected-main assertions passed"
+    },
+    {
+      "id": "S00-VERIFY-STRICT-REMOTE",
+      "command": "node scripts/verify-remote-s00.mjs",
+      "exit_code": 0,
+      "result": "remote, public visibility, merge settings, successful main workflows, and all protected-main assertions passed"
     }
   ],
-  "known_blockers": [
-    "private-branch-protection-entitlement"
-  ],
-  "last_verified_at": "2026-08-25T11:56:28Z"
+  "known_blockers": [],
+  "last_verified_at": "2026-08-25T12:09:17Z"
 }

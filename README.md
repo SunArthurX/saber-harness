@@ -17,14 +17,20 @@ This repository is currently in Segment S00: repository bootstrap and cross-mode
 Run:
 
     node scripts/verify-s00.mjs
+    node --test scripts/tests/*.test.mjs
+
+After the GitHub account or repository has private branch-protection entitlement, run:
+
+    node scripts/configure-main-protection.mjs --apply
+    node scripts/verify-remote-s00.mjs
 
 The same zero-dependency verification runs in GitHub Actions for Segment branches, pull requests, and `main`.
 
 ## Repository governance
 
 - Official remote: `https://github.com/SunArthurX/saber-harness`
-- Visibility: private
+- Visibility: public; public readability does not grant an open-source license
 - Changes use `segment/Sxx-slug` branches and pull requests.
 - `main` is the integration branch and changes are merged through CI-verified pull requests.
-- The current GitHub account plan does not support protection or Rulesets for private repositories. A main-provenance workflow detects direct pushes until the repository is transferred or the account is upgraded.
+- Protected-main rules require CI-verified pull requests, linear history, resolved conversations, and prohibit force pushes and branch deletion.
 - The current license posture is private and proprietary; see `LICENSE`.
