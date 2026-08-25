@@ -5,20 +5,24 @@ import test from "node:test";
 import { environmentForNode, nodeExecutableCandidates, resolvePinnedNode } from "../lib/toolchain.mjs";
 
 test("candidate discovery includes PATH and common version-manager locations without duplicates", () => {
+  const systemBin = join("fixture", "system", "bin");
+  const managedBin = join("fixture", "managed", "bin");
+  const nvmRoot = join("fixture", "nvm");
+  const home = join("fixture", "home", "developer");
   const candidates = nodeExecutableCandidates("24.15.0", {
     env: {
-      PATH: ["/system/bin", "/managed/bin", "/system/bin"].join(delimiter),
-      NVM_DIR: "/nvm",
+      PATH: [systemBin, managedBin, systemBin].join(delimiter),
+      NVM_DIR: nvmRoot,
     },
-    home: "/home/developer",
+    home,
     platform: "linux",
-    execPath: "/system/bin/node",
+    execPath: join(systemBin, "node"),
   });
 
-  assert.equal(candidates.filter((candidate) => candidate === "/system/bin/node").length, 1);
-  assert.ok(candidates.includes("/managed/bin/node"));
-  assert.ok(candidates.includes("/nvm/versions/node/v24.15.0/bin/node"));
-  assert.ok(candidates.includes("/home/developer/.volta/bin/node"));
+  assert.equal(candidates.filter((candidate) => candidate === join(systemBin, "node")).length, 1);
+  assert.ok(candidates.includes(join(managedBin, "node")));
+  assert.ok(candidates.includes(join(nvmRoot, "versions", "node", "v24.15.0", "bin", "node")));
+  assert.ok(candidates.includes(join(home, ".volta", "bin", "node")));
 });
 
 test("resolver accepts only an executable reporting the exact pinned version", () => {
