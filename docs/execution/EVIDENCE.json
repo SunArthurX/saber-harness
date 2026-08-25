@@ -2,11 +2,14 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S00",
-  "status": "local_verification_passed",
+  "status": "local_checkpoint_created",
   "branch": "segment/S00-repo-bootstrap",
-  "local_head": null,
-  "remote": null,
-  "remote_head": null,
+  "local_head": "resolve-from-git",
+  "checkpoint_commit": "a4c97e5",
+  "remote": "git@github.com:SunArthurX/saber-harness.git",
+  "remote_web": "https://github.com/SunArthurX/saber-harness",
+  "visibility": "PRIVATE",
+  "remote_head": "6904ac37aa2a544c1ece8efbc1714d2cca1e01eb",
   "checks": [
     {
       "id": "S00-VERIFY-LOCAL",
@@ -25,12 +28,28 @@
       "command": "git diff --check",
       "exit_code": 0,
       "result": "no whitespace errors"
+    },
+    {
+      "id": "S00-CHECKPOINT-COMMIT",
+      "command": "git show --no-patch --format=%h:%s a4c97e5",
+      "exit_code": 0,
+      "result": "a4c97e5:wip(S00): bootstrap local repository and model handoff"
+    },
+    {
+      "id": "S00-VERIFY-REMOTE",
+      "command": "compare git rev-parse HEAD with git ls-remote origin refs/heads/segment/S00-repo-bootstrap",
+      "exit_code": 0,
+      "result": "local and remote SHA matched at 6904ac37aa2a544c1ece8efbc1714d2cca1e01eb"
+    },
+    {
+      "id": "S00-VERIFY-REPOSITORY",
+      "command": "gh repo view SunArthurX/saber-harness --json nameWithOwner,visibility,url,defaultBranchRef",
+      "exit_code": 0,
+      "result": "private repository exists and Segment branch was the initial default"
     }
   ],
   "known_blockers": [
-    "remote-missing",
-    "ci-provider-undecided",
-    "license-undecided"
+    "s00-governance-in-progress"
   ],
-  "last_verified_at": "2026-08-25T11:42:57Z"
+  "last_verified_at": "2026-08-25T11:44:21Z"
 }

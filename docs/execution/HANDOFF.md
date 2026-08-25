@@ -5,7 +5,7 @@
 - Project: Saber
 - Segment: S00 — repository bootstrap
 - Branch: segment/S00-repo-bootstrap
-- Expected remote: not configured
+- Remote: `git@github.com:SunArthurX/saber-harness.git` (private)
 - Previous execution environment: Codex desktop
 - Handoff date: 2026-08-25
 
@@ -32,31 +32,37 @@ S00 is not complete until:
 - Platform-neutral repository and handoff skeleton created.
 - Local S00 verifier passed 42 structural checks.
 - Secret-pattern scan passed with no findings outside ignored scratch data.
+- Local checkpoint commit created: `a4c97e5` (`wip(S00): bootstrap local repository and model handoff`).
+- Private GitHub repository created under the authenticated `SunArthurX` account.
+- `segment/S00-repo-bootstrap` pushed; local and remote SHA matched at `6904ac37aa2a544c1ece8efbc1714d2cca1e01eb` before the governance update.
 
 ## Still required
 
 | Item | State | Required input/action |
 |---|---|---|
 | Local S00 verification | passed | node scripts/verify-s00.mjs; 42 checks |
-| Checkpoint commit | pending | stage reviewed S00 files and commit |
-| Remote configuration | blocked | user provides existing URL or hosting/owner/name/visibility |
-| Remote push/SHA verification | blocked | configure origin, push Segment branch, compare SHA |
-| Protected main baseline | blocked | select hosting platform and protection/review rules |
-| License/NOTICE | undecided | repository owner chooses license posture |
+| Checkpoint commit | passed | local commit `a4c97e5` |
+| Remote configuration | passed | private `SunArthurX/saber-harness` repository |
+| Remote push/SHA verification | passed | SHA equality verified at `6904ac37...` |
+| Repository verification CI | in progress | workflow and zero-dependency verifier added locally |
+| Protected main baseline | in progress | create main, configure required check and force-push protection |
+| S00 pull request | pending | push governance commit and open PR |
+| Clean-clone gate | pending | clone main into a temporary directory and run the verifier |
+| License/NOTICE | passed for S00 | private proprietary interim posture in `LICENSE` |
 
 ## Risks
 
-- Creating a remote with an assumed owner or visibility could expose private research.
-- Selecting a license without owner direction could grant unintended rights.
+- Branch-protection features can vary by GitHub account plan; verify the API result rather than assuming enforcement.
+- The interim proprietary license posture must be reconsidered before public or third-party distribution.
 - The tmp directory contains PDF extraction artifacts and is intentionally ignored.
 
 ## Next action
 
-1. Run local verification.
-2. Review staged files for secrets and unrelated data.
-3. Create wip(S00) local checkpoint.
-4. Obtain the official remote information.
-5. Configure origin, push, and verify SHA.
+1. Run the expanded S00 verifier and commit the governance baseline.
+2. Push the Segment branch and wait for GitHub Actions.
+3. Establish `main`, branch protection, and the S00 pull request.
+4. Merge only after the required check succeeds.
+5. Clone `main` into a temporary directory, run verification, and compare SHA.
 
 ## Forbidden assumptions
 

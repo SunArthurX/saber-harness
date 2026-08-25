@@ -1,0 +1,34 @@
+name: Repository Verification
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - "segment/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: repository-verification-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  repository-verification:
+    name: repository-verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Verify repository contract
+        run: node scripts/verify-s00.mjs
+      - name: Verify Git whitespace contract
+        run: git diff --check HEAD^

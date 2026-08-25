@@ -1,23 +1,20 @@
 # Known Issues
 
-## KI-0001 — Git remote is missing
+## KI-0001 — Git remote was missing
 
-- Severity: S00 blocker
-- Evidence: git remote produces no entries
-- Impact: no push, no remote SHA verification, no branch protection, no CI provider
+- Status: resolved 2026-08-25
+- Evidence: private `SunArthurX/saber-harness` repository and matching Segment branch SHA
+- Resolution: authenticated GitHub identity and private visibility were selected in DEC-0003
+
+## KI-0002 — Distribution license requires a future product decision
+
+- Severity: release blocker, not S00 blocker
+- Current control: private proprietary posture recorded in `LICENSE`
+- Impact: repository must not be made public or distributed under a different license without an explicit decision
 - Owner: repository owner
-- Resolution: provide an existing remote URL or specify platform, owner, repository name and visibility
+- Resolution: before public or third-party distribution, choose proprietary, source-available, or an approved open-source license
 
-## KI-0002 — License is undecided
+## KI-0003 — CI provider was undecided
 
-- Severity: release blocker, not local bootstrap blocker
-- Impact: repository must not be made public or distributed with an assumed license
-- Owner: repository owner
-- Resolution: choose proprietary/internal, source-available or an approved open-source license
-
-## KI-0003 — CI provider is undecided
-
-- Severity: S00 completion blocker
-- Impact: Required checks and protected main cannot be configured
-- Owner: repository owner
-- Resolution: select hosting/CI platform after remote is known
+- Status: resolved 2026-08-25
+- Resolution: GitHub Actions selected for the S00 baseline in DEC-0003
