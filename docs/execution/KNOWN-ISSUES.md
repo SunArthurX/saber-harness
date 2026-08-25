@@ -9,7 +9,7 @@
 ## KI-0002 — Distribution license requires a future product decision
 
 - Severity: release blocker, not S00 blocker
-- Current control: private proprietary posture recorded in `LICENSE`
+- Current control: publicly readable but proprietary posture recorded in `LICENSE`
 - Impact: repository must not be made public or distributed under a different license without an explicit decision
 - Owner: repository owner
 - Resolution: before public or third-party distribution, choose proprietary, source-available, or an approved open-source license
