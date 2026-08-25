@@ -3,7 +3,7 @@
   "project": "saber",
   "segment": "S00",
   "status": "acceptance_blocked_external",
-  "branch": "segment/S00-final-checkpoint",
+  "branch": "resolve-from-git",
   "local_head": "resolve-from-git",
   "checkpoint_commit": "a4c97e5",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
