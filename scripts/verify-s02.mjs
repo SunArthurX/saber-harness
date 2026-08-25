@@ -37,6 +37,7 @@ const requiredFiles = [
   ".github/dependabot.yml",
   ".github/workflows/monorepo-ci.yml",
   "scripts/bootstrap.mjs",
+  "scripts/lib/toolchain.mjs",
   "scripts/new-machine-acceptance.mjs",
   "scripts/verify-licenses.mjs",
   "scripts/verify-remote-s02.mjs",
@@ -63,6 +64,12 @@ for (const script of [
 ]) {
   check(Boolean(rootPackage.scripts[script]), "root-script", script);
 }
+
+const bootstrap = text("scripts/bootstrap.mjs");
+const acceptance = text("scripts/new-machine-acceptance.mjs");
+check(bootstrap.includes("resolvePinnedNode"), "bootstrap-node-selection", "exact pinned Node resolver");
+check(bootstrap.includes("SABER_BOOTSTRAP_REEXEC"), "bootstrap-node-reexec", "pinned Node re-execution guard");
+check(acceptance.includes("environmentForNode"), "acceptance-node-path", "pinned Node PATH propagation");
 
 const workspace = text("pnpm-workspace.yaml");
 for (const directory of ["apps/*", "packages/*"])
