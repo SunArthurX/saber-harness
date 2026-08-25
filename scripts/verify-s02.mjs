@@ -104,6 +104,7 @@ for (const gate of [
 }
 check(workflow.includes("timeout-minutes: 30"), "ci-time-budget", "30 minutes");
 check(workflow.includes("node scripts/verify-s00.mjs"), "ci-secret-scan", "repository safety verifier");
+check((workflow.match(/fetch-depth: 0/g) ?? []).length === 2, "ci-full-history", "both checkout steps");
 
 const repositoryWorkflow = text(".github/workflows/repository-verification.yml");
 check(repositoryWorkflow.includes("node scripts/verify-s02.mjs"), "baseline-s02-gate", "repository-verification");
