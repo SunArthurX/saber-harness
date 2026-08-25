@@ -11,7 +11,11 @@
   "visibility": "PRIVATE",
   "remote_head": "resolve-from-git",
   "bootstrap_segment_head": "d291f845832e7e85398e6d036067b7f26f1f4b75",
-  "main_head": "c9f2021ee4c20f6beb255f4afd0c04be1967de43",
+  "main_head": "resolve-from-git",
+  "verified_main_checkpoints": [
+    "c9f2021ee4c20f6beb255f4afd0c04be1967de43",
+    "54a3ea6fc77bf44ea306bf9654d7f80051c73327"
+  ],
   "checks": [
     {
       "id": "S00-VERIFY-LOCAL",
@@ -72,10 +76,22 @@
       "command": "GitHub REST branch protection and repository Rulesets APIs",
       "exit_code": 1,
       "result": "HTTP 403: upgrade to GitHub Pro or make this private repository public"
+    },
+    {
+      "id": "S00-VERIFY-FINAL-EVIDENCE-PR",
+      "command": "inspect PR #2 and main runs 32844807020 and 32844807053",
+      "exit_code": 0,
+      "result": "PR #2 merged as 54a3ea6fc77bf44ea306bf9654d7f80051c73327; repository verification and main provenance passed"
+    },
+    {
+      "id": "S00-VERIFY-FINAL-CLEAN-CLONE",
+      "command": "clone origin/main into a second new temporary directory, run node scripts/verify-s00.mjs, and compare SHA",
+      "exit_code": 0,
+      "result": "171 checks passed; clone and remote main matched at 54a3ea6fc77bf44ea306bf9654d7f80051c73327"
     }
   ],
   "known_blockers": [
     "private-branch-protection-entitlement"
   ],
-  "last_verified_at": "2026-08-25T11:52:51Z"
+  "last_verified_at": "2026-08-25T11:56:28Z"
 }
