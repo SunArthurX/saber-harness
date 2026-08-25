@@ -118,3 +118,22 @@ Reason:
 
 - Local fail-fast checks protect offline development and cross-model handoffs.
 - Hosted push-time and advisory checks cover credential formats and newly disclosed vulnerabilities that a static local rule set cannot know in advance.
+
+## DEC-0008 — Separate database-key rotation from immutable blob-key lifetime
+
+Status: accepted for S04
+Date: 2026-08-25
+
+Decision:
+
+- Keep each workspace database key in the native OS credential store and permit no argv, ordinary environment, log or model-context fallback.
+- Encode a temporary primary/fallback key pair during rotation so either side of an interrupted SQLCipher rekey can reopen the database.
+- Checkpoint WAL, use rollback-journal mode only for the page rewrite, restore WAL immediately and fail closed if any transition cannot be proven.
+- Generate a distinct random blob master key inside the encrypted database. Database-key rotation therefore does not invalidate immutable content-addressed blobs or require risky mass re-encryption.
+- Encrypt blobs with XChaCha20-Poly1305, unique nonces and authenticated workspace, classification, media type, plaintext hash and length metadata; never deduplicate across workspace trust boundaries.
+
+Reason:
+
+- Replacing a single credential before or after database rekey creates a crash window that can permanently orphan the store; a staged fallback makes every interruption point recoverable.
+- Separating the blob master from the database wrapping key permits frequent credential rotation while preserving stable immutable object identity.
+- Authenticated metadata prevents ciphertext substitution, classification downgrade and path-only trust.

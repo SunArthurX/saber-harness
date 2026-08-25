@@ -17,7 +17,7 @@
       "id": "S04-VERIFY-FOCUSED",
       "command": "cargo clippy -p saber-event-store --all-targets --all-features -- -D warnings && cargo test -p saber-event-store",
       "exit_code": 0,
-      "result": "strict clippy passed and 3 SQLCipher event-store tests passed"
+      "result": "strict clippy passed and 16 SQLCipher event-store, recovery and fault-injection tests passed"
     },
     {
       "id": "S04-VERIFY-ATOMICITY",
@@ -30,8 +30,38 @@
       "command": "focused Run state and idempotency tests",
       "exit_code": 0,
       "result": "illegal/unverified success failed closed; exact replay returned the original event and conflict produced no second event"
+    },
+    {
+      "id": "S04-VERIFY-KEY-CUSTODY-ROTATION",
+      "command": "file_store_is_encrypted_wal_and_rejects_wrong_key + interrupted_key_rotation_reopens_with_staged_fallback",
+      "exit_code": 0,
+      "result": "native key-custody contract, encrypted file header, WAL, wrong-key denial and interrupted dual-key rotation recovery passed"
+    },
+    {
+      "id": "S04-VERIFY-BLOB-OUTBOX",
+      "command": "artifact_blob_is_authenticated_encrypted_and_idempotent + outbox_intent_result_and_reconciliation_are_transactional",
+      "exit_code": 0,
+      "result": "authenticated encrypted blob tamper was denied and intent/result replay produced no duplicate durable effect record"
+    },
+    {
+      "id": "S04-VERIFY-RECOVERY-FAULTS",
+      "command": "recovery, migration, process termination, disk-full and database-busy focused tests",
+      "exit_code": 0,
+      "result": "projection replay repaired drift, v1 facts migrated, killed uncommitted tail vanished, pending intent survived, and capacity/lock failures rolled back"
+    },
+    {
+      "id": "S04-WIP-HOSTED-CI",
+      "command": "GitHub Actions run 32861052761 for 88923b4f8b4f447d7bf83f4e21850b581ae0f0da",
+      "exit_code": 0,
+      "result": "repository verification, Ubuntu, macOS, Windows and dependency audit passed on the initial WIP checkpoint; superseded implementation still requires same-SHA CI"
+    },
+    {
+      "id": "S04-FULL-LOCAL-GATE",
+      "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
+      "exit_code": 0,
+      "result": "Rust format/lint/tests, 16 S04 tests, TypeScript build/type/tests, deterministic generation, licenses, 541 S00 checks, S01-S04 verifiers and 15 governance tests passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-25T14:38:08Z"
+  "last_verified_at": "2026-08-25T15:07:00Z"
 }

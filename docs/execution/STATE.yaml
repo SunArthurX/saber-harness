@@ -43,7 +43,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-25"
-  last_checkpoint_at: "2026-08-25T14:38:08Z"
+  last_checkpoint_at: "2026-08-25T15:07:00Z"
 acceptance:
   required:
     - s03_tagged_base
@@ -81,8 +81,6 @@ acceptance:
     - verified_success_constraint
     - idempotency_exact_replay
     - audit_hash_chain
-  failed: []
-  pending:
     - key_custody_boundary
     - artifact_integrity
     - encrypted_blob_metadata
@@ -96,6 +94,8 @@ acceptance:
     - disk_full_fault
     - db_busy_fault
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
@@ -103,12 +103,12 @@ acceptance:
     - completion_record_merged
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-25T14:38:08Z"
+  last_verified_at: "2026-08-25T15:07:00Z"
 decisions:
   - docs/adr/ADR-003-sqlcipher-local-fact-store.md
   - docs/adr/ADR-004-events-transactional-projections.md
   - docs/adr/ADR-005-content-addressed-encrypted-blobs.md
 blockers: []
 next_action:
-  command: implement production OS key custody, artifact/blob APIs, durable outbox reconciliation, replay and fault-injection tests
-  description: complete S04 without treating the current in-memory test key provider as production key custody
+  command: run the full local S04 Gate, checkpoint the implementation and obtain same-SHA protected-branch evidence
+  description: keep S04 in progress until local, hosted, pull-request and clean-clone verification all pass
