@@ -12,7 +12,7 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: private
   default_branch: main
-  branch: segment/S00-final-evidence
+  branch: segment/S00-final-checkpoint
   local_head: resolve-from-git
   checkpoint_commit: a4c97e5
   remote_head: resolve-from-git

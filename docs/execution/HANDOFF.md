@@ -4,7 +4,7 @@
 
 - Project: Saber
 - Segment: S00 — repository bootstrap
-- Branch: segment/S00-final-evidence
+- Branch: segment/S00-final-checkpoint
 - Remote: `git@github.com:SunArthurX/saber-harness.git` (private)
 - Previous execution environment: Codex desktop
 - Handoff date: 2026-08-25
