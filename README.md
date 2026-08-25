@@ -11,12 +11,17 @@ This repository is currently in Segment S00: repository bootstrap and cross-mode
 - Current execution state: docs/execution/STATE.yaml
 - Current model handoff: docs/execution/HANDOFF.md
 - Requirement traceability: docs/traceability.yaml
+- Product constitution: docs/governance/PRODUCT-CONSTITUTION.md
+- Architecture invariants: docs/architecture/INVARIANTS.md
+- Threat model: docs/security/THREAT-MODEL-v0.md
+- Architecture decisions: docs/adr/
 
 ## Current verification
 
 Run:
 
     node scripts/verify-s00.mjs
+    node scripts/verify-s01.mjs
     node --test scripts/tests/*.test.mjs
 
 After the GitHub account or repository has private branch-protection entitlement, run:

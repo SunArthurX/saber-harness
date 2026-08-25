@@ -1,50 +1,420 @@
-schema_version: 1
-project: saber
-requirements:
-  - id: OPS-REPO-001
-    statement: development state is stored in an authoritative Git repository
-    owner: tech-lead
-    segment: S00
-    evidence:
-      - .git
-      - docs/execution/STATE.yaml
-    test: S00-VERIFY-LOCAL
-    status: verified-remote
-  - id: OPS-HANDOFF-001
-    statement: a new coding model can resume from repository state without prior hidden reasoning
-    owner: agent-architect
-    segment: S00
-    evidence:
-      - AGENTS.md
-      - docs/execution/STATE.yaml
-      - docs/execution/HANDOFF.md
-      - docs/execution/EVIDENCE.json
-    test: S00-VERIFY-CONTINUITY
-    status: verified-main
-  - id: OPS-PUSH-001
-    statement: every completed Segment is pushed and local HEAD equals the remote branch SHA
-    owner: release-owner
-    segment: S00
-    evidence:
-      - docs/execution/EVIDENCE.json
-    test: S00-VERIFY-REMOTE
-    status: verified-main
-  - id: SEC-REPO-001
-    statement: secrets and private scratch artifacts are excluded from commits
-    owner: security
-    segment: S00
-    evidence:
-      - .gitignore
-      - AGENTS.md
-    test: S00-VERIFY-CONTENT
-    status: verified-main
-  - id: OPS-PROTECT-001
-    statement: main accepts changes only through strict required CI and pull-request protection without force push or deletion
-    owner: release-owner
-    segment: S00
-    evidence:
-      - scripts/configure-main-protection.mjs
-      - scripts/verify-remote-s00.mjs
-      - docs/execution/EVIDENCE.json
-    test: S00-VERIFY-STRICT-REMOTE
-    status: verified-main
+{
+  "schema_version": 2,
+  "format_note": "JSON-compatible YAML enables deterministic zero-dependency verification.",
+  "project": "saber",
+  "families": ["FR-CONT", "FR-RUN", "FR-MEM", "FR-EVO", "SEC-POL", "SEC-ISO", "SEC-SYNC", "RES-HEAL", "OPS-ENT"],
+  "bootstrap_requirements": [
+    {"id": "OPS-REPO-001", "status": "verified-main", "evidence": ["docs/execution/EVIDENCE.json", "refs/tags/s00-complete"]},
+    {"id": "OPS-HANDOFF-001", "status": "verified-main", "evidence": ["AGENTS.md", "docs/execution/HANDOFF.md"]},
+    {"id": "OPS-PUSH-001", "status": "verified-main", "evidence": ["scripts/verify-remote-s00.mjs"]},
+    {"id": "SEC-REPO-001", "status": "verified-main", "evidence": ["scripts/verify-s00.mjs", ".gitignore"]}
+  ],
+  "requirements": [
+    {
+      "id": "FR-CONT-001", "priority": "P0",
+      "statement": "Import observable conversations and artifacts from supported external coding agents without inventing hidden reasoning.",
+      "owner": "agent-integrations", "module": "packages/agent-adapters",
+      "events": ["import.snapshotted", "import.completed"], "tests": ["S08-IMPORT-FIDELITY"],
+      "segment": "S08", "source": "architecture 9.1 and 9.4", "status": "planned"
+    },
+    {
+      "id": "FR-CONT-002", "priority": "P0",
+      "statement": "Represent external agent records in a versioned Canonical Agent Exchange schema with source references and hashes.",
+      "owner": "protocol", "module": "schemas/exchange",
+      "events": ["cax.record.validated"], "tests": ["S08-CAX-ROUNDTRIP"],
+      "segment": "S08", "source": "architecture 9.2 and ADR-006", "status": "planned"
+    },
+    {
+      "id": "FR-CONT-003", "priority": "P0",
+      "statement": "Resume work from a verifiable capsule that preserves goal, task, artifact, decision and causal lineage across model or agent changes.",
+      "owner": "agent-runtime", "module": "packages/agent-runtime",
+      "events": ["task.resumption_capsule.created", "task.continued"], "tests": ["S08-RESUME-CROSS-PROVIDER"],
+      "segment": "S08", "source": "architecture 4.4 and 9.6", "status": "planned"
+    },
+    {
+      "id": "FR-CONT-004", "priority": "P0",
+      "statement": "Re-import, revoke and delete imported sources deterministically while preserving minimal audit provenance.",
+      "owner": "agent-integrations", "module": "packages/agent-adapters",
+      "events": ["import.replayed", "import.revoked"], "tests": ["S08-IMPORT-REPLAY-REVOKE"],
+      "segment": "S08", "source": "architecture 9.4 and 19.22", "status": "planned"
+    },
+    {
+      "id": "FR-CONT-005", "priority": "P1",
+      "statement": "Probe external agent capability semantics, compatibility and failure behavior without vendor-specific branching in the Core.",
+      "owner": "agent-integrations", "module": "packages/agent-adapters",
+      "events": ["capability.probed", "capability.compatibility_changed"], "tests": ["S08-AGENT-CAPABILITY-CONTRACT"],
+      "segment": "S08", "source": "architecture 3.5 and 9.3", "status": "planned"
+    },
+    {
+      "id": "FR-RUN-001", "priority": "P0",
+      "statement": "Model Workspace, Goal, Task and Run as distinct causal entities exposed through the versioned control protocol.",
+      "owner": "core-runtime", "module": "crates/core-protocol",
+      "events": ["goal.created", "task.created", "run.queued"], "tests": ["S03-DOMAIN-ROUNDTRIP"],
+      "segment": "S03", "source": "architecture 4.1 and 5.3", "status": "planned"
+    },
+    {
+      "id": "FR-RUN-002", "priority": "P0",
+      "statement": "Only the trusted kernel transitions Run state and a succeeded state requires bound acceptance evidence.",
+      "owner": "core-runtime", "module": "crates/event-store",
+      "events": ["run.state_changed", "task.succeeded_by_evidence"], "tests": ["S04-RUN-STATE-PROPERTY"],
+      "segment": "S04", "source": "architecture 7.2 and INV-01", "status": "planned"
+    },
+    {
+      "id": "FR-RUN-003", "priority": "P0",
+      "statement": "Support steer, cancel, retry and fork with idempotency, deadline and durable event cursors.",
+      "owner": "core-runtime", "module": "crates/core-protocol",
+      "events": ["task.steered", "task.cancelled", "task.forked"], "tests": ["S03-CONTROL-IDEMPOTENCY"],
+      "segment": "S03", "source": "architecture 5.3 and ADR-002", "status": "planned"
+    },
+    {
+      "id": "FR-RUN-004", "priority": "P0",
+      "statement": "Present scoped approval requests with actor, action, resource, reason, credential use, TTL and minimum alternatives.",
+      "owner": "product-security", "module": "packages/approval-ui",
+      "events": ["approval.requested", "approval.resolved"], "tests": ["S05-APPROVAL-SCOPE-UX"],
+      "segment": "S05", "source": "architecture 11.5", "status": "planned"
+    },
+    {
+      "id": "FR-RUN-005", "priority": "P1",
+      "statement": "Represent generated and imported artifacts with hashes, diffs, review state and rollback references.",
+      "owner": "core-runtime", "module": "crates/artifact-store",
+      "events": ["artifact.created", "artifact.reviewed", "artifact.rolled_back"], "tests": ["S04-ARTIFACT-INTEGRITY"],
+      "segment": "S04", "source": "architecture 5.3 and 7.1", "status": "planned"
+    },
+    {
+      "id": "FR-RUN-006", "priority": "P0",
+      "statement": "Route replaceable local and cloud models by policy, capability, privacy, budget and health without changing product authority state.",
+      "owner": "agent-runtime", "module": "packages/model-providers",
+      "events": ["model.route_decided", "model.invocation.completed"], "tests": ["S07-MODEL-ROUTER-POLICY"],
+      "segment": "S07", "source": "architecture 10.1 and 10.2", "status": "planned"
+    },
+    {
+      "id": "FR-RUN-007", "priority": "P1",
+      "statement": "Delegate subagents with attenuated task-scoped capabilities, budgets and isolated failure domains.",
+      "owner": "agent-runtime", "module": "packages/agent-runtime",
+      "events": ["subagent.delegated", "subagent.completed"], "tests": ["S09-SUBAGENT-ATTENUATION"],
+      "segment": "S09", "source": "architecture 15.6", "status": "planned"
+    },
+    {
+      "id": "FR-MEM-001", "priority": "P0",
+      "statement": "Persist authoritative facts locally in an encrypted transactional store and large content in encrypted immutable blobs.",
+      "owner": "data-core", "module": "crates/event-store",
+      "events": ["fact.committed", "blob.committed"], "tests": ["S04-ENCRYPTED-FACT-BLOB"],
+      "segment": "S04", "source": "architecture 7.1, ADR-003 and ADR-005", "status": "planned"
+    },
+    {
+      "id": "FR-MEM-002", "priority": "P0",
+      "statement": "Label every context chunk and memory with provenance, scope, sensitivity, freshness and selection reason.",
+      "owner": "knowledge", "module": "packages/context-engine",
+      "events": ["context.chunk_selected", "memory.proposed"], "tests": ["S06-CONTEXT-NUTRITION-LABEL"],
+      "segment": "S06", "source": "architecture 8.2 and PC-04", "status": "planned"
+    },
+    {
+      "id": "FR-MEM-003", "priority": "P0",
+      "statement": "Use one Memory Authority per workspace and promote typed candidates through conflict, revision, TTL and revocation rules.",
+      "owner": "knowledge", "module": "packages/context-engine",
+      "events": ["memory.promoted", "memory.revoked", "memory.stale"], "tests": ["S06-MEMORY-SINGLE-WRITER"],
+      "segment": "S06", "source": "architecture 8.3 through 8.5", "status": "planned"
+    },
+    {
+      "id": "FR-MEM-004", "priority": "P0",
+      "statement": "Query code, conversation, documents, issues, decisions and rules through one permission-aware knowledge fabric without cross-scope leakage.",
+      "owner": "knowledge", "module": "packages/context-engine",
+      "events": ["knowledge.queried", "knowledge.redacted"], "tests": ["S06-KNOWLEDGE-SCOPE-ISOLATION"],
+      "segment": "S06", "source": "architecture 8.6 and 8.7", "status": "planned"
+    },
+    {
+      "id": "FR-MEM-005", "priority": "P0",
+      "statement": "Explain why each item entered model context and permit users to inspect, exclude or revoke it.",
+      "owner": "knowledge", "module": "packages/context-engine",
+      "events": ["context.explained", "context.source_excluded"], "tests": ["S06-CONTEXT-EXPLAIN-REVOKE"],
+      "segment": "S06", "source": "architecture 2.3 and 8.2", "status": "planned"
+    },
+    {
+      "id": "FR-MEM-006", "priority": "P1",
+      "statement": "Combine structured, symbol, FTS and vector retrieval while treating indexes as rebuildable derived data.",
+      "owner": "knowledge", "module": "packages/context-engine",
+      "events": ["index.rebuilt", "retrieval.completed"], "tests": ["S06-HYBRID-RETRIEVAL-REBUILD"],
+      "segment": "S06", "source": "architecture 8.1", "status": "planned"
+    },
+    {
+      "id": "FR-MEM-007", "priority": "P1",
+      "statement": "Export and delete governed knowledge in open formats without creating a new vendor data silo.",
+      "owner": "knowledge", "module": "packages/context-engine",
+      "events": ["knowledge.exported", "knowledge.deleted"], "tests": ["S11-KNOWLEDGE-PORTABILITY"],
+      "segment": "S11", "source": "architecture 4.8 and 8.7", "status": "planned"
+    },
+    {
+      "id": "FR-EVO-001", "priority": "P0",
+      "statement": "Classify every self-improvement candidate from E0 through E7 and enforce the automation ceiling for its level.",
+      "owner": "evolution", "module": "packages/evolution-engine",
+      "events": ["evolution.classified"], "tests": ["S10-EVOLUTION-LEVEL-BOUNDARY"],
+      "segment": "S10", "source": "architecture 13.1 and EVOLUTION-BOUNDARIES", "status": "planned"
+    },
+    {
+      "id": "FR-EVO-002", "priority": "P0",
+      "statement": "Create immutable EvolutionCandidates with evidence, source trust, ownership, target hash, permissions and evaluation plan.",
+      "owner": "evolution", "module": "packages/evolution-engine",
+      "events": ["evolution.proposed", "evolution.stale"], "tests": ["S10-CANDIDATE-PROVENANCE-HASH"],
+      "segment": "S10", "source": "architecture 13.2 and 13.3", "status": "planned"
+    },
+    {
+      "id": "FR-EVO-003", "priority": "P0",
+      "statement": "Require paired evaluation, affected regression slices and security gates before promotion.",
+      "owner": "evolution", "module": "evals",
+      "events": ["evolution.evaluated", "evolution.blocked"], "tests": ["S10-PAIRED-EVAL-GATE"],
+      "segment": "S10", "source": "architecture 13.6", "status": "planned"
+    },
+    {
+      "id": "FR-EVO-004", "priority": "P0",
+      "statement": "Select the least-powerful governed medium that can solve an observed problem.",
+      "owner": "evolution", "module": "packages/evolution-engine",
+      "events": ["evolution.medium_selected"], "tests": ["S10-LEAST-POWERFUL-MEDIUM"],
+      "segment": "S10", "source": "architecture 13.7", "status": "planned"
+    },
+    {
+      "id": "FR-EVO-005", "priority": "P0",
+      "statement": "Generate E4 code only as an isolated typed Code Capsule with locked dependencies, explicit capabilities and resource budgets.",
+      "owner": "evolution", "module": "packages/evolution-engine",
+      "events": ["capsule.generated", "capsule.tested", "capsule.signed"], "tests": ["S10-CODE-CAPSULE-ISOLATION"],
+      "segment": "S10", "source": "architecture 13.9", "status": "planned"
+    },
+    {
+      "id": "FR-EVO-006", "priority": "P0",
+      "statement": "Allow E6 product changes only as protected pull-request proposals with independent review and trust-boundary diffs.",
+      "owner": "release-security", "module": "packages/evolution-engine",
+      "events": ["self_change.proposed", "self_change.reviewed"], "tests": ["S10-E6-PR-SEPARATION"],
+      "segment": "S10", "source": "architecture 13.5 and INV-07", "status": "planned"
+    },
+    {
+      "id": "FR-EVO-007", "priority": "P0",
+      "statement": "Every promoted capability retains immutable generations, last-known-good, rollback, quarantine and supersession paths.",
+      "owner": "evolution", "module": "packages/evolution-engine",
+      "events": ["evolution.promoted", "evolution.rolled_back", "evolution.quarantined"], "tests": ["S10-EVOLUTION-ROLLBACK"],
+      "segment": "S10", "source": "architecture 13.3 and 13.4", "status": "planned"
+    },
+    {
+      "id": "FR-EVO-008", "priority": "P1",
+      "statement": "Treat cross-scope inheritance as a new sanitized and independently evaluated promotion.",
+      "owner": "evolution", "module": "packages/evolution-engine",
+      "events": ["evolution.inheritance_proposed", "evolution.inherited"], "tests": ["S10-SCOPE-INHERITANCE-DLP"],
+      "segment": "S10", "source": "architecture 13.8 and 15.7", "status": "planned"
+    },
+    {
+      "id": "SEC-POL-001", "priority": "P0",
+      "statement": "Authorize every side-effecting action through the deterministic Rust PDP/PEP before execution.",
+      "owner": "product-security", "module": "crates/policy",
+      "events": ["policy.decision_recorded"], "tests": ["S05-NO-DECISION-NO-EFFECT"],
+      "segment": "S05", "source": "architecture 11.1 and INV-01", "status": "planned"
+    },
+    {
+      "id": "SEC-POL-002", "priority": "P0",
+      "statement": "Use a canonical capability vocabulary and default deny for filesystem, process, network, secret, Git, external and self-change actions.",
+      "owner": "product-security", "module": "schemas/capabilities",
+      "events": ["capability.requested"], "tests": ["S05-CAPABILITY-DEFAULT-DENY"],
+      "segment": "S05", "source": "architecture 11.1", "status": "planned"
+    },
+    {
+      "id": "SEC-POL-003", "priority": "P0",
+      "statement": "Merge platform, regulatory, organization, workspace, user and temporary policy so lower scopes cannot weaken higher scopes.",
+      "owner": "product-security", "module": "crates/policy",
+      "events": ["policy.bundle_applied", "policy.conflict_resolved"], "tests": ["S05-POLICY-PRECEDENCE"],
+      "segment": "S05", "source": "architecture 15.7 and PRODUCT-CONSTITUTION", "status": "planned"
+    },
+    {
+      "id": "SEC-POL-004", "priority": "P0",
+      "statement": "Bind approvals to principal, exact action/resource hash, context, scope, TTL and revocation state.",
+      "owner": "product-security", "module": "crates/policy",
+      "events": ["approval.requested", "approval.expired", "approval.revoked"], "tests": ["S05-APPROVAL-TOCTOU-TTL"],
+      "segment": "S05", "source": "architecture 11.5", "status": "planned"
+    },
+    {
+      "id": "SEC-POL-005", "priority": "P0",
+      "statement": "Persist redacted policy decisions with actor, policy version, reason and enforcement result.",
+      "owner": "product-security", "module": "crates/policy",
+      "events": ["policy.decision_recorded"], "tests": ["S05-POLICY-AUDIT-REDACTION"],
+      "segment": "S05", "source": "architecture 11.1 and 15.9", "status": "planned"
+    },
+    {
+      "id": "SEC-ISO-001", "priority": "P0",
+      "statement": "Route tool, model, plugin and external-agent effects through brokers rather than ambient host access.",
+      "owner": "runtime-security", "module": "crates/sandbox",
+      "events": ["execution.intent_recorded", "execution.completed"], "tests": ["S06-BROKER-BYPASS-NEGATIVE"],
+      "segment": "S06", "source": "architecture 5.1 and INV-01", "status": "planned"
+    },
+    {
+      "id": "SEC-ISO-002", "priority": "P0",
+      "statement": "Enforce S0 through S4 execution realms with default-deny network and fail closed when a required sandbox backend is unavailable.",
+      "owner": "runtime-security", "module": "crates/sandbox",
+      "events": ["sandbox.allocated", "sandbox.denied"], "tests": ["S06-SANDBOX-FAIL-CLOSED"],
+      "segment": "S06", "source": "architecture 11.2 and INV-04", "status": "planned"
+    },
+    {
+      "id": "SEC-ISO-003", "priority": "P0",
+      "statement": "Expose only credential references to models and inject short-lived secrets out of band into isolated processes.",
+      "owner": "runtime-security", "module": "crates/secret-broker",
+      "events": ["secret.lease_issued", "secret.lease_revoked"], "tests": ["S06-SECRET-REFERENCE-ONLY"],
+      "segment": "S06", "source": "architecture 11.3", "status": "planned"
+    },
+    {
+      "id": "SEC-ISO-004", "priority": "P0",
+      "statement": "Deny network egress by default and enforce destination, purpose, taint, DLP, redirect, DNS and metadata-endpoint controls.",
+      "owner": "runtime-security", "module": "crates/egress",
+      "events": ["egress.requested", "egress.denied", "egress.completed"], "tests": ["S06-EGRESS-TAINT-DLP"],
+      "segment": "S06", "source": "architecture 11.4", "status": "planned"
+    },
+    {
+      "id": "SEC-ISO-005", "priority": "P0",
+      "statement": "Run plugins and generated code in isolated hosts with declared manifests, digests, limits and kill switches.",
+      "owner": "runtime-security", "module": "packages/plugin-sdk",
+      "events": ["plugin.started", "plugin.circuit_opened", "plugin.quarantined"], "tests": ["S06-PLUGIN-FAULT-ISOLATION"],
+      "segment": "S06", "source": "architecture 5.2 and 13.4", "status": "planned"
+    },
+    {
+      "id": "SEC-ISO-006", "priority": "P0",
+      "statement": "Do not pass the complete host environment, home directory, Core IPC or signing material into untrusted execution.",
+      "owner": "runtime-security", "module": "crates/sandbox",
+      "events": ["sandbox.environment_built"], "tests": ["S06-NO-AMBIENT-HOST-AUTHORITY"],
+      "segment": "S06", "source": "architecture 11.3 and 13.9", "status": "planned"
+    },
+    {
+      "id": "SEC-SYNC-001", "priority": "P0",
+      "statement": "Encrypt local authoritative facts with SQLCipher using keys obtained outside argv, ordinary environment, logs and model context.",
+      "owner": "sync-security", "module": "crates/event-store",
+      "events": ["database.unlocked", "database.key_rotated"], "tests": ["S04-SQLCIPHER-KEY-CUSTODY"],
+      "segment": "S04", "source": "architecture 12.2 and ADR-003", "status": "planned"
+    },
+    {
+      "id": "SEC-SYNC-002", "priority": "P0",
+      "statement": "Synchronize events, memories and artifacts as client-encrypted immutable objects rather than server-readable plaintext.",
+      "owner": "sync-security", "module": "crates/sync-e2ee",
+      "events": ["sync.object_uploaded", "sync.object_downloaded"], "tests": ["S11-SERVER-ZERO-PLAINTEXT"],
+      "segment": "S11", "source": "architecture 12.1 and 12.3", "status": "planned"
+    },
+    {
+      "id": "SEC-SYNC-003", "priority": "P0",
+      "statement": "Use per-workspace key encryption keys and per-object nonces/data keys with explicit personal recovery or enterprise escrow modes.",
+      "owner": "sync-security", "module": "crates/sync-e2ee",
+      "events": ["key.workspace_created", "key.object_wrapped"], "tests": ["S11-KEY-HIERARCHY-NONCE"],
+      "segment": "S11", "source": "architecture 12.2", "status": "planned"
+    },
+    {
+      "id": "SEC-SYNC-004", "priority": "P0",
+      "statement": "Support device revocation, future key epochs, selective rewrap and periodic restore drills.",
+      "owner": "sync-security", "module": "crates/sync-e2ee",
+      "events": ["device.revoked", "key.epoch_advanced", "restore.drill_completed"], "tests": ["S11-DEVICE-REVOKE-RESTORE"],
+      "segment": "S11", "source": "architecture 12.2 and 12.3", "status": "planned"
+    },
+    {
+      "id": "SEC-SYNC-005", "priority": "P0",
+      "statement": "Keep embeddings local in E2EE mode and require a distinct trusted-service contract for server-side search.",
+      "owner": "sync-security", "module": "packages/context-engine",
+      "events": ["deployment.contract_selected"], "tests": ["S11-E2EE-SEARCH-CONTRACT"],
+      "segment": "S11", "source": "architecture 12.2, 12.3 and INV-06", "status": "planned"
+    },
+    {
+      "id": "SEC-SYNC-006", "priority": "P0",
+      "statement": "Detect ciphertext replacement and rollback using signed manifests, hashes and monotonic epochs.",
+      "owner": "sync-security", "module": "crates/sync-e2ee",
+      "events": ["manifest.verified", "sync.rollback_detected"], "tests": ["S11-MANIFEST-ROLLBACK"],
+      "segment": "S11", "source": "architecture 12.3 and 12.4", "status": "planned"
+    },
+    {
+      "id": "RES-HEAL-001", "priority": "P0",
+      "statement": "Append events, update projections and enqueue outbox work in one transaction.",
+      "owner": "reliability", "module": "crates/event-store",
+      "events": ["event.appended", "projection.updated"], "tests": ["S04-EVENT-PROJECTION-ATOMICITY"],
+      "segment": "S04", "source": "architecture 7.3 and ADR-004", "status": "planned"
+    },
+    {
+      "id": "RES-HEAL-002", "priority": "P0",
+      "statement": "Record side-effect intent before execution and reconcile missing results without duplicate effects.",
+      "owner": "reliability", "module": "crates/event-store",
+      "events": ["tool.intent_recorded", "tool.result_recorded", "tool.reconciled"], "tests": ["S04-KILL9-SIDE-EFFECT-RECONCILE"],
+      "segment": "S04", "source": "architecture 7.3", "status": "planned"
+    },
+    {
+      "id": "RES-HEAL-003", "priority": "P0",
+      "statement": "Detect integrity, budget, latency, crash, policy and contamination health signals without relying on an LLM.",
+      "owner": "reliability", "module": "crates/health-supervisor",
+      "events": ["health.signal_raised", "cell.degraded"], "tests": ["S12-DETERMINISTIC-HEALTH-DETECTION"],
+      "segment": "S12", "source": "architecture 14.1 and PC-10", "status": "planned"
+    },
+    {
+      "id": "RES-HEAL-004", "priority": "P0",
+      "statement": "Contain an incident in the smallest Trust Cell before diagnosis, retry or repair.",
+      "owner": "reliability", "module": "crates/health-supervisor",
+      "events": ["incident.contained", "cell.isolated"], "tests": ["S12-CELL-FAULT-CONTAINMENT"],
+      "segment": "S12", "source": "architecture 5.5 and 14.5", "status": "planned"
+    },
+    {
+      "id": "RES-HEAL-005", "priority": "P0",
+      "statement": "Enter fail-closed Safe Mode when Policy, Sandbox, Audit, Crypto or Recovery enforcement is unavailable.",
+      "owner": "reliability", "module": "crates/health-supervisor",
+      "events": ["safe_mode.entered", "safe_mode.exited"], "tests": ["S12-SAFE-MODE-FAIL-CLOSED"],
+      "segment": "S12", "source": "architecture 14.4 and INV-08", "status": "planned"
+    },
+    {
+      "id": "RES-HEAL-006", "priority": "P0",
+      "statement": "Escalate trust-root, sandbox-escape, audit-break and irreversible incidents with a minimal DLP-reviewed diagnostic bundle.",
+      "owner": "reliability", "module": "crates/incident-manager",
+      "events": ["incident.escalated", "incident.external_help_requested"], "tests": ["S12-EXTERNAL-AUTHORITY-ESCALATION"],
+      "segment": "S12", "source": "architecture 14.8", "status": "planned"
+    },
+    {
+      "id": "OPS-ENT-001", "priority": "P0",
+      "statement": "Maintain append-only, hash-linked and redacted audit evidence for actions, decisions, approvals and releases.",
+      "owner": "enterprise-governance", "module": "crates/event-store",
+      "events": ["audit.checkpoint_anchored"], "tests": ["S04-AUDIT-HASH-CHAIN"],
+      "segment": "S04", "source": "architecture 7.1 and 15.9", "status": "planned"
+    },
+    {
+      "id": "OPS-ENT-002", "priority": "P0",
+      "statement": "Generate Rust and TypeScript contracts from versioned canonical schemas with deterministic N and N-1 compatibility tests.",
+      "owner": "protocol", "module": "schemas",
+      "events": ["schema.compatibility_checked"], "tests": ["S03-SCHEMA-CODEGEN-COMPAT"],
+      "segment": "S03", "source": "architecture 19.1 and ADR-006", "status": "planned"
+    },
+    {
+      "id": "OPS-ENT-003", "priority": "P0",
+      "statement": "Produce reproducible releases with SBOM, provenance, signatures, staged rings and last-known-good rollback.",
+      "owner": "release-security", "module": "release",
+      "events": ["release.signed", "release.promoted", "release.rolled_back"], "tests": ["S23-REPRODUCIBLE-SIGNED-RELEASE"],
+      "segment": "S23", "source": "architecture 13.5 and 15.4", "status": "planned"
+    },
+    {
+      "id": "OPS-ENT-004", "priority": "P1",
+      "statement": "Represent human, device, runtime, subagent, plugin, workload and administrator principals with on-behalf-of identity.",
+      "owner": "enterprise-governance", "module": "crates/identity",
+      "events": ["principal.authenticated", "delegation.issued"], "tests": ["S17-PRINCIPAL-DELEGATION"],
+      "segment": "S17", "source": "architecture 15.6", "status": "planned"
+    },
+    {
+      "id": "OPS-ENT-005", "priority": "P0",
+      "statement": "Keep Experience, Trusted Runtime, Intelligence, Knowledge and Sync, Enterprise Control and Build and Release planes separated.",
+      "owner": "architecture", "module": "docs/security/TRUST-BOUNDARIES.md",
+      "events": ["trust_boundary.changed"], "tests": ["S01-PLANE-SEPARATION-TRACE"],
+      "segment": "S01", "source": "architecture 15.5", "status": "specified"
+    },
+    {
+      "id": "OPS-ENT-006", "priority": "P0",
+      "statement": "Qualify storage, caches, queues, indexes, logs and temporary resources by tenant and workspace to prevent cross-tenant leakage.",
+      "owner": "enterprise-governance", "module": "crates/core-protocol",
+      "events": ["tenant.boundary_checked"], "tests": ["S18-CROSS-TENANT-PROPERTY"],
+      "segment": "S18", "source": "architecture 15.6 and TRUST-BOUNDARIES", "status": "planned"
+    },
+    {
+      "id": "OPS-ENT-007", "priority": "P1",
+      "statement": "Export compliance evidence packages that map controls to enforcement points, tests and events without unnecessary content.",
+      "owner": "enterprise-governance", "module": "packages/compliance-export",
+      "events": ["compliance.evidence_exported"], "tests": ["S21-COMPLIANCE-EVIDENCE-MAPPING"],
+      "segment": "S21", "source": "architecture 15.9", "status": "planned"
+    },
+    {
+      "id": "OPS-ENT-008", "priority": "P0",
+      "statement": "Persist model-neutral execution state, decisions and handoff evidence in Git so a new coding model can verify and resume work.",
+      "owner": "release-owner", "module": "docs/execution",
+      "events": ["segment.checkpoint_created", "segment.completed"], "tests": ["S00-VERIFY-CONTINUITY"],
+      "segment": "S00", "source": "enterprise execution plan Continuity Pack", "status": "verified-main"
+    }
+  ]
+}
