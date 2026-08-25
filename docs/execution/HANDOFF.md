@@ -4,7 +4,7 @@
 
 - Project: Saber
 - Segment: S00 — repository bootstrap
-- Branch: segment/S00-final-checkpoint
+- Branch: resolve from the checked-out Git ref; authoritative integration state is `origin/main`
 - Remote: `git@github.com:SunArthurX/saber-harness.git` (private)
 - Previous execution environment: Codex desktop
 - Handoff date: 2026-08-25
