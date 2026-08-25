@@ -2,7 +2,7 @@
 
 Saber is a local-first, model-neutral and governable CodingAgent IDE/runtime.
 
-Segment S02—the reproducible monorepo and multi-platform CI foundation—is complete. Segment S03 is implementing canonical domain schemas and the local control protocol.
+Segment S03—the canonical domain schema, deterministic code-generation and local control protocol foundation—is completed on the atomic completion merge. The next implementation Segment is S04: SQLCipher event storage and the Run state machine.
 
 ## Authoritative documents
 
@@ -30,7 +30,7 @@ The bootstrap resolver checks the active executable, `PATH` and common version-m
 For focused and strict remote verification, run:
 
     pnpm verify
-    node scripts/verify-remote-s02.mjs --branch main
+    node scripts/verify-remote-s03.mjs --branch main
 
 The same gates run on Linux, macOS and Windows in GitHub Actions. Tool and Action versions are recorded in `tools/versions.json`; JavaScript and Rust lockfiles are committed.
 
