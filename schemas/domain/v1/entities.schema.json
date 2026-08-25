@@ -1,0 +1,175 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saber.local/schema/domain/v1/entities.schema.json",
+  "title": "Saber Domain Entities",
+  "x-saber-version": "1.0.0",
+  "$defs": {
+    "Workspace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["workspace_id", "revision", "root_uri", "created_at"],
+      "properties": {
+        "workspace_id": { "type": "string", "pattern": "^ws_[A-Za-z0-9]+$" },
+        "revision": { "type": "integer", "minimum": 0 },
+        "root_uri": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Goal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["goal_id", "workspace_id", "objective", "created_at"],
+      "properties": {
+        "goal_id": { "type": "string" },
+        "workspace_id": { "type": "string" },
+        "objective": { "type": "string", "minLength": 1 },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "Task": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["task_id", "goal_id", "title", "state"],
+      "properties": {
+        "task_id": { "type": "string" },
+        "goal_id": { "type": "string" },
+        "title": { "type": "string" },
+        "state": { "$ref": "#/$defs/RunState" }
+      }
+    },
+    "Run": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "task_id", "attempt", "state"],
+      "properties": {
+        "run_id": { "type": "string" },
+        "task_id": { "type": "string" },
+        "attempt": { "type": "integer", "minimum": 1 },
+        "state": { "$ref": "#/$defs/RunState" }
+      }
+    },
+    "Artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "run_id", "media_type", "content_hash"],
+      "properties": {
+        "artifact_id": { "type": "string" },
+        "run_id": { "type": "string" },
+        "media_type": { "type": "string" },
+        "content_hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" }
+      }
+    },
+    "Decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision_id", "workspace_id", "statement", "evidence_refs"],
+      "properties": {
+        "decision_id": { "type": "string" },
+        "workspace_id": { "type": "string" },
+        "statement": { "type": "string" },
+        "evidence_refs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "Memory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["memory_id", "workspace_id", "source_trust", "sensitivity", "revision_hash"],
+      "properties": {
+        "memory_id": { "type": "string" },
+        "workspace_id": { "type": "string" },
+        "source_trust": { "$ref": "#/$defs/SourceTrust" },
+        "sensitivity": { "$ref": "#/$defs/Sensitivity" },
+        "revision_hash": { "type": "string" }
+      }
+    },
+    "Capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["capability_id", "action", "resource_pattern", "effect"],
+      "properties": {
+        "capability_id": { "type": "string" },
+        "action": { "type": "string" },
+        "resource_pattern": { "type": "string" },
+        "effect": { "$ref": "#/$defs/CapabilityEffect" }
+      }
+    },
+    "Incident": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["incident_id", "severity", "summary", "status"],
+      "properties": {
+        "incident_id": { "type": "string" },
+        "severity": { "$ref": "#/$defs/IncidentSeverity" },
+        "summary": { "type": "string" },
+        "status": { "$ref": "#/$defs/IncidentStatus" }
+      }
+    },
+    "EvolutionCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "kind",
+        "scope",
+        "origin",
+        "evidence_refs",
+        "source_trust",
+        "target_hash",
+        "permissions",
+        "evaluation_plan"
+      ],
+      "properties": {
+        "candidate_id": { "type": "string" },
+        "kind": { "$ref": "#/$defs/EvolutionKind" },
+        "scope": { "$ref": "#/$defs/EvolutionScope" },
+        "origin": { "$ref": "#/$defs/EvolutionOrigin" },
+        "evidence_refs": { "type": "array", "items": { "type": "string" } },
+        "source_trust": { "$ref": "#/$defs/SourceTrust" },
+        "target_hash": { "type": "string" },
+        "permissions": { "type": "array", "items": { "type": "string" } },
+        "evaluation_plan": { "type": "string", "minLength": 1 }
+      }
+    },
+    "RunState": { "type": "string", "enum": ["queued", "running", "blocked", "succeeded", "failed", "cancelled"] },
+    "SourceTrust": { "type": "string", "enum": ["owner", "agent_derived", "external_untrusted", "system"] },
+    "Sensitivity": { "type": "string", "enum": ["public", "internal", "confidential", "restricted"] },
+    "CapabilityEffect": { "type": "string", "enum": ["allow", "deny"] },
+    "IncidentSeverity": { "type": "string", "enum": ["info", "warning", "critical"] },
+    "IncidentStatus": { "type": "string", "enum": ["open", "mitigated", "resolved"] },
+    "EvolutionKind": { "type": "string", "enum": ["memory", "rule", "skill", "tool", "strategy", "core_pr"] },
+    "EvolutionScope": { "type": "string", "enum": ["user", "workspace", "repo", "organization"] },
+    "EvolutionOrigin": {
+      "type": "string",
+      "enum": ["explicit_learn", "correction", "repeated_pattern", "incident", "eval_gap"]
+    },
+    "EventEnvelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "schema_version",
+        "event_type",
+        "occurred_at",
+        "workspace_id",
+        "actor_id",
+        "correlation_id",
+        "sensitivity",
+        "policy_snapshot_id",
+        "payload"
+      ],
+      "properties": {
+        "event_id": { "type": "string" },
+        "schema_version": { "type": "string", "const": "1.0.0" },
+        "event_type": { "type": "string" },
+        "occurred_at": { "type": "string", "format": "date-time" },
+        "workspace_id": { "type": "string" },
+        "actor_id": { "type": "string" },
+        "causation_id": { "type": ["string", "null"] },
+        "correlation_id": { "type": "string" },
+        "sensitivity": { "$ref": "#/$defs/Sensitivity" },
+        "policy_snapshot_id": { "type": "string" },
+        "payload": { "type": "object" }
+      }
+    }
+  }
+}

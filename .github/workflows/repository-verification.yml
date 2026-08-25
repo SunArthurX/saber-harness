@@ -34,6 +34,8 @@ jobs:
         run: node scripts/verify-s01.mjs
       - name: Verify S02 monorepo and CI contract
         run: node scripts/verify-s02.mjs
+      - name: Verify S03 schema and protocol contract
+        run: node scripts/verify-s03.mjs
       - name: Test repository governance policy
         run: node --test scripts/tests/*.test.mjs
       - name: Verify Git whitespace contract

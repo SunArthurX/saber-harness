@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S02
-  name: monorepo-ci
-  status: completed
-  objective: establish the reproducible Rust and TypeScript monorepo, locked toolchains, supply-chain gates, three-platform CI and clean-machine bootstrap acceptance
+  id: S03
+  name: domain-protocol
+  status: in_progress
+  objective: establish canonical domain schemas, deterministic Rust and TypeScript generation, and the bounded versioned local control protocol contract
 predecessor:
-  segment: S01
+  segment: S02
   status: completed
-  tag: s01-complete
-  commit: b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0
+  tag: s02-complete
+  commit: 333272ce33fb54316a08ce8014ae63081c080a8c
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -18,40 +18,49 @@ completed_segments:
   - segment: S01
     tag: s01-complete
     commit: b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0
+  - segment: S02
+    tag: s02-complete
+    commit: 333272ce33fb54316a08ce8014ae63081c080a8c
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S02-complete
+  branch: segment/S03-domain-protocol
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: b0a091d4b6ad4508004a56f3acc5fe7785b9a39c
-  main_head: e180372370b238b19d91c6d7ae454066e69f7274
-  verified_main_checkpoint: e180372370b238b19d91c6d7ae454066e69f7274
-  remote_verified: true
+  verified_segment_checkpoint: pending
+  main_head: 333272ce33fb54316a08ce8014ae63081c080a8c
+  verified_main_checkpoint: 333272ce33fb54316a08ce8014ae63081c080a8c
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-25"
-  last_checkpoint_at: "2026-08-25T13:40:22Z"
+  last_checkpoint_at: "2026-08-25T14:07:10Z"
 acceptance:
   required:
-    - s01_tagged_base
-    - configured_remote
-    - monorepo_skeleton
-    - pinned_toolchains
-    - committed_lockfiles
-    - format_lint_type_test
-    - license_policy
-    - dependency_audit
-    - secret_scan
-    - remote_security_controls
-    - three_platform_ci
-    - bootstrap_acceptance
+    - s02_tagged_base
+    - canonical_json_schemas
+    - ten_domain_entities
+    - event_envelope
+    - closed_objects
+    - deterministic_codegen
+    - generated_rust_types
+    - generated_typescript_types
+    - json_rpc_envelope
+    - local_transport_contract
+    - n_n_minus_1_compatibility
+    - frame_limit
+    - deadline_enforcement
+    - idempotency_contract
+    - unknown_method_denial
+    - invalid_state_denial
+    - cross_language_roundtrip
+    - fuzz_contract
     - local_verification
     - verified_segment_push
     - required_ci
@@ -59,33 +68,39 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s01_tagged_base
-    - configured_remote
-    - monorepo_skeleton
-    - pinned_toolchains
-    - committed_lockfiles
-    - format_lint_type_test
-    - license_policy
-    - dependency_audit
-    - secret_scan
-    - remote_security_controls
-    - three_platform_ci
-    - bootstrap_acceptance
+    - s02_tagged_base
+    - canonical_json_schemas
+    - ten_domain_entities
+    - event_envelope
+    - closed_objects
+    - deterministic_codegen
+    - generated_rust_types
+    - generated_typescript_types
+    - json_rpc_envelope
+    - local_transport_contract
+    - n_n_minus_1_compatibility
+    - frame_limit
+    - deadline_enforcement
+    - idempotency_contract
+    - unknown_method_denial
+    - invalid_state_denial
+    - cross_language_roundtrip
+    - fuzz_contract
+  failed: []
+  pending:
     - local_verification
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-25T13:40:22Z"
+  last_verified_at: "2026-08-25T14:07:10Z"
 decisions:
-  - docs/execution/DECISIONS.md#dec-0006--pin-both-language-ecosystems-and-verify-on-three-desktop-operating-systems
-  - docs/execution/DECISIONS.md#dec-0007--use-layered-repository-and-hosted-supply-chain-defenses
+  - docs/adr/ADR-002-versioned-local-control-protocol.md
+  - docs/adr/ADR-006-canonical-schema-codegen.md
 blockers: []
 next_action:
-  command: after the atomic S02 completion PR is merged and tagged, create segment/S03-domain-protocol from protected origin/main
-  description: begin canonical domain schema, code generation and versioned local control protocol implementation
+  command: review and commit the complete S03 implementation checkpoint, then push and verify hosted gates
+  description: publish the locally verified schema and protocol contracts without weakening protected-main checks

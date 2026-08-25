@@ -1,77 +1,49 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S02",
-  "status": "completed",
-  "branch": "segment/S02-complete",
-  "base": {
-    "segment": "S01",
-    "tag": "s01-complete",
-    "commit": "b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0"
-  },
+  "segment": "S03",
+  "status": "in_progress",
+  "branch": "segment/S03-domain-protocol",
+  "base": { "segment": "S02", "tag": "s02-complete", "commit": "333272ce33fb54316a08ce8014ae63081c080a8c" },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "verified_segment_checkpoint": "b0a091d4b6ad4508004a56f3acc5fe7785b9a39c",
-  "main_head": "resolve-from-git",
-  "verified_main_checkpoint": "e180372370b238b19d91c6d7ae454066e69f7274",
+  "verified_segment_checkpoint": "pending",
+  "main_head": "333272ce33fb54316a08ce8014ae63081c080a8c",
+  "verified_main_checkpoint": "333272ce33fb54316a08ce8014ae63081c080a8c",
   "checks": [
     {
-      "id": "S02-VERIFY-TOOLCHAIN",
-      "command": "/usr/local/bin/node scripts/bootstrap.mjs --check",
+      "id": "S03-VERIFY-CODEGEN",
+      "command": "node scripts/generate-contracts.mjs --check",
       "exit_code": 0,
-      "result": "ambient Node.js 25.9.0 re-executed with pinned Node.js 24.15.0; pnpm 11.23.0, rustc and cargo 1.98.0 matched exact pins"
+      "result": "two generated contract files matched canonical schemas"
     },
     {
-      "id": "S02-VERIFY-RUST",
-      "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --locked -- -D warnings && cargo test --workspace --locked",
+      "id": "S03-VERIFY-RUST-FOCUSED",
+      "command": "cargo clippy and cargo test",
       "exit_code": 0,
-      "result": "format and clippy passed; 2 Rust tests passed"
+      "result": "clippy passed and 6 protocol tests passed"
     },
     {
-      "id": "S02-VERIFY-PNPM",
-      "command": "pnpm verify",
+      "id": "S03-VERIFY-TS-FOCUSED",
+      "command": "pnpm typecheck && pnpm test",
       "exit_code": 0,
-      "result": "Biome, typecheck, build, 2 TypeScript tests, license policy, S00/S01/S02 verifiers and 15 governance tests passed"
+      "result": "typecheck passed; 5 protocol/runtime tests and 1 CLI test passed"
     },
     {
-      "id": "S02-VERIFY-STRUCTURE",
-      "command": "node scripts/verify-s02.mjs",
+      "id": "S03-VERIFY-LOCAL-GATE",
+      "command": "cargo fmt/clippy/test and pnpm verify",
       "exit_code": 0,
-      "result": "66 monorepo, toolchain, CI and supply-chain contract checks passed"
+      "result": "Rust gates and 6 tests passed; S00 525, S01 68, S02 66, S03 71 checks and 15 governance tests passed"
     },
     {
-      "id": "S02-VERIFY-DEPENDENCIES",
-      "command": "pnpm audit --prod --audit-level high and RustSec audit-check",
+      "id": "S03-VERIFY-NEW-MACHINE-LOCAL",
+      "command": "/usr/local/bin/node scripts/new-machine-acceptance.mjs",
       "exit_code": 0,
-      "result": "JavaScript and Rust dependency audits passed locally or in hosted CI"
-    },
-    {
-      "id": "S02-VERIFY-PROTECTED-INTEGRATION",
-      "command": "inspect protected PRs #10 and #13",
-      "exit_code": 0,
-      "result": "monorepo foundation merged as d2ffd8779185282fae96bc3b7cee9fd7f8fa614f and Node selection fix merged as e180372370b238b19d91c6d7ae454066e69f7274"
-    },
-    {
-      "id": "S02-VERIFY-MAIN-CI",
-      "command": "inspect GitHub Actions runs 32854233288, 32854233284 and 32854233344",
-      "exit_code": 0,
-      "result": "repository verification, provenance, Linux, macOS, Windows, pnpm audit and RustSec audit passed on e180372370b238b19d91c6d7ae454066e69f7274"
-    },
-    {
-      "id": "S02-VERIFY-CLEAN-CLONE",
-      "command": "standard HTTPS clone; /usr/local/bin/node scripts/new-machine-acceptance.mjs; compare main and completion tags",
-      "exit_code": 0,
-      "result": "frozen install and all gates passed in 10 seconds; clone and remote main matched e180372370b238b19d91c6d7ae454066e69f7274; S00 and S01 tags resolved"
-    },
-    {
-      "id": "S02-VERIFY-REMOTE-MAIN",
-      "command": "node scripts/verify-remote-s02.mjs --branch main",
-      "exit_code": 0,
-      "result": "public settings, hosted security controls, five protected-main checks and successful workflows passed at e180372370b238b19d91c6d7ae454066e69f7274"
+      "result": "selected pinned Node 24.15.0 and passed the complete Gate in 8 seconds"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-25T13:40:22Z"
+  "last_verified_at": "2026-08-25T14:07:10Z"
 }

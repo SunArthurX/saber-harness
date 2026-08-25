@@ -1,0 +1,7 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saber.local/schema/control/v0/protocol.schema.json",
+  "title": "Saber Local Control Protocol N-1",
+  "x-saber-version": "0.1.0",
+  "description": "Frozen N-1 compatibility declaration. V1 accepts this version with the V1 envelope and rejects versions outside the explicit compatibility set."
+}

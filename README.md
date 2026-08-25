@@ -2,7 +2,7 @@
 
 Saber is a local-first, model-neutral and governable CodingAgent IDE/runtime.
 
-Segment S02—the reproducible monorepo and multi-platform CI foundation—is completed on the atomic completion merge. The next implementation Segment is S03: canonical domain schema and local control protocol.
+Segment S02—the reproducible monorepo and multi-platform CI foundation—is complete. Segment S03 is implementing canonical domain schemas and the local control protocol.
 
 ## Authoritative documents
 
