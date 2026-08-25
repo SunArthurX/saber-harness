@@ -12,17 +12,19 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: private
   default_branch: main
-  branch: segment/S00-repo-bootstrap
+  branch: segment/S00-final-evidence
   local_head: resolve-from-git
   checkpoint_commit: a4c97e5
-  remote_head: 6904ac37aa2a544c1ece8efbc1714d2cca1e01eb
+  remote_head: resolve-from-git
+  bootstrap_segment_head: d291f845832e7e85398e6d036067b7f26f1f4b75
+  main_head: c9f2021ee4c20f6beb255f4afd0c04be1967de43
   remote_verified: true
   clean: true
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-25"
-  last_checkpoint_at: "2026-08-25T11:44:21Z"
+  last_checkpoint_at: "2026-08-25T11:52:51Z"
 acceptance:
   required:
     - local_git_repository
@@ -31,10 +33,10 @@ acceptance:
     - local_checkpoint_commit
     - configured_remote
     - verified_segment_push
-    - protected_main_baseline
     - required_ci
     - s00_pull_request
     - clean_clone_gate
+    - protected_main_baseline
   passed:
     - local_git_repository
     - continuity_pack
@@ -50,18 +52,21 @@ acceptance:
     - clean_clone_gate
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-25T11:44:21Z"
+  last_verified_at: "2026-08-25T11:52:51Z"
 decisions:
   - docs/execution/DECISIONS.md#dec-0001
+  - docs/execution/DECISIONS.md#dec-0003
+  - docs/execution/DECISIONS.md#dec-0004
 blockers:
-  - id: s00-governance-in-progress
-    description: CI, main protection, S00 pull request, and clean-clone acceptance are being established
-    owner: execution-agent
+  - id: private-branch-protection-entitlement
+    description: GitHub returned HTTP 403 because branch protection and Rulesets for this private repository require GitHub Pro or an eligible organization plan
+    owner: repository-owner
     blocks:
       - protected_main_baseline
-      - required_ci
-      - s00_pull_request
-      - clean_clone_gate
+    safe_options:
+      - upgrade the authenticated GitHub account to Pro
+      - transfer the private repository to an organization plan that supports protection
+    rejected_option: make the repository public because it would expose private research and evolving security design
 next_action:
-  command: node scripts/verify-s00.mjs
-  description: verify and commit the S00 governance baseline, then create main and the S00 pull request
+  command: enable branch protection after an eligible private-repository plan is available
+  description: require repository-verification, pull requests, linear history, conversation resolution, and prohibit force pushes/deletion on main

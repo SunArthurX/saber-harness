@@ -28,7 +28,7 @@ requirements:
     evidence:
       - docs/execution/EVIDENCE.json
     test: S00-VERIFY-REMOTE
-    status: verified-segment-remote
+    status: verified-main
   - id: SEC-REPO-001
     statement: secrets and private scratch artifacts are excluded from commits
     owner: security

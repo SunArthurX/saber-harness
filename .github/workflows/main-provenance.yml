@@ -1,0 +1,26 @@
+name: Main Provenance
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  main-provenance:
+    name: main-provenance
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require a merged pull request for the main commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          merged_pr_count="$(gh api "repos/${GITHUB_REPOSITORY}/commits/${GITHUB_SHA}/pulls" --jq '[.[] | select(.merged_at != null and .base.ref == "main")] | length')"
+          if [ "$merged_pr_count" -lt 1 ]; then
+            echo "main commit ${GITHUB_SHA} is not associated with a merged pull request" >&2
+            exit 1
+          fi

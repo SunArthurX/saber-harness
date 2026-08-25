@@ -4,7 +4,7 @@
 
 - Project: Saber
 - Segment: S00 — repository bootstrap
-- Branch: segment/S00-repo-bootstrap
+- Branch: segment/S00-final-evidence
 - Remote: `git@github.com:SunArthurX/saber-harness.git` (private)
 - Previous execution environment: Codex desktop
 - Handoff date: 2026-08-25
@@ -35,6 +35,12 @@ S00 is not complete until:
 - Local checkpoint commit created: `a4c97e5` (`wip(S00): bootstrap local repository and model handoff`).
 - Private GitHub repository created under the authenticated `SunArthurX` account.
 - `segment/S00-repo-bootstrap` pushed; local and remote SHA matched at `6904ac37aa2a544c1ece8efbc1714d2cca1e01eb` before the governance update.
+- Governance commit `d291f845832e7e85398e6d036067b7f26f1f4b75` was pushed with matching local/remote SHA.
+- Push CI run `32844298118` and PR CI run `32844423935` passed.
+- PR #1 was squash-merged into `main` as `c9f2021ee4c20f6beb255f4afd0c04be1967de43`.
+- Main CI run `32844468044` passed.
+- A clean clone of `main` passed 165 checks and matched the remote main SHA.
+- Repository merge settings now allow squash only, update branches, and delete merged branches.
 
 ## Still required
 
@@ -44,10 +50,10 @@ S00 is not complete until:
 | Checkpoint commit | passed | local commit `a4c97e5` |
 | Remote configuration | passed | private `SunArthurX/saber-harness` repository |
 | Remote push/SHA verification | passed | SHA equality verified at `6904ac37...` |
-| Repository verification CI | in progress | workflow and zero-dependency verifier added locally |
-| Protected main baseline | in progress | create main, configure required check and force-push protection |
-| S00 pull request | pending | push governance commit and open PR |
-| Clean-clone gate | pending | clone main into a temporary directory and run the verifier |
+| Repository verification CI | passed | push, PR, and main runs succeeded |
+| Protected main baseline | blocked externally | GitHub HTTP 403: private protection requires Pro or eligible organization plan |
+| S00 pull request | passed | PR #1 merged through green CI |
+| Clean-clone gate | passed | 165 checks; clone SHA equals remote main SHA |
 | License/NOTICE | passed for S00 | private proprietary interim posture in `LICENSE` |
 
 ## Risks
@@ -58,11 +64,10 @@ S00 is not complete until:
 
 ## Next action
 
-1. Run the expanded S00 verifier and commit the governance baseline.
-2. Push the Segment branch and wait for GitHub Actions.
-3. Establish `main`, branch protection, and the S00 pull request.
-4. Merge only after the required check succeeds.
-5. Clone `main` into a temporary directory, run verification, and compare SHA.
+1. Keep the repository private.
+2. Upgrade the authenticated GitHub account to Pro or transfer the repository to an eligible private organization.
+3. Apply the documented main protection policy and verify it through the GitHub API.
+4. Re-run the clean-clone gate and then mark S00 completed.
 
 ## Forbidden assumptions
 
@@ -70,3 +75,4 @@ S00 is not complete until:
 - Do not invent a GitHub/GitLab/Gitee owner.
 - Do not commit raw private source PDFs or extracted scratch data.
 - Do not force push.
+- Do not make the repository public merely to unlock no-cost branch protection.
