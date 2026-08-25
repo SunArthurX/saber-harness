@@ -2,7 +2,7 @@
 
 Saber is a local-first, model-neutral and governable CodingAgent IDE/runtime.
 
-This repository is currently in Segment S00: repository bootstrap and cross-model continuity.
+This repository is currently in Segment S02: reproducible monorepo and multi-platform CI.
 
 ## Authoritative documents
 
@@ -20,16 +20,17 @@ This repository is currently in Segment S00: repository bootstrap and cross-mode
 
 Run:
 
-    node scripts/verify-s00.mjs
-    node scripts/verify-s01.mjs
-    node --test scripts/tests/*.test.mjs
+    corepack install --global pnpm@11.23.0
+    node scripts/bootstrap.mjs --install
+    pnpm install --frozen-lockfile
+    pnpm acceptance:new-machine
 
-After the GitHub account or repository has private branch-protection entitlement, run:
+For focused and strict remote verification, run:
 
-    node scripts/configure-main-protection.mjs --apply
-    node scripts/verify-remote-s00.mjs
+    pnpm verify
+    node scripts/verify-remote-s02.mjs --branch segment/S02-monorepo-ci
 
-The same zero-dependency verification runs in GitHub Actions for Segment branches, pull requests, and `main`.
+The same gates run on Linux, macOS and Windows in GitHub Actions. Tool and Action versions are recorded in `tools/versions.json`; JavaScript and Rust lockfiles are committed.
 
 ## Repository governance
 
@@ -38,4 +39,5 @@ The same zero-dependency verification runs in GitHub Actions for Segment branche
 - Changes use `segment/Sxx-slug` branches and pull requests.
 - `main` is the integration branch and changes are merged through CI-verified pull requests.
 - Protected-main rules require CI-verified pull requests, linear history, resolved conversations, and prohibit force pushes and branch deletion.
+- GitHub secret scanning, push protection and Dependabot security updates are enabled.
 - The current license posture is private and proprietary; see `LICENSE`.

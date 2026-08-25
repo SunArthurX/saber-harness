@@ -8,7 +8,7 @@ import {
   ghApiJson,
   parseRepositoryArgument,
   protectionPolicy,
-  repositorySettings
+  repositorySettings,
 } from "./lib/github-protection.mjs";
 
 const argv = process.argv.slice(2);
@@ -27,11 +27,11 @@ try {
 
   if (apply) {
     console.log(`APPLY repository settings: ${repository}`);
-    ghApiJson(`repos/${repository}`, {method: "PATCH", body: repositorySettings});
+    ghApiJson(`repos/${repository}`, { method: "PATCH", body: repositorySettings });
     console.log("APPLY branch protection: main");
     ghApiJson(`repos/${repository}/branches/main/protection`, {
       method: "PUT",
-      body: protectionPolicy
+      body: protectionPolicy,
     });
     repositoryInfo = ghApiJson(`repos/${repository}`);
     assertChecks(evaluateRepository(repositoryInfo), "repository-setting-after-apply");

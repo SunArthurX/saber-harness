@@ -83,3 +83,38 @@ Reason:
 - Public repositories support the required GitHub protection controls on the current account plan.
 - The owner explicitly accepted public visibility after the private-plan limitation was reported.
 - Pre-publication scans found no common credentials, private keys, raw source PDFs, `.env` files, or ignored extraction artifacts in Git history.
+
+## DEC-0006 — Pin both language ecosystems and verify on three desktop operating systems
+
+Status: accepted for S02
+Date: 2026-08-25
+
+Decision:
+
+- Use a Rust workspace for the trusted core and a pnpm workspace for TypeScript applications and packages.
+- Pin Rust, Node.js, pnpm, TypeScript, Biome, schema/migration tools and CI Actions to exact reviewed versions.
+- Commit Cargo and pnpm lockfiles and reject non-reproducible CI installation.
+- Run the same build, format, lint, type, test, license and repository gates on Linux, macOS and Windows.
+- Keep the product packages private and `UNLICENSED`; dependency licenses are independently inventoried and allowlisted.
+
+Reason:
+
+- Saber is a desktop product whose security and recovery contracts must not depend on one developer machine or operating system.
+- Exact tool and Action pins make a clean rebuild auditable and reduce silent supply-chain drift.
+- The split preserves Rust as the trusted authority boundary while allowing a TypeScript product shell and model-neutral agent runtime.
+
+## DEC-0007 — Use layered repository and hosted supply-chain defenses
+
+Status: accepted for S02
+Date: 2026-08-25
+
+Decision:
+
+- Keep local secret-pattern and tracked-file scans in the required repository verifier.
+- Enable GitHub secret scanning, push protection and Dependabot security updates for the public repository.
+- Run high-severity pnpm audit and RustSec audit in CI, with third-party Actions pinned by commit SHA.
+
+Reason:
+
+- Local fail-fast checks protect offline development and cross-model handoffs.
+- Hosted push-time and advisory checks cover credential formats and newly disclosed vulnerabilities that a static local rule set cannot know in advance.

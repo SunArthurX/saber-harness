@@ -1,16 +1,16 @@
 #!/usr/bin/env node
 
-import {readFileSync} from "node:fs";
-import {join} from "node:path";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 
-import {loadTraceability, validateTraceability} from "./lib/traceability.mjs";
+import { loadTraceability, validateTraceability } from "./lib/traceability.mjs";
 
 const root = process.cwd();
 const failures = [];
 const passes = [];
 
 function check(condition, name, detail) {
-  (condition ? passes : failures).push({name, detail});
+  (condition ? passes : failures).push({ name, detail });
 }
 
 function text(path) {
@@ -30,7 +30,7 @@ const requiredFiles = [
   "docs/adr/ADR-004-events-transactional-projections.md",
   "docs/adr/ADR-005-content-addressed-encrypted-blobs.md",
   "docs/adr/ADR-006-canonical-schema-codegen.md",
-  "docs/traceability.yaml"
+  "docs/traceability.yaml",
 ];
 
 for (const file of requiredFiles) {
@@ -57,7 +57,11 @@ const principles = constitution.match(/^### PC-\d{2} —/gm) ?? [];
 const nonGoals = constitution.match(/^- NG-\d{2}:/gm) ?? [];
 check(principles.length === 10, "constitutional-principles", String(principles.length));
 check(nonGoals.length >= 8, "v1-non-goals", String(nonGoals.length));
-check(constitution.includes("ratified when its S01 pull request is merged"), "constitution-ratification", "protected-main PR");
+check(
+  constitution.includes("ratified when its S01 pull request is merged"),
+  "constitution-ratification",
+  "protected-main PR",
+);
 
 const invariants = text("docs/architecture/INVARIANTS.md");
 const invariantIds = invariants.match(/^## INV-\d{2} —/gm) ?? [];
@@ -93,7 +97,11 @@ for (const dataClass of ["public", "internal", "confidential", "restricted"]) {
 const boundaries = text("docs/security/TRUST-BOUNDARIES.md");
 const boundaryIds = boundaries.match(/^\| TB-\d{2} /gm) ?? [];
 check(boundaryIds.length >= 10, "trust-boundaries", String(boundaryIds.length));
-check(boundaries.includes("The S01 pull request is the sign-off object"), "trust-boundary-signoff", "protected-main PR");
+check(
+  boundaries.includes("The S01 pull request is the sign-off object"),
+  "trust-boundary-signoff",
+  "protected-main PR",
+);
 
 for (const pass of passes) console.log(`PASS ${pass.name}: ${pass.detail}`);
 if (failures.length > 0) {

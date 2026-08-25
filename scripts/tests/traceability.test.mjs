@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
-import {join} from "node:path";
+import { join } from "node:path";
 import test from "node:test";
 
-import {loadTraceability, validateTraceability} from "../lib/traceability.mjs";
+import { loadTraceability, validateTraceability } from "../lib/traceability.mjs";
 
 const canonicalPath = join(process.cwd(), "docs/traceability.yaml");
 
@@ -21,7 +21,7 @@ test("duplicate IDs fail closed", () => {
 
 test("a P0 requirement without a test is rejected", () => {
   const document = loadTraceability(canonicalPath);
-  document.requirements.find(({priority}) => priority === "P0").tests = [];
+  document.requirements.find(({ priority }) => priority === "P0").tests = [];
   const errors = validateTraceability(document).errors;
   assert.ok(errors.some((error) => error.endsWith(":tests")));
   assert.ok(errors.some((error) => error.endsWith(":p0-owner-test")));

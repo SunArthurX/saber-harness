@@ -1,4 +1,4 @@
-import {readFileSync} from "node:fs";
+import { readFileSync } from "node:fs";
 
 export const requirementFamilies = Object.freeze([
   "FR-CONT",
@@ -9,7 +9,7 @@ export const requirementFamilies = Object.freeze([
   "SEC-ISO",
   "SEC-SYNC",
   "RES-HEAL",
-  "OPS-ENT"
+  "OPS-ENT",
 ]);
 
 const idPattern = /^(FR-(?:CONT|RUN|MEM|EVO)|SEC-(?:POL|ISO|SYNC)|RES-HEAL|OPS-ENT)-\d{3}$/;
@@ -41,16 +41,28 @@ export function validateTraceability(document) {
 
     if (!["P0", "P1", "P2"].includes(requirement?.priority)) errors.push(`${label}:priority`);
     for (const field of ["statement", "owner", "module", "source", "status"]) {
-      if (typeof requirement?.[field] !== "string" || requirement[field].trim() === "" || /\bTBD\b/i.test(requirement[field])) {
+      if (
+        typeof requirement?.[field] !== "string" ||
+        requirement[field].trim() === "" ||
+        /\bTBD\b/i.test(requirement[field])
+      ) {
         errors.push(`${label}:${field}`);
       }
     }
     if (!/^S\d{2}$/.test(requirement?.segment ?? "")) errors.push(`${label}:segment`);
 
-    if (!Array.isArray(requirement?.events) || requirement.events.length === 0 || requirement.events.some((event) => !eventPattern.test(event))) {
+    if (
+      !Array.isArray(requirement?.events) ||
+      requirement.events.length === 0 ||
+      requirement.events.some((event) => !eventPattern.test(event))
+    ) {
       errors.push(`${label}:events`);
     }
-    if (!Array.isArray(requirement?.tests) || requirement.tests.length === 0 || requirement.tests.some((test) => !testPattern.test(test))) {
+    if (
+      !Array.isArray(requirement?.tests) ||
+      requirement.tests.length === 0 ||
+      requirement.tests.some((test) => !testPattern.test(test))
+    ) {
       errors.push(`${label}:tests`);
     }
     if (requirement?.priority === "P0" && (!requirement.owner || requirement.tests.length === 0)) {
@@ -59,15 +71,16 @@ export function validateTraceability(document) {
   }
 
   for (const family of requirementFamilies) {
-    if (!requirements.some((requirement) => familyOf(requirement.id) === family)) errors.push(`${family}:orphan-family`);
+    if (!requirements.some((requirement) => familyOf(requirement.id) === family))
+      errors.push(`${family}:orphan-family`);
   }
 
   return {
     errors,
     summary: {
       total: requirements.length,
-      p0: requirements.filter(({priority}) => priority === "P0").length,
-      families: requirementFamilies.length
-    }
+      p0: requirements.filter(({ priority }) => priority === "P0").length,
+      families: requirementFamilies.length,
+    },
   };
 }

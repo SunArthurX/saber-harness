@@ -7,7 +7,7 @@ import {
   evaluateRepository,
   ghApiJson,
   parseRepositoryArgument,
-  run
+  run,
 } from "./lib/github-protection.mjs";
 
 const repository = parseRepositoryArgument(process.argv.slice(2));
@@ -15,7 +15,9 @@ const expectedSshRemote = `git@github.com:${repository}.git`;
 const expectedHttpsRemote = `https://github.com/${repository}.git`;
 
 function verifySuccessfulWorkflow(workflow) {
-  const result = ghApiJson(`repos/${repository}/actions/workflows/${workflow}/runs?branch=main&status=success&per_page=1`);
+  const result = ghApiJson(
+    `repos/${repository}/actions/workflows/${workflow}/runs?branch=main&status=success&per_page=1`,
+  );
   const run = result?.workflow_runs?.[0];
   const passed = run?.conclusion === "success" && run?.head_branch === "main";
   console.log(`${passed ? "PASS" : "FAIL"} main-workflow: ${workflow}${run?.id ? ` run=${run.id}` : ""}`);
@@ -45,7 +47,9 @@ try {
   const classification = classifyGitHubFailure(error);
   if (classification === "private-branch-protection-entitlement") {
     console.error("BLOCKED private-branch-protection-entitlement");
-    console.error("All read-only remote checks before branch protection passed; GitHub rejected the protection query for this private repository.");
+    console.error(
+      "All read-only remote checks before branch protection passed; GitHub rejected the protection query for this private repository.",
+    );
     process.exitCode = 2;
   } else {
     console.error(`FAIL ${classification}: ${error.message}`);

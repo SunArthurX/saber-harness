@@ -2,90 +2,90 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S01
-  name: constitution
-  status: completed
-  objective: freeze product authority, traceable requirements, architecture decisions, evolution boundaries, trust boundaries, data classes and threat model
+  id: S02
+  name: monorepo-ci
+  status: in_progress
+  objective: establish the reproducible Rust and TypeScript monorepo, locked toolchains, supply-chain gates, three-platform CI and clean-machine bootstrap acceptance
 predecessor:
-  segment: S00
+  segment: S01
   status: completed
-  tag: s00-complete
-  commit: 37e2632191c8d8085b6fabccad8cade74114b85b
+  tag: s01-complete
+  commit: b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0
+completed_segments:
+  - segment: S00
+    tag: s00-complete
+    commit: 37e2632191c8d8085b6fabccad8cade74114b85b
+  - segment: S01
+    tag: s01-complete
+    commit: b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S01-complete
+  branch: segment/S02-monorepo-ci
   local_head: resolve-from-git
-  remote_head: resolve-from-git
-  verified_segment_checkpoint: 4244fdea9cbd8be098e3ff09c9e5fc5c2eb00bbf
-  main_head: f9bb7d3e3892ff78d46055ad5b056e116a437010
-  verified_main_checkpoint: f9bb7d3e3892ff78d46055ad5b056e116a437010
-  remote_verified: true
+  remote_head: pending-first-push
+  verified_segment_checkpoint: pending-first-push
+  main_head: b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0
+  verified_main_checkpoint: b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-25"
-  last_checkpoint_at: "2026-08-25T12:35:02Z"
+  last_checkpoint_at: "2026-08-25T12:50:56Z"
 acceptance:
   required:
-    - s00_tagged_base
+    - s01_tagged_base
     - configured_remote
-    - product_constitution
-    - v1_non_goals
-    - requirement_catalog
-    - p0_no_orphans
-    - six_accepted_adrs
-    - eight_architecture_invariants
-    - evolution_boundaries_e0_e7
-    - trust_boundary_signoff
-    - data_classification
-    - threat_model_v0
+    - monorepo_skeleton
+    - pinned_toolchains
+    - committed_lockfiles
+    - format_lint_type_test
+    - license_policy
+    - dependency_audit
+    - secret_scan
+    - remote_security_controls
+    - three_platform_ci
+    - bootstrap_acceptance
     - local_verification
-    - governance_unit_tests
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s00_tagged_base
+    - s01_tagged_base
     - configured_remote
-    - product_constitution
-    - v1_non_goals
-    - requirement_catalog
-    - p0_no_orphans
-    - six_accepted_adrs
-    - eight_architecture_invariants
-    - evolution_boundaries_e0_e7
-    - trust_boundary_signoff
-    - data_classification
-    - threat_model_v0
+    - monorepo_skeleton
+    - pinned_toolchains
+    - committed_lockfiles
+    - format_lint_type_test
+    - license_policy
+    - dependency_audit
+    - secret_scan
+    - remote_security_controls
+    - bootstrap_acceptance
     - local_verification
-    - governance_unit_tests
+  failed: []
+  pending:
+    - three_platform_ci
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-25T12:35:02Z"
+  last_verified_at: "2026-08-25T12:50:56Z"
 decisions:
-  - docs/governance/PRODUCT-CONSTITUTION.md
-  - docs/adr/ADR-001-rust-trusted-core.md
-  - docs/adr/ADR-002-versioned-local-control-protocol.md
-  - docs/adr/ADR-003-sqlcipher-local-fact-store.md
-  - docs/adr/ADR-004-events-transactional-projections.md
-  - docs/adr/ADR-005-content-addressed-encrypted-blobs.md
-  - docs/adr/ADR-006-canonical-schema-codegen.md
+  - docs/execution/DECISIONS.md#dec-0006--pin-both-language-ecosystems-and-verify-on-three-desktop-operating-systems
+  - docs/execution/DECISIONS.md#dec-0007--use-layered-repository-and-hosted-supply-chain-defenses
 blockers: []
 next_action:
-  command: after the atomic S01 completion PR is merged and tagged, create segment/S02-monorepo-ci from protected origin/main
-  description: begin reproducible monorepo, toolchain and multi-platform CI implementation
+  command: commit and push segment/S02-monorepo-ci, then wait for Linux, macOS and Windows CI
+  description: prove the skeleton and locked toolchain on clean hosted runners before protected-main integration
