@@ -19,19 +19,21 @@ git:
   default_branch: main
   branch: segment/S01-constitution
   local_head: resolve-from-git
-  remote_head: null
+  remote_head: resolve-from-git
+  verified_segment_checkpoint: 4244fdea9cbd8be098e3ff09c9e5fc5c2eb00bbf
   main_head: 37e2632191c8d8085b6fabccad8cade74114b85b
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-25"
-  last_checkpoint_at: "2026-08-25T12:29:01Z"
+  last_checkpoint_at: "2026-08-25T12:31:44Z"
 acceptance:
   required:
     - s00_tagged_base
+    - configured_remote
     - product_constitution
     - v1_non_goals
     - requirement_catalog
@@ -50,6 +52,7 @@ acceptance:
     - clean_clone_gate
   passed:
     - s00_tagged_base
+    - configured_remote
     - product_constitution
     - v1_non_goals
     - requirement_catalog
@@ -62,15 +65,15 @@ acceptance:
     - threat_model_v0
     - local_verification
     - governance_unit_tests
+    - verified_segment_push
   failed: []
   pending:
-    - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-25T12:29:01Z"
+  last_verified_at: "2026-08-25T12:31:44Z"
 decisions:
   - docs/governance/PRODUCT-CONSTITUTION.md
   - docs/adr/ADR-001-rust-trusted-core.md
@@ -81,5 +84,5 @@ decisions:
   - docs/adr/ADR-006-canonical-schema-codegen.md
 blockers: []
 next_action:
-  command: commit and push segment/S01-constitution, open a protected PR, and require repository-verification
+  command: open the S01 protected PR and require repository-verification
   description: ratify the constitution, non-goals and trust boundaries through the repository-owner merge event

@@ -20,12 +20,13 @@ Ratify the Saber product constitution and non-goals; establish complete requirem
 - `node scripts/verify-s01.mjs` passed 68 checks.
 - `node --test scripts/tests/*.test.mjs` passed 10 tests.
 - S00 regression verification passed 296 checks with S01 as the active Segment.
+- Initial S01 commit `4244fdea9cbd8be098e3ff09c9e5fc5c2eb00bbf` was pushed and matched the remote Segment branch SHA.
 
 ## Pending Gate
 
 | Item | State | Required action |
 |---|---|---|
-| Segment push/SHA equality | pending | commit, push and compare local/remote branch SHA |
+| Segment push/SHA equality | passed | local and remote matched at `4244fdea9cbd8be098e3ff09c9e5fc5c2eb00bbf` |
 | Required CI | pending | GitHub `repository-verification` must pass with S01 verifier and tests |
 | Constitution and boundary sign-off | pending | repository owner merges the protected S01 PR |
 | Clean-clone acceptance | pending | clone protected main and run S00, S01, tests and strict remote verification |
@@ -41,8 +42,6 @@ Ratify the Saber product constitution and non-goals; establish complete requirem
 
 ## Next action
 
-1. Commit the complete S01 artifact set on `segment/S01-constitution`.
-2. Push and prove branch SHA equality.
-3. Open the S01 PR with the constitutional and trust-boundary sign-off contract.
-4. Merge only after required CI passes.
-5. Run clean-clone acceptance and create the `s01-complete` tag.
+1. Open the S01 PR with the constitutional and trust-boundary sign-off contract.
+2. Merge only after required CI passes.
+3. Run clean-clone acceptance and create the `s01-complete` tag.

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S01",
-  "status": "local_verification_passed",
+  "status": "segment_pushed",
   "branch": "segment/S01-constitution",
   "base": {
     "segment": "S00",
@@ -12,7 +12,8 @@
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
-  "remote_head": null,
+  "remote_head": "resolve-from-git",
+  "verified_segment_checkpoint": "4244fdea9cbd8be098e3ff09c9e5fc5c2eb00bbf",
   "main_head": "37e2632191c8d8085b6fabccad8cade74114b85b",
   "checks": [
     {
@@ -44,8 +45,14 @@
       "command": "verify PC-01..10, NG-01..08, INV-01..08, E0..E7, ADR-001..006, TB-01..10, four data classes and TM-01..16",
       "exit_code": 0,
       "result": "all exact and minimum cardinality gates passed"
+    },
+    {
+      "id": "S01-VERIFY-REMOTE-BRANCH",
+      "command": "compare git rev-parse HEAD with git ls-remote origin refs/heads/segment/S01-constitution",
+      "exit_code": 0,
+      "result": "local and remote matched at 4244fdea9cbd8be098e3ff09c9e5fc5c2eb00bbf"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-25T12:29:01Z"
+  "last_verified_at": "2026-08-25T12:31:44Z"
 }
