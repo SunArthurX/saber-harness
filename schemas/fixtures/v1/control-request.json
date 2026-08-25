@@ -1,0 +1,14 @@
+{
+  "jsonrpc": "2.0",
+  "protocol_version": "1.0.0",
+  "method": "run.cancel",
+  "context": {
+    "request_id": "req_01",
+    "actor_id": "user_01",
+    "workspace_id": "ws_01",
+    "causation_id": "event_01",
+    "deadline_unix_ms": 4102444800000,
+    "idempotency_key": "idem_01"
+  },
+  "params": { "run_id": "run_01", "reason": "user requested cancellation" }
+}

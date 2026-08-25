@@ -1,0 +1,65 @@
+{
+  "workspace": {
+    "workspace_id": "ws_01",
+    "revision": 1,
+    "root_uri": "file:///workspace",
+    "created_at": "2026-08-25T00:00:00Z"
+  },
+  "goal": {
+    "goal_id": "goal_01",
+    "workspace_id": "ws_01",
+    "objective": "verify protocol",
+    "created_at": "2026-08-25T00:00:00Z"
+  },
+  "task": { "task_id": "task_01", "goal_id": "goal_01", "title": "round trip", "state": "running" },
+  "run": { "run_id": "run_01", "task_id": "task_01", "attempt": 1, "state": "running" },
+  "artifact": {
+    "artifact_id": "artifact_01",
+    "run_id": "run_01",
+    "media_type": "application/json",
+    "content_hash": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "decision": {
+    "decision_id": "decision_01",
+    "workspace_id": "ws_01",
+    "statement": "schemas are canonical",
+    "evidence_refs": ["artifact://artifact_01"]
+  },
+  "memory": {
+    "memory_id": "memory_01",
+    "workspace_id": "ws_01",
+    "source_trust": "owner",
+    "sensitivity": "internal",
+    "revision_hash": "rev_01"
+  },
+  "capability": {
+    "capability_id": "cap_01",
+    "action": "fs.read",
+    "resource_pattern": "workspace/**",
+    "effect": "allow"
+  },
+  "incident": { "incident_id": "incident_01", "severity": "warning", "summary": "fixture", "status": "mitigated" },
+  "evolution_candidate": {
+    "candidate_id": "evo_01",
+    "kind": "skill",
+    "scope": "workspace",
+    "origin": "eval_gap",
+    "evidence_refs": ["event://event_01"],
+    "source_trust": "agent_derived",
+    "target_hash": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "permissions": ["fs.read"],
+    "evaluation_plan": "paired regression"
+  },
+  "event": {
+    "event_id": "event_01",
+    "schema_version": "1.0.0",
+    "event_type": "run.queued",
+    "occurred_at": "2026-08-25T00:00:00Z",
+    "workspace_id": "ws_01",
+    "actor_id": "user_01",
+    "correlation_id": "corr_01",
+    "sensitivity": "internal",
+    "policy_snapshot_id": "policy_01",
+    "payload": { "run_id": "run_01" }
+  }
+}

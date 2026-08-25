@@ -50,7 +50,8 @@
       "statement": "Model Workspace, Goal, Task and Run as distinct causal entities exposed through the versioned control protocol.",
       "owner": "core-runtime", "module": "crates/core-protocol",
       "events": ["goal.created", "task.created", "run.queued"], "tests": ["S03-DOMAIN-ROUNDTRIP"],
-      "segment": "S03", "source": "architecture 4.1 and 5.3", "status": "planned"
+      "segment": "S03", "source": "architecture 4.1 and 5.3", "status": "implemented-local",
+      "evidence": ["schemas/domain/v1/entities.schema.json", "schemas/fixtures/v1/domain-roundtrip.json"]
     },
     {
       "id": "FR-RUN-002", "priority": "P0",
@@ -64,7 +65,8 @@
       "statement": "Support steer, cancel, retry and fork with idempotency, deadline and durable event cursors.",
       "owner": "core-runtime", "module": "crates/core-protocol",
       "events": ["task.steered", "task.cancelled", "task.forked"], "tests": ["S03-CONTROL-IDEMPOTENCY"],
-      "segment": "S03", "source": "architecture 5.3 and ADR-002", "status": "planned"
+      "segment": "S03", "source": "architecture 5.3 and ADR-002", "status": "implemented-local",
+      "evidence": ["crates/core-protocol/src/lib.rs", "packages/agent-runtime/test/control.test.mjs"]
     },
     {
       "id": "FR-RUN-004", "priority": "P0",
@@ -372,7 +374,8 @@
       "statement": "Generate Rust and TypeScript contracts from versioned canonical schemas with deterministic N and N-1 compatibility tests.",
       "owner": "protocol", "module": "schemas",
       "events": ["schema.compatibility_checked"], "tests": ["S03-SCHEMA-CODEGEN-COMPAT"],
-      "segment": "S03", "source": "architecture 19.1 and ADR-006", "status": "planned"
+      "segment": "S03", "source": "architecture 19.1 and ADR-006", "status": "implemented-local",
+      "evidence": ["scripts/generate-contracts.mjs", "scripts/verify-s03.mjs"]
     },
     {
       "id": "OPS-ENT-003", "priority": "P0",
