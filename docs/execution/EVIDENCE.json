@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S01",
-  "status": "segment_pushed",
-  "branch": "segment/S01-constitution",
+  "status": "completed",
+  "branch": "segment/S01-complete",
   "base": {
     "segment": "S00",
     "tag": "s00-complete",
@@ -14,7 +14,8 @@
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
   "verified_segment_checkpoint": "4244fdea9cbd8be098e3ff09c9e5fc5c2eb00bbf",
-  "main_head": "37e2632191c8d8085b6fabccad8cade74114b85b",
+  "main_head": "resolve-from-git",
+  "verified_main_checkpoint": "f9bb7d3e3892ff78d46055ad5b056e116a437010",
   "checks": [
     {
       "id": "S01-VERIFY-CONSTITUTION",
@@ -51,8 +52,26 @@
       "command": "compare git rev-parse HEAD with git ls-remote origin refs/heads/segment/S01-constitution",
       "exit_code": 0,
       "result": "local and remote matched at 4244fdea9cbd8be098e3ff09c9e5fc5c2eb00bbf"
+    },
+    {
+      "id": "S01-VERIFY-CONSTITUTION-SIGNOFF",
+      "command": "inspect protected PR #8 and merge commit",
+      "exit_code": 0,
+      "result": "repository owner merged PR #8 as f9bb7d3e3892ff78d46055ad5b056e116a437010, ratifying the constitution, non-goals and trust boundaries"
+    },
+    {
+      "id": "S01-VERIFY-MAIN-CI",
+      "command": "inspect GitHub Actions runs 32848257249 and 32848257178",
+      "exit_code": 0,
+      "result": "repository verification and main provenance passed on f9bb7d3e3892ff78d46055ad5b056e116a437010"
+    },
+    {
+      "id": "S01-VERIFY-CLEAN-CLONE",
+      "command": "clone protected origin/main; run S00, S01, governance tests and strict remote verification; compare SHA",
+      "exit_code": 0,
+      "result": "298 S00 checks, 68 S01 checks and 10 tests passed; strict remote verification passed; clone and remote main matched at f9bb7d3e3892ff78d46055ad5b056e116a437010"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-25T12:31:44Z"
+  "last_verified_at": "2026-08-25T12:35:02Z"
 }

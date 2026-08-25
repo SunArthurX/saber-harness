@@ -393,7 +393,7 @@
       "statement": "Keep Experience, Trusted Runtime, Intelligence, Knowledge and Sync, Enterprise Control and Build and Release planes separated.",
       "owner": "architecture", "module": "docs/security/TRUST-BOUNDARIES.md",
       "events": ["trust_boundary.changed"], "tests": ["S01-PLANE-SEPARATION-TRACE"],
-      "segment": "S01", "source": "architecture 15.5", "status": "specified"
+      "segment": "S01", "source": "architecture 15.5", "status": "verified-main"
     },
     {
       "id": "OPS-ENT-006", "priority": "P0",
