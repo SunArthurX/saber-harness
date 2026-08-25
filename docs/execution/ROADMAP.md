@@ -12,10 +12,10 @@ Completed Segments:
 
 Current Segment:
 
-- S03 — canonical schema and code-generation foundation (`in_progress`).
+- S03 — canonical schema and code-generation foundation (`completed` on atomic completion merge).
 
 Next Segment:
 
 - S04 — SQLCipher event store and Run state machine.
 
-S03 started from protected `origin/main` at `s02-complete` / `333272ce33fb54316a08ce8014ae63081c080a8c`.
+S04 starts only from protected `origin/main` at the `s03-complete` tag.

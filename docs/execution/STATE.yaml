@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S03
   name: domain-protocol
-  status: in_progress
+  status: completed
   objective: establish canonical domain schemas, deterministic Rust and TypeScript generation, and the bounded versioned local control protocol contract
 predecessor:
   segment: S02
@@ -27,23 +27,24 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S03-domain-protocol
+  branch: segment/S03-complete
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: pending
-  main_head: 333272ce33fb54316a08ce8014ae63081c080a8c
-  verified_main_checkpoint: 333272ce33fb54316a08ce8014ae63081c080a8c
-  remote_verified: false
+  verified_segment_checkpoint: 776a7d1244546ec3f5da3e15de4ada745363ae68
+  main_head: cb16be2ee9fea1880033e3e78867f09dbd16451d
+  verified_main_checkpoint: cb16be2ee9fea1880033e3e78867f09dbd16451d
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-25"
-  last_checkpoint_at: "2026-08-25T14:07:10Z"
+  last_checkpoint_at: "2026-08-25T14:19:53Z"
 acceptance:
   required:
     - s02_tagged_base
+    - configured_remote
     - canonical_json_schemas
     - ten_domain_entities
     - event_envelope
@@ -69,6 +70,7 @@ acceptance:
     - completion_record_merged
   passed:
     - s02_tagged_base
+    - configured_remote
     - canonical_json_schemas
     - ten_domain_entities
     - event_envelope
@@ -86,21 +88,21 @@ acceptance:
     - invalid_state_denial
     - cross_language_roundtrip
     - fuzz_contract
-  failed: []
-  pending:
     - local_verification
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-25T14:07:10Z"
+  last_verified_at: "2026-08-25T14:19:53Z"
 decisions:
   - docs/adr/ADR-002-versioned-local-control-protocol.md
   - docs/adr/ADR-006-canonical-schema-codegen.md
 blockers: []
 next_action:
-  command: review and commit the complete S03 implementation checkpoint, then push and verify hosted gates
-  description: publish the locally verified schema and protocol contracts without weakening protected-main checks
+  command: after the atomic S03 completion PR is merged and tagged, create segment/S04-event-store from protected origin/main
+  description: implement the SQLCipher event store, transactional projections and Run state machine

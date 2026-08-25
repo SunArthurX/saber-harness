@@ -2,48 +2,64 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S03",
-  "status": "in_progress",
-  "branch": "segment/S03-domain-protocol",
-  "base": { "segment": "S02", "tag": "s02-complete", "commit": "333272ce33fb54316a08ce8014ae63081c080a8c" },
+  "status": "completed",
+  "branch": "segment/S03-complete",
+  "base": {
+    "segment": "S02",
+    "tag": "s02-complete",
+    "commit": "333272ce33fb54316a08ce8014ae63081c080a8c"
+  },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "verified_segment_checkpoint": "pending",
-  "main_head": "333272ce33fb54316a08ce8014ae63081c080a8c",
-  "verified_main_checkpoint": "333272ce33fb54316a08ce8014ae63081c080a8c",
+  "verified_segment_checkpoint": "776a7d1244546ec3f5da3e15de4ada745363ae68",
+  "main_head": "resolve-from-git",
+  "verified_main_checkpoint": "cb16be2ee9fea1880033e3e78867f09dbd16451d",
   "checks": [
     {
       "id": "S03-VERIFY-CODEGEN",
       "command": "node scripts/generate-contracts.mjs --check",
       "exit_code": 0,
-      "result": "two generated contract files matched canonical schemas"
-    },
-    {
-      "id": "S03-VERIFY-RUST-FOCUSED",
-      "command": "cargo clippy and cargo test",
-      "exit_code": 0,
-      "result": "clippy passed and 6 protocol tests passed"
-    },
-    {
-      "id": "S03-VERIFY-TS-FOCUSED",
-      "command": "pnpm typecheck && pnpm test",
-      "exit_code": 0,
-      "result": "typecheck passed; 5 protocol/runtime tests and 1 CLI test passed"
+      "result": "checked-in Rust and TypeScript contracts matched the two canonical V1 schemas deterministically"
     },
     {
       "id": "S03-VERIFY-LOCAL-GATE",
       "command": "cargo fmt/clippy/test and pnpm verify",
       "exit_code": 0,
-      "result": "Rust gates and 6 tests passed; S00 525, S01 68, S02 66, S03 71 checks and 15 governance tests passed"
+      "result": "6 Rust protocol tests, 5 TypeScript runtime tests, 1 CLI test, S00 531, S01 68, S02 66, S03 71 and 15 governance checks passed"
     },
     {
-      "id": "S03-VERIFY-NEW-MACHINE-LOCAL",
-      "command": "/usr/local/bin/node scripts/new-machine-acceptance.mjs",
+      "id": "S03-VERIFY-BRANCH-CI",
+      "command": "inspect push runs 32857755662/32857755484 and PR runs 32857808588/32857808618",
       "exit_code": 0,
-      "result": "selected pinned Node 24.15.0 and passed the complete Gate in 8 seconds"
+      "result": "both same-SHA workflow sets passed repository verification, Linux, macOS, Windows and dependency audit at 776a7d1244546ec3f5da3e15de4ada745363ae68"
+    },
+    {
+      "id": "S03-VERIFY-PROTECTED-INTEGRATION",
+      "command": "inspect protected PR #15",
+      "exit_code": 0,
+      "result": "PR #15 became CLEAN only after all required checks and squash-merged as cb16be2ee9fea1880033e3e78867f09dbd16451d"
+    },
+    {
+      "id": "S03-VERIFY-MAIN-CI",
+      "command": "inspect GitHub Actions runs 32858282014, 32858282033 and 32858281980",
+      "exit_code": 0,
+      "result": "repository verification, provenance, Linux 46s, macOS 1m11s, Windows 1m41s and dependency audit 3m34s passed on cb16be2ee9fea1880033e3e78867f09dbd16451d"
+    },
+    {
+      "id": "S03-VERIFY-CLEAN-CLONE",
+      "command": "standard public HTTPS clone; /usr/local/bin/node scripts/new-machine-acceptance.mjs",
+      "exit_code": 0,
+      "result": "unauthenticated clone resolved cb16be2ee9fea1880033e3e78867f09dbd16451d, fetched S00/S01/S02 completion tags, selected Node 24.15.0 and passed all gates in 19 seconds"
+    },
+    {
+      "id": "S03-VERIFY-REMOTE-MAIN",
+      "command": "node scripts/verify-remote-s03.mjs --repository SunArthurX/saber-harness --branch main",
+      "exit_code": 0,
+      "result": "canonical contracts, public settings, hosted security controls, five protected-main checks and same-SHA successful workflows passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-25T14:07:10Z"
+  "last_verified_at": "2026-08-25T14:19:53Z"
 }
