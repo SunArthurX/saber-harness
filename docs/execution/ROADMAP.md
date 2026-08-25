@@ -10,6 +10,10 @@ Completed Segment:
 
 Current Segment:
 
-- S01 — product constitution, requirement traceability and architecture decisions (`in_progress`).
+- S01 — product constitution, requirement traceability and architecture decisions (`completed` on atomic completion merge).
 
-S01 started from protected `origin/main` at the `s00-complete` tag. S02 must not begin until the S01 PR ratifies the constitution and trust boundaries and the clean-clone Gate passes.
+Next Segment:
+
+- S02 — monorepo, reproducible toolchain and multi-platform CI.
+
+S02 starts only from protected `origin/main` at the `s01-complete` tag.

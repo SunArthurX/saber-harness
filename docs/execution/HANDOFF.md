@@ -1,6 +1,6 @@
 # S01 Handoff
 
-Status: in progress
+Status: completed atomically when the S01 completion PR is merged through protected main
 Date: 2026-08-25
 Branch: `segment/S01-constitution`
 Base: `s00-complete` / `37e2632191c8d8085b6fabccad8cade74114b85b`
@@ -21,15 +21,19 @@ Ratify the Saber product constitution and non-goals; establish complete requirem
 - `node --test scripts/tests/*.test.mjs` passed 10 tests.
 - S00 regression verification passed 296 checks with S01 as the active Segment.
 - Initial S01 commit `4244fdea9cbd8be098e3ff09c9e5fc5c2eb00bbf` was pushed and matched the remote Segment branch SHA.
+- PR #8 ratified the constitution and trust boundaries and merged as `f9bb7d3e3892ff78d46055ad5b056e116a437010`.
+- Main runs `32848257249` (repository verification) and `32848257178` (PR provenance) passed.
+- A clean clone of protected main passed 298 S00 checks, 68 S01 checks, 10 governance tests and strict remote verification; clone SHA matched `origin/main` at `f9bb7d3e3892ff78d46055ad5b056e116a437010`.
 
-## Pending Gate
+## Acceptance result
 
 | Item | State | Required action |
 |---|---|---|
 | Segment push/SHA equality | passed | local and remote matched at `4244fdea9cbd8be098e3ff09c9e5fc5c2eb00bbf` |
-| Required CI | pending | GitHub `repository-verification` must pass with S01 verifier and tests |
-| Constitution and boundary sign-off | pending | repository owner merges the protected S01 PR |
-| Clean-clone acceptance | pending | clone protected main and run S00, S01, tests and strict remote verification |
+| Required CI | passed | PR and main repository verification succeeded |
+| Constitution and boundary sign-off | passed | repository owner merged protected PR #8 |
+| Clean-clone acceptance | passed | all local, S01, governance and remote Gates passed at `f9bb7d3e...` |
+| Atomic completion record | passed on merge | this state reaches main only through required CI and PR protection |
 
 ## Non-negotiable review points
 
@@ -42,6 +46,6 @@ Ratify the Saber product constitution and non-goals; establish complete requirem
 
 ## Next action
 
-1. Open the S01 PR with the constitutional and trust-boundary sign-off contract.
-2. Merge only after required CI passes.
-3. Run clean-clone acceptance and create the `s01-complete` tag.
+1. Confirm the atomic S01 completion PR and resulting main workflows are green.
+2. Create the `s01-complete` tag at that verified main commit.
+3. Create `segment/S02-monorepo-ci` from protected `origin/main`.
