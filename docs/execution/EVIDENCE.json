@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S02",
-  "status": "in_progress",
-  "branch": "segment/S02-monorepo-ci",
+  "status": "completed",
+  "branch": "segment/S02-complete",
   "base": {
     "segment": "S01",
     "tag": "s01-complete",
@@ -13,15 +13,15 @@
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "verified_segment_checkpoint": "4ea8aa70da8cc10a52b1249d475d611faeb378a8",
-  "main_head": "b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0",
-  "verified_main_checkpoint": "b3ac4f1471ca881cb979c0e642c3e6ecbe4d22b0",
+  "verified_segment_checkpoint": "b0a091d4b6ad4508004a56f3acc5fe7785b9a39c",
+  "main_head": "resolve-from-git",
+  "verified_main_checkpoint": "e180372370b238b19d91c6d7ae454066e69f7274",
   "checks": [
     {
       "id": "S02-VERIFY-TOOLCHAIN",
-      "command": "node scripts/bootstrap.mjs --check",
+      "command": "/usr/local/bin/node scripts/bootstrap.mjs --check",
       "exit_code": 0,
-      "result": "Node.js 24.15.0, pnpm 11.23.0, rustc and cargo 1.98.0 matched exact pins"
+      "result": "ambient Node.js 25.9.0 re-executed with pinned Node.js 24.15.0; pnpm 11.23.0, rustc and cargo 1.98.0 matched exact pins"
     },
     {
       "id": "S02-VERIFY-RUST",
@@ -33,45 +33,45 @@
       "id": "S02-VERIFY-PNPM",
       "command": "pnpm verify",
       "exit_code": 0,
-      "result": "Biome, typecheck, build, 2 TypeScript tests, license policy, S00/S01/S02 verifiers and 12 governance tests passed"
+      "result": "Biome, typecheck, build, 2 TypeScript tests, license policy, S00/S01/S02 verifiers and 15 governance tests passed"
     },
     {
       "id": "S02-VERIFY-STRUCTURE",
       "command": "node scripts/verify-s02.mjs",
       "exit_code": 0,
-      "result": "62 monorepo, toolchain, CI and supply-chain contract checks passed"
+      "result": "66 monorepo, toolchain, CI and supply-chain contract checks passed"
     },
     {
       "id": "S02-VERIFY-DEPENDENCIES",
-      "command": "pnpm audit --prod --audit-level high",
+      "command": "pnpm audit --prod --audit-level high and RustSec audit-check",
       "exit_code": 0,
-      "result": "no known vulnerabilities found"
+      "result": "JavaScript and Rust dependency audits passed locally or in hosted CI"
     },
     {
-      "id": "S02-VERIFY-NEW-MACHINE",
-      "command": "pnpm acceptance:new-machine",
+      "id": "S02-VERIFY-PROTECTED-INTEGRATION",
+      "command": "inspect protected PRs #10 and #13",
       "exit_code": 0,
-      "result": "all local acceptance gates passed in 7 seconds against the 1800-second limit"
+      "result": "monorepo foundation merged as d2ffd8779185282fae96bc3b7cee9fd7f8fa614f and Node selection fix merged as e180372370b238b19d91c6d7ae454066e69f7274"
     },
     {
-      "id": "S02-VERIFY-REMOTE-SECURITY",
-      "command": "inspect GitHub security_and_analysis settings",
+      "id": "S02-VERIFY-MAIN-CI",
+      "command": "inspect GitHub Actions runs 32854233288, 32854233284 and 32854233344",
       "exit_code": 0,
-      "result": "secret scanning, push protection and Dependabot security updates enabled"
+      "result": "repository verification, provenance, Linux, macOS, Windows, pnpm audit and RustSec audit passed on e180372370b238b19d91c6d7ae454066e69f7274"
     },
     {
-      "id": "S02-VERIFY-HOSTED-CI",
-      "command": "inspect GitHub Actions runs 32850995449 and 32850995632",
+      "id": "S02-VERIFY-CLEAN-CLONE",
+      "command": "standard HTTPS clone; /usr/local/bin/node scripts/new-machine-acceptance.mjs; compare main and completion tags",
       "exit_code": 0,
-      "result": "repository verification, Linux, macOS, Windows, pnpm audit and RustSec audit passed"
+      "result": "frozen install and all gates passed in 10 seconds; clone and remote main matched e180372370b238b19d91c6d7ae454066e69f7274; S00 and S01 tags resolved"
     },
     {
-      "id": "S02-VERIFY-REMOTE-BRANCH",
-      "command": "node scripts/verify-remote-s02.mjs --branch segment/S02-monorepo-ci",
+      "id": "S02-VERIFY-REMOTE-MAIN",
+      "command": "node scripts/verify-remote-s02.mjs --branch main",
       "exit_code": 0,
-      "result": "branch SHA, hosted workflows, security settings and five protected-main required checks passed at 4ea8aa70da8cc10a52b1249d475d611faeb378a8"
+      "result": "public settings, hosted security controls, five protected-main checks and successful workflows passed at e180372370b238b19d91c6d7ae454066e69f7274"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-25T13:06:51Z"
+  "last_verified_at": "2026-08-25T13:40:22Z"
 }
