@@ -4,7 +4,7 @@
 
 - Project: Saber
 - Segment: S00 — repository bootstrap
-- Branch: segment/S00-final-evidence
+- Branch: segment/S00-final-checkpoint
 - Remote: `git@github.com:SunArthurX/saber-harness.git` (private)
 - Previous execution environment: Codex desktop
 - Handoff date: 2026-08-25
@@ -41,6 +41,9 @@ S00 is not complete until:
 - Main CI run `32844468044` passed.
 - A clean clone of `main` passed 165 checks and matched the remote main SHA.
 - Repository merge settings now allow squash only, update branches, and delete merged branches.
+- PR #2 merged the durable acceptance/blocker evidence as `54a3ea6fc77bf44ea306bf9654d7f80051c73327`.
+- Main repository-verification run `32844807020` and main-provenance run `32844807053` both passed.
+- A second clean clone passed the expanded 171 checks and matched `origin/main` at `54a3ea6fc77bf44ea306bf9654d7f80051c73327`.
 
 ## Still required
 
