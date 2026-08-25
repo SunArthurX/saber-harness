@@ -25,6 +25,7 @@
 - Evidence: GitHub REST API returned HTTP 403 for both branch protection and repository Rulesets
 - Provider response: upgrade to GitHub Pro or make the repository public
 - Safety decision: do not expose private research to bypass a platform entitlement
-- Compensating controls: private visibility, CODEOWNERS, squash-only merge setting, PR #1 with passing CI, main-provenance detection workflow, explicit no-force-push repository instructions
+- Compensating controls: private visibility, CODEOWNERS, squash-only merge setting, passing PR CI, main-provenance detection workflow, explicit no-force-push repository instructions
 - Owner action: upgrade the authenticated account or transfer the private repository to an eligible organization plan
-- Completion evidence: branch protection API shows required PR, `repository-verification`, linear history, conversation resolution, no force push, and no deletion on `main`
+- Prepared remediation: `node scripts/configure-main-protection.mjs --apply`
+- Completion evidence: `node scripts/verify-remote-s00.mjs` exits 0 and proves required PR, `repository-verification`, linear history, conversation resolution, no force push, and no deletion on `main`

@@ -35,6 +35,11 @@ These rules apply to every human or coding model working in this repository.
 For S00 run:
 
     node scripts/verify-s00.mjs
+    node --test scripts/tests/*.test.mjs
+
+For the strict remote S00 Gate run:
+
+    node scripts/verify-remote-s00.mjs
 
 This verifier includes repository structure, continuity state, Markdown fences, whitespace, tracked-file safety and common credential-pattern checks. Do not bypass a failure; fix it or record a justified, reviewed exception.
 

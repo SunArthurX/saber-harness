@@ -30,5 +30,7 @@ jobs:
           node-version: 24
       - name: Verify repository contract
         run: node scripts/verify-s00.mjs
+      - name: Test repository governance policy
+        run: node --test scripts/tests/*.test.mjs
       - name: Verify Git whitespace contract
         run: git diff --check HEAD^

@@ -17,6 +17,12 @@ This repository is currently in Segment S00: repository bootstrap and cross-mode
 Run:
 
     node scripts/verify-s00.mjs
+    node --test scripts/tests/*.test.mjs
+
+After the GitHub account or repository has private branch-protection entitlement, run:
+
+    node scripts/configure-main-protection.mjs --apply
+    node scripts/verify-remote-s00.mjs
 
 The same zero-dependency verification runs in GitHub Actions for Segment branches, pull requests, and `main`.
 

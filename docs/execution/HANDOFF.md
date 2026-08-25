@@ -44,12 +44,14 @@ S00 is not complete until:
 - PR #2 merged the durable acceptance/blocker evidence as `54a3ea6fc77bf44ea306bf9654d7f80051c73327`.
 - Main repository-verification run `32844807020` and main-provenance run `32844807053` both passed.
 - A second clean clone passed the expanded 171 checks and matched `origin/main` at `54a3ea6fc77bf44ea306bf9654d7f80051c73327`.
+- PR #5 upgraded and immutably pinned the official GitHub Action runtimes; `main` reached `28d82d5ab88b304c9970e9bdb153d450f7cd77f7`.
+- Main runs `32845280696` (repository verification) and `32845280555` (PR provenance) passed; the repository-verification job had zero annotations.
 
 ## Still required
 
 | Item | State | Required input/action |
 |---|---|---|
-| Local S00 verification | passed | node scripts/verify-s00.mjs; 42 checks |
+| Local S00 verification | passed | `node scripts/verify-s00.mjs`; 171 checks before the protection tooling expansion |
 | Checkpoint commit | passed | local commit `a4c97e5` |
 | Remote configuration | passed | private `SunArthurX/saber-harness` repository |
 | Remote push/SHA verification | passed | SHA equality verified at `6904ac37...` |
@@ -69,8 +71,9 @@ S00 is not complete until:
 
 1. Keep the repository private.
 2. Upgrade the authenticated GitHub account to Pro or transfer the repository to an eligible private organization.
-3. Apply the documented main protection policy and verify it through the GitHub API.
-4. Re-run the clean-clone gate and then mark S00 completed.
+3. Run `node scripts/configure-main-protection.mjs --apply`.
+4. Run `node scripts/verify-remote-s00.mjs` and require exit code 0.
+5. Re-run the clean-clone gate and then mark S00 completed.
 
 ## Forbidden assumptions
 

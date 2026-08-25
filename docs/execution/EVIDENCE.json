@@ -14,7 +14,8 @@
   "main_head": "resolve-from-git",
   "verified_main_checkpoints": [
     "c9f2021ee4c20f6beb255f4afd0c04be1967de43",
-    "54a3ea6fc77bf44ea306bf9654d7f80051c73327"
+    "54a3ea6fc77bf44ea306bf9654d7f80051c73327",
+    "28d82d5ab88b304c9970e9bdb153d450f7cd77f7"
   ],
   "checks": [
     {
@@ -88,10 +89,16 @@
       "command": "clone origin/main into a second new temporary directory, run node scripts/verify-s00.mjs, and compare SHA",
       "exit_code": 0,
       "result": "171 checks passed; clone and remote main matched at 54a3ea6fc77bf44ea306bf9654d7f80051c73327"
+    },
+    {
+      "id": "S00-VERIFY-CURRENT-ACTIONS",
+      "command": "inspect PR #5, main runs 32845280696 and 32845280555, job annotations, and a clean clone",
+      "exit_code": 0,
+      "result": "official Action runtimes pinned by SHA; both main runs passed with zero repository-verification annotations; clone and remote main matched at 28d82d5ab88b304c9970e9bdb153d450f7cd77f7"
     }
   ],
   "known_blockers": [
     "private-branch-protection-entitlement"
   ],
-  "last_verified_at": "2026-08-25T11:56:28Z"
+  "last_verified_at": "2026-08-25T12:04:47Z"
 }
