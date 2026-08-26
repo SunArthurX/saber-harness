@@ -1,65 +1,40 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S06",
-  "status": "completed",
-  "branch": "segment/S06-finalize",
+  "segment": "S07",
+  "status": "in_progress_local_gate_passed",
+  "branch": "segment/S07-tool-broker",
   "base": {
-    "segment": "S05",
-    "tag": "s05-complete",
-    "commit": "129fd31fe48af3494484b03edc5d5c0c79725722"
+    "segment": "S06",
+    "tag": "s06-complete",
+    "commit": "dd2f568d957fcadc94f48c6b40c08787c39e2195"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "verified_segment_checkpoint": "7790353180f99f8fbd863544dc2fa772e3c9254a",
-  "main_head": "de9d44f8ef0e8ce4d8fc90c36599d5b61c3d18db",
-  "verified_main_checkpoint": "13f09808da978c6c5438d08b91bd6996958973a2",
+  "main_head": "dd2f568d957fcadc94f48c6b40c08787c39e2195",
+  "verified_main_checkpoint": "dd2f568d957fcadc94f48c6b40c08787c39e2195",
   "checks": [
     {
-      "id": "S06-INHERITED-BOUNDARY",
-      "command": "git cat-file -t s05-complete && git rev-parse 's05-complete^{}' origin/main && node scripts/verify-remote-s05.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
+      "id": "S07-INHERITED-BOUNDARY",
+      "command": "git cat-file -t s06-complete && git rev-parse 's06-complete^{}' origin/main && node scripts/verify-remote-s06.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
       "exit_code": 0,
-      "result": "annotated s05-complete resolves to 129fd31fe48af3494484b03edc5d5c0c79725722 equal to origin/main; strict remote S05 verification and new-machine acceptance passed before the first S06 commit"
+      "result": "annotated s06-complete resolves to dd2f568d957fcadc94f48c6b40c08787c39e2195 equal to origin/main; strict remote S06 verification and new-machine acceptance passed before the first S07 commit"
     },
     {
-      "id": "S06-FULL-LOCAL-GATE",
+      "id": "S07-FULL-LOCAL-GATE",
       "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
       "exit_code": 0,
-      "result": "format, strict clippy, 16 Rust test suites (sandbox escape/path-guard/environment-canary/secret-broker/egress/effect-broker/plugin-host/journal integration), TypeScript gates, deterministic generation, licenses, S00-S06 verifiers and governance tests passed"
+      "result": "format, strict clippy, 19 Rust test suites (including 17 tool-broker adversarial tests and 2 real-EventStore crash-replay tests), TypeScript gates, deterministic generation, licenses, S00-S07 verifiers and governance tests passed"
     },
     {
-      "id": "S06-VERIFY-ISOLATION",
+      "id": "S07-VERIFY-TOOL-LIFECYCLE",
       "command": "focused adversarial suites",
       "exit_code": 0,
-      "result": "traversal/symlink-swap/mount-confusion denials, realm ladder monotonicity, fail-closed backend selection, environment canary with zero sensitive host keys, deadline kill and output caps, secret lease scope/TTL/replay/digest binding with zeroization and redaction, egress default deny with IP-literal encodings, metadata endpoints, DNS-rebinding pinning, redirect policy, taint/DLP, plugin circuit/quarantine containment and zero-effect failures passed"
-    },
-    {
-      "id": "S06-VERIFY-BRANCH-CI",
-      "command": "inspect push run 32983021748 and PR run 32983574780",
-      "exit_code": 0,
-      "result": "repository verification, Ubuntu, macOS, Windows and dependency audit passed for implementation SHA 7790353180f99f8fbd863544dc2fa772e3c9254a; two earlier Windows-only failures (unix-only fs import; non-absolute /usr path semantics) were fixed, not bypassed"
-    },
-    {
-      "id": "S06-VERIFY-PROTECTED-INTEGRATION",
-      "command": "inspect protected PR #21",
-      "exit_code": 0,
-      "result": "PR #21 squash-merged after all five required checks passed as 13f09808da978c6c5438d08b91bd6996958973a2"
-    },
-    {
-      "id": "S06-VERIFY-CLEAN-CLONE",
-      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
-      "exit_code": 0,
-      "result": "clone resolved 13f09808da978c6c5438d08b91bd6996958973a2 and passed all gates in 82 seconds"
-    },
-    {
-      "id": "S06-VERIFY-MAIN-CI",
-      "command": "inspect PR #22 runs 32988259392/32988259492 and branch runs 32988644849/32988644797",
-      "exit_code": 0,
-      "result": "repository verification, Ubuntu, macOS, Windows and dependency audit passed for both the completion-record PR tree and its branch push at a513bc22896fde535631139a1aed207b149e9c70; the originally stuck main re-runs at 13f0980 were a GitHub Actions platform incident superseded by newer main pushes"
+      "result": "forged-success (missing declared artifact, hash mismatch, exit-status-only claims), stale before-hash, mutation outside declared overlay, external-edit and git-index drift into NeedsReconcile, checkpoint compensation with exact restore, durable non-retriable compensation failure, crash replay with exactly one effect through the encrypted store, contract gating before authorization and worktree lock release all passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-26T16:45:00Z"
+  "last_verified_at": "2026-08-27T09:00:00Z"
 }

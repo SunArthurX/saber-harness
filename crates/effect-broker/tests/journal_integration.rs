@@ -73,6 +73,7 @@ fn intent_and_result_are_durable_in_the_encrypted_store() {
         workspace_id: "ws_01",
         intent_id: "intent_1",
         completed: true,
+        detail: None,
         occurred_at_ms: 1_001,
         idempotency_key: "idem_2",
     };

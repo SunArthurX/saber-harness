@@ -47,6 +47,8 @@ pub struct JournalResult<'a> {
     pub intent_id: &'a str,
     /// Whether the effect completed.
     pub completed: bool,
+    /// Stable detail label (for example a verification verdict).
+    pub detail: Option<&'a str>,
     /// Wall-clock time in Unix milliseconds.
     pub occurred_at_ms: u64,
     /// Idempotency key.
@@ -97,6 +99,7 @@ impl EffectJournal for EventStore {
     fn record_result(&mut self, result: &JournalResult<'_>) -> Result<(), Self::Error> {
         let payload = serde_json::json!({
             "completed": result.completed,
+            "detail": result.detail,
         });
         let command = EffectResult {
             event_id: result.event_id,

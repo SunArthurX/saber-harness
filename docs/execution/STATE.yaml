@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S06
-  name: sandbox-secret-egress
-  status: completed
-  objective: enforce the S05 policy decision at OS and network boundaries through sandbox realms, a reference-only secret broker and a default-deny egress PEP
+  id: S07
+  name: tool-broker
+  status: in_progress
+  objective: give every tool-mediated modification a uniform recoverable lifecycle where tools cannot forge success and failures roll back or surface as explicitly non-retriable
 predecessor:
-  segment: S05
+  segment: S06
   status: completed
-  tag: s05-complete
-  commit: 129fd31fe48af3494484b03edc5d5c0c79725722
+  tag: s06-complete
+  commit: dd2f568d957fcadc94f48c6b40c08787c39e2195
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -30,19 +30,22 @@ completed_segments:
   - segment: S05
     tag: s05-complete
     commit: 129fd31fe48af3494484b03edc5d5c0c79725722
+  - segment: S06
+    tag: s06-complete
+    commit: dd2f568d957fcadc94f48c6b40c08787c39e2195
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S06-finalize
+  branch: segment/S07-tool-broker
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 7790353180f99f8fbd863544dc2fa772e3c9254a
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: true
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
@@ -52,32 +55,21 @@ execution:
   last_checkpoint_at: "2026-08-26T13:30:00Z"
 acceptance:
   required:
-    - s05_tagged_base
+    - s06_tagged_base
     - configured_remote
-    - sandbox_backend_spi
-    - execution_realms_s0_s4
-    - platform_fail_closed
-    - workspace_read_only_default
-    - overlay_only_mutation
-    - path_traversal_denied
-    - symlink_race_denied
-    - mount_escape_denied
-    - secret_reference_only
-    - secret_lease_scope_ttl
-    - secret_out_of_band_injection
-    - secret_output_redaction
-    - secret_zeroization
-    - allowlisted_child_environment
-    - no_ambient_host_authority
-    - egress_default_deny
-    - egress_destination_purpose_binding
-    - dns_rebinding_denied
-    - redirect_ip_literal_denied
-    - private_range_metadata_denied
-    - taint_dlp_boundary
-    - plugin_fault_containment
-    - broker_policy_integration
-    - audit_failure_zero_effects
+    - tool_spi_lifecycle
+    - describe_before_authorize
+    - no_forged_success
+    - mutation_only_in_overlay
+    - intent_result_verification_ordering
+    - crash_replay_without_duplicate_effects
+    - compensation_rollback
+    - compensation_failure_non_retriable
+    - concurrent_worktree_serialization
+    - external_edit_reconcile
+    - git_fingerprint_drift_reconcile
+    - readonly_tools_first
+    - s07_verifier
     - local_verification
     - verified_segment_push
     - required_ci
@@ -85,40 +77,29 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s05_tagged_base
+    - s06_tagged_base
     - configured_remote
-    - sandbox_backend_spi
-    - execution_realms_s0_s4
-    - platform_fail_closed
-    - workspace_read_only_default
-    - overlay_only_mutation
-    - path_traversal_denied
-    - symlink_race_denied
-    - mount_escape_denied
-    - secret_reference_only
-    - secret_lease_scope_ttl
-    - secret_out_of_band_injection
-    - secret_output_redaction
-    - secret_zeroization
-    - allowlisted_child_environment
-    - no_ambient_host_authority
-    - egress_default_deny
-    - egress_destination_purpose_binding
-    - dns_rebinding_denied
-    - redirect_ip_literal_denied
-    - private_range_metadata_denied
-    - taint_dlp_boundary
-    - plugin_fault_containment
-    - broker_policy_integration
-    - audit_failure_zero_effects
+    - tool_spi_lifecycle
+    - describe_before_authorize
+    - no_forged_success
+    - mutation_only_in_overlay
+    - intent_result_verification_ordering
+    - crash_replay_without_duplicate_effects
+    - compensation_rollback
+    - compensation_failure_non_retriable
+    - concurrent_worktree_serialization
+    - external_edit_reconcile
+    - git_fingerprint_drift_reconcile
+    - readonly_tools_first
+    - s07_verifier
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -127,7 +108,8 @@ decisions:
   - docs/adr/ADR-004-events-transactional-projections.md
   - docs/adr/ADR-007-deterministic-monotonic-policy-enforcement.md
   - docs/adr/ADR-008-sandbox-secret-egress-fail-closed-boundaries.md
+  - docs/adr/ADR-009-tool-lifecycle-verification.md
 blockers: []
 next_action:
-  command: after this atomic completion record merges and final main workflows pass, create annotated s06-complete and hand the next model docs/execution/NEXT-MODEL-S07.md
-  description: the stuck re-runs at 13f0980 belong to a GitHub Actions platform incident; their concurrency group is superseded by this newer main push, and the identical trees passed every required context via runs 32983574780 and 32988259392/32988644849
+  command: implement the S07 tool broker per docs/execution/NEXT-MODEL-S07.md
+  description: freeze ADR-009, then implement the describe/authorize/prepare/execute/verify/compensate lifecycle over the S06 broker boundary

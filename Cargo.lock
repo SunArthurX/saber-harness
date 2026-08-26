@@ -1094,6 +1094,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "saber-tool-broker"
+version = "0.0.0"
+dependencies = [
+ "saber-effect-broker",
+ "saber-egress",
+ "saber-event-store",
+ "saber-policy",
+ "saber-sandbox",
+ "saber-secret-broker",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tempfile",
+]
+
+[[package]]
 name = "secret-service"
 version = "5.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
