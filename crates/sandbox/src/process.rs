@@ -416,7 +416,6 @@ mod tests {
         clippy::items_after_statements
     )]
     use std::collections::BTreeMap;
-    use std::fs;
 
     use super::*;
     use crate::plan::{EnvSpec, MountSource, MountSpec, SandboxPlan};
@@ -457,6 +456,7 @@ mod tests {
     #[cfg(unix)]
     #[test]
     fn environment_canary_finds_no_sensitive_host_authority() {
+        use std::fs;
         let temp = tempfile::tempdir().unwrap_or_else(|error| unreachable!("{error}"));
         let probe = temp.path().join("probe.sh");
         fs::write(&probe, "#!/bin/sh\nenv | sort\nsleep 30\n")
@@ -540,6 +540,7 @@ mod tests {
     #[cfg(unix)]
     #[test]
     fn output_cap_truncates_large_streams() {
+        use std::fs;
         let temp = tempfile::tempdir().unwrap_or_else(|error| unreachable!("{error}"));
         let probe = temp.path().join("flood.sh");
         let spam = "spam".repeat(64);
