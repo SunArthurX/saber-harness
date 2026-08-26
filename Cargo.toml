@@ -6,6 +6,7 @@ members = [
     "crates/event-store",
     "crates/policy",
     "crates/saber-core",
+    "crates/tool-broker",
     "crates/sandbox",
     "crates/secret-broker",
 ]

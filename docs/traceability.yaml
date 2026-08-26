@@ -80,16 +80,17 @@
     {
       "id": "FR-RUN-005", "priority": "P1",
       "statement": "Represent generated and imported artifacts with hashes, diffs, review state and rollback references.",
-      "owner": "core-runtime", "module": "crates/artifact-store",
+      "owner": "core-runtime", "module": "crates/tool-broker",
       "events": ["artifact.created", "artifact.reviewed", "artifact.rolled_back"], "tests": ["S04-ARTIFACT-INTEGRITY"],
-      "segment": "S04", "source": "architecture 5.3 and 7.1", "status": "planned"
+      "segment": "S07", "source": "architecture 5.3 and 7.1 and ADR-009", "status": "implemented",
+      "evidence": ["crates/tool-broker/src/worktree.rs", "crates/tool-broker/src/lib.rs"]
     },
     {
       "id": "FR-RUN-006", "priority": "P0",
       "statement": "Route replaceable local and cloud models by policy, capability, privacy, budget and health without changing product authority state.",
       "owner": "agent-runtime", "module": "packages/model-providers",
-      "events": ["model.route_decided", "model.invocation.completed"], "tests": ["S07-MODEL-ROUTER-POLICY"],
-      "segment": "S07", "source": "architecture 10.1 and 10.2", "status": "planned"
+      "events": ["model.route_decided", "model.invocation.completed"], "tests": ["S08-MODEL-ROUTER-POLICY"],
+      "segment": "S08", "source": "architecture 10.1 and 10.2", "status": "planned"
     },
     {
       "id": "FR-RUN-007", "priority": "P1",

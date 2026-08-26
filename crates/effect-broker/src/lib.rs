@@ -282,12 +282,21 @@ where
                         }
                     }
                 }
-                let command = command
-                    .clone()
-                    .ok_or(ClosureError::Sandbox(SandboxError::PlanViolation))?;
-                let mut outcome = backend
-                    .exec(&handle, &command, injected)
-                    .map_err(ClosureError::Sandbox)?;
+                let mut outcome = match command.clone() {
+                    Some(command) => backend
+                        .exec(&handle, &command, injected)
+                        .map_err(ClosureError::Sandbox)?,
+                    // In-core (S0/S1) plans execute no child; the guarded
+                    // read itself is the effect performed by the caller.
+                    None => saber_sandbox::ExecOutcome {
+                        exit_code: Some(0),
+                        stdout: Vec::new(),
+                        stderr: Vec::new(),
+                        duration_ms: 0,
+                        truncated: false,
+                        killed: false,
+                    },
+                };
                 let mut redactions = secrets.redact(&mut outcome.stdout);
                 redactions += secrets.redact(&mut outcome.stderr);
                 captured = Some(EffectOutcome {
@@ -323,6 +332,7 @@ where
                     workspace_id: &prepared.workspace_id,
                     intent_id: &format!("intent-{request_digest}"),
                     completed: true,
+                    detail: None,
                     occurred_at_ms: now_ms,
                     idempotency_key: &format!("idem-result-{request_digest}"),
                 };

@@ -82,6 +82,14 @@ pub struct FakeBackendConfig {
     /// Shared operation sink so callers outside the registry can assert the
     /// exact SPI traffic after handing the backend over.
     pub ops_sink: Option<Arc<Mutex<Vec<RecordedOp>>>>,
+    /// Test-only simulation of confined realm side effects: these host files
+    /// are written when `exec` runs, standing in for what a real confined
+    /// child would have produced. Never used by production backends.
+    pub simulate_writes: Vec<(std::path::PathBuf, Vec<u8>)>,
+    /// Test-only hook fired inside `exec`, used to inject external
+    /// interference (for example a concurrent editor or `git add`) between
+    /// checkpoint and verification.
+    pub exec_hook: Option<std::sync::Arc<dyn Fn() + Send + Sync>>,
 }
 
 /// In-memory deterministic backend.
@@ -226,6 +234,15 @@ impl SandboxBackend for FakeBackend {
             .map_err(|_| SandboxError::PlanViolation)?;
         if let Some(error) = self.config.fail_exec {
             return Err(error);
+        }
+        for (target, content) in &self.config.simulate_writes {
+            if let Some(parent) = target.parent() {
+                let _ = std::fs::create_dir_all(parent);
+            }
+            std::fs::write(target, content).map_err(|_| SandboxError::ExecFailed)?;
+        }
+        if let Some(hook) = &self.config.exec_hook {
+            hook();
         }
         let outcome = self.config.exec_results.pop_front().unwrap_or(ExecOutcome {
             exit_code: Some(0),

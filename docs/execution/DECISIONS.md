@@ -173,3 +173,29 @@ Reason:
 
 - Two disjoint bodies of work claimed one Segment ID, which would make the S06 gate unfalsifiable and dilute escape/secret-exposure review.
 - Requirements, tests and CI gates inherit their meaning from the roadmap; keeping them aligned preserves the P0 orphan-free traceability invariant.
+
+## DEC-0011 — Realign FR-RUN-006 to S08
+
+Status: accepted for S07
+Date: 2026-08-27
+
+Decision:
+
+- The authoritative execution roadmap assigns S07 to the Tool Broker and recoverable modifications, and S08 to ModelProvider/Router/Budget. FR-RUN-006 previously carried `segment: S07` and an `S07-*` test name from the draft schedule; it is realigned to S08 with the test renamed to `S08-MODEL-ROUTER-POLICY`.
+
+Reason:
+
+- Same class of numbering collision as DEC-0010; keeping the traceability matrix aligned with the roadmap preserves the P0 orphan-free invariant and keeps the S07 gate focused on tool-lifecycle integrity (no forged success, recoverable or explicitly non-retriable failures).
+
+## DEC-0012 — Serve artifact integrity from the tool broker
+
+Status: accepted for S07
+Date: 2026-08-27
+
+Decision:
+
+- FR-RUN-005 (artifact hashes, rollback references) moves from the never-started S04 `crates/artifact-store` module to S07 `crates/tool-broker`: checkpoints capture full content inventories with hashes, verification recomputes them independently, and compensation restores them exactly. Its segment is realigned to S07 with `implemented` status.
+
+Reason:
+
+- The recoverable-modification lifecycle is where artifact integrity is actually produced; a separate artifact store without the lifecycle would duplicate hashing and rollback state.
