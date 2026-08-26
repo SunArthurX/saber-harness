@@ -1,8 +1,6 @@
 //! Durable-journal integration: the broker's intent/result ordering against
 //! the real encrypted S04 event store.
 
-use std::path::PathBuf;
-
 use saber_effect_broker::journal::{EffectJournal, JournalIntent, JournalResult, test_store};
 use saber_event_store::StoreError;
 use saber_policy::{
@@ -103,6 +101,8 @@ fn broker_execution_journals_through_the_real_store() {
     let mut store = test_store(&provider, "ws_01", directory.path())
         .unwrap_or_else(|error| unreachable!("{error}"));
 
+    let tools = directory.path().join("tools");
+    std::fs::create_dir_all(&tools).unwrap_or_else(|error| unreachable!("{error}"));
     let fake = FakeBackend::new(saber_sandbox::Platform::Linux, FakeBackendConfig::default());
     let mut broker = EffectBroker::new(
         engine(),
@@ -120,9 +120,7 @@ fn broker_execution_journals_through_the_real_store() {
         mounts: vec![
             MountSpec {
                 target: "tools".to_owned(),
-                source: MountSource::SystemTools {
-                    host_path: PathBuf::from("/usr"),
-                },
+                source: MountSource::SystemTools { host_path: tools },
                 writable: false,
                 executable: true,
             },

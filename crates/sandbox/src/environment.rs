@@ -175,7 +175,6 @@ mod tests {
         clippy::panic,
         clippy::items_after_statements
     )]
-    use std::path::PathBuf;
 
     use super::*;
     use crate::plan::MountSource;
@@ -184,7 +183,7 @@ mod tests {
         MountSpec {
             target: "tools".to_owned(),
             source: MountSource::SystemTools {
-                host_path: PathBuf::from("/usr"),
+                host_path: std::env::temp_dir(),
             },
             writable: false,
             executable: true,

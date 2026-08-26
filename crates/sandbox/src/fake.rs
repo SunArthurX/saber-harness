@@ -307,7 +307,7 @@ mod tests {
         let tools = MountSpec {
             target: "tools".to_owned(),
             source: MountSource::SystemTools {
-                host_path: PathBuf::from("/usr"),
+                host_path: std::env::temp_dir(),
             },
             writable: false,
             executable: true,
@@ -315,7 +315,7 @@ mod tests {
         let scratch = MountSpec {
             target: "scratch".to_owned(),
             source: MountSource::Overlay {
-                host_path: PathBuf::from("/tmp/saber/ov"),
+                host_path: std::env::temp_dir(),
             },
             writable: true,
             executable: false,

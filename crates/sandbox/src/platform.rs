@@ -519,7 +519,7 @@ mod tests {
                 MountSpec {
                     target: "tools".to_owned(),
                     source: MountSource::SystemTools {
-                        host_path: PathBuf::from("/usr"),
+                        host_path: std::env::temp_dir(),
                     },
                     writable: false,
                     executable: true,

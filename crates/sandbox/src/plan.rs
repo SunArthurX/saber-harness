@@ -549,7 +549,7 @@ mod tests {
         MountSpec {
             target: target.to_owned(),
             source: MountSource::Overlay {
-                host_path: PathBuf::from("/tmp/saber/overlay"),
+                host_path: std::env::temp_dir(),
             },
             writable: true,
             executable: false,
@@ -560,7 +560,7 @@ mod tests {
         MountSpec {
             target: target.to_owned(),
             source: MountSource::Workspace {
-                host_path: PathBuf::from("/data/workspaces/ws_01"),
+                host_path: std::env::temp_dir(),
             },
             writable: false,
             executable: false,
@@ -571,7 +571,7 @@ mod tests {
         MountSpec {
             target: "tools".to_owned(),
             source: MountSource::SystemTools {
-                host_path: PathBuf::from("/usr"),
+                host_path: std::env::temp_dir(),
             },
             writable: false,
             executable: true,
@@ -708,7 +708,7 @@ mod tests {
             MountSpec {
                 target: "workspace/src".to_owned(),
                 source: MountSource::Overlay {
-                    host_path: PathBuf::from("/tmp/saber/overlay"),
+                    host_path: std::env::temp_dir(),
                 },
                 writable: true,
                 executable: false,
