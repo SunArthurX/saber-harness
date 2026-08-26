@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S05
   name: policy
-  status: in_progress
+  status: completed
   objective: freeze the capability vocabulary and enforce deterministic default-deny policy, scoped approval and durable redacted decision audit before every side effect
 predecessor:
   segment: S04
@@ -33,20 +33,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S05-policy
+  branch: segment/S05-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: pending
-  main_head: a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63
-  verified_main_checkpoint: a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63
-  remote_verified: false
+  verified_segment_checkpoint: e611bc0e45f9585288b7459403ea5fbc8eabe60f
+  main_head: 8ef92768a58ac634bda295ff3c3dafcd6be067c6
+  verified_main_checkpoint: 8ef92768a58ac634bda295ff3c3dafcd6be067c6
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-26T07:28:47Z"
+  last_checkpoint_at: "2026-08-26T11:30:15Z"
 acceptance:
   required:
     - s04_tagged_base
@@ -99,21 +99,21 @@ acceptance:
     - pdp_failure_fail_closed
     - audit_failure_fail_closed
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-26T07:28:47Z"
+  last_verified_at: "2026-08-26T11:30:15Z"
 decisions:
   - docs/adr/ADR-001-rust-trusted-core.md
   - docs/adr/ADR-004-events-transactional-projections.md
   - docs/adr/ADR-007-deterministic-monotonic-policy-enforcement.md
 blockers: []
 next_action:
-  command: run the complete local S00-S05 Gate, checkpoint explicit S05 paths and obtain same-SHA hosted evidence
-  description: keep S05 in progress until local, hosted, protected-main and clean-clone verification all pass
+  command: after this atomic completion record is merged and tagged, stop and give the next model docs/execution/NEXT-MODEL-S06.md
+  description: do not begin S06 in this model session; the next model must resume from the verified s05-complete checkpoint
