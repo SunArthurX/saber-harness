@@ -1030,10 +1030,20 @@ dependencies = [
  "keyring",
  "rusqlite",
  "saber-core-protocol",
+ "saber-policy",
  "serde_json",
  "sha2",
  "tempfile",
  "zeroize",
+]
+
+[[package]]
+name = "saber-policy"
+version = "0.0.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "sha2",
 ]
 
 [[package]]

@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S04
-  name: event-store
-  status: completed
-  objective: implement the SQLCipher fact store, transactional event projections, trusted Run state machine and crash-safe side-effect recovery
+  id: S05
+  name: policy
+  status: in_progress
+  objective: freeze the capability vocabulary and enforce deterministic default-deny policy, scoped approval and durable redacted decision audit before every side effect
 predecessor:
-  segment: S03
+  segment: S04
   status: completed
-  tag: s03-complete
-  commit: e673a18ba12fac1aabb42e1e1ed31d7c30e961dd
+  tag: s04-complete
+  commit: a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -24,49 +24,52 @@ completed_segments:
   - segment: S03
     tag: s03-complete
     commit: e673a18ba12fac1aabb42e1e1ed31d7c30e961dd
+  - segment: S04
+    tag: s04-complete
+    commit: a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S04-completion
+  branch: segment/S05-policy
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: d9a7d8a6009b85d18b826a842e5faf33ea00ff76
-  main_head: c5651455691cf75ae53bdd7e8075623b9507c82f
-  verified_main_checkpoint: c5651455691cf75ae53bdd7e8075623b9507c82f
-  remote_verified: true
+  verified_segment_checkpoint: pending
+  main_head: a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63
+  verified_main_checkpoint: a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
-  started_at: "2026-08-25"
-  last_checkpoint_at: "2026-08-26T06:49:15Z"
+  started_at: "2026-08-26"
+  last_checkpoint_at: "2026-08-26T07:28:47Z"
 acceptance:
   required:
-    - s03_tagged_base
+    - s04_tagged_base
     - configured_remote
-    - sqlcipher_codec_required
-    - key_custody_boundary
-    - encrypted_schema
-    - event_projection_atomicity
-    - trusted_run_state_machine
-    - verified_success_constraint
-    - idempotency_exact_replay
-    - audit_hash_chain
-    - artifact_integrity
-    - encrypted_blob_metadata
-    - outbox_intent_result
-    - projection_replay_equivalence
-    - crash_tail_repair
-    - wrong_key_denial
-    - key_rotation
-    - migration
-    - kill9_reconciliation
-    - disk_full_fault
-    - db_busy_fault
+    - canonical_capability_vocabulary
+    - typed_resource_grammar
+    - no_super_capability
+    - deterministic_pdp
+    - default_deny
+    - policy_tier_precedence
+    - policy_rollback_denial
+    - sandbox_precondition
+    - credential_reference_only
+    - approval_scope
+    - approval_ttl
+    - approval_toctou
+    - approval_replay_revocation
+    - vague_approval_denial
+    - audit_before_effect
+    - audit_redaction
+    - encrypted_decision_persistence
+    - pdp_failure_fail_closed
+    - audit_failure_fail_closed
     - local_verification
     - verified_segment_push
     - required_ci
@@ -74,43 +77,43 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s03_tagged_base
+    - s04_tagged_base
     - configured_remote
-    - sqlcipher_codec_required
-    - encrypted_schema
-    - event_projection_atomicity
-    - trusted_run_state_machine
-    - verified_success_constraint
-    - idempotency_exact_replay
-    - audit_hash_chain
-    - key_custody_boundary
-    - artifact_integrity
-    - encrypted_blob_metadata
-    - outbox_intent_result
-    - projection_replay_equivalence
-    - crash_tail_repair
-    - wrong_key_denial
-    - key_rotation
-    - migration
-    - kill9_reconciliation
-    - disk_full_fault
-    - db_busy_fault
+    - canonical_capability_vocabulary
+    - typed_resource_grammar
+    - no_super_capability
+    - deterministic_pdp
+    - default_deny
+    - policy_tier_precedence
+    - policy_rollback_denial
+    - sandbox_precondition
+    - credential_reference_only
+    - approval_scope
+    - approval_ttl
+    - approval_toctou
+    - approval_replay_revocation
+    - vague_approval_denial
+    - audit_before_effect
+    - audit_redaction
+    - encrypted_decision_persistence
+    - pdp_failure_fail_closed
+    - audit_failure_fail_closed
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-26T06:49:15Z"
+  last_verified_at: "2026-08-26T07:28:47Z"
 decisions:
-  - docs/adr/ADR-003-sqlcipher-local-fact-store.md
+  - docs/adr/ADR-001-rust-trusted-core.md
   - docs/adr/ADR-004-events-transactional-projections.md
-  - docs/adr/ADR-005-content-addressed-encrypted-blobs.md
+  - docs/adr/ADR-007-deterministic-monotonic-policy-enforcement.md
 blockers: []
 next_action:
-  command: after this atomic completion record is merged and tagged, create segment/S05-policy from protected origin/main
-  description: implement deterministic Capability, Policy and Approval enforcement without weakening the S04 persistence boundary
+  command: run the complete local S00-S05 Gate, checkpoint explicit S05 paths and obtain same-SHA hosted evidence
+  description: keep S05 in progress until local, hosted, protected-main and clean-clone verification all pass

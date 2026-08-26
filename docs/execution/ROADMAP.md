@@ -14,10 +14,10 @@ Completed Segments:
 
 Current Segment:
 
-- S04 — SQLCipher event store and Run state machine (`completed atomically when the completion PR is merged`).
+- S05 — Capability, Policy and Approval (`in_progress`).
 
 Next Segment:
 
-- S05 — Capability, Policy and Approval.
+- S06 — Sandbox, Secret Broker and Egress.
 
-S04 started from `s03-complete` / `e673a18ba12fac1aabb42e1e1ed31d7c30e961dd`; its implementation was squash-merged through protected main as `c5651455691cf75ae53bdd7e8075623b9507c82f` after the full local, branch, PR, main and clean-clone gates passed.
+S05 started from protected `origin/main` at `s04-complete` / `a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63`.

@@ -1,0 +1,195 @@
+{
+  "schema_version": "1.0.0",
+  "actions": [
+    {
+      "name": "fs.read",
+      "resource_scheme": "workspace",
+      "risk": "low",
+      "persistable": true,
+      "requires_sandbox": true,
+      "requires_secret": false,
+      "requires_network": false,
+      "approval": "risk_based"
+    },
+    {
+      "name": "fs.write",
+      "resource_scheme": "workspace",
+      "risk": "moderate",
+      "persistable": true,
+      "requires_sandbox": true,
+      "requires_secret": false,
+      "requires_network": false,
+      "approval": "risk_based"
+    },
+    {
+      "name": "fs.delete",
+      "resource_scheme": "workspace",
+      "risk": "high",
+      "persistable": false,
+      "requires_sandbox": true,
+      "requires_secret": false,
+      "requires_network": false,
+      "approval": "always"
+    },
+    {
+      "name": "process.spawn",
+      "resource_scheme": "process",
+      "risk": "high",
+      "persistable": false,
+      "requires_sandbox": true,
+      "requires_secret": false,
+      "requires_network": false,
+      "approval": "always"
+    },
+    {
+      "name": "process.signal",
+      "resource_scheme": "process",
+      "risk": "high",
+      "persistable": false,
+      "requires_sandbox": true,
+      "requires_secret": false,
+      "requires_network": false,
+      "approval": "always"
+    },
+    {
+      "name": "network.http",
+      "resource_scheme": "network",
+      "risk": "high",
+      "persistable": false,
+      "requires_sandbox": true,
+      "requires_secret": false,
+      "requires_network": true,
+      "approval": "always"
+    },
+    {
+      "name": "network.raw",
+      "resource_scheme": "network",
+      "risk": "critical",
+      "persistable": false,
+      "requires_sandbox": true,
+      "requires_secret": false,
+      "requires_network": true,
+      "approval": "always"
+    },
+    {
+      "name": "network.listen",
+      "resource_scheme": "network",
+      "risk": "critical",
+      "persistable": false,
+      "requires_sandbox": true,
+      "requires_secret": false,
+      "requires_network": true,
+      "approval": "always"
+    },
+    {
+      "name": "secret.use",
+      "resource_scheme": "secret",
+      "risk": "critical",
+      "persistable": false,
+      "requires_sandbox": true,
+      "requires_secret": true,
+      "requires_network": false,
+      "approval": "always"
+    },
+    {
+      "name": "browser.control",
+      "resource_scheme": "browser",
+      "risk": "high",
+      "persistable": false,
+      "requires_sandbox": true,
+      "requires_secret": false,
+      "requires_network": true,
+      "approval": "always"
+    },
+    {
+      "name": "git.commit",
+      "resource_scheme": "git",
+      "risk": "moderate",
+      "persistable": true,
+      "requires_sandbox": true,
+      "requires_secret": false,
+      "requires_network": false,
+      "approval": "risk_based"
+    },
+    {
+      "name": "git.push",
+      "resource_scheme": "git",
+      "risk": "high",
+      "persistable": false,
+      "requires_sandbox": true,
+      "requires_secret": true,
+      "requires_network": true,
+      "approval": "always"
+    },
+    {
+      "name": "git.force",
+      "resource_scheme": "git",
+      "risk": "critical",
+      "persistable": false,
+      "requires_sandbox": true,
+      "requires_secret": true,
+      "requires_network": true,
+      "approval": "always"
+    },
+    {
+      "name": "cloud.deploy",
+      "resource_scheme": "cloud",
+      "risk": "critical",
+      "persistable": false,
+      "requires_sandbox": true,
+      "requires_secret": true,
+      "requires_network": true,
+      "approval": "always"
+    },
+    {
+      "name": "external.read",
+      "resource_scheme": "external",
+      "risk": "moderate",
+      "persistable": true,
+      "requires_sandbox": false,
+      "requires_secret": false,
+      "requires_network": true,
+      "approval": "risk_based"
+    },
+    {
+      "name": "external.write",
+      "resource_scheme": "external",
+      "risk": "high",
+      "persistable": false,
+      "requires_sandbox": false,
+      "requires_secret": false,
+      "requires_network": true,
+      "approval": "always"
+    },
+    {
+      "name": "plugin.install",
+      "resource_scheme": "plugin",
+      "risk": "critical",
+      "persistable": false,
+      "requires_sandbox": true,
+      "requires_secret": false,
+      "requires_network": true,
+      "approval": "always"
+    },
+    {
+      "name": "capability.publish",
+      "resource_scheme": "capability",
+      "risk": "critical",
+      "persistable": false,
+      "requires_sandbox": true,
+      "requires_secret": false,
+      "requires_network": false,
+      "approval": "always"
+    },
+    {
+      "name": "self.propose-change",
+      "resource_scheme": "self",
+      "risk": "critical",
+      "persistable": false,
+      "requires_sandbox": true,
+      "requires_secret": false,
+      "requires_network": false,
+      "approval": "always"
+    }
+  ]
+}

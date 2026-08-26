@@ -1,61 +1,44 @@
-# S04 Handoff
+# S05 Handoff
 
-Status: completed atomically when the S04 completion PR is merged through protected main
+Status: in progress
 Date: 2026-08-26
-Branch: `segment/S04-completion`
-Base: `s03-complete` / `e673a18ba12fac1aabb42e1e1ed31d7c30e961dd`
+Branch: `segment/S05-policy`
+Base: `s04-complete` / `a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63`
 
 ## Objective
 
-Implement the encrypted local fact store, append-only causal event log, transactional projections/outbox and trusted Run state machine, including recovery and fault-injection evidence.
+Freeze a shared capability vocabulary and implement the deterministic Rust Policy Decision Point, Policy Enforcement Point, scoped approvals and redacted durable decision audit required before any side effect.
 
-## Completed
+## Implemented locally
 
-- Added the Rust `saber-event-store` crate using exact `rusqlite 0.40.2`, bundled SQLCipher and vendored OpenSSL.
-- Database open fails closed when SQLCipher is unavailable, a key is wrong, integrity fails or a future schema is encountered. WAL, foreign keys, secure delete, in-memory temporary storage and bounded busy waiting are enabled.
-- Added `OsKeyringProvider` backed by macOS Keychain, Windows Credential Manager or Linux Secret Service. Database keys never use argv, ordinary environment, logs or model context; key buffers are redacted and zeroized.
-- Key rotation stages old/new candidates before SQLCipher rekey, checkpoints and temporarily exits WAL for the page rewrite, then promotes the new key. Interrupted promotion reopens with the staged fallback.
-- Added versioned migrations plus events, runs, projections, outbox, idempotency, artifacts, blobs and encrypted store metadata.
-- Run creation and transition append an event, update projections and record idempotency atomically. Illegal transitions fail closed, and `succeeded` requires bound acceptance evidence.
-- Events form a length-delimited SHA-256 predecessor chain. Exact idempotency replay returns the original event; conflicting reuse is rejected.
-- Artifact bodies use XChaCha20-Poly1305 with unique nonces and authenticated workspace, classification, MIME, hash and length metadata. Ciphertext is fsynced and atomically published before references commit.
-- Side-effect intent and verified result events update the durable outbox in the same transaction. Startup recovery validates storage and the audit chain, repairs divergent Run projections, and surfaces pending effects for read-after-write reconciliation.
+- Added canonical capability schema and registry covering filesystem, process, network, secret, browser, Git, cloud, external service, plugin, capability publication and self-change actions. Each action declares one resource scheme, risk, persistence, sandbox, secret, network and approval behavior; there is no `system.all` capability.
+- Added the independent Rust `saber-policy` crate. Resource identifiers reject scheme confusion, traversal, encoded-dot ambiguity, whitespace, control characters, query/fragment suffixes and prefix-boundary confusion, including after untrusted deserialization.
+- Added typed principals, data classification, exact operation hashes and credential references. Raw credentials are not accepted as policy fields.
+- Added platform-hard, regulatory, organization, workspace, user and task-grant tiers. Any matching deny wins, no permit means deny, project content is not a tier, and missing sandbox/credential preconditions fail closed.
+- Added policy snapshot hashing and monotonic updates. Sequence rollback, changed content at the same sequence and removal of an established tier are rejected.
+- Added approval requests/grants with exact request digest, no-broader resource selector, operation/content hash, once/task scope, bounded TTL, revocation and replay state. Non-persistable actions cannot receive task grants; blanket “allow everything” choices are rejected.
+- Added an audit-before-effect PEP. PDP, approval or audit failure prevents the closure from running. A one-shot approval is consumed only after the decision is durably recorded.
+- Added metadata-only `PolicyDecisionAudit`: principal, resource, context and request are hashed; credential references, raw paths and user reasons are excluded.
+- Migrated the SQLCipher event store to schema v3 with transactional `policy.decision_recorded` and `policy.enforcement_recorded` facts, idempotent exact replay, conflict denial and append-only hash-chain coverage.
 
-## Verified evidence
+## Current evidence
 
-- Sixteen focused event-store tests passed, including wrong-key denial, interrupted rotation, v1 migration, authenticated blob tamper, replay equivalence, process termination, disk-full and database-busy faults.
-- The full local Gate passed Rust formatting, strict workspace clippy, all Rust tests, TypeScript build/type/tests, deterministic generation, licenses, 541 S00 checks, S01-S04 verifiers and 15 governance checks.
-- Implementation branch `d9a7d8a6009b85d18b826a842e5faf33ea00ff76` matched the remote. Push runs `32863869283` and `32863869278`, and PR runs `32938203678` and `32938203456`, passed all five required contexts.
-- PR #17 squash-merged through protected main as `c5651455691cf75ae53bdd7e8075623b9507c82f`.
-- Main runs `32938988325` (repository verification), `32938988237` (provenance) and `32938988379` (platform matrix and dependency audit) passed at the merge SHA.
-- A standard unauthenticated public HTTPS clone selected pinned Node 24.15.0, pnpm 11.23 and Rust 1.98, then passed `pnpm acceptance:new-machine` in 52 seconds.
-- Strict remote S04 verification confirmed the public repository settings, security controls, protected-main rules, encrypted-store contracts and successful same-SHA workflows.
-- FR-RUN-002, FR-MEM-001, SEC-SYNC-001, RES-HEAL-001 and RES-HEAL-002 are `verified-main`. Broader artifact lifecycle, remote E2EE sync and signed checkpoint requirements remain assigned to later Segments.
-
-## Acceptance result
-
-| Item | State | Evidence |
-|---|---|---|
-| Segment push/SHA equality | passed | local and remote branch matched at `d9a7d8a6009b85d18b826a842e5faf33ea00ff76` |
-| Encrypted fact/blob store | passed | SQLCipher, native key custody, authenticated blobs, integrity and rotation tests |
-| Transactional recovery | passed | hash-chain, projection rollback/rebuild, durable outbox and fault-injection tests |
-| Three-platform CI | passed | Linux 2m50s, macOS 2m12s and Windows 10m10s on main run `32938988379` |
-| Dependency and security gates | passed | dependency audit 3m15s plus secret scanning, push protection and Dependabot controls |
-| Protected-main integration | passed | PR #17 merged only after all required checks |
-| Clean-clone acceptance | passed | public HTTPS clone passed all gates in 52s at `c565145...` |
-| Atomic completion record | passed on merge | this state reaches main only through required CI and PR protection |
+- Strict workspace clippy and all Rust tests pass: 11 policy adversarial tests, 17 encrypted event-store tests and 6 protocol tests.
+- Tests prove closed vocabulary/registry/Schema parity, traversal rejection after deserialization, default deny, monotonic deny precedence, policy rollback denial, PDP/audit fail-closed, scope/TTL/TOCTOU/replay/revocation, irrelevant-grant non-consumption, vague-approval denial and redaction.
+- The SQLCipher integration test proves decision metadata is persisted before effect, enforcement result is recorded afterward, sensitive resource text is absent and both events remain hash-chain valid.
+- FR-RUN-004 and SEC-POL-001 through SEC-POL-005 are `implemented-local`; S06 remains responsible for production sandbox, secret broker and egress enforcement.
+- ADR-007 and DEC-0009 record the authorization and persistence boundary.
 
 ## Non-negotiable review points
 
-- The SQLCipher database and encrypted blobs remain separate persistence classes with keys held outside ambient process inputs.
-- Events are authoritative; projections and indexes are rebuildable derived state.
-- No effect executes without durable intent, policy authority and idempotent reconciliation.
-- Only the trusted Rust boundary may commit Run state, and success remains bound to acceptance evidence.
-- S05 policy work must not weaken key custody, audit, recovery, sandbox, secret or egress boundaries.
-- `FR-RUN-005` and `OPS-ENT-001` remain planned because S04 does not implement the full artifact review/rollback lifecycle or signed external audit anchoring.
+- Models, prompts, skills, plugins, project files and approval UI are intent/consent sources, never enforcement authorities.
+- Lower policy tiers cannot cancel a deny from any higher tier; no match, invalid input and unavailable policy all deny.
+- Approval is not isolation. A valid grant never bypasses required sandbox, secret broker or later egress controls.
+- Persisted audit contains metadata and hashes only; sensitive paths, identities, reasons, credentials and content remain outside the audit row/event.
+- An effect cannot run before its decision is durable. A trailing enforcement-audit failure is surfaced for S04 outbox reconciliation.
 
 ## Next action
 
-1. Confirm the atomic S04 completion PR and resulting main workflows are green.
-2. Create the annotated `s04-complete` tag at that verified main commit.
-3. Create `segment/S05-policy` from protected `origin/main` and implement the deterministic Capability, Policy and Approval boundary.
+1. Run the complete local S00-S05, Rust, TypeScript, governance, license and formatting Gate.
+2. Commit and push explicit S05 paths, then require all hosted checks on that exact SHA.
+3. Merge through protected main, run a clean-clone acceptance drill, write the atomic completion record and tag only after all evidence is green.

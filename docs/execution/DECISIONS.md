@@ -137,3 +137,23 @@ Reason:
 - Replacing a single credential before or after database rekey creates a crash window that can permanently orphan the store; a staged fallback makes every interruption point recoverable.
 - Separating the blob master from the database wrapping key permits frequent credential rotation while preserving stable immutable object identity.
 - Authenticated metadata prevents ciphertext substitution, classification downgrade and path-only trust.
+
+## DEC-0009 — Make policy denial monotonic and audit a prerequisite for effects
+
+Status: accepted for S05
+Date: 2026-08-26
+
+Decision:
+
+- Freeze a closed, versioned action/resource vocabulary shared by manifests, policy, approval and audit; exclude any universal super-capability.
+- Keep authorization in a deterministic Rust PDP/PEP. Project content is not a policy tier, any matching deny wins, and absence or failure is deny.
+- Reject policy sequence rollback, same-sequence replacement and removal of an established authority tier.
+- Bind approvals to exact request and operation hashes, no-broader resource scope, TTL, revocation and replay state; prohibit vague blanket approval choices.
+- Persist a redacted decision in the encrypted append-only store before execution, then persist the enforcement result for recovery.
+
+Reason:
+
+- Models and project content are vulnerable to injection and cannot be allowed to authorize their own effects.
+- Monotonic deny semantics are easier to review and prove than precedence rules that let lower scopes override higher authority.
+- Hash/TTL binding closes approval TOCTOU and replay paths.
+- Audit-before-effect gives the immune/recovery system deterministic evidence even when an effect or provider later fails.
