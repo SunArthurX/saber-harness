@@ -1022,6 +1022,32 @@ dependencies = [
 ]
 
 [[package]]
+name = "saber-effect-broker"
+version = "0.0.0"
+dependencies = [
+ "rusqlite",
+ "saber-egress",
+ "saber-event-store",
+ "saber-policy",
+ "saber-sandbox",
+ "saber-secret-broker",
+ "serde",
+ "serde_json",
+ "sha2",
+ "tempfile",
+]
+
+[[package]]
+name = "saber-egress"
+version = "0.0.0"
+dependencies = [
+ "saber-policy",
+ "serde",
+ "serde_json",
+ "sha2",
+]
+
+[[package]]
 name = "saber-event-store"
 version = "0.0.0"
 dependencies = [
@@ -1044,6 +1070,27 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
+]
+
+[[package]]
+name = "saber-sandbox"
+version = "0.0.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "sha2",
+ "tempfile",
+]
+
+[[package]]
+name = "saber-secret-broker"
+version = "0.0.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "sha2",
+ "tempfile",
+ "zeroize",
 ]
 
 [[package]]

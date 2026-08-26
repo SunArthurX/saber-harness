@@ -1,65 +1,46 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S05",
-  "status": "completed",
-  "branch": "segment/S05-completion",
+  "segment": "S06",
+  "status": "in_progress_local_gate_passed",
+  "branch": "segment/S06-sandbox-secret-egress",
   "base": {
-    "segment": "S04",
-    "tag": "s04-complete",
-    "commit": "a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63"
+    "segment": "S05",
+    "tag": "s05-complete",
+    "commit": "129fd31fe48af3494484b03edc5d5c0c79725722"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "verified_segment_checkpoint": "e611bc0e45f9585288b7459403ea5fbc8eabe60f",
-  "main_head": "8ef92768a58ac634bda295ff3c3dafcd6be067c6",
-  "verified_main_checkpoint": "8ef92768a58ac634bda295ff3c3dafcd6be067c6",
+  "main_head": "129fd31fe48af3494484b03edc5d5c0c79725722",
+  "verified_main_checkpoint": "129fd31fe48af3494484b03edc5d5c0c79725722",
   "checks": [
     {
-      "id": "S05-FULL-LOCAL-GATE",
+      "id": "S06-INHERITED-BOUNDARY",
+      "command": "git cat-file -t s05-complete && git rev-parse 's05-complete^{}' origin/main && node scripts/verify-remote-s05.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
+      "exit_code": 0,
+      "result": "annotated s05-complete resolves to 129fd31fe48af3494484b03edc5d5c0c79725722 equal to origin/main; strict remote S05 verification and new-machine acceptance passed before the first S06 commit"
+    },
+    {
+      "id": "S06-FULL-LOCAL-GATE",
       "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
       "exit_code": 0,
-      "result": "Rust format/lint/tests, 11 policy, 17 event-store and 6 protocol tests, TypeScript gates, deterministic generation, licenses, S00-S05 verifiers and governance tests passed"
+      "result": "format, strict clippy, 16 Rust test suites (sandbox escape/path-guard/environment-canary/secret-broker/egress/effect-broker/plugin-host/journal integration), TypeScript gates, deterministic generation, licenses, S00-S06 verifiers and governance tests passed"
     },
     {
-      "id": "S05-VERIFY-ENFORCEMENT",
-      "command": "focused policy, approval, PEP and durable-audit adversarial tests",
+      "id": "S06-VERIFY-ISOLATION",
+      "command": "focused adversarial suites",
       "exit_code": 0,
-      "result": "closed vocabulary, strict resources, default deny, monotonic tiers, rollback denial, exact approval binding, TTL/TOCTOU/replay/revocation, audit-before-effect and sensitive-text exclusion passed"
+      "result": "traversal/symlink-swap/mount-confusion denials, realm ladder monotonicity, fail-closed backend selection, environment canary with zero sensitive host keys, deadline kill and output caps, secret lease scope/TTL/replay/digest binding with zeroization and redaction, egress default deny with IP-literal encodings, metadata endpoints, DNS-rebinding pinning, redirect policy, taint/DLP, plugin circuit/quarantine containment and zero-effect failures passed"
     },
     {
-      "id": "S05-VERIFY-BRANCH-CI",
-      "command": "inspect push runs 32943048546/32943048592 and PR runs 32943392946/32943392949",
+      "id": "S06-PLATFORM-PROBES",
+      "command": "OsWrapperBackend::probe self-tests on macOS runner",
       "exit_code": 0,
-      "result": "both workflow sets passed repository verification, Ubuntu, macOS, Windows and dependency audit for implementation SHA e611bc0e45f9585288b7459403ea5fbc8eabe60f"
-    },
-    {
-      "id": "S05-VERIFY-PROTECTED-INTEGRATION",
-      "command": "inspect protected PR #19",
-      "exit_code": 0,
-      "result": "PR #19 merged after required checks as 8ef92768a58ac634bda295ff3c3dafcd6be067c6 at 2026-08-26T07:37:43Z"
-    },
-    {
-      "id": "S05-VERIFY-MAIN-CI",
-      "command": "inspect GitHub Actions runs 32943691574, 32943691466 and 32943691761",
-      "exit_code": 0,
-      "result": "repository verification, provenance, Linux, macOS, Windows and dependency audit passed on 8ef92768a58ac634bda295ff3c3dafcd6be067c6"
-    },
-    {
-      "id": "S05-VERIFY-CLEAN-CLONE",
-      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
-      "exit_code": 0,
-      "result": "clone resolved 8ef92768a58ac634bda295ff3c3dafcd6be067c6 and passed all gates in 8 seconds"
-    },
-    {
-      "id": "S05-VERIFY-REMOTE-MAIN",
-      "command": "node scripts/verify-remote-s05.mjs --repository SunArthurX/saber-harness --branch main",
-      "exit_code": 0,
-      "result": "policy contracts, public settings, hosted security controls, five protected-main checks and same-SHA successful workflows passed"
+      "result": "darwin seatbelt probes proved exec-allowed, write-outside-denied and overlay-write-allowed on the development host; Linux/Windows paths assert fail-closed when prerequisites are absent"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-26T11:30:15Z"
+  "last_verified_at": "2026-08-26T13:30:00Z"
 }
