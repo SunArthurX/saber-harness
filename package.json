@@ -20,7 +20,7 @@
     "generate": "node scripts/generate-contracts.mjs",
     "generate:check": "node scripts/generate-contracts.mjs --check",
     "verify:licenses": "node scripts/verify-licenses.mjs",
-    "verify:repo": "node scripts/verify-s00.mjs && node scripts/verify-s01.mjs && node scripts/verify-s02.mjs && node scripts/verify-s03.mjs && node scripts/verify-s04.mjs && node --test scripts/tests/*.test.mjs",
+    "verify:repo": "node scripts/verify-s00.mjs && node scripts/verify-s01.mjs && node scripts/verify-s02.mjs && node scripts/verify-s03.mjs && node scripts/verify-s04.mjs && node scripts/verify-s05.mjs && node --test scripts/tests/*.test.mjs",
     "verify": "pnpm generate:check && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm verify:licenses && pnpm verify:repo",
     "bootstrap:check": "node scripts/bootstrap.mjs --check",
     "acceptance:new-machine": "node scripts/new-machine-acceptance.mjs"

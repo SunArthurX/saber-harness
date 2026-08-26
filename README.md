@@ -2,7 +2,7 @@
 
 Saber is a local-first, model-neutral and governable CodingAgent IDE/runtime.
 
-Segments S00-S04 are complete. The current verified foundation includes repository governance, reproducible multi-platform builds, canonical domain/control contracts, and an encrypted transactional event store with trusted Run transitions and crash recovery. Segment S05 is next: deterministic Capability, Policy and Approval enforcement.
+Segments S00-S04 are complete. Segment S05 is implementing the deterministic Capability, Policy and Approval boundary: a closed permission vocabulary, monotonic default-deny Rust PDP/PEP, hash/TTL-bound approvals and encrypted audit-before-effect.
 
 ## Authoritative documents
 
@@ -30,7 +30,7 @@ The bootstrap resolver checks the active executable, `PATH` and common version-m
 For focused and strict remote verification, run:
 
     pnpm verify
-    node scripts/verify-remote-s04.mjs --branch main
+    node scripts/verify-remote-s05.mjs --branch main
 
 The same gates run on Linux, macOS and Windows in GitHub Actions. Tool and Action versions are recorded in `tools/versions.json`; JavaScript and Rust lockfiles are committed.
 

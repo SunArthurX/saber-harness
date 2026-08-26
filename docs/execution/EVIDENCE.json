@@ -1,77 +1,59 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S04",
-  "status": "completed",
-  "branch": "segment/S04-completion",
+  "segment": "S05",
+  "status": "in_progress",
+  "branch": "segment/S05-policy",
   "base": {
-    "segment": "S03",
-    "tag": "s03-complete",
-    "commit": "e673a18ba12fac1aabb42e1e1ed31d7c30e961dd"
+    "segment": "S04",
+    "tag": "s04-complete",
+    "commit": "a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "verified_segment_checkpoint": "d9a7d8a6009b85d18b826a842e5faf33ea00ff76",
-  "main_head": "c5651455691cf75ae53bdd7e8075623b9507c82f",
-  "verified_main_checkpoint": "c5651455691cf75ae53bdd7e8075623b9507c82f",
+  "verified_segment_checkpoint": "pending",
+  "main_head": "a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63",
+  "verified_main_checkpoint": "a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63",
   "checks": [
     {
-      "id": "S04-VERIFY-FOCUSED",
-      "command": "cargo clippy -p saber-event-store --all-targets --all-features -- -D warnings && cargo test -p saber-event-store",
-      "exit_code": 0,
-      "result": "strict clippy and 16 SQLCipher event-store, recovery and fault-injection tests passed"
-    },
-    {
-      "id": "S04-VERIFY-ATOMICITY-RECOVERY",
-      "command": "focused projection, hash-chain, outbox, process-termination, disk-full and database-busy tests",
-      "exit_code": 0,
-      "result": "failed transactions left no partial facts, projection replay repaired drift, committed intent survived process termination and pending effects remained reconcilable"
-    },
-    {
-      "id": "S04-VERIFY-CRYPTO-CUSTODY",
-      "command": "focused SQLCipher, native key-custody, rotation and authenticated-blob tests",
-      "exit_code": 0,
-      "result": "encrypted headers, wrong-key denial, interrupted dual-key rotation, XChaCha20-Poly1305 metadata authentication and ciphertext tamper denial passed"
-    },
-    {
-      "id": "S04-FULL-LOCAL-GATE",
-      "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
-      "exit_code": 0,
-      "result": "Rust format/lint/tests, 16 S04 tests, TypeScript build/type/tests, deterministic generation, licenses, 541 S00 checks, S01-S04 verifiers and 15 governance tests passed"
-    },
-    {
-      "id": "S04-VERIFY-BRANCH-CI",
-      "command": "inspect push runs 32863869283/32863869278 and PR runs 32938203678/32938203456",
-      "exit_code": 0,
-      "result": "both workflow sets passed repository verification, Ubuntu, macOS, Windows and dependency audit for implementation SHA d9a7d8a6009b85d18b826a842e5faf33ea00ff76"
-    },
-    {
-      "id": "S04-VERIFY-PROTECTED-INTEGRATION",
-      "command": "inspect protected PR #17",
-      "exit_code": 0,
-      "result": "PR #17 merged after required checks as c5651455691cf75ae53bdd7e8075623b9507c82f at 2026-08-26T06:37:50Z"
-    },
-    {
-      "id": "S04-VERIFY-MAIN-CI",
-      "command": "inspect GitHub Actions runs 32938988325, 32938988237 and 32938988379",
-      "exit_code": 0,
-      "result": "repository verification, provenance, Linux 2m50s, macOS 2m12s, Windows 10m10s and dependency audit 3m15s passed on c5651455691cf75ae53bdd7e8075623b9507c82f"
-    },
-    {
-      "id": "S04-VERIFY-CLEAN-CLONE",
-      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
-      "exit_code": 0,
-      "result": "clone resolved c5651455691cf75ae53bdd7e8075623b9507c82f, selected pinned Node 24.15.0, pnpm 11.23 and Rust 1.98, and passed all gates in 52 seconds"
-    },
-    {
-      "id": "S04-VERIFY-REMOTE-MAIN",
+      "id": "S05-BASE-REMOTE",
       "command": "node scripts/verify-remote-s04.mjs --repository SunArthurX/saber-harness --branch main",
       "exit_code": 0,
-      "result": "encrypted storage contracts, public settings, hosted security controls, five protected-main checks and same-SHA successful workflows passed"
+      "result": "s04-complete resolved to protected public main a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63; final provenance and all five hosted checks passed"
+    },
+    {
+      "id": "S05-VERIFY-RUST",
+      "command": "cargo fmt --all && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked",
+      "exit_code": 0,
+      "result": "strict clippy passed; 11 policy adversarial, 17 encrypted event-store and 6 protocol tests passed"
+    },
+    {
+      "id": "S05-VERIFY-POLICY",
+      "command": "focused default-deny, monotonic precedence/update and unavailable-PDP tests",
+      "exit_code": 0,
+      "result": "no permit denied, any matching restriction won, rollback/same-sequence replacement/tier removal failed closed and unavailable PDP executed zero effects"
+    },
+    {
+      "id": "S05-VERIFY-APPROVAL",
+      "command": "focused approval scope, TTL, TOCTOU, replay, revocation and audit-failure tests",
+      "exit_code": 0,
+      "result": "changed/expired/revoked/replayed or vague grants failed closed; audit failure executed zero effects and did not consume a one-shot grant"
+    },
+    {
+      "id": "S05-VERIFY-DURABLE-AUDIT",
+      "command": "policy_decision_and_enforcement_are_encrypted_transactional_facts",
+      "exit_code": 0,
+      "result": "SQLCipher schema v3 stored redacted decision before execution and enforcement result after execution as two valid hash-chain events without sensitive resource text"
+    },
+    {
+      "id": "S05-FULL-LOCAL-GATE",
+      "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
+      "exit_code": 0,
+      "result": "Rust format/lint/tests, TypeScript build/type/tests, deterministic generation, licenses, S00-S05 repository verifiers and governance tests passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-26T06:49:15Z"
+  "last_verified_at": "2026-08-26T07:28:47Z"
 }

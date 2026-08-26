@@ -8,6 +8,7 @@ use std::time::Duration;
 
 use rusqlite::{Connection, OptionalExtension, Transaction, params};
 use saber_core_protocol::RunState;
+use saber_policy::{DecisionAuditSink, EnforcementResult, PolicyDecisionAudit, sha256_label};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use zeroize::Zeroize;
@@ -17,7 +18,7 @@ pub mod key_custody;
 
 const ZERO_HASH: [u8; 32] = [0; 32];
 const DATABASE_KEY_LENGTH: usize = 32;
-const SCHEMA_VERSION: i64 = 2;
+const SCHEMA_VERSION: i64 = 3;
 
 /// Secret database key whose bytes are erased on drop and never exposed through `Debug`.
 pub struct DatabaseKey([u8; DATABASE_KEY_LENGTH]);
@@ -138,6 +139,8 @@ pub enum StoreError {
     HashChainBroken,
     /// A persisted state value was not recognized.
     InvalidPersistedState,
+    /// A policy decision or enforcement result conflicted with an existing audit fact.
+    PolicyAuditConflict,
 }
 
 impl Display for StoreError {
@@ -161,6 +164,7 @@ impl Display for StoreError {
             Self::IdempotencyConflict => "idempotency_conflict",
             Self::HashChainBroken => "hash_chain_broken",
             Self::InvalidPersistedState => "invalid_persisted_state",
+            Self::PolicyAuditConflict => "policy_audit_conflict",
         })
     }
 }
@@ -948,6 +952,113 @@ impl EventStore {
         })
     }
 
+    fn persist_policy_decision(&mut self, record: &PolicyDecisionAudit) -> Result<(), StoreError> {
+        self.ensure_workspace(&record.workspace_id)?;
+        let audit_json = serde_json::to_string(record)?;
+        let transaction = self.connection.transaction()?;
+        let existing: Option<String> = transaction
+            .query_row(
+                "SELECT audit_json FROM policy_decisions WHERE decision_id = ?1",
+                [&record.decision_id],
+                |row| row.get(0),
+            )
+            .optional()?;
+        if let Some(existing) = existing {
+            return if existing == audit_json {
+                Ok(())
+            } else {
+                Err(StoreError::PolicyAuditConflict)
+            };
+        }
+        let payload = serde_json::to_value(record)?;
+        append_event(
+            &transaction,
+            &record.decision_id,
+            &record.workspace_id,
+            "policy.decision_recorded",
+            record.occurred_at_ms,
+            &payload,
+        )?;
+        let occurred =
+            i64::try_from(record.occurred_at_ms).map_err(|_| StoreError::InvalidPersistedState)?;
+        transaction.execute(
+            "INSERT INTO policy_decisions(
+               decision_id, workspace_id, action, outcome, reason, request_digest,
+               policy_snapshot_id, audit_json, occurred_at_ms
+             ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
+            params![
+                record.decision_id,
+                record.workspace_id,
+                record.action,
+                record.outcome.as_str(),
+                record.reason.as_str(),
+                record.request_digest,
+                record.policy_snapshot_id,
+                audit_json,
+                occurred
+            ],
+        )?;
+        transaction.commit()?;
+        Ok(())
+    }
+
+    fn persist_policy_enforcement(
+        &mut self,
+        decision_id: &str,
+        occurred_at_ms: u64,
+        result: EnforcementResult,
+    ) -> Result<(), StoreError> {
+        let transaction = self.connection.transaction()?;
+        let existing: Option<(String, i64, Option<String>, Option<i64>)> = transaction
+            .query_row(
+                "SELECT workspace_id, occurred_at_ms, enforcement_result, enforced_at_ms
+                 FROM policy_decisions WHERE decision_id = ?1",
+                [decision_id],
+                |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?, row.get(3)?)),
+            )
+            .optional()?;
+        let Some((workspace_id, decision_at, existing_result, existing_at)) = existing else {
+            return Err(StoreError::PolicyAuditConflict);
+        };
+        let occurred =
+            i64::try_from(occurred_at_ms).map_err(|_| StoreError::InvalidPersistedState)?;
+        if occurred < decision_at {
+            return Err(StoreError::PolicyAuditConflict);
+        }
+        if let Some(existing_result) = existing_result {
+            return if existing_result == result.as_str() && existing_at == Some(occurred) {
+                Ok(())
+            } else {
+                Err(StoreError::PolicyAuditConflict)
+            };
+        }
+        let event_id = sha256_label(&[
+            b"policy.enforcement_recorded",
+            decision_id.as_bytes(),
+            result.as_str().as_bytes(),
+            &occurred_at_ms.to_be_bytes(),
+        ]);
+        append_event(
+            &transaction,
+            &event_id,
+            &workspace_id,
+            "policy.enforcement_recorded",
+            occurred_at_ms,
+            &json!({"decision_id": decision_id, "result": result.as_str()}),
+        )?;
+        let changed = transaction.execute(
+            "UPDATE policy_decisions
+             SET enforcement_result = ?1, enforced_at_ms = ?2
+             WHERE decision_id = ?3 AND enforcement_result IS NULL",
+            params![result.as_str(), occurred, decision_id],
+        )?;
+        if changed != 1 {
+            return Err(StoreError::PolicyAuditConflict);
+        }
+        transaction.commit()?;
+        Ok(())
+    }
+
     /// Verify every event hash and predecessor link from genesis to tail.
     ///
     /// # Errors
@@ -991,6 +1102,23 @@ impl EventStore {
     }
 }
 
+impl DecisionAuditSink for EventStore {
+    type Error = StoreError;
+
+    fn record_decision(&mut self, record: &PolicyDecisionAudit) -> Result<(), Self::Error> {
+        self.persist_policy_decision(record)
+    }
+
+    fn record_enforcement(
+        &mut self,
+        decision_id: &str,
+        occurred_at_ms: u64,
+        result: EnforcementResult,
+    ) -> Result<(), Self::Error> {
+        self.persist_policy_enforcement(decision_id, occurred_at_ms, result)
+    }
+}
+
 fn apply_key_pragma(
     connection: &Connection,
     pragma: &str,
@@ -1019,6 +1147,10 @@ fn migrate(connection: &Connection) -> Result<(), StoreError> {
     }
     if version == 1 {
         migrate_to_v2(connection)?;
+        version = 2;
+    }
+    if version == 2 {
+        migrate_to_v3(connection)?;
     }
     Ok(())
 }
@@ -1095,6 +1227,28 @@ fn migrate_to_v2(connection: &Connection) -> Result<(), StoreError> {
                value BLOB NOT NULL
              );
              PRAGMA user_version = 2;
+             COMMIT;",
+    )?;
+    Ok(())
+}
+
+fn migrate_to_v3(connection: &Connection) -> Result<(), StoreError> {
+    connection.execute_batch(
+        "BEGIN IMMEDIATE;
+             CREATE TABLE policy_decisions (
+               decision_id TEXT PRIMARY KEY,
+               workspace_id TEXT NOT NULL,
+               action TEXT NOT NULL,
+               outcome TEXT NOT NULL CHECK(outcome IN ('allow','deny','require_approval')),
+               reason TEXT NOT NULL,
+               request_digest TEXT NOT NULL,
+               policy_snapshot_id TEXT NOT NULL,
+               audit_json TEXT NOT NULL,
+               occurred_at_ms INTEGER NOT NULL CHECK(occurred_at_ms >= 0),
+               enforcement_result TEXT CHECK(enforcement_result IN ('succeeded','failed')),
+               enforced_at_ms INTEGER CHECK(enforced_at_ms >= 0)
+             );
+             PRAGMA user_version = 3;
              COMMIT;",
     )?;
     Ok(())
@@ -1471,6 +1625,12 @@ mod tests {
     use std::thread;
     use std::time::{Duration, Instant};
 
+    use saber_policy::{
+        Action, CapabilityRequest, DataClass, PolicyBundle, PolicyCondition, PolicyEnforcer,
+        PolicyEngine, PolicyRule, PolicyTier, Principal, PrincipalKind, Resource, ResourcePattern,
+        RuleEffect,
+    };
+
     use super::*;
     use rusqlite::TransactionBehavior;
 
@@ -1830,6 +1990,67 @@ mod tests {
             Err(StoreError::OutboxStateConflict)
         ));
         assert_eq!(store.event_count()?, 2);
+        Ok(())
+    }
+
+    #[test]
+    fn policy_decision_and_enforcement_are_encrypted_transactional_facts()
+    -> Result<(), Box<dyn Error>> {
+        let store = store()?;
+        let action = Action::FsRead;
+        let resource = Resource::new(action, "workspace://ws_01/repo/secret-name.txt")?;
+        let policy = PolicyEngine::new(vec![
+            PolicyBundle::new(PolicyTier::PlatformHard, "platform-v1", 1, Vec::new())?,
+            PolicyBundle::new(
+                PolicyTier::Organization,
+                "organization-v1",
+                1,
+                vec![PolicyRule {
+                    rule_id: "org.workspace-read".to_owned(),
+                    effect: RuleEffect::Permit,
+                    action,
+                    resource: ResourcePattern::prefix(action, "workspace://ws_01/repo")?,
+                    condition: PolicyCondition::default(),
+                    requires_approval: false,
+                }],
+            )?,
+        ])?;
+        let request = CapabilityRequest::new(
+            "request_01",
+            Principal {
+                id: "agent_01".to_owned(),
+                kind: PrincipalKind::AgentRuntime,
+                on_behalf_of: Some("human_01".to_owned()),
+            },
+            "ws_01",
+            "task_01",
+            action,
+            resource,
+            sha256_label(&[b"exact-read-operation"]),
+            None,
+            true,
+            DataClass::Confidential,
+            10,
+        )?;
+        let calls = Cell::new(0_u8);
+        let mut enforcer = PolicyEnforcer::new(policy, store);
+        let result = enforcer.execute(&request, None, 11, || {
+            calls.set(calls.get() + 1);
+            Ok::<_, ()>(())
+        });
+        assert!(result.is_ok());
+        assert_eq!(calls.get(), 1);
+        let persisted: (String, String, String, String) = enforcer.sink().connection.query_row(
+            "SELECT outcome, enforcement_result, audit_json, action FROM policy_decisions",
+            [],
+            |row| Ok((row.get(0)?, row.get(1)?, row.get(2)?, row.get(3)?)),
+        )?;
+        assert_eq!(persisted.0, "allow");
+        assert_eq!(persisted.1, "succeeded");
+        assert_eq!(persisted.3, "fs.read");
+        assert!(!persisted.2.contains("secret-name.txt"));
+        assert_eq!(enforcer.sink().event_count()?, 2);
+        enforcer.sink().verify_hash_chain()?;
         Ok(())
     }
 

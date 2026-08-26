@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saber.local/schema/capabilities/v1/capability.schema.json",
+  "title": "Saber Capability and Policy Contracts",
+  "x-saber-version": "1.0.0",
+  "$defs": {
+    "Action": {
+      "type": "string",
+      "enum": [
+        "fs.read",
+        "fs.write",
+        "fs.delete",
+        "process.spawn",
+        "process.signal",
+        "network.http",
+        "network.raw",
+        "network.listen",
+        "secret.use",
+        "browser.control",
+        "git.commit",
+        "git.push",
+        "git.force",
+        "cloud.deploy",
+        "external.read",
+        "external.write",
+        "plugin.install",
+        "capability.publish",
+        "self.propose-change"
+      ]
+    },
+    "Resource": {
+      "type": "string",
+      "minLength": 4,
+      "maxLength": 2048,
+      "pattern": "^(workspace|process|network|secret|browser|git|cloud|external|plugin|capability|self)://[^\\s?#]+$"
+    },
+    "PrincipalKind": {
+      "type": "string",
+      "enum": [
+        "human",
+        "device",
+        "agent_runtime",
+        "subagent",
+        "plugin",
+        "workload",
+        "service",
+        "organization_admin",
+        "security_operator"
+      ]
+    },
+    "Principal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "kind", "on_behalf_of"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "kind": { "$ref": "#/$defs/PrincipalKind" },
+        "on_behalf_of": { "type": ["string", "null"] }
+      }
+    },
+    "DataClass": {
+      "type": "string",
+      "enum": ["public", "internal", "confidential", "restricted"]
+    },
+    "PolicyTier": {
+      "type": "string",
+      "enum": ["platform_hard", "regulatory", "organization", "workspace", "user", "task_grant"]
+    },
+    "DecisionOutcome": {
+      "type": "string",
+      "enum": ["allow", "deny", "require_approval"]
+    },
+    "ApprovalScope": {
+      "type": "string",
+      "enum": ["once", "task"]
+    },
+    "CapabilityDeclaration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["action", "resource"],
+      "properties": {
+        "action": { "$ref": "#/$defs/Action" },
+        "resource": { "$ref": "#/$defs/Resource" }
+      }
+    },
+    "ToolManifest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tool_id", "version", "capabilities"],
+      "properties": {
+        "tool_id": { "type": "string", "pattern": "^[A-Za-z0-9._-]{1,128}$" },
+        "version": { "type": "string", "pattern": "^[A-Za-z0-9.+-]{1,64}$" },
+        "capabilities": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": { "$ref": "#/$defs/CapabilityDeclaration" }
+        }
+      }
+    },
+    "CapabilityRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_id",
+        "principal",
+        "workspace_id",
+        "task_id",
+        "action",
+        "resource",
+        "operation_hash",
+        "credential_ref",
+        "sandboxed",
+        "data_class",
+        "occurred_at_ms"
+      ],
+      "properties": {
+        "request_id": { "type": "string", "minLength": 1 },
+        "principal": { "$ref": "#/$defs/Principal" },
+        "workspace_id": { "type": "string", "minLength": 1 },
+        "task_id": { "type": "string", "minLength": 1 },
+        "action": { "$ref": "#/$defs/Action" },
+        "resource": { "$ref": "#/$defs/Resource" },
+        "operation_hash": { "type": "string", "pattern": "^sha256:[a-f0-9]{64}$" },
+        "credential_ref": { "type": ["string", "null"], "pattern": "^credential://[^\\s]+$" },
+        "sandboxed": { "type": "boolean" },
+        "data_class": { "$ref": "#/$defs/DataClass" },
+        "occurred_at_ms": { "type": "integer", "minimum": 0 }
+      }
+    }
+  },
+  "oneOf": [{ "$ref": "#/$defs/CapabilityRequest" }, { "$ref": "#/$defs/ToolManifest" }]
+}
