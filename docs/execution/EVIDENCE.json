@@ -2,66 +2,76 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S04",
-  "status": "in_progress",
-  "branch": "segment/S04-event-store",
-  "base": { "segment": "S03", "tag": "s03-complete", "commit": "e673a18ba12fac1aabb42e1e1ed31d7c30e961dd" },
+  "status": "completed",
+  "branch": "segment/S04-completion",
+  "base": {
+    "segment": "S03",
+    "tag": "s03-complete",
+    "commit": "e673a18ba12fac1aabb42e1e1ed31d7c30e961dd"
+  },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "verified_segment_checkpoint": "pending",
-  "main_head": "e673a18ba12fac1aabb42e1e1ed31d7c30e961dd",
-  "verified_main_checkpoint": "e673a18ba12fac1aabb42e1e1ed31d7c30e961dd",
+  "verified_segment_checkpoint": "d9a7d8a6009b85d18b826a842e5faf33ea00ff76",
+  "main_head": "c5651455691cf75ae53bdd7e8075623b9507c82f",
+  "verified_main_checkpoint": "c5651455691cf75ae53bdd7e8075623b9507c82f",
   "checks": [
     {
       "id": "S04-VERIFY-FOCUSED",
       "command": "cargo clippy -p saber-event-store --all-targets --all-features -- -D warnings && cargo test -p saber-event-store",
       "exit_code": 0,
-      "result": "strict clippy passed and 16 SQLCipher event-store, recovery and fault-injection tests passed"
+      "result": "strict clippy and 16 SQLCipher event-store, recovery and fault-injection tests passed"
     },
     {
-      "id": "S04-VERIFY-ATOMICITY",
-      "command": "projection_failure_rolls_back_event_and_hash_chain_verifies",
+      "id": "S04-VERIFY-ATOMICITY-RECOVERY",
+      "command": "focused projection, hash-chain, outbox, process-termination, disk-full and database-busy tests",
       "exit_code": 0,
-      "result": "projection failure rolled back the appended event and the remaining SHA-256 chain verified"
+      "result": "failed transactions left no partial facts, projection replay repaired drift, committed intent survived process termination and pending effects remained reconcilable"
     },
     {
-      "id": "S04-VERIFY-RUN-IDEMPOTENCY",
-      "command": "focused Run state and idempotency tests",
+      "id": "S04-VERIFY-CRYPTO-CUSTODY",
+      "command": "focused SQLCipher, native key-custody, rotation and authenticated-blob tests",
       "exit_code": 0,
-      "result": "illegal/unverified success failed closed; exact replay returned the original event and conflict produced no second event"
-    },
-    {
-      "id": "S04-VERIFY-KEY-CUSTODY-ROTATION",
-      "command": "file_store_is_encrypted_wal_and_rejects_wrong_key + interrupted_key_rotation_reopens_with_staged_fallback",
-      "exit_code": 0,
-      "result": "native key-custody contract, encrypted file header, WAL, wrong-key denial and interrupted dual-key rotation recovery passed"
-    },
-    {
-      "id": "S04-VERIFY-BLOB-OUTBOX",
-      "command": "artifact_blob_is_authenticated_encrypted_and_idempotent + outbox_intent_result_and_reconciliation_are_transactional",
-      "exit_code": 0,
-      "result": "authenticated encrypted blob tamper was denied and intent/result replay produced no duplicate durable effect record"
-    },
-    {
-      "id": "S04-VERIFY-RECOVERY-FAULTS",
-      "command": "recovery, migration, process termination, disk-full and database-busy focused tests",
-      "exit_code": 0,
-      "result": "projection replay repaired drift, v1 facts migrated, killed uncommitted tail vanished, pending intent survived, and capacity/lock failures rolled back"
-    },
-    {
-      "id": "S04-WIP-HOSTED-CI",
-      "command": "GitHub Actions run 32861052761 for 88923b4f8b4f447d7bf83f4e21850b581ae0f0da",
-      "exit_code": 0,
-      "result": "repository verification, Ubuntu, macOS, Windows and dependency audit passed on the initial WIP checkpoint; superseded implementation still requires same-SHA CI"
+      "result": "encrypted headers, wrong-key denial, interrupted dual-key rotation, XChaCha20-Poly1305 metadata authentication and ciphertext tamper denial passed"
     },
     {
       "id": "S04-FULL-LOCAL-GATE",
       "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
       "exit_code": 0,
       "result": "Rust format/lint/tests, 16 S04 tests, TypeScript build/type/tests, deterministic generation, licenses, 541 S00 checks, S01-S04 verifiers and 15 governance tests passed"
+    },
+    {
+      "id": "S04-VERIFY-BRANCH-CI",
+      "command": "inspect push runs 32863869283/32863869278 and PR runs 32938203678/32938203456",
+      "exit_code": 0,
+      "result": "both workflow sets passed repository verification, Ubuntu, macOS, Windows and dependency audit for implementation SHA d9a7d8a6009b85d18b826a842e5faf33ea00ff76"
+    },
+    {
+      "id": "S04-VERIFY-PROTECTED-INTEGRATION",
+      "command": "inspect protected PR #17",
+      "exit_code": 0,
+      "result": "PR #17 merged after required checks as c5651455691cf75ae53bdd7e8075623b9507c82f at 2026-08-26T06:37:50Z"
+    },
+    {
+      "id": "S04-VERIFY-MAIN-CI",
+      "command": "inspect GitHub Actions runs 32938988325, 32938988237 and 32938988379",
+      "exit_code": 0,
+      "result": "repository verification, provenance, Linux 2m50s, macOS 2m12s, Windows 10m10s and dependency audit 3m15s passed on c5651455691cf75ae53bdd7e8075623b9507c82f"
+    },
+    {
+      "id": "S04-VERIFY-CLEAN-CLONE",
+      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
+      "exit_code": 0,
+      "result": "clone resolved c5651455691cf75ae53bdd7e8075623b9507c82f, selected pinned Node 24.15.0, pnpm 11.23 and Rust 1.98, and passed all gates in 52 seconds"
+    },
+    {
+      "id": "S04-VERIFY-REMOTE-MAIN",
+      "command": "node scripts/verify-remote-s04.mjs --repository SunArthurX/saber-harness --branch main",
+      "exit_code": 0,
+      "result": "encrypted storage contracts, public settings, hosted security controls, five protected-main checks and same-SHA successful workflows passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-25T15:07:00Z"
+  "last_verified_at": "2026-08-26T06:49:15Z"
 }
