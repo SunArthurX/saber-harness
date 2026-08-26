@@ -82,7 +82,7 @@
       "statement": "Represent generated and imported artifacts with hashes, diffs, review state and rollback references.",
       "owner": "core-runtime", "module": "crates/tool-broker",
       "events": ["artifact.created", "artifact.reviewed", "artifact.rolled_back"], "tests": ["S04-ARTIFACT-INTEGRITY"],
-      "segment": "S07", "source": "architecture 5.3 and 7.1 and ADR-009", "status": "implemented",
+      "segment": "S07", "source": "architecture 5.3 and 7.1 and ADR-009", "status": "verified-main",
       "evidence": ["crates/tool-broker/src/worktree.rs", "crates/tool-broker/src/lib.rs"]
     },
     {
