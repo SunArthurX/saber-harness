@@ -11,13 +11,14 @@ Completed Segments:
 - S02 — monorepo, reproducible toolchain and multi-platform CI.
 - S03 — canonical schema, deterministic code generation and local control protocol.
 - S04 — SQLCipher event store, trusted Run state machine and crash-safe effect recovery.
+- S05 — closed capability vocabulary, deterministic default-deny policy, scoped approvals and durable redacted decision audit.
 
 Current Segment:
 
-- S05 — Capability, Policy and Approval (`in_progress`).
+- S05 — Capability, Policy and Approval (`completed`; cross-model checkpoint).
 
 Next Segment:
 
 - S06 — Sandbox, Secret Broker and Egress.
 
-S05 started from protected `origin/main` at `s04-complete` / `a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63`.
+S05 started from protected `origin/main` at `s04-complete` / `a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63`. Its implementation merged through protected PR #19 as `8ef92768a58ac634bda295ff3c3dafcd6be067c6`; the atomic completion record is published before creating `s05-complete`.

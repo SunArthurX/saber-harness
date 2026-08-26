@@ -74,7 +74,7 @@
       "statement": "Present scoped approval requests with actor, action, resource, reason, credential use, TTL and minimum alternatives.",
       "owner": "product-security", "module": "packages/approval-ui",
       "events": ["approval.requested", "approval.resolved"], "tests": ["S05-APPROVAL-SCOPE-UX"],
-      "segment": "S05", "source": "architecture 11.5", "status": "implemented-local",
+      "segment": "S05", "source": "architecture 11.5", "status": "verified-main",
       "evidence": ["schemas/capabilities/v1/capability.schema.json", "crates/policy/src/approval.rs"]
     },
     {
@@ -209,7 +209,7 @@
       "statement": "Authorize every side-effecting action through the deterministic Rust PDP/PEP before execution.",
       "owner": "product-security", "module": "crates/policy",
       "events": ["policy.decision_recorded"], "tests": ["S05-NO-DECISION-NO-EFFECT"],
-      "segment": "S05", "source": "architecture 11.1 and INV-01", "status": "implemented-local",
+      "segment": "S05", "source": "architecture 11.1 and INV-01", "status": "verified-main",
       "evidence": ["crates/policy/src/lib.rs", "crates/event-store/src/lib.rs"]
     },
     {
@@ -217,7 +217,7 @@
       "statement": "Use a canonical capability vocabulary and default deny for filesystem, process, network, secret, Git, external and self-change actions.",
       "owner": "product-security", "module": "schemas/capabilities",
       "events": ["capability.requested"], "tests": ["S05-CAPABILITY-DEFAULT-DENY"],
-      "segment": "S05", "source": "architecture 11.1", "status": "implemented-local",
+      "segment": "S05", "source": "architecture 11.1", "status": "verified-main",
       "evidence": ["schemas/capabilities/v1/vocabulary.json", "crates/policy/src/vocabulary.rs"]
     },
     {
@@ -225,7 +225,7 @@
       "statement": "Merge platform, regulatory, organization, workspace, user and temporary policy so lower scopes cannot weaken higher scopes.",
       "owner": "product-security", "module": "crates/policy",
       "events": ["policy.bundle_applied", "policy.conflict_resolved"], "tests": ["S05-POLICY-PRECEDENCE"],
-      "segment": "S05", "source": "architecture 15.7 and PRODUCT-CONSTITUTION", "status": "implemented-local",
+      "segment": "S05", "source": "architecture 15.7 and PRODUCT-CONSTITUTION", "status": "verified-main",
       "evidence": ["crates/policy/src/lib.rs", "docs/adr/ADR-007-deterministic-monotonic-policy-enforcement.md"]
     },
     {
@@ -233,7 +233,7 @@
       "statement": "Bind approvals to principal, exact action/resource hash, context, scope, TTL and revocation state.",
       "owner": "product-security", "module": "crates/policy",
       "events": ["approval.requested", "approval.expired", "approval.revoked"], "tests": ["S05-APPROVAL-TOCTOU-TTL"],
-      "segment": "S05", "source": "architecture 11.5", "status": "implemented-local",
+      "segment": "S05", "source": "architecture 11.5", "status": "verified-main",
       "evidence": ["crates/policy/src/approval.rs"]
     },
     {
@@ -241,7 +241,7 @@
       "statement": "Persist redacted policy decisions with actor, policy version, reason and enforcement result.",
       "owner": "product-security", "module": "crates/policy",
       "events": ["policy.decision_recorded"], "tests": ["S05-POLICY-AUDIT-REDACTION"],
-      "segment": "S05", "source": "architecture 11.1 and 15.9", "status": "implemented-local",
+      "segment": "S05", "source": "architecture 11.1 and 15.9", "status": "verified-main",
       "evidence": ["crates/policy/src/audit.rs", "crates/event-store/src/lib.rs"]
     },
     {

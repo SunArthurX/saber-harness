@@ -2,7 +2,7 @@
 
 Saber is a local-first, model-neutral and governable CodingAgent IDE/runtime.
 
-Segments S00-S04 are complete. Segment S05 is implementing the deterministic Capability, Policy and Approval boundary: a closed permission vocabulary, monotonic default-deny Rust PDP/PEP, hash/TTL-bound approvals and encrypted audit-before-effect.
+Segments S00-S05 are complete. The next implementation Segment is S06: Sandbox, Secret Broker and Egress. Work is intentionally paused at the cross-model checkpoint documented in `docs/execution/NEXT-MODEL-S06.md`.
 
 ## Authoritative documents
 
