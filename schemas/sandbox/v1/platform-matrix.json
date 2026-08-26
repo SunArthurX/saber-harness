@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://saber.local/schemas/sandbox/v1/platform-matrix.json",
+  "x-saber-version": "1.0.0",
+  "title": "Saber sandbox platform capability matrix",
+  "description": "Honest, fail-closed isolation capability declarations per platform for S06. A backend absent from this matrix is never selectable; selection additionally requires a live self-test pass.",
+  "type": "object",
+  "required": ["schema_version", "spi_version", "realms", "platforms"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": { "const": "1.0.0" },
+    "spi_version": { "const": "1.0.0" },
+    "realms": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 5,
+      "items": {
+        "enum": ["s0_pure", "s1_guarded_read", "s2_isolated_read_only", "s3_isolated_overlay", "s4_egress_mediated"]
+      }
+    },
+    "platforms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "platform",
+          "backend_id",
+          "max_realm",
+          "filesystem_confinement",
+          "network_confinement",
+          "self_tested",
+          "production"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "platform": { "enum": ["macos", "linux", "windows", "any"] },
+          "backend_id": { "type": "string", "pattern": "^[a-z]+://[a-z0-9.-]+-v[0-9]+$" },
+          "max_realm": {
+            "enum": ["s0_pure", "s1_guarded_read", "s2_isolated_read_only", "s3_isolated_overlay", "s4_egress_mediated"]
+          },
+          "filesystem_confinement": { "enum": ["none", "read_only_rootfs", "overlay"] },
+          "network_confinement": { "enum": ["none", "denied", "mediated"] },
+          "self_tested": { "type": "boolean" },
+          "production": { "type": "boolean" }
+        }
+      }
+    }
+  }
+}

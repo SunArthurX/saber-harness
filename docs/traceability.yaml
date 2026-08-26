@@ -110,36 +110,36 @@
       "id": "FR-MEM-002", "priority": "P0",
       "statement": "Label every context chunk and memory with provenance, scope, sensitivity, freshness and selection reason.",
       "owner": "knowledge", "module": "packages/context-engine",
-      "events": ["context.chunk_selected", "memory.proposed"], "tests": ["S06-CONTEXT-NUTRITION-LABEL"],
-      "segment": "S06", "source": "architecture 8.2 and PC-04", "status": "planned"
+      "events": ["context.chunk_selected", "memory.proposed"], "tests": ["S09-CONTEXT-NUTRITION-LABEL"],
+      "segment": "S09", "source": "architecture 8.2 and PC-04", "status": "planned"
     },
     {
       "id": "FR-MEM-003", "priority": "P0",
       "statement": "Use one Memory Authority per workspace and promote typed candidates through conflict, revision, TTL and revocation rules.",
       "owner": "knowledge", "module": "packages/context-engine",
-      "events": ["memory.promoted", "memory.revoked", "memory.stale"], "tests": ["S06-MEMORY-SINGLE-WRITER"],
-      "segment": "S06", "source": "architecture 8.3 through 8.5", "status": "planned"
+      "events": ["memory.promoted", "memory.revoked", "memory.stale"], "tests": ["S10-MEMORY-SINGLE-WRITER"],
+      "segment": "S10", "source": "architecture 8.3 through 8.5", "status": "planned"
     },
     {
       "id": "FR-MEM-004", "priority": "P0",
       "statement": "Query code, conversation, documents, issues, decisions and rules through one permission-aware knowledge fabric without cross-scope leakage.",
       "owner": "knowledge", "module": "packages/context-engine",
-      "events": ["knowledge.queried", "knowledge.redacted"], "tests": ["S06-KNOWLEDGE-SCOPE-ISOLATION"],
-      "segment": "S06", "source": "architecture 8.6 and 8.7", "status": "planned"
+      "events": ["knowledge.queried", "knowledge.redacted"], "tests": ["S09-KNOWLEDGE-SCOPE-ISOLATION"],
+      "segment": "S09", "source": "architecture 8.6 and 8.7", "status": "planned"
     },
     {
       "id": "FR-MEM-005", "priority": "P0",
       "statement": "Explain why each item entered model context and permit users to inspect, exclude or revoke it.",
       "owner": "knowledge", "module": "packages/context-engine",
-      "events": ["context.explained", "context.source_excluded"], "tests": ["S06-CONTEXT-EXPLAIN-REVOKE"],
-      "segment": "S06", "source": "architecture 2.3 and 8.2", "status": "planned"
+      "events": ["context.explained", "context.source_excluded"], "tests": ["S09-CONTEXT-EXPLAIN-REVOKE"],
+      "segment": "S09", "source": "architecture 2.3 and 8.2", "status": "planned"
     },
     {
       "id": "FR-MEM-006", "priority": "P1",
       "statement": "Combine structured, symbol, FTS and vector retrieval while treating indexes as rebuildable derived data.",
       "owner": "knowledge", "module": "packages/context-engine",
-      "events": ["index.rebuilt", "retrieval.completed"], "tests": ["S06-HYBRID-RETRIEVAL-REBUILD"],
-      "segment": "S06", "source": "architecture 8.1", "status": "planned"
+      "events": ["index.rebuilt", "retrieval.completed"], "tests": ["S09-HYBRID-RETRIEVAL-REBUILD"],
+      "segment": "S09", "source": "architecture 8.1", "status": "planned"
     },
     {
       "id": "FR-MEM-007", "priority": "P1",
@@ -249,42 +249,48 @@
       "statement": "Route tool, model, plugin and external-agent effects through brokers rather than ambient host access.",
       "owner": "runtime-security", "module": "crates/sandbox",
       "events": ["execution.intent_recorded", "execution.completed"], "tests": ["S06-BROKER-BYPASS-NEGATIVE"],
-      "segment": "S06", "source": "architecture 5.1 and INV-01", "status": "planned"
+      "segment": "S06", "source": "architecture 5.1 and INV-01", "status": "implemented",
+      "evidence": ["crates/effect-broker/src/lib.rs", "crates/effect-broker/src/journal.rs"]
     },
     {
       "id": "SEC-ISO-002", "priority": "P0",
       "statement": "Enforce S0 through S4 execution realms with default-deny network and fail closed when a required sandbox backend is unavailable.",
       "owner": "runtime-security", "module": "crates/sandbox",
       "events": ["sandbox.allocated", "sandbox.denied"], "tests": ["S06-SANDBOX-FAIL-CLOSED"],
-      "segment": "S06", "source": "architecture 11.2 and INV-04", "status": "planned"
+      "segment": "S06", "source": "architecture 11.2 and INV-04", "status": "implemented",
+      "evidence": ["crates/sandbox/src/registry.rs", "crates/sandbox/src/platform.rs"]
     },
     {
       "id": "SEC-ISO-003", "priority": "P0",
       "statement": "Expose only credential references to models and inject short-lived secrets out of band into isolated processes.",
       "owner": "runtime-security", "module": "crates/secret-broker",
       "events": ["secret.lease_issued", "secret.lease_revoked"], "tests": ["S06-SECRET-REFERENCE-ONLY"],
-      "segment": "S06", "source": "architecture 11.3", "status": "planned"
+      "segment": "S06", "source": "architecture 11.3", "status": "implemented",
+      "evidence": ["crates/secret-broker/src/lib.rs"]
     },
     {
       "id": "SEC-ISO-004", "priority": "P0",
       "statement": "Deny network egress by default and enforce destination, purpose, taint, DLP, redirect, DNS and metadata-endpoint controls.",
       "owner": "runtime-security", "module": "crates/egress",
       "events": ["egress.requested", "egress.denied", "egress.completed"], "tests": ["S06-EGRESS-TAINT-DLP"],
-      "segment": "S06", "source": "architecture 11.4", "status": "planned"
+      "segment": "S06", "source": "architecture 11.4", "status": "implemented",
+      "evidence": ["crates/egress/src/lib.rs"]
     },
     {
       "id": "SEC-ISO-005", "priority": "P0",
       "statement": "Run plugins and generated code in isolated hosts with declared manifests, digests, limits and kill switches.",
       "owner": "runtime-security", "module": "packages/plugin-sdk",
       "events": ["plugin.started", "plugin.circuit_opened", "plugin.quarantined"], "tests": ["S06-PLUGIN-FAULT-ISOLATION"],
-      "segment": "S06", "source": "architecture 5.2 and 13.4", "status": "planned"
+      "segment": "S06", "source": "architecture 5.2 and 13.4", "status": "implemented",
+      "evidence": ["crates/effect-broker/src/plugin_host.rs"]
     },
     {
       "id": "SEC-ISO-006", "priority": "P0",
       "statement": "Do not pass the complete host environment, home directory, Core IPC or signing material into untrusted execution.",
       "owner": "runtime-security", "module": "crates/sandbox",
       "events": ["sandbox.environment_built"], "tests": ["S06-NO-AMBIENT-HOST-AUTHORITY"],
-      "segment": "S06", "source": "architecture 11.3 and 13.9", "status": "planned"
+      "segment": "S06", "source": "architecture 11.3 and 13.9", "status": "implemented",
+      "evidence": ["crates/sandbox/src/environment.rs", "crates/sandbox/src/process.rs"]
     },
     {
       "id": "SEC-SYNC-001", "priority": "P0",

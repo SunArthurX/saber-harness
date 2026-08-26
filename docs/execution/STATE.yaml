@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S05
-  name: policy
-  status: completed
-  objective: freeze the capability vocabulary and enforce deterministic default-deny policy, scoped approval and durable redacted decision audit before every side effect
+  id: S06
+  name: sandbox-secret-egress
+  status: in_progress
+  objective: enforce the S05 policy decision at OS and network boundaries through sandbox realms, a reference-only secret broker and a default-deny egress PEP
 predecessor:
-  segment: S04
+  segment: S05
   status: completed
-  tag: s04-complete
-  commit: a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63
+  tag: s05-complete
+  commit: 129fd31fe48af3494484b03edc5d5c0c79725722
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -27,49 +27,57 @@ completed_segments:
   - segment: S04
     tag: s04-complete
     commit: a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63
+  - segment: S05
+    tag: s05-complete
+    commit: 129fd31fe48af3494484b03edc5d5c0c79725722
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S05-completion
+  branch: segment/S06-sandbox-secret-egress
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: e611bc0e45f9585288b7459403ea5fbc8eabe60f
-  main_head: 8ef92768a58ac634bda295ff3c3dafcd6be067c6
-  verified_main_checkpoint: 8ef92768a58ac634bda295ff3c3dafcd6be067c6
-  remote_verified: true
+  main_head: 129fd31fe48af3494484b03edc5d5c0c79725722
+  verified_main_checkpoint: 129fd31fe48af3494484b03edc5d5c0c79725722
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-26T11:30:15Z"
+  last_checkpoint_at: "2026-08-26T13:30:00Z"
 acceptance:
   required:
-    - s04_tagged_base
+    - s05_tagged_base
     - configured_remote
-    - canonical_capability_vocabulary
-    - typed_resource_grammar
-    - no_super_capability
-    - deterministic_pdp
-    - default_deny
-    - policy_tier_precedence
-    - policy_rollback_denial
-    - sandbox_precondition
-    - credential_reference_only
-    - approval_scope
-    - approval_ttl
-    - approval_toctou
-    - approval_replay_revocation
-    - vague_approval_denial
-    - audit_before_effect
-    - audit_redaction
-    - encrypted_decision_persistence
-    - pdp_failure_fail_closed
-    - audit_failure_fail_closed
+    - sandbox_backend_spi
+    - execution_realms_s0_s4
+    - platform_fail_closed
+    - workspace_read_only_default
+    - overlay_only_mutation
+    - path_traversal_denied
+    - symlink_race_denied
+    - mount_escape_denied
+    - secret_reference_only
+    - secret_lease_scope_ttl
+    - secret_out_of_band_injection
+    - secret_output_redaction
+    - secret_zeroization
+    - allowlisted_child_environment
+    - no_ambient_host_authority
+    - egress_default_deny
+    - egress_destination_purpose_binding
+    - dns_rebinding_denied
+    - redirect_ip_literal_denied
+    - private_range_metadata_denied
+    - taint_dlp_boundary
+    - plugin_fault_containment
+    - broker_policy_integration
+    - audit_failure_zero_effects
     - local_verification
     - verified_segment_push
     - required_ci
@@ -77,35 +85,40 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s04_tagged_base
+    - s05_tagged_base
     - configured_remote
-    - canonical_capability_vocabulary
-    - typed_resource_grammar
-    - no_super_capability
-    - deterministic_pdp
-    - default_deny
-    - policy_tier_precedence
-    - policy_rollback_denial
-    - sandbox_precondition
-    - credential_reference_only
-    - approval_scope
-    - approval_ttl
-    - approval_toctou
-    - approval_replay_revocation
-    - vague_approval_denial
-    - audit_before_effect
-    - audit_redaction
-    - encrypted_decision_persistence
-    - pdp_failure_fail_closed
-    - audit_failure_fail_closed
+    - sandbox_backend_spi
+    - execution_realms_s0_s4
+    - platform_fail_closed
+    - workspace_read_only_default
+    - overlay_only_mutation
+    - path_traversal_denied
+    - symlink_race_denied
+    - mount_escape_denied
+    - secret_reference_only
+    - secret_lease_scope_ttl
+    - secret_out_of_band_injection
+    - secret_output_redaction
+    - secret_zeroization
+    - allowlisted_child_environment
+    - no_ambient_host_authority
+    - egress_default_deny
+    - egress_destination_purpose_binding
+    - dns_rebinding_denied
+    - redirect_ip_literal_denied
+    - private_range_metadata_denied
+    - taint_dlp_boundary
+    - plugin_fault_containment
+    - broker_policy_integration
+    - audit_failure_zero_effects
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -113,7 +126,8 @@ decisions:
   - docs/adr/ADR-001-rust-trusted-core.md
   - docs/adr/ADR-004-events-transactional-projections.md
   - docs/adr/ADR-007-deterministic-monotonic-policy-enforcement.md
+  - docs/adr/ADR-008-sandbox-secret-egress-fail-closed-boundaries.md
 blockers: []
 next_action:
-  command: after this atomic completion record is merged and tagged, stop and give the next model docs/execution/NEXT-MODEL-S06.md
-  description: do not begin S06 in this model session; the next model must resume from the verified s05-complete checkpoint
+  command: implement the S06 sandbox, secret-broker and egress boundary per docs/execution/NEXT-MODEL-S06.md
+  description: resolve the FR-MEM schedule collision first, freeze ADR-008, then implement deterministic isolation with adversarial tests

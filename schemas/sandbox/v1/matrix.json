@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0.0",
+  "spi_version": "1.0.0",
+  "realms": ["s0_pure", "s1_guarded_read", "s2_isolated_read_only", "s3_isolated_overlay", "s4_egress_mediated"],
+  "platforms": [
+    {
+      "platform": "macos",
+      "backend_id": "darwin://seatbelt-v1",
+      "max_realm": "s3_isolated_overlay",
+      "filesystem_confinement": "overlay",
+      "network_confinement": "denied",
+      "self_tested": true,
+      "production": true
+    },
+    {
+      "platform": "linux",
+      "backend_id": "linux://bwrap-v1",
+      "max_realm": "s3_isolated_overlay",
+      "filesystem_confinement": "overlay",
+      "network_confinement": "denied",
+      "self_tested": true,
+      "production": true
+    },
+    {
+      "platform": "windows",
+      "backend_id": "windows://none-v1",
+      "max_realm": "s1_guarded_read",
+      "filesystem_confinement": "none",
+      "network_confinement": "none",
+      "self_tested": true,
+      "production": true
+    },
+    {
+      "platform": "any",
+      "backend_id": "process://guarded-v1",
+      "max_realm": "s1_guarded_read",
+      "filesystem_confinement": "none",
+      "network_confinement": "none",
+      "self_tested": true,
+      "production": true
+    }
+  ]
+}

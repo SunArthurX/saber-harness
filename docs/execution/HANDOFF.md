@@ -1,59 +1,46 @@
-# S05 Handoff
+# S06 Handoff
 
-Status: completed atomically when the S05 completion PR is merged through protected main
+Status: in progress — implementation complete, local gate green, publication pending
 Date: 2026-08-26
-Branch: `segment/S05-completion`
-Base: `s04-complete` / `a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63`
+Branch: `segment/S06-sandbox-secret-egress`
+Base: `s05-complete` / `129fd31fe48af3494484b03edc5d5c0c79725722`
 
 ## Objective
 
-Freeze the shared capability vocabulary and implement a deterministic Rust Policy Decision Point, Policy Enforcement Point, scoped approvals and redacted durable decision audit before every side effect.
+Make the S05 policy decision enforceable at the operating-system and network boundaries: sandbox realms, a reference-only Secret Broker with short-lived leases, a default-deny Egress PEP and fault-contained plugin/generated-code hosts. No untrusted code obtains ambient host authority, raw credentials or unrestricted network access.
 
-## Completed
+## Completed in this branch
 
-- Added a closed canonical vocabulary of 19 filesystem, process, network, secret, browser, Git, cloud, external-service, plugin, capability-publication and self-change actions. Every action has one typed resource grammar plus risk, persistence, sandbox, secret, network and approval metadata; there is no ambient super-capability.
-- Added the independent Rust `saber-policy` crate with typed principals and requests, strict resource validation, default deny, any-deny-wins precedence and platform-hard, regulatory, organization, workspace, user and task-grant tiers.
-- Added monotonic policy snapshot updates. Sequence rollback, altered content at the same sequence and removal of an established tier fail closed.
-- Added exact request/operation binding, once/task approval scope, bounded TTL, revocation, replay protection and vague blanket-approval rejection. Critical non-persistable actions cannot receive task grants.
-- Added an audit-before-effect PEP. Unavailable PDP, invalid approval or unavailable audit executes zero effects, and one-shot grants are consumed only after a decision is durable.
-- Added metadata-only decision audit. Principal, resource, context and request are hashed; credentials, paths, identities, free-text reasons and content are not persisted.
-- Migrated the SQLCipher event store to schema v3 with transactional `policy.decision_recorded` and `policy.enforcement_recorded` facts, exact idempotency, conflict denial and hash-chain coverage.
+- Resolved the pre-existing numbering collision: FR-MEM-002/004/005/006 moved to S09, FR-MEM-003 to S10 with renamed test IDs (DEC-0010). S06 implements only the isolation boundary.
+- Froze the contracts in ADR-008: Sandbox Backend SPI (`create`/`exec`/`mount`/`network`/`kill`/`snapshot`/`destroy`/`health`), S0–S4 execution realms, honest platform capability matrix, path guard, secret lease custody, child environment allowlisting, egress PEP and plugin fault containment.
+- Implemented `crates/sandbox` (`saber-sandbox`): typed plans with total validation, canonical path guard with symlink-swap race detection, allowlisted child environment with sensitive-key policy, deterministic fake backend, guarded process backend with deadline kill/output caps, macOS Seatbelt and Linux bubblewrap backends with live confinement self-tests, and the fail-closed registry. Windows intentionally admits no confinement backend; S2+ plans fail closed there.
+- Implemented `crates/secret-broker` (`saber-secret-broker`): opaque `credential://broker/<id>` references, scope/purpose/digest-bound single-consumption leases with TTL, revocation, crash-recovery sweep, zeroized material, debug-redacted values and output redaction.
+- Implemented `crates/egress` (`saber-egress`): deny-by-default authorization binding purpose/destination/classification/taint, IP-literal parsing across integer encodings, private/link-local/metadata ranges, DNS-rebinding pinning, redirect policy and connection verification.
+- Implemented `crates/effect-broker` (`saber-effect-broker`): the single composition point wiring sandbox selection, egress authorization, realm allocation, prepared `sandboxed=true` requests, durable S04 intent/result journaling (with a real `EventStore` adapter and integration tests), S05 audit-before-effect enforcement, lease injection, output redaction and realm teardown; plus the plugin host with manifest/digest admission, circuit breaker and terminal quarantine.
+- Added `schemas/sandbox/v1/platform-matrix.json` + `matrix.json` with a Rust parity test, `scripts/verify-s06.mjs` (206 checks) and `scripts/verify-remote-s06.mjs`, wired into `pnpm verify` and the repository-verification workflow.
+- Full local gate green: `cargo fmt --check`, strict clippy `-D warnings`, 16 Rust test suites, `pnpm verify`, `pnpm acceptance:new-machine` (44 s).
 
 ## Verified evidence
 
-- The complete local Gate passed formatting, strict workspace clippy, 11 policy adversarial tests, 17 encrypted event-store tests, 6 protocol tests, JavaScript build/type/tests, deterministic generation, licenses, S00-S05 verifiers and governance tests.
-- Implementation branch `e611bc0e45f9585288b7459403ea5fbc8eabe60f` matched the remote. Push runs `32943048546` and `32943048592`, and PR runs `32943392946` and `32943392949`, passed all five required contexts.
-- PR #19 squash-merged through protected main as `8ef92768a58ac634bda295ff3c3dafcd6be067c6` at `2026-08-26T07:37:43Z`.
-- Main runs `32943691574` (repository verification), `32943691466` (provenance) and `32943691761` (platform matrix and dependency audit) passed at that merge SHA.
-- A standard unauthenticated public HTTPS clone at the merge SHA selected the pinned toolchain and passed `pnpm acceptance:new-machine` in 8 seconds.
-- Strict remote S05 verification confirmed public settings, security controls, protected-main rules, capability/policy contracts and successful same-SHA workflows.
-- FR-RUN-004 and SEC-POL-001 through SEC-POL-005 are `verified-main`. Production isolation, secret injection, egress enforcement and plugin containment remain S06 work.
+- Inherited boundary: annotated `s05-complete` equals `origin/main`; strict remote S05 verification and new-machine acceptance passed before the first S06 commit.
+- Adversarial suites cover traversal/encoded/symlink-swap escapes, mount-confusion denials, fail-closed selection on unhealthy/absent backends, environment canary (zero sensitive host keys), deadline kill and output truncation, secret lease scope/TTL/replay/digest-binding plus zeroization and redaction across stdout/stderr/artifacts, egress default deny with alternate IP encodings, metadata endpoints, rebinding pinning, redirect chains and taint/DLP, plugin fault isolation, and zero effects on policy/journal/audit/sandbox/secret/egress failure.
+- On the development macOS host the Seatbelt probes proved exec-allowed, write-outside-denied and overlay-write-allowed; CI platforms without prerequisites must assert the fail-closed path.
 
-## Acceptance result
+## Remaining for completion
 
-| Item | State | Evidence |
-|---|---|---|
-| Segment push/SHA equality | passed | local and remote implementation branch matched at `e611bc0...` |
-| Capability and PDP boundary | passed | closed vocabulary, strict resources, default deny, deny precedence and rollback tests |
-| Approval and PEP boundary | passed | exact scope/hash, TTL, TOCTOU, replay/revoke and audit-before-effect tests |
-| Durable redacted audit | passed | encrypted schema v3 decision/enforcement facts and sensitive-text exclusion |
-| Three-platform CI | passed | Linux, macOS and Windows jobs on main run `32943691761` |
-| Dependency and security gates | passed | dependency audit plus secret scanning, push protection and Dependabot controls |
-| Protected-main integration | passed | PR #19 merged only after every required check passed |
-| Clean-clone acceptance | passed | anonymous HTTPS clone passed all gates in 8 seconds at `8ef92768...` |
-| Atomic completion record | passed on merge | this state reaches main only through required CI and PR protection |
+1. Push `segment/S06-sandbox-secret-egress`, verify remote SHA equals local HEAD.
+2. Wait for every required CI context on the branch.
+3. Merge through protected main; run clean-clone acceptance and `node scripts/verify-remote-s06.mjs`.
+4. Publish the atomic completion record through a second protected PR.
+5. Only then create annotated `s06-complete` and update this file.
 
 ## Non-negotiable review points
 
-- Models, prompts, skills, plugins, project files and approval UI may express intent or consent; only the trusted Core policy boundary authorizes effects.
-- Approval is not isolation. A valid approval never bypasses required sandbox, secret-broker or egress controls.
-- Lower tiers cannot cancel any deny. Invalid input, no match, policy unavailability and audit unavailability fail closed.
-- Persisted audit remains metadata-only and encrypted; it does not become a covert transcript, credential or path store.
-- S06 must consume the S05 request and decision contracts rather than reimplementing or weakening them.
+- A command wrapper or CWD restriction is never OS isolation; guarded backend selection stays capped at S1.
+- Approval never substitutes sandbox/secret/egress controls; policy denial, journal failure, audit failure, backend unavailability, lease refusal and egress denial all execute zero effects.
+- Secret material never enters model context, plans, events or audit; leases are single-consumption and digest-bound.
+- Platform backends are selectable only after live self-tests prove confinement; absent prerequisites fail closed, never weaken the realm.
 
 ## Next action
 
-1. Confirm this atomic completion record merges and all resulting main workflows pass.
-2. Create and verify the annotated `s05-complete` tag on that final main commit.
-3. Stop this model session as requested by the user.
-4. Give the next model `docs/execution/NEXT-MODEL-S06.md`; it must create `segment/S06-sandbox-secret-egress` from the verified checkpoint before implementation.
+Finish the publication protocol above; do not mark S06 complete while any test, review, CI, clean-clone, remote verification or SHA equality is unresolved.

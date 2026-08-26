@@ -1,0 +1,26 @@
+[package]
+name = "saber-effect-broker"
+description = "Single composition point that enforces policy, sandbox, secret, egress and audit ordering for Saber effects"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license-file.workspace = true
+publish = false
+
+[dependencies]
+saber-egress = { path = "../egress" }
+saber-event-store = { path = "../event-store" }
+saber-policy = { path = "../policy" }
+saber-sandbox = { path = "../sandbox" }
+saber-secret-broker = { path = "../secret-broker" }
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.151"
+sha2 = "=0.10.9"
+
+[dev-dependencies]
+rusqlite = { version = "=0.40.2", default-features = false, features = ["bundled-sqlcipher-vendored-openssl"] }
+tempfile = "=3.27.0"
+
+[lints]
+workspace = true

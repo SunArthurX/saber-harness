@@ -157,3 +157,19 @@ Reason:
 - Monotonic deny semantics are easier to review and prove than precedence rules that let lower scopes override higher authority.
 - Hash/TTL binding closes approval TOCTOU and replay paths.
 - Audit-before-effect gives the immune/recovery system deterministic evidence even when an effect or provider later fails.
+
+## DEC-0010 — Resolve the S06 numbering collision in favor of the isolation boundary
+
+Status: accepted for S06
+Date: 2026-08-26
+
+Decision:
+
+- The authoritative execution roadmap (`docs/企业级开发执行与跨模型接力计划.md`) assigns S06 to Sandbox, Secret Broker and Egress, and assigns Context/Knowledge/Memory work to S09 and S10.
+- Legacy FR-MEM-002 through FR-MEM-006 previously carried `segment: S06` and `S06-*` test names from an earlier draft schedule. They are realigned: FR-MEM-002, FR-MEM-004, FR-MEM-005 and FR-MEM-006 move to S09; FR-MEM-003 moves to S10; their test identifiers are renamed to the matching `S09-*`/`S10-*` form.
+- S06 implements only the deterministic isolation boundary (SEC-ISO-001 through SEC-ISO-006). Context, knowledge-fabric and Memory Authority work must not be silently merged into this Segment.
+
+Reason:
+
+- Two disjoint bodies of work claimed one Segment ID, which would make the S06 gate unfalsifiable and dilute escape/secret-exposure review.
+- Requirements, tests and CI gates inherit their meaning from the roadmap; keeping them aligned preserves the P0 orphan-free traceability invariant.
