@@ -15,10 +15,10 @@ Completed Segments:
 
 Current Segment:
 
-- S05 — Capability, Policy and Approval (`completed`; cross-model checkpoint).
+- S06 — Sandbox, Secret Broker and Egress (`completion_pending`; implementation merged through protected PR #21 as `13f09808da978c6c5438d08b91bd6996958973a2`, final main workflows delayed by a GitHub Actions platform incident).
 
 Next Segment:
 
-- S06 — Sandbox, Secret Broker and Egress.
+- S07 — Tool Broker and Recoverable Modifications.
 
-S05 started from protected `origin/main` at `s04-complete` / `a3b32280ce953ae1d5523ede1a5c1d6d77e3ec63`. Its implementation merged through protected PR #19 as `8ef92768a58ac634bda295ff3c3dafcd6be067c6`; the atomic completion record is published before creating `s05-complete`.
+S06 started from protected `origin/main` at `s05-complete` / `129fd31fe48af3494484b03edc5d5c0c79725722`. Its implementation branch `segment/S06-sandbox-secret-egress` passed every required context at `7790353180f99f8fbd863544dc2fa772e3c9254a`; the atomic completion record and `s06-complete` tag follow once main runs `32984072862`/`32984072983` pass.

@@ -36,13 +36,13 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S06-sandbox-secret-egress
+  branch: segment/S06-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: e611bc0e45f9585288b7459403ea5fbc8eabe60f
-  main_head: 129fd31fe48af3494484b03edc5d5c0c79725722
-  verified_main_checkpoint: 129fd31fe48af3494484b03edc5d5c0c79725722
-  remote_verified: false
+  verified_segment_checkpoint: 7790353180f99f8fbd863544dc2fa772e3c9254a
+  main_head: 13f09808da978c6c5438d08b91bd6996958973a2
+  verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
@@ -112,12 +112,12 @@ acceptance:
     - broker_policy_integration
     - audit_failure_zero_effects
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
+  failed: []
+  pending:
     - completion_record_merged
 evidence:
   file: docs/execution/EVIDENCE.json
@@ -129,5 +129,5 @@ decisions:
   - docs/adr/ADR-008-sandbox-secret-egress-fail-closed-boundaries.md
 blockers: []
 next_action:
-  command: implement the S06 sandbox, secret-broker and egress boundary per docs/execution/NEXT-MODEL-S06.md
-  description: resolve the FR-MEM schedule collision first, freeze ADR-008, then implement deterministic isolation with adversarial tests
+  command: publish this atomic completion record through a protected PR, verify final main workflows, then create annotated s06-complete
+  description: main workflows at 13f0980 were green on the identical PR-run tree; a GitHub Actions runner incident delayed the main push runs and they must pass before tagging
