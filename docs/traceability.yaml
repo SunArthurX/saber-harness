@@ -249,7 +249,7 @@
       "statement": "Route tool, model, plugin and external-agent effects through brokers rather than ambient host access.",
       "owner": "runtime-security", "module": "crates/sandbox",
       "events": ["execution.intent_recorded", "execution.completed"], "tests": ["S06-BROKER-BYPASS-NEGATIVE"],
-      "segment": "S06", "source": "architecture 5.1 and INV-01", "status": "implemented",
+      "segment": "S06", "source": "architecture 5.1 and INV-01", "status": "verified-main",
       "evidence": ["crates/effect-broker/src/lib.rs", "crates/effect-broker/src/journal.rs"]
     },
     {
@@ -257,7 +257,7 @@
       "statement": "Enforce S0 through S4 execution realms with default-deny network and fail closed when a required sandbox backend is unavailable.",
       "owner": "runtime-security", "module": "crates/sandbox",
       "events": ["sandbox.allocated", "sandbox.denied"], "tests": ["S06-SANDBOX-FAIL-CLOSED"],
-      "segment": "S06", "source": "architecture 11.2 and INV-04", "status": "implemented",
+      "segment": "S06", "source": "architecture 11.2 and INV-04", "status": "verified-main",
       "evidence": ["crates/sandbox/src/registry.rs", "crates/sandbox/src/platform.rs"]
     },
     {
@@ -265,7 +265,7 @@
       "statement": "Expose only credential references to models and inject short-lived secrets out of band into isolated processes.",
       "owner": "runtime-security", "module": "crates/secret-broker",
       "events": ["secret.lease_issued", "secret.lease_revoked"], "tests": ["S06-SECRET-REFERENCE-ONLY"],
-      "segment": "S06", "source": "architecture 11.3", "status": "implemented",
+      "segment": "S06", "source": "architecture 11.3", "status": "verified-main",
       "evidence": ["crates/secret-broker/src/lib.rs"]
     },
     {
@@ -273,7 +273,7 @@
       "statement": "Deny network egress by default and enforce destination, purpose, taint, DLP, redirect, DNS and metadata-endpoint controls.",
       "owner": "runtime-security", "module": "crates/egress",
       "events": ["egress.requested", "egress.denied", "egress.completed"], "tests": ["S06-EGRESS-TAINT-DLP"],
-      "segment": "S06", "source": "architecture 11.4", "status": "implemented",
+      "segment": "S06", "source": "architecture 11.4", "status": "verified-main",
       "evidence": ["crates/egress/src/lib.rs"]
     },
     {
@@ -281,7 +281,7 @@
       "statement": "Run plugins and generated code in isolated hosts with declared manifests, digests, limits and kill switches.",
       "owner": "runtime-security", "module": "packages/plugin-sdk",
       "events": ["plugin.started", "plugin.circuit_opened", "plugin.quarantined"], "tests": ["S06-PLUGIN-FAULT-ISOLATION"],
-      "segment": "S06", "source": "architecture 5.2 and 13.4", "status": "implemented",
+      "segment": "S06", "source": "architecture 5.2 and 13.4", "status": "verified-main",
       "evidence": ["crates/effect-broker/src/plugin_host.rs"]
     },
     {
@@ -289,7 +289,7 @@
       "statement": "Do not pass the complete host environment, home directory, Core IPC or signing material into untrusted execution.",
       "owner": "runtime-security", "module": "crates/sandbox",
       "events": ["sandbox.environment_built"], "tests": ["S06-NO-AMBIENT-HOST-AUTHORITY"],
-      "segment": "S06", "source": "architecture 11.3 and 13.9", "status": "implemented",
+      "segment": "S06", "source": "architecture 11.3 and 13.9", "status": "verified-main",
       "evidence": ["crates/sandbox/src/environment.rs", "crates/sandbox/src/process.rs"]
     },
     {

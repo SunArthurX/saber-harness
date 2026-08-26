@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S06
   name: sandbox-secret-egress
-  status: in_progress
+  status: completed
   objective: enforce the S05 policy decision at OS and network boundaries through sandbox realms, a reference-only secret broker and a default-deny egress PEP
 predecessor:
   segment: S05
@@ -36,7 +36,7 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S06-completion
+  branch: segment/S06-finalize
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 7790353180f99f8fbd863544dc2fa772e3c9254a
@@ -116,9 +116,9 @@ acceptance:
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
-  failed: []
-  pending:
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -129,5 +129,5 @@ decisions:
   - docs/adr/ADR-008-sandbox-secret-egress-fail-closed-boundaries.md
 blockers: []
 next_action:
-  command: publish this atomic completion record through a protected PR, verify final main workflows, then create annotated s06-complete
-  description: main workflows at 13f0980 were green on the identical PR-run tree; a GitHub Actions runner incident delayed the main push runs and they must pass before tagging
+  command: after this atomic completion record merges and final main workflows pass, create annotated s06-complete and hand the next model docs/execution/NEXT-MODEL-S07.md
+  description: the stuck re-runs at 13f0980 belong to a GitHub Actions platform incident; their concurrency group is superseded by this newer main push, and the identical trees passed every required context via runs 32983574780 and 32988259392/32988644849

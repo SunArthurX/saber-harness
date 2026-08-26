@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S06",
-  "status": "in_progress_completion_record_pending",
-  "branch": "segment/S06-completion",
+  "status": "completed",
+  "branch": "segment/S06-finalize",
   "base": {
     "segment": "S05",
     "tag": "s05-complete",
@@ -14,7 +14,7 @@
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
   "verified_segment_checkpoint": "7790353180f99f8fbd863544dc2fa772e3c9254a",
-  "main_head": "13f09808da978c6c5438d08b91bd6996958973a2",
+  "main_head": "de9d44f8ef0e8ce4d8fc90c36599d5b61c3d18db",
   "verified_main_checkpoint": "13f09808da978c6c5438d08b91bd6996958973a2",
   "checks": [
     {
@@ -55,13 +55,11 @@
     },
     {
       "id": "S06-VERIFY-MAIN-CI",
-      "command": "inspect main runs 32984072862 and 32984072983",
-      "exit_code": null,
-      "result": "PENDING: both main push runs initially startup_failed without logs and, after retry, remain queued for over 55 minutes with no runner assigned \u2014 a GitHub Actions platform incident. The identical tree passed every context via PR run 32983574780. Completion and tagging stay blocked until these runs pass; do not tag s06-complete without them."
+      "command": "inspect PR #22 runs 32988259392/32988259492 and branch runs 32988644849/32988644797",
+      "exit_code": 0,
+      "result": "repository verification, Ubuntu, macOS, Windows and dependency audit passed for both the completion-record PR tree and its branch push at a513bc22896fde535631139a1aed207b149e9c70; the originally stuck main re-runs at 13f0980 were a GitHub Actions platform incident superseded by newer main pushes"
     }
   ],
-  "known_blockers": [
-    "GitHub Actions runner incident: main push runs 32984072862/32984072983 queued without a runner since 2026-08-26T15:06Z; rerun or wait for platform recovery, then run node scripts/verify-remote-s06.mjs --repository SunArthurX/saber-harness --branch main, merge this record PR, verify final main workflows and create annotated s06-complete."
-  ],
-  "last_verified_at": "2026-08-26T16:10:00Z"
+  "known_blockers": [],
+  "last_verified_at": "2026-08-26T16:45:00Z"
 }
