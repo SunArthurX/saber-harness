@@ -58,7 +58,8 @@
       "statement": "Only the trusted kernel transitions Run state and a succeeded state requires bound acceptance evidence.",
       "owner": "core-runtime", "module": "crates/event-store",
       "events": ["run.state_changed", "task.succeeded_by_evidence"], "tests": ["S04-RUN-STATE-PROPERTY"],
-      "segment": "S04", "source": "architecture 7.2 and INV-01", "status": "planned"
+      "segment": "S04", "source": "architecture 7.2 and INV-01", "status": "implemented-local",
+      "evidence": ["crates/event-store/src/lib.rs"]
     },
     {
       "id": "FR-RUN-003", "priority": "P0",
@@ -101,7 +102,8 @@
       "statement": "Persist authoritative facts locally in an encrypted transactional store and large content in encrypted immutable blobs.",
       "owner": "data-core", "module": "crates/event-store",
       "events": ["fact.committed", "blob.committed"], "tests": ["S04-ENCRYPTED-FACT-BLOB"],
-      "segment": "S04", "source": "architecture 7.1, ADR-003 and ADR-005", "status": "planned"
+      "segment": "S04", "source": "architecture 7.1, ADR-003 and ADR-005", "status": "implemented-local",
+      "evidence": ["crates/event-store/src/lib.rs", "crates/event-store/src/encrypted_blob.rs"]
     },
     {
       "id": "FR-MEM-002", "priority": "P0",
@@ -283,7 +285,8 @@
       "statement": "Encrypt local authoritative facts with SQLCipher using keys obtained outside argv, ordinary environment, logs and model context.",
       "owner": "sync-security", "module": "crates/event-store",
       "events": ["database.unlocked", "database.key_rotated"], "tests": ["S04-SQLCIPHER-KEY-CUSTODY"],
-      "segment": "S04", "source": "architecture 12.2 and ADR-003", "status": "planned"
+      "segment": "S04", "source": "architecture 12.2 and ADR-003", "status": "implemented-local",
+      "evidence": ["crates/event-store/src/key_custody.rs", "crates/event-store/src/lib.rs"]
     },
     {
       "id": "SEC-SYNC-002", "priority": "P0",
@@ -325,14 +328,16 @@
       "statement": "Append events, update projections and enqueue outbox work in one transaction.",
       "owner": "reliability", "module": "crates/event-store",
       "events": ["event.appended", "projection.updated"], "tests": ["S04-EVENT-PROJECTION-ATOMICITY"],
-      "segment": "S04", "source": "architecture 7.3 and ADR-004", "status": "planned"
+      "segment": "S04", "source": "architecture 7.3 and ADR-004", "status": "implemented-local",
+      "evidence": ["crates/event-store/src/lib.rs"]
     },
     {
       "id": "RES-HEAL-002", "priority": "P0",
       "statement": "Record side-effect intent before execution and reconcile missing results without duplicate effects.",
       "owner": "reliability", "module": "crates/event-store",
       "events": ["tool.intent_recorded", "tool.result_recorded", "tool.reconciled"], "tests": ["S04-KILL9-SIDE-EFFECT-RECONCILE"],
-      "segment": "S04", "source": "architecture 7.3", "status": "planned"
+      "segment": "S04", "source": "architecture 7.3", "status": "implemented-local",
+      "evidence": ["crates/event-store/src/lib.rs"]
     },
     {
       "id": "RES-HEAL-003", "priority": "P0",

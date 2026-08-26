@@ -1,51 +1,38 @@
-# S03 Handoff
+# S04 Handoff
 
-Status: completed atomically when the S03 completion PR is merged through protected main
+Status: in progress
 Date: 2026-08-25
-Branch: `segment/S03-complete`
-Base: `s02-complete` / `333272ce33fb54316a08ce8014ae63081c080a8c`
+Branch: `segment/S04-event-store`
+Base: `s03-complete` / `e673a18ba12fac1aabb42e1e1ed31d7c30e961dd`
 
 ## Objective
 
-Make JSON Schema 2020-12 the canonical Saber wire vocabulary, generate Rust and TypeScript types deterministically, and establish a bounded, versioned JSON-RPC 2.0 local protocol contract for Unix sockets and Windows named pipes.
+Implement the encrypted local fact store, append-only causal event log, transactional projections/outbox and trusted Run state machine, including recovery and fault-injection evidence.
 
-## Completed
+## Implemented locally
 
-- Defined closed Workspace, Goal, Task, Run, Artifact, Decision, Memory, Capability, Incident and EvolutionCandidate entities plus a policy-aware EventEnvelope.
-- Added V1 and frozen N-1 protocol declarations with request, actor, workspace, causation, deadline and idempotency metadata.
-- Added deterministic checked-in Rust and TypeScript generation; CI rejects stale generated contracts.
-- Rust and TypeScript decoders reject oversized frames, invalid UTF-8/JSON, unknown fields and methods, incompatible versions, expired deadlines and missing mutation idempotency.
-- Rust provides exact replay/conflict semantics and platform-specific Unix socket/named-pipe endpoint construction.
-- Shared fixtures and strict generated enums keep both language surfaces aligned; malformed-frame and invalid-state tests fail closed.
-- Local full verification and the pinned-toolchain acceptance Gate passed before publication.
-- Implementation branch `776a7d1244546ec3f5da3e15de4ada745363ae68` matched the remote; push and PR workflow sets both passed all five required contexts.
-- PR #15 squash-merged through protected main as `cb16be2ee9fea1880033e3e78867f09dbd16451d`.
-- Main runs `32858282014` (repository verification), `32858282033` (provenance) and `32858281980` (platform matrix and dependency audit) passed at the merge SHA.
-- A standard public HTTPS clone fetched S00/S01/S02 tags and passed frozen installation plus all gates in 19 seconds from ambient Node 25 via pinned Node 24.15.0.
-- Strict remote S03 verification confirmed public visibility, security controls, protected-main rules, canonical contracts and same-SHA successful workflows.
+- Added an independent Rust `saber-event-store` crate using exact `rusqlite 0.40.2` with bundled SQLCipher and vendored OpenSSL.
+- Database open fails closed when the SQLCipher codec is unavailable, a key is wrong, integrity checks fail or a future schema is encountered; WAL, foreign keys, secure delete, in-memory temporary storage and bounded busy waiting are enabled.
+- Added a production `OsKeyringProvider` backed by macOS Keychain, Windows Credential Manager or Linux Secret Service. Keys never use argv, ordinary environment or logs, are redacted from `Debug`, and are zeroized on drop.
+- Key rotation stages old/new candidates before SQLCipher rekey, checkpoints and temporarily exits WAL for the page rewrite, then promotes the new key. Interrupted promotion reopens with the staged fallback.
+- Added versioned migrations and events, runs, projections, outbox, idempotency, artifacts, blobs and encrypted store metadata.
+- Run creation and transition append an event, update the projection and record idempotency in one SQL transaction.
+- The trusted state machine rejects illegal transitions and requires bound acceptance evidence before `succeeded`.
+- Exact idempotency replays return the original event; conflicting reuse fails closed.
+- Events form a length-delimited SHA-256 predecessor chain with full verification.
+- A forced projection constraint failure proves the event append is rolled back atomically.
+- Artifact commits use XChaCha20-Poly1305 with unique nonces and authenticated workspace/classification/MIME/hash/length metadata. Encrypted files are fsynced and atomically published before transactional references.
+- Side-effect intent and verified result events update the durable outbox in the same transaction; exact replay cannot create a second intent or result.
+- Startup recovery verifies SQLCipher and the audit chain, rebuilds divergent Run projections from events, and surfaces pending effects for provider read-after-write reconciliation.
 
-## Acceptance result
+## Current evidence
 
-| Item | State | Evidence |
-|---|---|---|
-| Segment push/SHA equality | passed | branch and remote matched at `776a7d1244546ec3f5da3e15de4ada745363ae68` |
-| Cross-language contract | passed | deterministic generation, 6 Rust tests, 5 TypeScript tests and shared fixtures |
-| Three-platform CI | passed | Linux 46s, macOS 1m11s and Windows 1m41s on main run `32858281980` |
-| Dependency and security gates | passed | pnpm audit, RustSec, secret scan, push protection and Dependabot controls |
-| Protected-main integration | passed | PR #15 merged only after all required checks |
-| Clean-clone acceptance | passed | public HTTPS clone passed all gates in 19s at `cb16be2...` |
-| Atomic completion record | passed on merge | this state reaches main only through required CI and PR protection |
-
-## Non-negotiable review points
-
-- JSON Schema remains canonical; generated Rust and TypeScript wire types are not edited manually.
-- Trusted authority remains in Rust; TypeScript validation cannot widen the Rust acceptance boundary.
-- Protocol N/N-1, frame, deadline and idempotency checks fail closed.
-- Policy, sandbox, secret, egress, audit, update and recovery controls are not weakened to accept a request.
-- S04 persistence must preserve event causality and idempotency transactionally rather than relying on process-local state.
+- Sixteen focused tests pass, including wrong key, interrupted rotation, v1 migration, authenticated blob tamper, replay equivalence, kill/unfinished-outbox recovery, disk-full and database-busy cases; strict clippy passes with all targets/features.
+- FR-RUN-002, FR-MEM-001, SEC-SYNC-001, RES-HEAL-001 and RES-HEAL-002 are `implemented-local`. Broader artifact lifecycle, remote E2EE sync and signed checkpoint requirements remain assigned to their later Segments.
+- The earlier WIP SHA `88923b4f8b4f447d7bf83f4e21850b581ae0f0da` passed repository verification, Linux, macOS, Windows and dependency-audit CI. Current implementation changes still require a new same-SHA Gate.
 
 ## Next action
 
-1. Confirm the atomic S03 completion PR and resulting main workflows are green.
-2. Create the `s03-complete` tag at that verified main commit.
-3. Create `segment/S04-event-store` from protected `origin/main`.
+1. Run the complete local S00-S04, Rust, TypeScript, governance, license and formatting Gate.
+2. Commit and push explicit S04 paths, then require all hosted checks on that exact SHA.
+3. Merge through protected main, run a clean-clone acceptance drill, write the atomic completion record and tag only after all evidence is green.

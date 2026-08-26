@@ -36,6 +36,8 @@ jobs:
         run: node scripts/verify-s02.mjs
       - name: Verify S03 schema and protocol contract
         run: node scripts/verify-s03.mjs
+      - name: Verify S04 encrypted event-store contract
+        run: node scripts/verify-s04.mjs
       - name: Test repository governance policy
         run: node --test scripts/tests/*.test.mjs
       - name: Verify Git whitespace contract
