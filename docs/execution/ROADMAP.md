@@ -15,10 +15,10 @@ Completed Segments:
 
 Current Segment:
 
-- S06 — Sandbox, Secret Broker and Egress (`completion_pending`; implementation merged through protected PR #21 as `13f09808da978c6c5438d08b91bd6996958973a2`, final main workflows delayed by a GitHub Actions platform incident).
+- S07 — Tool Broker and Recoverable Modifications (`completion_pending`; implementation merged through protected PR #24 as `289f41c62ca55041feec48c68e0f1089d1de0120`).
 
 Next Segment:
 
-- S07 — Tool Broker and Recoverable Modifications.
+- S08 — ModelProvider, Router and Budget.
 
-S06 started from protected `origin/main` at `s05-complete` / `129fd31fe48af3494484b03edc5d5c0c79725722`. Its implementation branch `segment/S06-sandbox-secret-egress` passed every required context at `7790353180f99f8fbd863544dc2fa772e3c9254a`; the atomic completion record and `s06-complete` tag follow once main runs `32984072862`/`32984072983` pass.
+S07 started from protected `origin/main` at `s06-complete` / `dd2f568d957fcadc94f48c6b40c08787c39e2195`. Its implementation branch `segment/S07-tool-broker` passed every required context at `b7cf964517ede8bc80cc1593f5ae7677edcc122f`; the atomic completion record and `s07-complete` tag follow this merge.
