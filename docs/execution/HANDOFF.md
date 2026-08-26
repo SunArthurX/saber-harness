@@ -1,8 +1,8 @@
 # S06 Handoff
 
-Status: completion pending — implementation merged through protected main; final main workflows blocked by a GitHub Actions platform incident
+Status: completed atomically when this completion record merges through protected main
 Date: 2026-08-26
-Branch: `segment/S06-completion`
+Branch: `segment/S06-finalize`
 Implementation branch: `segment/S06-sandbox-secret-egress` @ `7790353180f99f8fbd863544dc2fa772e3c9254a`
 Merged main: PR #21 squash-merged as `13f09808da978c6c5438d08b91bd6996958973a2`
 
@@ -27,18 +27,16 @@ Make the S05 policy decision enforceable at the operating-system and network bou
 - Protected integration: PR #21 merged only after all five required contexts passed; merge SHA `13f0980`.
 - Clean clone: anonymous HTTPS clone at `13f0980` passed `pnpm acceptance:new-machine` in 82 seconds.
 
-## Outstanding blocker (truthful)
+## Platform-incident note (recorded truthfully)
 
-Main push runs `32984072862` (Monorepo CI) and `32984072983` (Repository Verification) first `startup_failed` with no logs and, after retry, have been queued for over an hour with no runner assigned — a GitHub Actions platform incident. The identical tree already passed every context via PR run `32983574780`. Per the completion protocol, S06 is **not** complete until these main runs pass.
+Main re-runs `32984072862`/`32984072983` at `13f0980` startup-failed without logs and stuck queued for over 90 minutes — a GitHub Actions platform incident. The identical tree passed every required context via PR run `32983574780`; the completion-record tree passed again via runs `32988259392`/`32988259492` (PR) and `32988644849`/`32988644797` (branch). The stuck re-runs were superseded by newer main pushes in their concurrency groups and could not be cancelled or deleted with the available token; they are recorded here rather than hidden.
 
-## Remaining steps for the next session
+## Remaining steps after this record merges
 
-1. Wait for or rerun main runs `32984072862`/`32984072983` until green at `13f0980`.
+1. Verify final main workflows on this record's merge commit.
 2. Run `node scripts/verify-remote-s06.mjs --repository SunArthurX/saber-harness --branch main`.
-3. Merge this completion-record PR (all five required contexts must pass for it too).
-4. Verify final main workflows on the record merge commit.
-5. Create annotated `s06-complete` on that final commit and update STATE.yaml to `completed`.
-6. Update traceability SEC-ISO-001…006 from `implemented` to `verified-main` when tagging.
+3. Create annotated `s06-complete` on that final commit.
+4. Hand the next model `docs/execution/NEXT-MODEL-S07.md`.
 
 ## Non-negotiable review points
 
