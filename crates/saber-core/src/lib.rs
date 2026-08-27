@@ -358,6 +358,38 @@ fn denial_of(decision: &PolicyDecision) -> RunOutcome {
     }
 }
 
+/// Open (or create) the run's encrypted store and append its run
+/// record. Run-scoped identifiers derive from the store's event
+/// sequence so repeated runs in one store stay distinct instead of
+/// collapsing into one replayed idempotency bucket.
+fn open_run_store(
+    store_dir: &Path,
+    options: &RunOptions,
+    now: u64,
+) -> Result<(Rc<RefCell<EventStore>>, String, u64), RunError> {
+    std::fs::create_dir_all(store_dir).map_err(|_| StoreError::KeyCustody)?;
+    let provider = KeyFileProvider::new(store_dir);
+    let store = EventStore::open(
+        &store_dir.join("facts.db"),
+        &options.workspace_id,
+        &provider,
+    )?;
+    let store = Rc::new(RefCell::new(store));
+    let sequence = u64::try_from(store.borrow().event_count()?)
+        .unwrap_or(0)
+        .saturating_add(1);
+    let run_id = format!("run_{sequence:04}");
+    store.borrow_mut().create_run(
+        &format!("event_run_{sequence}"),
+        &options.workspace_id,
+        &run_id,
+        &options.task_id,
+        now,
+        &format!("run-idem-{sequence}"),
+    )?;
+    Ok((store, run_id, sequence))
+}
+
 /// Execute one fully audited agent run.
 ///
 /// The ordering is the immune-system contract: the run is created in
@@ -383,25 +415,7 @@ pub fn execute_run(
     let program_name = entry;
     let now = unix_ms(options.now_ms);
 
-    std::fs::create_dir_all(store_dir).map_err(|_| StoreError::KeyCustody)?;
-
-    let provider = KeyFileProvider::new(store_dir);
-    let store = EventStore::open(
-        &store_dir.join("facts.db"),
-        &options.workspace_id,
-        &provider,
-    )?;
-    let store = Rc::new(RefCell::new(store));
-    let run_id = "run_0001".to_owned();
-    store.borrow_mut().create_run(
-        "event_run_1",
-        &options.workspace_id,
-        &run_id,
-        &options.task_id,
-        now,
-        "run-idem-1",
-    )?;
-
+    let (store, run_id, sequence) = open_run_store(store_dir, options, now)?;
     let mut hash_parts: Vec<&[u8]> = Vec::with_capacity(options.arguments.len() + 1);
     hash_parts.push(program_name.as_bytes());
     for argument in &options.arguments {
@@ -439,7 +453,14 @@ pub fn execute_run(
 
     let grant = operator_grant(options, &request, &program_name, &run_id, now)?;
 
-    let effect = sandboxed_effect(Rc::clone(&store), registry, options, &program_name, now);
+    let effect = sandboxed_effect(
+        Rc::clone(&store),
+        registry,
+        options,
+        &program_name,
+        now,
+        sequence,
+    );
 
     let enforcement = enforcer.execute(&request, grant.as_ref(), now, effect);
     let (outcome, decision_id) = match enforcement {
@@ -532,6 +553,7 @@ fn sandboxed_effect<'a>(
     options: &RunOptions,
     program_name: &str,
     now: u64,
+    sequence: u64,
 ) -> impl FnOnce() -> Result<ExecOutcome, RunError> + use<'a> {
     let program_dir = options
         .program
@@ -547,16 +569,16 @@ fn sandboxed_effect<'a>(
         {
             let mut store = shared.borrow_mut();
             store.record_effect_intent(&EffectIntent {
-                event_id: "event_intent_1",
+                event_id: &format!("event_intent_{sequence}"),
                 workspace_id: &workspace,
-                intent_id: "intent_1",
+                intent_id: &format!("intent_{sequence}"),
                 effect_kind: "process.spawn",
                 payload: &json!({
                     "program": program,
                     "arguments": arguments,
                 }),
                 occurred_at_ms: now,
-                idempotency_key: "intent-idem-1",
+                idempotency_key: &format!("intent-idem-{sequence}"),
             })?;
         }
         let outcome = exec_in_registry(registry, &plan).map_err(RunError::from_sandbox)?;
@@ -567,9 +589,9 @@ fn sandboxed_effect<'a>(
         {
             let mut store = shared.borrow_mut();
             store.record_effect_result(&EffectResult {
-                event_id: "event_result_1",
+                event_id: &format!("event_result_{sequence}"),
                 workspace_id: &workspace,
-                intent_id: "intent_1",
+                intent_id: &format!("intent_{sequence}"),
                 result: &json!({
                     "exit_code": exit_code,
                     "stdout_bytes": stdout_bytes,
@@ -578,7 +600,7 @@ fn sandboxed_effect<'a>(
                 }),
                 disposition: EffectDisposition::Completed,
                 occurred_at_ms: now,
-                idempotency_key: "result-idem-1",
+                idempotency_key: &format!("result-idem-{sequence}"),
             })?;
         }
         Ok(outcome)

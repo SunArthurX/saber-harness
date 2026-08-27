@@ -107,6 +107,47 @@ fn allowed_and_approved_run_executes_and_audits_end_to_end() {
 }
 
 #[test]
+fn multiple_runs_in_one_store_get_distinct_ids() {
+    let store = tempfile::tempdir().unwrap();
+    let name = universal_name();
+    let first = execute_run(
+        store.path(),
+        &mut fake_registry(0, b"first"),
+        &options(
+            universal_program().to_string_lossy().as_ref(),
+            &["-c", "echo first"],
+            &[&name],
+            true,
+        ),
+    )
+    .unwrap();
+    let second = execute_run(
+        store.path(),
+        &mut fake_registry(0, b"second"),
+        &options(
+            universal_program().to_string_lossy().as_ref(),
+            &["-c", "echo second"],
+            &[&name],
+            true,
+        ),
+    )
+    .unwrap();
+    assert!(matches!(first.outcome, RunOutcome::Executed { .. }));
+    assert!(matches!(second.outcome, RunOutcome::Executed { .. }));
+    assert_ne!(first.run_id, second.run_id, "runs must not collapse");
+    assert!(second.events > first.events, "audit trail grows");
+    assert!(first.hash_chain_verified && second.hash_chain_verified);
+    // The whole trail still verifies after reopening.
+    let provider = KeyFileProvider::new(store.path());
+    let reopened = EventStore::open(&store.path().join("facts.db"), "ws_local", &provider).unwrap();
+    assert!(reopened.verify_hash_chain().is_ok());
+    assert_eq!(
+        reopened.event_count().unwrap(),
+        i64::try_from(second.events).unwrap()
+    );
+}
+
+#[test]
 fn unapproved_programs_are_denied_with_zero_effects() {
     let store = tempfile::tempdir().unwrap();
     let mut registry = fake_registry(0, b"should-never-run");
