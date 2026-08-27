@@ -6,6 +6,7 @@ members = [
     "crates/cax",
     "crates/code-capsule",
     "crates/context-engine",
+    "crates/enterprise",
     "crates/event-store",
     "crates/health-supervisor",
     "crates/evolution",

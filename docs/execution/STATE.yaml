@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S20
-  name: remote-execution-realm
-  status: completed
-  objective: run heavyweight work on remote capacity under the same policy envelope while remote failures never spread locally and returned results re-enter as verified evidence
+  id: S21
+  name: enterprise-iam-policy-audit
+  status: in_progress
+  objective: enforce multi-tenant enterprise control — tenant-qualified planes, deterministic IAM mapping onto closed policy tiers, evidenced break-glass and per-tenant audit separation
 predecessor:
-  segment: S19
+  segment: S20
   status: completed
-  tag: s19-complete
-  commit: 5b6b8419e119c74b5ef3b36491bd8eb0cf1404b6
+  tag: s20-complete
+  commit: e6df99a451a651669c07db9650dd15b5c6190405
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -72,40 +72,45 @@ completed_segments:
   - segment: S19
     tag: s19-complete
     commit: 5b6b8419e119c74b5ef3b36491bd8eb0cf1404b6
+  - segment: S20
+    tag: s20-complete
+    commit: e6df99a451a651669c07db9650dd15b5c6190405
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S20-completion
+  branch: segment/S21-enterprise-iam-policy-audit
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: e156b30a969cee58742734dc85c86fe14fdcc95a
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: true
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T19:30:00Z"
+  last_checkpoint_at: "2026-08-29T21:00:00Z"
 acceptance:
   required:
-    - s19_tagged_base
+    - s20_tagged_base
     - configured_remote
-    - policy_envelope_travels
-    - envelope_tamper_detection
-    - deterministic_remote_state_machine
-    - heartbeat_lease_reaping
-    - crashed_realm_never_reports_success
-    - result_digest_admission
-    - returned_data_taint_labeled
-    - remote_fault_contained_to_cell
-    - cancellation_propagates
-    - s20_verifier
+    - tenant_qualified_planes
+    - cross_tenant_denied
+    - deterministic_iam_mapping
+    - closed_vocabulary_only_grants
+    - bounded_role_expansion
+    - org_bundles_ride_s05_engine
+    - org_bundle_rollback_refused
+    - break_glass_timeboxed_dual_control
+    - break_glass_expires_no_self_renew
+    - per_tenant_audit_separation
+    - evidence_packs_metadata_only
+    - s21_verifier
     - local_verification
     - verified_segment_push
     - required_ci
@@ -113,26 +118,28 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s19_tagged_base
+    - s20_tagged_base
     - configured_remote
-    - policy_envelope_travels
-    - envelope_tamper_detection
-    - deterministic_remote_state_machine
-    - heartbeat_lease_reaping
-    - crashed_realm_never_reports_success
-    - result_digest_admission
-    - returned_data_taint_labeled
-    - remote_fault_contained_to_cell
-    - cancellation_propagates
-    - s20_verifier
+    - tenant_qualified_planes
+    - cross_tenant_denied
+    - deterministic_iam_mapping
+    - closed_vocabulary_only_grants
+    - bounded_role_expansion
+    - org_bundles_ride_s05_engine
+    - org_bundle_rollback_refused
+    - break_glass_timeboxed_dual_control
+    - break_glass_expires_no_self_renew
+    - per_tenant_audit_separation
+    - evidence_packs_metadata_only
+    - s21_verifier
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -155,7 +162,8 @@ decisions:
   - docs/adr/ADR-020-contain-first-immune-core.md
   - docs/adr/ADR-021-governed-plugin-marketplace.md
   - docs/adr/ADR-022-remote-execution-realm.md
+  - docs/adr/ADR-023-multitenant-enterprise-control.md
 blockers: []
 next_action:
-  command: after this atomic completion record merges and final main workflows pass, create annotated s20-complete and hand the next model docs/execution/NEXT-MODEL-S21.md
-  description: all S20 acceptance items passed; strict remote S20 verification green at 2c30ad248c948bbafaa59c7101bf6443e12c120e
+  command: implement the S21 enterprise control plane per docs/execution/NEXT-MODEL-S21.md
+  description: freeze ADR-023, then implement tenant planes, IAM tier mapping, break-glass and audit separation
