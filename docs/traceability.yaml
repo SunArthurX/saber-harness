@@ -205,7 +205,7 @@
       "statement": "Allow E6 product changes only as protected pull-request proposals with independent review and trust-boundary diffs.",
       "owner": "release-security", "module": "packages/evolution-engine",
       "events": ["self_change.proposed", "self_change.reviewed"], "tests": ["S22-E6-PR-SEPARATION"],
-      "segment": "S22", "source": "architecture 13.5 and INV-07 and ADR-024", "status": "implemented",
+      "segment": "S22", "source": "architecture 13.5 and INV-07 and ADR-024", "status": "verified-main",
       "evidence": ["crates/release-integrity/src/lib.rs"]
     },
     {
@@ -425,7 +425,7 @@
       "statement": "Produce reproducible releases with SBOM, provenance, signatures, staged rings and last-known-good rollback.",
       "owner": "release-security", "module": "release",
       "events": ["release.signed", "release.promoted", "release.rolled_back"], "tests": ["S22-REPRODUCIBLE-SIGNED-RELEASE"],
-      "segment": "S22", "source": "architecture 13.5 and 15.4 and ADR-024", "status": "implemented",
+      "segment": "S22", "source": "architecture 13.5 and 15.4 and ADR-024", "status": "verified-main",
       "evidence": ["crates/release-integrity/src/lib.rs"]
     },
     {

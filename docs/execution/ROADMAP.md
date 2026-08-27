@@ -15,10 +15,10 @@ Completed Segments:
 
 Current Segment:
 
-- S21 — Enterprise IAM, Policy and Audit (`completion_pending`; implementation merged through protected PR #53 as `e58fbfb1acab7544238accd8979c2564cd292529`).
+- S22 — TUF/SLSA, SBOM, Updater and Air-Gap (`completion_pending`; implementation merged through protected PR #55 as `ca3774f559b9143264a184b99b33638cc9471692`).
 
 Next Segment:
 
-- S22 — TUF/SLSA, SBOM, Updater and Air-Gap.
+- S23 — Cross-Platform Design Partner Beta.
 
-S21 started from protected `origin/main` at `s20-complete` / `e6df99a451a651669c07db9650dd15b5c6190405`. Its implementation branch `segment/S21-enterprise-iam-policy-audit` passed every required context at `18c0342041ae2c609d37ae00e857c19c3513d31`; the atomic completion record and `s21-complete` tag follow this merge.
+S22 started from protected `origin/main` at `s21-complete` / `ba90d8b1a8dd5fc4e5c2118acbefcace95021396`. Its implementation branch `segment/S22-release-integrity` passed every required context at `9b8b560381c59d1f1f12d57a1a49852992dbb819`; the atomic completion record and `s22-complete` tag follow this merge.

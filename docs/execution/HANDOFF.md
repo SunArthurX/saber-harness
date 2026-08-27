@@ -1,38 +1,38 @@
-# S21 Handoff
+# S22 Handoff
 
 Status: completed atomically when this completion record merges through protected main
-Date: 2026-08-29
-Branch: `segment/S21-completion`
-Implementation branch: `segment/S21-enterprise-iam-policy-audit` @ `18c0342041ae2c609d37ae00e857c19c3513d31`
-Merged main: PR #53 squash-merged as `e58fbfb1acab7544238accd8979c2564cd292529`
+Date: 2026-08-30
+Branch: `segment/S22-completion`
+Implementation branch: `segment/S22-release-integrity` @ `9b8b560381c59d1f1f12d57a1a49852992dbb819`
+Merged main: PR #55 squash-merged as `ca3774f559b9143264a184b99b33638cc9471692`
 
 ## Objective
 
-Multi-tenant enterprise control: tenant-qualified planes, deterministic IAM mapping onto closed policy tiers, evidenced break-glass and per-tenant audit separation (Gate: 多租户隔离).
+Verifiable release integrity: reproducible builds, SBOM, provenance, a monotonic signed target chain, staged rings with last-known-good rollback, a verify-before-install updater and air-gap import (Gate: 可验证发布/回滚).
 
-## What shipped (PR #53)
+## What shipped (PR #55)
 
-- ADR-023 froze the design; OPS-ENT-004 realigned to S21.
-- `crates/enterprise` (`saber-enterprise`): tenant-qualified plane stores denying cross-tenant access by construction; deterministic depth-bounded IAM role expansion onto S05 organization bundles (rollback refusal unchanged, closed vocabulary only); dual-controlled time-boxed break-glass that expires without self-renew and is enumerable; per-tenant audit partitions with metadata-only evidence packs.
-- `verify-s21.mjs` (37 checks) and `verify-remote-s21.mjs` wired into gates.
+- ADR-024 froze the design; OPS-ENT-003 and FR-EVO-006 realigned to S22.
+- `crates/release-integrity` (`saber-release-integrity`): signed reproducible release manifests (artifacts + SBOM + SLSA-style provenance + canonical-body signature); a monotonic signed target chain refusing rollback replays and stale-timestamp freezes; staged rings with explicit history and demotion surfacing missing last-known-good; an updater verifying signature, digests and the pinned floor before any install; air-gap imports run the identical offline verification.
+- This resolves the honest digest-only notes of the S15 evolution chain, S19 plugin registry and S21 org bundles — their chains can now be signature-verified.
+- `verify-s22.mjs` (40 checks) and `verify-remote-s22.mjs` wired into gates.
 
 ## Verified evidence
 
-- Full local gate: fmt, strict clippy, 45 Rust test suites (6 adversarial), `pnpm verify`, `pnpm acceptance:new-machine`.
-- Branch CI green on all five contexts at `18c0342` first push; PR #53 merged at `e58fbfb`; main workflows green; clean clone 90 s; strict remote S21 verification passed.
+- Full local gate: fmt, strict clippy, 47 Rust test suites (5 adversarial), `pnpm verify`, `pnpm acceptance:new-machine`.
+- Branch CI green on all five contexts at `9b8b560` first push; PR #55 merged at `ca3774f`; main workflows green; clean clone 93 s; strict remote S22 verification passed.
 
 ## Remaining steps after this record merges
 
 1. Verify final main workflows on the record merge commit.
-2. Run `node scripts/verify-remote-s21.mjs --repository SunArthurX/saber-harness --branch main`.
-3. Create annotated `s21-complete`; hand the next model `docs/execution/NEXT-MODEL-S22.md`.
+2. Run `node scripts/verify-remote-s22.mjs --repository SunArthurX/saber-harness --branch main`.
+3. Create annotated `s22-complete`; hand the next model `docs/execution/NEXT-MODEL-S23.md`.
 
 ## Non-negotiable review points
 
-- Cross-tenant access fails by construction, not by policy.
-- IAM maps onto closed tiers; org bundles ride the S05 engine unchanged.
-- Break-glass expires; evidence packs are metadata-only.
+- The updater verifies before installing; floors are refusals.
+- Rollback and freeze attacks fail closed; rings never silently keep a bad release.
 
 ## Next action
 
-Finish the publication protocol above; do not begin S22 in this session.
+Finish the publication protocol above; do not begin S23 in this session.
