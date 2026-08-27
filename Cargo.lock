@@ -1182,6 +1182,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "saber-sync-e2ee"
+version = "0.0.0"
+dependencies = [
+ "chacha20poly1305",
+ "getrandom 0.4.3",
+ "saber-policy",
+ "serde",
+ "serde_json",
+ "sha2",
+ "zeroize",
+]
+
+[[package]]
 name = "saber-tool-broker"
 version = "0.0.0"
 dependencies = [

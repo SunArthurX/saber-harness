@@ -62,6 +62,8 @@ jobs:
         run: node scripts/verify-s15.mjs
       - name: Verify S16 boundary
         run: node scripts/verify-s16.mjs
+      - name: Verify S17 boundary
+        run: node scripts/verify-s17.mjs
       - name: Test repository governance policy
         run: node --test scripts/tests/*.test.mjs
       - name: Verify Git whitespace contract

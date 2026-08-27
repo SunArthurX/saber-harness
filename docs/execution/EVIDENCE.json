@@ -1,71 +1,40 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S16",
-  "status": "completed",
-  "branch": "segment/S16-completion",
+  "segment": "S17",
+  "status": "in_progress_local_gate_passed",
+  "branch": "segment/S17-e2ee-sync",
   "base": {
-    "segment": "S15",
-    "tag": "s15-complete",
-    "commit": "39c2c558c7d4cde13c3944970b372fccda9b936d"
+    "segment": "S16",
+    "tag": "s16-complete",
+    "commit": "cc49f69db65c4d527eb436f379574a79d4432f98"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "f676955a0fcd1ebde987558d242cdba62b2dad09",
-  "verified_main_checkpoint": "f676955a0fcd1ebde987558d242cdba62b2dad09",
+  "main_head": "cc49f69db65c4d527eb436f379574a79d4432f98",
+  "verified_main_checkpoint": "cc49f69db65c4d527eb436f379574a79d4432f98",
   "checks": [
     {
-      "id": "S16-INHERITED-BOUNDARY",
-      "command": "git cat-file -t s15-complete && git rev-parse 's15-complete^{}' origin/main && node scripts/verify-remote-s15.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
+      "id": "S17-INHERITED-BOUNDARY",
+      "command": "git cat-file -t s16-complete && git rev-parse 's16-complete^{}' origin/main && node scripts/verify-remote-s16.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
       "exit_code": 0,
-      "result": "annotated s15-complete resolves to 39c2c558c7d4cde13c3944970b372fccda9b936d equal to origin/main; strict remote S15 verification and new-machine acceptance passed before the first S16 commit"
+      "result": "annotated s16-complete resolves to cc49f69db65c4d527eb436f379574a79d4432f98 equal to origin/main; strict remote S16 verification and new-machine acceptance passed before the first S17 commit"
     },
     {
-      "id": "S16-FULL-LOCAL-GATE",
+      "id": "S17-FULL-LOCAL-GATE",
       "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
       "exit_code": 0,
-      "result": "format, strict clippy, 35 Rust test suites (7 code-capsule adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S16 verifiers and governance tests passed"
+      "result": "format, strict clippy, 37 Rust test suites (8 sync-e2ee adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S17 verifiers and governance tests passed"
     },
     {
-      "id": "S16-VERIFY-CAPSULE",
+      "id": "S17-VERIFY-E2EE",
       "command": "focused adversarial suites",
       "exit_code": 0,
-      "result": "tampered sources and envelopes failing admission, unpromoted capsules never executing (candidate and evaluated-only states both refused), undeclared grants and unpinned dependencies failing closed at execution, budget exhaustion terminating eligibility, supersession refusing widened grants while keeping history and rolling back cleanly, and realm/budget-bound plan construction all passed"
-    },
-    {
-      "id": "S16-VERIFY-BRANCH-CI",
-      "command": "inspect push runs 33064376530 and 33064376579",
-      "exit_code": 0,
-      "result": "repository verification and the three-platform monorepo CI with dependency audit passed for implementation SHA ded8db4f2b1bd744d511830ce08c093487b07854 on the first push"
-    },
-    {
-      "id": "S16-VERIFY-PROTECTED-INTEGRATION",
-      "command": "inspect protected PR #43",
-      "exit_code": 0,
-      "result": "PR #43 squash-merged after all five required checks passed as f676955a0fcd1ebde987558d242cdba62b2dad09"
-    },
-    {
-      "id": "S16-VERIFY-MAIN-CI",
-      "command": "inspect main runs 33064999109, 33064999082 and 33064999074",
-      "exit_code": 0,
-      "result": "provenance, repository verification and the three-platform monorepo CI passed on f676955a0fcd1ebde987558d242cdba62b2dad09"
-    },
-    {
-      "id": "S16-VERIFY-CLEAN-CLONE",
-      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
-      "exit_code": 0,
-      "result": "clone resolved f676955a0fcd1ebde987558d242cdba62b2dad09 and passed all gates in 87 seconds"
-    },
-    {
-      "id": "S16-VERIFY-REMOTE-MAIN",
-      "command": "node scripts/verify-remote-s16.mjs --repository SunArthurX/saber-harness --branch main",
-      "exit_code": 0,
-      "result": "code capsule contracts, public settings, hosted security controls and same-SHA successful workflows passed"
+      "result": "AEAD round-trips with authenticated in-ciphertext metadata (workspace, classification, digest, length), wrong keys and tampered ciphertext failing closed, classification downgrade requiring a new authentic object (no forgeable server-side metadata), per-object random data keys/nonces producing distinct ciphertexts and wrapped keys for identical plaintext, anti-rollback epoch ledger refusing replays, device revocation cutting pre-revocation epochs, and the server-visible stream canary proving zero plaintext and zero raw key bytes with actual breach detection all passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-28T22:30:00Z",
-  "verified_segment_checkpoint": "ded8db4f2b1bd744d511830ce08c093487b07854"
+  "last_verified_at": "2026-08-29T09:00:00Z"
 }

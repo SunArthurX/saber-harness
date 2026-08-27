@@ -225,3 +225,16 @@ Decision:
 Reason:
 
 - Same class as DEC-0010/0011: keeping traceability aligned with the roadmap preserves the P0 orphan-free invariant and keeps the S15 gate focused on lifecycle integrity (candidates never bypass review).
+
+## DEC-0015 — Realign SEC-SYNC-002/003/004 to S17
+
+Status: accepted for S17
+Date: 2026-08-29
+
+Decision:
+
+- Fourth draft-schedule collision: SEC-SYNC-002/003/004 carried `segment: S11` (the IDE segment) while the authoritative roadmap assigns S17 to E2EE Sync. They realign to S17, implemented in `crates/sync-e2ee`, with test identifiers renamed to `S17-*`.
+
+Reason:
+
+- Same class as DEC-0010/0011/0014: traceability stays aligned with the roadmap, preserving the P0 orphan-free invariant.
