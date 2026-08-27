@@ -1,36 +1,35 @@
-# S23 Handoff
+# S24 Handoff
 
-Status: completed atomically when this completion record merges through protected main
+Status: in_progress
 Date: 2026-08-30
-Branch: `segment/S23-completion`
-Implementation branch: `segment/S23-design-partner-beta` @ `377004e5effcf5f86f36da5301e547265e92ac1d`
-Merged main: PR #57 squash-merged as `5d11ff6350aa5920ff88a3c7c364fd7927292803`
+Branch: `segment/S24-production-gate`
+Base: `s23-complete` @ `47e1f94a8529d103e1c2a884ed954f9fe89ad326` (annotated, equal to origin/main)
 
 ## Objective
 
-The Design Partner Beta: real projects under measured SLO budgets, opt-in metadata-only telemetry, single-command onboarding and a candidate-only feedback loop (Gate: 真实项目 SLO).
+The Production Gate: an auditable, deterministic readiness review proving that every prior segment's invariant holds on main, plus the explicitly gated E6 experiment boundary (Gate: 独立安全审查). S24 adds no features; it certifies the whole and marks the 25-segment roadmap complete with the annotated `s24-complete` tag.
 
-## What shipped (PR #57)
+## Planned deliverables
 
-- ADR-025 froze the design.
-- `crates/beta-slo` (`saber-beta-slo`): SLO budgets as tested contracts over deterministic benchmarks (startup/memory/latency/CI) where intentional regressions fail the gate; opt-in metadata-only telemetry with forbidden-label canaries; the new-machine acceptance as the single-command bootstrap; feedback intake producing imported-trust evolution proposal drafts only.
-- `verify-s23.mjs` (35 checks) and `verify-remote-s23.mjs` wired into gates.
+1. ADR-026 freezing the production-gate design.
+2. `crates/production-gate` (`saber-production-gate`): a pure deterministic evaluator over repository-state descriptors asserting the full S00-S23 invariant checklist (contracts present, verifiers chained, tags resolving and ordered, hosted gates green, workspace hygiene, ADR coverage); a metadata-only readiness report with per-family pass/fail and evidence references; the proposal-only E6 boundary structural assertion (no autonomous E6/E7 path); and the TM-01..TM-16 threat-register coverage baseline with covering control and test references.
+3. `verify-s24.mjs` and `verify-remote-s24.mjs` wired into `pnpm verify` and repository verification, preserving every S00-S23 gate.
 
-## Verified evidence
+## Verified so far
 
-- Full local gate: fmt, strict clippy, 48 Rust test suites (4 adversarial), `pnpm verify`, `pnpm acceptance:new-machine`.
-- Branch CI green on all five contexts at `377004e` first push; PR #57 merged at `5d11ff6`; main workflows green; clean clone 100 s; strict remote S23 verification passed.
+- Inherited boundary: annotated `s23-complete` resolves to `47e1f94` equal to origin/main; all six main check contexts green; `verify-remote-s23` and `pnpm acceptance:new-machine` passed before the first S24 commit.
 
-## Remaining steps after this record merges
+## Remaining steps
 
-1. Verify final main workflows on the record merge commit.
-2. Run `node scripts/verify-remote-s23.mjs --repository SunArthurX/saber-harness --branch main`.
-3. Create annotated `s23-complete`; hand the next model `docs/execution/NEXT-MODEL-S24.md`.
+- Implement the crate with adversarial tests (negative missing-contract fixture, gate determinism, full TM coverage, autonomous-E6/E7 refusal, report secret canary).
+- Full local gate, push, five green CI contexts, protected PR merge, clean clone, strict remote S24 verification, atomic completion record, annotated `s24-complete`.
 
 ## Non-negotiable review points
 
-- Regressions fail the gate; telemetry cannot carry content; feedback cannot promote.
+- The gate must fail on any missing contract, verifier, tag, hosted gate, stale member or uncovered ADR.
+- The readiness report is metadata-only; it can never carry content payloads or secrets.
+- E6 stays proposal-only with independent review; no autonomous E6/E7 path may exist anywhere in the audited surface.
 
 ## Next action
 
-Finish the publication protocol above; do not begin S24 in this session.
+Implement ADR-026 and `crates/production-gate`.
