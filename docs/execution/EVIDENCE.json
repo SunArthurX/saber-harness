@@ -1,71 +1,40 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S20",
-  "status": "completed",
-  "branch": "segment/S20-completion",
+  "segment": "S21",
+  "status": "in_progress_local_gate_passed",
+  "branch": "segment/S21-enterprise-iam-policy-audit",
   "base": {
-    "segment": "S19",
-    "tag": "s19-complete",
-    "commit": "5b6b8419e119c74b5ef3b36491bd8eb0cf1404b6"
+    "segment": "S20",
+    "tag": "s20-complete",
+    "commit": "e6df99a451a651669c07db9650dd15b5c6190405"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "2c30ad248c948bbafaa59c7101bf6443e12c120e",
-  "verified_main_checkpoint": "2c30ad248c948bbafaa59c7101bf6443e12c120e",
+  "main_head": "e6df99a451a651669c07db9650dd15b5c6190405",
+  "verified_main_checkpoint": "e6df99a451a651669c07db9650dd15b5c6190405",
   "checks": [
     {
-      "id": "S20-INHERITED-BOUNDARY",
-      "command": "git cat-file -t s19-complete && git rev-parse 's19-complete^{}' origin/main && node scripts/verify-remote-s19.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
+      "id": "S21-INHERITED-BOUNDARY",
+      "command": "git cat-file -t s20-complete && git rev-parse 's20-complete^{}' origin/main && node scripts/verify-remote-s20.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
       "exit_code": 0,
-      "result": "annotated s19-complete resolves to 5b6b8419e119c74b5ef3b36491bd8eb0cf1404b6 equal to origin/main; strict remote S19 verification and new-machine acceptance passed before the first S20 commit"
+      "result": "annotated s20-complete resolves to e6df99a451a651669c07db9650dd15b5c6190405 equal to origin/main; strict remote S20 verification and new-machine acceptance passed before the first S21 commit"
     },
     {
-      "id": "S20-FULL-LOCAL-GATE",
+      "id": "S21-FULL-LOCAL-GATE",
       "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
       "exit_code": 0,
-      "result": "format, strict clippy, 43 Rust test suites (7 remote-realm adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S20 verifiers and governance tests passed"
+      "result": "format, strict clippy, 45 Rust test suites (6 enterprise adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S21 verifiers and governance tests passed"
     },
     {
-      "id": "S20-VERIFY-REALM",
+      "id": "S21-VERIFY-ENTERPRISE",
       "command": "focused adversarial suites",
       "exit_code": 0,
-      "result": "digest-chained policy envelopes detecting transit tampering (including grant escalation), the deterministic submitted/running/succeeded/failed/cancelled state machine refusing skips, heartbeat leases with reaping so crashed realms never report success and stale successes are refused, digest-mismatch results refused and nonzero exits failing terminally, returned data taint-labeled as untrusted source, one cell's expired lease contained while siblings succeed, and cancellation propagating deterministically all passed"
-    },
-    {
-      "id": "S20-VERIFY-BRANCH-CI",
-      "command": "inspect push runs 33076242504 and 33076242492",
-      "exit_code": 0,
-      "result": "repository verification and the three-platform monorepo CI with dependency audit passed for implementation SHA e156b30a969cee58742734dc85c86fe14fdcc95a on the first push"
-    },
-    {
-      "id": "S20-VERIFY-PROTECTED-INTEGRATION",
-      "command": "inspect protected PR #51",
-      "exit_code": 0,
-      "result": "PR #51 squash-merged after all five required checks passed as 2c30ad248c948bbafaa59c7101bf6443e12c120e"
-    },
-    {
-      "id": "S20-VERIFY-MAIN-CI",
-      "command": "inspect main runs 33076945070, 33076945066 and 33076945051",
-      "exit_code": 0,
-      "result": "provenance, repository verification and the three-platform monorepo CI passed on 2c30ad248c948bbafaa59c7101bf6443e12c120e"
-    },
-    {
-      "id": "S20-VERIFY-CLEAN-CLONE",
-      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
-      "exit_code": 0,
-      "result": "clone resolved 2c30ad248c948bbafaa59c7101bf6443e12c120e and passed all gates in 88 seconds"
-    },
-    {
-      "id": "S20-VERIFY-REMOTE-MAIN",
-      "command": "node scripts/verify-remote-s20.mjs --repository SunArthurX/saber-harness --branch main",
-      "exit_code": 0,
-      "result": "remote realm contracts, public settings, hosted security controls and same-SHA successful workflows passed"
+      "result": "tenant-qualified planes denying cross-tenant access by construction, deterministic depth-bounded IAM role expansion (deep chains refused, cycles terminating) onto S05 organization bundles whose rollback refusal holds, the closed vocabulary blocking raw-privilege targets, dual-controlled time-boxed break-glass that expires without self-renew and is enumerable, and per-tenant audit separation with metadata-only evidence packs all passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-29T19:30:00Z",
-  "verified_segment_checkpoint": "e156b30a969cee58742734dc85c86fe14fdcc95a"
+  "last_verified_at": "2026-08-29T21:00:00Z"
 }

@@ -430,8 +430,9 @@
       "id": "OPS-ENT-004", "priority": "P1",
       "statement": "Represent human, device, runtime, subagent, plugin, workload and administrator principals with on-behalf-of identity.",
       "owner": "enterprise-governance", "module": "crates/identity",
-      "events": ["principal.authenticated", "delegation.issued"], "tests": ["S17-PRINCIPAL-DELEGATION"],
-      "segment": "S17", "source": "architecture 15.6", "status": "planned"
+      "events": ["principal.authenticated", "delegation.issued"], "tests": ["S21-PRINCIPAL-DELEGATION"],
+      "segment": "S21", "source": "architecture 15.6 and ADR-023", "status": "implemented",
+      "evidence": ["crates/enterprise/src/lib.rs"]
     },
     {
       "id": "OPS-ENT-005", "priority": "P0",
