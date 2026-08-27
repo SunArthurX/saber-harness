@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S10
   name: memory-authority
-  status: in_progress
+  status: completed
   objective: implement one governed Memory Authority per workspace promoting typed candidates through conflict, revision, TTL and revocation rules with poisoning defenses
 predecessor:
   segment: S09
@@ -48,20 +48,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S10-memory-authority
+  branch: segment/S10-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: 184eca71cc7291207bd0ffd0f5f0ac48f5bf16e2
+  verified_segment_checkpoint: 6e66b25e2919343f9982c98978b693911b6c95a5
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-27T18:00:00Z"
+  last_checkpoint_at: "2026-08-27T19:30:00Z"
 acceptance:
   required:
     - s09_tagged_base
@@ -104,13 +104,13 @@ acceptance:
     - concurrent_writers_serialized
     - s10_verifier
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -125,5 +125,5 @@ decisions:
   - docs/adr/ADR-012-memory-authority.md
 blockers: []
 next_action:
-  command: implement the S10 Memory Authority per docs/execution/NEXT-MODEL-S10.md
-  description: freeze ADR-012, then implement the single-writer state machine with conflict revisions, TTL/revocation and poisoning defenses
+  command: after this atomic completion record merges and final main workflows pass, create annotated s10-complete and hand the next model docs/execution/NEXT-MODEL-S11.md
+  description: all S10 acceptance items passed; strict remote S10 verification green at ef00a55ecf71f488bc45db54c29b1357be99a916

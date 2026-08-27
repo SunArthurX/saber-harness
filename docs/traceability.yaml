@@ -121,7 +121,7 @@
       "statement": "Use one Memory Authority per workspace and promote typed candidates through conflict, revision, TTL and revocation rules.",
       "owner": "knowledge", "module": "crates/memory-authority",
       "events": ["memory.promoted", "memory.revoked", "memory.stale"], "tests": ["S10-MEMORY-SINGLE-WRITER"],
-      "segment": "S10", "source": "architecture 8.3 through 8.5 and ADR-012", "status": "implemented",
+      "segment": "S10", "source": "architecture 8.3 through 8.5 and ADR-012", "status": "verified-main",
       "evidence": ["crates/memory-authority/src/authority.rs"]
     },
     {
