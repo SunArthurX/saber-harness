@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S14
-  name: goal-dag-subagents
-  status: completed
-  objective: decompose goals into a typed dependency DAG, delegate subagents with attenuated task-scoped authority and budgets, and judge completion by verified evidence rather than self-report
+  id: S15
+  name: evolution-workshop
+  status: in_progress
+  objective: govern self-evolution through a typed candidate lifecycle where evidence proposes, evaluation measures, explicit review promotes and revocation removes — candidates can never bypass review into capability
 predecessor:
-  segment: S13
+  segment: S14
   status: completed
-  tag: s13-complete
-  commit: 9fc9acfc8874e9755c1d0d83aaab06c9989b3556
+  tag: s14-complete
+  commit: 2013ba42f279e4c83ecd2fce8a0ef809421bea31
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -54,41 +54,44 @@ completed_segments:
   - segment: S13
     tag: s13-complete
     commit: 9fc9acfc8874e9755c1d0d83aaab06c9989b3556
+  - segment: S14
+    tag: s14-complete
+    commit: 2013ba42f279e4c83ecd2fce8a0ef809421bea31
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S14-completion
+  branch: segment/S15-evolution-workshop
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: fc1a4d3368ab7dcedad6fc40081a94c4ca8f8849
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: true
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-28T16:30:00Z"
+  last_checkpoint_at: "2026-08-28T18:00:00Z"
 acceptance:
   required:
-    - s13_tagged_base
+    - s14_tagged_base
     - configured_remote
-    - typed_goal_dag
-    - cycle_detection
-    - deterministic_scheduling_order
-    - dependency_order_enforced
-    - attenuated_delegation_only
-    - evidence_judged_completion
-    - forged_reports_rejected
-    - budget_exhaustion_task_scoped
-    - bounded_retries_no_widening
-    - cancellation_cascades_exactly_once
-    - s14_verifier
+    - typed_candidate_lifecycle
+    - states_never_skip
+    - evaluation_recorded_not_promotion
+    - evaluation_failure_blocks_promotion
+    - no_auto_promotion_path
+    - poisoned_evidence_explicit_review_only
+    - tampered_content_fails_digest
+    - promotion_digest_chain
+    - revocation_immediate_removal
+    - provenance_survives_to_source
+    - s15_verifier
     - local_verification
     - verified_segment_push
     - required_ci
@@ -96,27 +99,27 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s13_tagged_base
+    - s14_tagged_base
     - configured_remote
-    - typed_goal_dag
-    - cycle_detection
-    - deterministic_scheduling_order
-    - dependency_order_enforced
-    - attenuated_delegation_only
-    - evidence_judged_completion
-    - forged_reports_rejected
-    - budget_exhaustion_task_scoped
-    - bounded_retries_no_widening
-    - cancellation_cascades_exactly_once
-    - s14_verifier
+    - typed_candidate_lifecycle
+    - states_never_skip
+    - evaluation_recorded_not_promotion
+    - evaluation_failure_blocks_promotion
+    - no_auto_promotion_path
+    - poisoned_evidence_explicit_review_only
+    - tampered_content_fails_digest
+    - promotion_digest_chain
+    - revocation_immediate_removal
+    - provenance_survives_to_source
+    - s15_verifier
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -133,7 +136,8 @@ decisions:
   - docs/adr/ADR-014-cax-recomputable-evidence.md
   - docs/adr/ADR-015-resumption-capsule.md
   - docs/adr/ADR-016-goal-dag-subagent-evidence.md
+  - docs/adr/ADR-017-evolution-workshop.md
 blockers: []
 next_action:
-  command: after this atomic completion record merges and final main workflows pass, create annotated s14-complete and hand the next model docs/execution/NEXT-MODEL-S15.md
-  description: all S14 acceptance items passed; strict remote S14 verification green at d8f8610447fa856f2ad1ac21bd83f03a06a4e5ac
+  command: implement the S15 Evolution Workshop per docs/execution/NEXT-MODEL-S15.md
+  description: freeze ADR-017, then implement the typed candidate lifecycle with evaluation records, explicit review promotion, digest chains and revocation

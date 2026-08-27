@@ -212,3 +212,16 @@ Decision:
 Reason:
 
 - The authority is trusted-core state (INV-03, TM-06) and belongs beside policy/sandbox in Rust; the TypeScript context engine consumes its contracts rather than owning them.
+
+## DEC-0014 — Realign FR-EVO entries to the authoritative roadmap
+
+Status: accepted for S15
+Date: 2026-08-28
+
+Decision:
+
+- The third draft-schedule collision: FR-EVO entries carried `segment: S10` while the authoritative roadmap assigns S10 to Memory Authority (completed) and S15 to the Evolution Workshop. FR-EVO-001/002/003/004/007 realign to S15 (implemented with evidence in `crates/evolution`); FR-EVO-005 (E4 Code Capsule) realigns to S16; FR-EVO-006 (E6 protected-PR separation) realigns to S22 (release/signing). Test identifiers are renamed to the matching `S15-*`/`S16-*`/`S22-*` forms.
+
+Reason:
+
+- Same class as DEC-0010/0011: keeping traceability aligned with the roadmap preserves the P0 orphan-free invariant and keeps the S15 gate focused on lifecycle integrity (candidates never bypass review).

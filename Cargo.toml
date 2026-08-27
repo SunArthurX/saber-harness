@@ -6,6 +6,7 @@ members = [
     "crates/cax",
     "crates/context-engine",
     "crates/event-store",
+    "crates/evolution",
     "crates/memory-authority",
     "crates/model-providers",
     "crates/orchestrator",

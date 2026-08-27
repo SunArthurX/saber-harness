@@ -164,50 +164,55 @@
       "id": "FR-EVO-001", "priority": "P0",
       "statement": "Classify every self-improvement candidate from E0 through E7 and enforce the automation ceiling for its level.",
       "owner": "evolution", "module": "packages/evolution-engine",
-      "events": ["evolution.classified"], "tests": ["S10-EVOLUTION-LEVEL-BOUNDARY"],
-      "segment": "S10", "source": "architecture 13.1 and EVOLUTION-BOUNDARIES", "status": "planned"
+      "events": ["evolution.classified"], "tests": ["S15-EVOLUTION-LEVEL-BOUNDARY"],
+      "segment": "S15", "source": "architecture 13.1 and EVOLUTION-BOUNDARIES and ADR-017", "status": "implemented",
+      "evidence": ["crates/evolution/src/candidate.rs"]
     },
     {
       "id": "FR-EVO-002", "priority": "P0",
       "statement": "Create immutable EvolutionCandidates with evidence, source trust, ownership, target hash, permissions and evaluation plan.",
       "owner": "evolution", "module": "packages/evolution-engine",
-      "events": ["evolution.proposed", "evolution.stale"], "tests": ["S10-CANDIDATE-PROVENANCE-HASH"],
-      "segment": "S10", "source": "architecture 13.2 and 13.3", "status": "planned"
+      "events": ["evolution.proposed", "evolution.stale"], "tests": ["S15-CANDIDATE-PROVENANCE-HASH"],
+      "segment": "S15", "source": "architecture 13.2 and 13.3 and ADR-017", "status": "implemented",
+      "evidence": ["crates/evolution/src/candidate.rs"]
     },
     {
       "id": "FR-EVO-003", "priority": "P0",
       "statement": "Require paired evaluation, affected regression slices and security gates before promotion.",
       "owner": "evolution", "module": "evals",
-      "events": ["evolution.evaluated", "evolution.blocked"], "tests": ["S10-PAIRED-EVAL-GATE"],
-      "segment": "S10", "source": "architecture 13.6", "status": "planned"
+      "events": ["evolution.evaluated", "evolution.blocked"], "tests": ["S15-PAIRED-EVAL-GATE"],
+      "segment": "S15", "source": "architecture 13.6 and ADR-017", "status": "implemented",
+      "evidence": ["crates/evolution/src/workshop.rs"]
     },
     {
       "id": "FR-EVO-004", "priority": "P0",
       "statement": "Select the least-powerful governed medium that can solve an observed problem.",
       "owner": "evolution", "module": "packages/evolution-engine",
-      "events": ["evolution.medium_selected"], "tests": ["S10-LEAST-POWERFUL-MEDIUM"],
-      "segment": "S10", "source": "architecture 13.7", "status": "planned"
+      "events": ["evolution.medium_selected"], "tests": ["S15-LEAST-POWERFUL-MEDIUM"],
+      "segment": "S15", "source": "architecture 13.7 and ADR-017", "status": "implemented",
+      "evidence": ["crates/evolution/src/candidate.rs"]
     },
     {
       "id": "FR-EVO-005", "priority": "P0",
       "statement": "Generate E4 code only as an isolated typed Code Capsule with locked dependencies, explicit capabilities and resource budgets.",
       "owner": "evolution", "module": "packages/evolution-engine",
-      "events": ["capsule.generated", "capsule.tested", "capsule.signed"], "tests": ["S10-CODE-CAPSULE-ISOLATION"],
-      "segment": "S10", "source": "architecture 13.9", "status": "planned"
+      "events": ["capsule.generated", "capsule.tested", "capsule.signed"], "tests": ["S16-CODE-CAPSULE-ISOLATION"],
+      "segment": "S16", "source": "architecture 13.9", "status": "planned"
     },
     {
       "id": "FR-EVO-006", "priority": "P0",
       "statement": "Allow E6 product changes only as protected pull-request proposals with independent review and trust-boundary diffs.",
       "owner": "release-security", "module": "packages/evolution-engine",
-      "events": ["self_change.proposed", "self_change.reviewed"], "tests": ["S10-E6-PR-SEPARATION"],
-      "segment": "S10", "source": "architecture 13.5 and INV-07", "status": "planned"
+      "events": ["self_change.proposed", "self_change.reviewed"], "tests": ["S22-E6-PR-SEPARATION"],
+      "segment": "S22", "source": "architecture 13.5 and INV-07", "status": "planned"
     },
     {
       "id": "FR-EVO-007", "priority": "P0",
       "statement": "Every promoted capability retains immutable generations, last-known-good, rollback, quarantine and supersession paths.",
       "owner": "evolution", "module": "packages/evolution-engine",
-      "events": ["evolution.promoted", "evolution.rolled_back", "evolution.quarantined"], "tests": ["S10-EVOLUTION-ROLLBACK"],
-      "segment": "S10", "source": "architecture 13.3 and 13.4", "status": "planned"
+      "events": ["evolution.promoted", "evolution.rolled_back", "evolution.quarantined"], "tests": ["S15-EVOLUTION-ROLLBACK"],
+      "segment": "S15", "source": "architecture 13.3 and 13.4 and ADR-017", "status": "implemented",
+      "evidence": ["crates/evolution/src/workshop.rs"]
     },
     {
       "id": "FR-EVO-008", "priority": "P1",
