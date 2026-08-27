@@ -38,6 +38,8 @@ importers:
 
   packages/agent-runtime: {}
 
+  packages/ide-client: {}
+
 packages:
 
   '@biomejs/biome@2.5.10':
