@@ -323,7 +323,7 @@
       "statement": "Synchronize events, memories and artifacts as client-encrypted immutable objects rather than server-readable plaintext.",
       "owner": "sync-security", "module": "crates/sync-e2ee",
       "events": ["sync.object_uploaded", "sync.object_downloaded"], "tests": ["S17-SERVER-ZERO-PLAINTEXT"],
-      "segment": "S17", "source": "architecture 12.1 and 12.3 and ADR-019", "status": "implemented",
+      "segment": "S17", "source": "architecture 12.1 and 12.3 and ADR-019", "status": "verified-main",
       "evidence": ["crates/sync-e2ee/src/lib.rs"]
     },
     {
@@ -331,7 +331,7 @@
       "statement": "Use per-workspace key encryption keys and per-object nonces/data keys with explicit personal recovery or enterprise escrow modes.",
       "owner": "sync-security", "module": "crates/sync-e2ee",
       "events": ["key.workspace_created", "key.object_wrapped"], "tests": ["S17-KEY-HIERARCHY-NONCE"],
-      "segment": "S17", "source": "architecture 12.2 and ADR-019", "status": "implemented",
+      "segment": "S17", "source": "architecture 12.2 and ADR-019", "status": "verified-main",
       "evidence": ["crates/sync-e2ee/src/lib.rs"]
     },
     {
@@ -339,7 +339,7 @@
       "statement": "Support device revocation, future key epochs, selective rewrap and periodic restore drills.",
       "owner": "sync-security", "module": "crates/sync-e2ee",
       "events": ["device.revoked", "key.epoch_advanced", "restore.drill_completed"], "tests": ["S17-DEVICE-REVOKE-RESTORE"],
-      "segment": "S17", "source": "architecture 12.2 and 12.3 and ADR-019", "status": "implemented",
+      "segment": "S17", "source": "architecture 12.2 and 12.3 and ADR-019", "status": "verified-main",
       "evidence": ["crates/sync-e2ee/src/lib.rs"]
     },
     {

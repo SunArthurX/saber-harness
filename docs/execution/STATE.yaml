@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S17
   name: e2ee-sync
-  status: in_progress
+  status: completed
   objective: synchronize events, memories and artifacts as client-encrypted immutable objects with per-object data keys, anti-rollback epochs and zero server-visible plaintext
 predecessor:
   segment: S16
@@ -69,20 +69,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S17-e2ee-sync
+  branch: segment/S17-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: ded8db4f2b1bd744d511830ce08c093487b07854
+  verified_segment_checkpoint: 92a38c7abb9f9a6dbb7a3da525012ea035f6fb65
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T09:00:00Z"
+  last_checkpoint_at: "2026-08-29T10:30:00Z"
 acceptance:
   required:
     - s16_tagged_base
@@ -119,13 +119,13 @@ acceptance:
     - metadata_only_audit
     - s17_verifier
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -147,5 +147,5 @@ decisions:
   - docs/adr/ADR-019-client-key-e2ee-sync.md
 blockers: []
 next_action:
-  command: implement the S17 E2EE sync per docs/execution/NEXT-MODEL-S17.md
-  description: freeze ADR-019, then implement the encrypted object model, key hierarchy, anti-rollback epochs and server-zero-plaintext guarantees
+  command: after this atomic completion record merges and final main workflows pass, create annotated s17-complete and hand the next model docs/execution/NEXT-MODEL-S18.md
+  description: all S17 acceptance items passed; strict remote S17 verification green at 210ad5a051c53300de2be5c70cb64da3fe6284a5

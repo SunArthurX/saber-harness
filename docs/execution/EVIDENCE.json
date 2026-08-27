@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S17",
-  "status": "in_progress_local_gate_passed",
-  "branch": "segment/S17-e2ee-sync",
+  "status": "completed",
+  "branch": "segment/S17-completion",
   "base": {
     "segment": "S16",
     "tag": "s16-complete",
@@ -13,8 +13,8 @@
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "cc49f69db65c4d527eb436f379574a79d4432f98",
-  "verified_main_checkpoint": "cc49f69db65c4d527eb436f379574a79d4432f98",
+  "main_head": "210ad5a051c53300de2be5c70cb64da3fe6284a5",
+  "verified_main_checkpoint": "210ad5a051c53300de2be5c70cb64da3fe6284a5",
   "checks": [
     {
       "id": "S17-INHERITED-BOUNDARY",
@@ -33,8 +33,39 @@
       "command": "focused adversarial suites",
       "exit_code": 0,
       "result": "AEAD round-trips with authenticated in-ciphertext metadata (workspace, classification, digest, length), wrong keys and tampered ciphertext failing closed, classification downgrade requiring a new authentic object (no forgeable server-side metadata), per-object random data keys/nonces producing distinct ciphertexts and wrapped keys for identical plaintext, anti-rollback epoch ledger refusing replays, device revocation cutting pre-revocation epochs, and the server-visible stream canary proving zero plaintext and zero raw key bytes with actual breach detection all passed"
+    },
+    {
+      "id": "S17-VERIFY-BRANCH-CI",
+      "command": "inspect push runs 33067278366 and 33067278393",
+      "exit_code": 0,
+      "result": "repository verification and the three-platform monorepo CI with dependency audit passed for implementation SHA 92a38c7abb9f9a6dbb7a3da525012ea035f6fb65 on the first push"
+    },
+    {
+      "id": "S17-VERIFY-PROTECTED-INTEGRATION",
+      "command": "inspect protected PR #45",
+      "exit_code": 0,
+      "result": "PR #45 squash-merged after all five required checks passed as 210ad5a051c53300de2be5c70cb64da3fe6284a5"
+    },
+    {
+      "id": "S17-VERIFY-MAIN-CI",
+      "command": "inspect main runs 33067883726, 33067883700 and 33067883646",
+      "exit_code": 0,
+      "result": "provenance, repository verification and the three-platform monorepo CI passed on 210ad5a051c53300de2be5c70cb64da3fe6284a5"
+    },
+    {
+      "id": "S17-VERIFY-CLEAN-CLONE",
+      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
+      "exit_code": 0,
+      "result": "clone resolved 210ad5a051c53300de2be5c70cb64da3fe6284a5 and passed all gates in 85 seconds"
+    },
+    {
+      "id": "S17-VERIFY-REMOTE-MAIN",
+      "command": "node scripts/verify-remote-s17.mjs --repository SunArthurX/saber-harness --branch main",
+      "exit_code": 0,
+      "result": "E2EE sync contracts, public settings, hosted security controls and same-SHA successful workflows passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-29T09:00:00Z"
+  "last_verified_at": "2026-08-29T10:30:00Z",
+  "verified_segment_checkpoint": "92a38c7abb9f9a6dbb7a3da525012ea035f6fb65"
 }
