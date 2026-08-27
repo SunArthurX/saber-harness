@@ -101,8 +101,9 @@
       "id": "FR-RUN-007", "priority": "P1",
       "statement": "Delegate subagents with attenuated task-scoped capabilities, budgets and isolated failure domains.",
       "owner": "agent-runtime", "module": "packages/agent-runtime",
-      "events": ["subagent.delegated", "subagent.completed"], "tests": ["S09-SUBAGENT-ATTENUATION"],
-      "segment": "S09", "source": "architecture 15.6", "status": "planned"
+      "events": ["subagent.delegated", "subagent.completed"], "tests": ["S14-SUBAGENT-ATTENUATION"],
+      "segment": "S14", "source": "architecture 15.6 and ADR-016", "status": "implemented",
+      "evidence": ["crates/orchestrator/src/delegation.rs", "crates/orchestrator/src/lib.rs"]
     },
     {
       "id": "FR-MEM-001", "priority": "P0",

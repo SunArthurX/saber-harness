@@ -1110,6 +1110,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "saber-orchestrator"
+version = "0.0.0"
+dependencies = [
+ "saber-policy",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "saber-policy"
 version = "0.0.0"
 dependencies = [
