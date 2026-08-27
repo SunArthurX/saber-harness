@@ -169,6 +169,7 @@ decisions:
   - docs/adr/ADR-024-verifiable-release-integrity.md
   - docs/adr/ADR-025-beta-slo-and-feedback.md
   - docs/adr/ADR-026-production-gate.md
+  - docs/adr/ADR-027-trusted-agent-core-run.md
 blockers: []
 next_action:
   command: after this atomic completion record merges and final main workflows pass, create annotated s24-complete on the record merge commit; the 25-segment roadmap is then complete
