@@ -478,7 +478,10 @@ mod tests {
             executable: true,
         }];
         let outcome = scrubbed_child_probe_for_tests(
-            &[temp.path().join("probe.sh").to_string_lossy().into_owned()],
+            &[
+                "/bin/sh".to_owned(),
+                temp.path().join("probe.sh").to_string_lossy().into_owned(),
+            ],
             &env_spec,
             &mounts,
             BudgetSpec {
@@ -553,7 +556,10 @@ mod tests {
         fs::set_permissions(&probe, fs::Permissions::from_mode(0o755))
             .unwrap_or_else(|error| unreachable!("{error}"));
         let outcome = scrubbed_child_probe_for_tests(
-            &[temp.path().join("flood.sh").to_string_lossy().into_owned()],
+            &[
+                "/bin/sh".to_owned(),
+                temp.path().join("flood.sh").to_string_lossy().into_owned(),
+            ],
             &EnvSpec::default(),
             &[],
             BudgetSpec {
