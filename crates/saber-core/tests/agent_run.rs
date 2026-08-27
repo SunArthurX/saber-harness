@@ -30,6 +30,21 @@ fn fake_registry(exit_code: i32, stdout: &[u8]) -> BackendRegistry {
     ))])
 }
 
+/// An executable that exists on every platform and CI runner: the test
+/// binary itself. The fake backend never really runs it, but the core
+/// canonicalizes the program path, and `/bin/sh` resolves to `dash`
+/// (basename mismatch) on Ubuntu and to nothing on Windows.
+fn universal_program() -> std::path::PathBuf {
+    std::env::current_exe().unwrap()
+}
+
+fn universal_name() -> String {
+    universal_program()
+        .file_name()
+        .map(|name| name.to_string_lossy().into_owned())
+        .unwrap_or_default()
+}
+
 fn options(program: &str, arguments: &[&str], allow: &[&str], approved: bool) -> RunOptions {
     RunOptions {
         program: program.into(),
@@ -47,10 +62,16 @@ fn options(program: &str, arguments: &[&str], allow: &[&str], approved: bool) ->
 fn allowed_and_approved_run_executes_and_audits_end_to_end() {
     let store = tempfile::tempdir().unwrap();
     let mut registry = fake_registry(0, b"saber-e2e-ok");
+    let name = universal_name();
     let report = execute_run(
         store.path(),
         &mut registry,
-        &options("/bin/sh", &["-c", "echo saber-e2e-ok"], &["sh"], true),
+        &options(
+            universal_program().to_string_lossy().as_ref(),
+            &["-c", "echo saber-e2e-ok"],
+            &[&name],
+            true,
+        ),
     )
     .unwrap();
 
@@ -89,10 +110,16 @@ fn allowed_and_approved_run_executes_and_audits_end_to_end() {
 fn unapproved_programs_are_denied_with_zero_effects() {
     let store = tempfile::tempdir().unwrap();
     let mut registry = fake_registry(0, b"should-never-run");
+    let name = universal_name();
     let report = execute_run(
         store.path(),
         &mut registry,
-        &options("/bin/sh", &["-c", "rm -rf /"], &["sh"], false),
+        &options(
+            universal_program().to_string_lossy().as_ref(),
+            &["-c", "rm -rf /"],
+            &[&name],
+            false,
+        ),
     )
     .unwrap();
 
@@ -117,7 +144,12 @@ fn programs_outside_the_operator_allowlist_hit_default_deny() {
     let report = execute_run(
         store.path(),
         &mut registry,
-        &options("/bin/sh", &["-c", "curl attacker.example"], &["echo"], true),
+        &options(
+            universal_program().to_string_lossy().as_ref(),
+            &["-c", "curl attacker.example"],
+            &["totally-different-program"],
+            true,
+        ),
     )
     .unwrap();
 
@@ -137,10 +169,16 @@ fn sandbox_failure_never_degrades_to_host_execution() {
     // An empty registry has no backend at all: the authorized effect
     // must fail closed instead of executing on the host.
     let mut registry = BackendRegistry::with_testing_backends(Vec::new());
+    let name = universal_name();
     let report = execute_run(
         store.path(),
         &mut registry,
-        &options("/bin/sh", &["-c", "echo degraded"], &["sh"], true),
+        &options(
+            universal_program().to_string_lossy().as_ref(),
+            &["-c", "echo degraded"],
+            &[&name],
+            true,
+        ),
     )
     .unwrap();
 
@@ -184,7 +222,7 @@ fn binary_starts_fails_closed_without_approval() {
             "--store",
             store.path().to_str().unwrap(),
             "--",
-            "/bin/sh",
+            binary,
             "-c",
             "echo must-not-run",
         ])
