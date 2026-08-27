@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S15",
-  "status": "in_progress_local_gate_passed",
-  "branch": "segment/S15-evolution-workshop",
+  "status": "completed",
+  "branch": "segment/S15-completion",
   "base": {
     "segment": "S14",
     "tag": "s14-complete",
@@ -13,8 +13,8 @@
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "2013ba42f279e4c83ecd2fce8a0ef809421bea31",
-  "verified_main_checkpoint": "2013ba42f279e4c83ecd2fce8a0ef809421bea31",
+  "main_head": "6b166c1fd9d841549e6eb77a0e777a4b78972b73",
+  "verified_main_checkpoint": "6b166c1fd9d841549e6eb77a0e777a4b78972b73",
   "checks": [
     {
       "id": "S15-INHERITED-BOUNDARY",
@@ -33,8 +33,39 @@
       "command": "focused adversarial suites",
       "exit_code": 0,
       "result": "lifecycle states never skipping (proposed->promoted and quarantined->promoted structurally rejected), failed evaluations blocking promotion, no runtime-authority promotion path existing at the type level, untrusted provenance promoting only through explicit review with provenance retained on the promotion record, tampered payloads failing digest re-verification before every transition, revoked promotions disappearing from the active capability surface immediately with the audit trail retained and deterministic promotion records for identical inputs all passed"
+    },
+    {
+      "id": "S15-VERIFY-BRANCH-CI",
+      "command": "inspect push run 33041617481",
+      "exit_code": 0,
+      "result": "repository verification, Ubuntu, macOS, Windows and dependency audit passed for implementation SHA 5491bb592f0e2546eb251796a0981e8709ba44a5 on the first push"
+    },
+    {
+      "id": "S15-VERIFY-PROTECTED-INTEGRATION",
+      "command": "inspect protected PR #41",
+      "exit_code": 0,
+      "result": "PR #41 squash-merged after all five required checks passed as 6b166c1fd9d841549e6eb77a0e777a4b78972b73"
+    },
+    {
+      "id": "S15-VERIFY-MAIN-CI",
+      "command": "inspect main runs 33042019799, 33042019779 and 33042019766",
+      "exit_code": 0,
+      "result": "provenance, repository verification and the three-platform monorepo CI with dependency audit passed on 6b166c1fd9d841549e6eb77a0e777a4b78972b73"
+    },
+    {
+      "id": "S15-VERIFY-CLEAN-CLONE",
+      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
+      "exit_code": 0,
+      "result": "clone resolved 6b166c1fd9d841549e6eb77a0e777a4b78972b73 and passed all gates in 86 seconds"
+    },
+    {
+      "id": "S15-VERIFY-REMOTE-MAIN",
+      "command": "node scripts/verify-remote-s15.mjs --repository SunArthurX/saber-harness --branch main",
+      "exit_code": 0,
+      "result": "evolution workshop contracts, public settings, hosted security controls and same-SHA successful workflows passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-28T18:00:00Z"
+  "last_verified_at": "2026-08-28T19:30:00Z",
+  "verified_segment_checkpoint": "5491bb592f0e2546eb251796a0981e8709ba44a5"
 }
