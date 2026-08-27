@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S21",
-  "status": "in_progress_local_gate_passed",
-  "branch": "segment/S21-enterprise-iam-policy-audit",
+  "status": "completed",
+  "branch": "segment/S21-completion",
   "base": {
     "segment": "S20",
     "tag": "s20-complete",
@@ -13,8 +13,8 @@
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "e6df99a451a651669c07db9650dd15b5c6190405",
-  "verified_main_checkpoint": "e6df99a451a651669c07db9650dd15b5c6190405",
+  "main_head": "e58fbfb1acab7544238accd8979c2564cd292529",
+  "verified_main_checkpoint": "e58fbfb1acab7544238accd8979c2564cd292529",
   "checks": [
     {
       "id": "S21-INHERITED-BOUNDARY",
@@ -33,8 +33,39 @@
       "command": "focused adversarial suites",
       "exit_code": 0,
       "result": "tenant-qualified planes denying cross-tenant access by construction, deterministic depth-bounded IAM role expansion (deep chains refused, cycles terminating) onto S05 organization bundles whose rollback refusal holds, the closed vocabulary blocking raw-privilege targets, dual-controlled time-boxed break-glass that expires without self-renew and is enumerable, and per-tenant audit separation with metadata-only evidence packs all passed"
+    },
+    {
+      "id": "S21-VERIFY-BRANCH-CI",
+      "command": "inspect push runs 33079368374 and 33079368255",
+      "exit_code": 0,
+      "result": "repository verification and the three-platform monorepo CI with dependency audit passed for implementation SHA 18c0342041ae2c609d37ae00e857c19c3513d31 on the first push"
+    },
+    {
+      "id": "S21-VERIFY-PROTECTED-INTEGRATION",
+      "command": "inspect protected PR #53",
+      "exit_code": 0,
+      "result": "PR #53 squash-merged after all five required checks passed as e58fbfb1acab7544238accd8979c2564cd292529"
+    },
+    {
+      "id": "S21-VERIFY-MAIN-CI",
+      "command": "inspect main runs 33080156792, 33080156827 and 33080156794",
+      "exit_code": 0,
+      "result": "provenance, repository verification and the three-platform monorepo CI passed on e58fbfb1acab7544238accd8979c2564cd292529"
+    },
+    {
+      "id": "S21-VERIFY-CLEAN-CLONE",
+      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
+      "exit_code": 0,
+      "result": "clone resolved e58fbfb1acab7544238accd8979c2564cd292529 and passed all gates in 90 seconds"
+    },
+    {
+      "id": "S21-VERIFY-REMOTE-MAIN",
+      "command": "node scripts/verify-remote-s21.mjs --repository SunArthurX/saber-harness --branch main",
+      "exit_code": 0,
+      "result": "enterprise control contracts, public settings, hosted security controls and same-SHA successful workflows passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-29T21:00:00Z"
+  "last_verified_at": "2026-08-29T22:30:00Z",
+  "verified_segment_checkpoint": "18c0342041ae2c609d37ae00e857c19c3513d31"
 }
