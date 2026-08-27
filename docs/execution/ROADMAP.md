@@ -15,10 +15,10 @@ Completed Segments:
 
 Current Segment:
 
-- S15 — Evolution Workshop (`completion_pending`; implementation merged through protected PR #41 as `6b166c1fd9d841549e6eb77a0e777a4b78972b73`).
+- S16 — Code Capsule (`completion_pending`; implementation merged through protected PR #43 as `f676955a0fcd1ebde987558d242cdba62b2dad09`).
 
 Next Segment:
 
-- S16 — Code Capsule.
+- S17 — E2EE Sync.
 
-S15 started from protected `origin/main` at `s14-complete` / `2013ba42f279e4c83ecd2fce8a0ef809421bea31`. Its implementation branch `segment/S15-evolution-workshop` passed every required context at `5491bb592f0e2546eb251796a0981e8709ba44a5`; the atomic completion record and `s15-complete` tag follow this merge.
+S16 started from protected `origin/main` at `s15-complete` / `39c2c558c7d4cde13c3944970b372fccda9b936d`. Its implementation branch `segment/S16-code-capsule` passed every required context at `ded8db4f2b1bd744d511830ce08c093487b07854`; the atomic completion record and `s16-complete` tag follow this merge.
