@@ -3,6 +3,7 @@ members = [
     "crates/core-protocol",
     "crates/effect-broker",
     "crates/egress",
+    "crates/cax",
     "crates/context-engine",
     "crates/event-store",
     "crates/memory-authority",

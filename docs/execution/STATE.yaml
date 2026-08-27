@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S11
-  name: codeoss-ide-loop
-  status: completed
-  objective: close the vertical IDE loop with an untrusted renderer protocol client, crash-safe replayable run views, request-scoped approval cards and marker-only explanation rendering
+  id: S12
+  name: cax-importers
+  status: in_progress
+  objective: define the Canonical Agent Exchange schema and first importers turning external agent transcripts into recomputable-evidence records with idempotent re-import, revocation and untrusted admission
 predecessor:
-  segment: S10
+  segment: S11
   status: completed
-  tag: s10-complete
-  commit: dbba2d9ee10b8abef5575e25c078c3762156d7e9
+  tag: s11-complete
+  commit: 349aa1f196eff1fe5219200a03e24e93435e24fc
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -45,42 +45,44 @@ completed_segments:
   - segment: S10
     tag: s10-complete
     commit: dbba2d9ee10b8abef5575e25c078c3762156d7e9
+  - segment: S11
+    tag: s11-complete
+    commit: 349aa1f196eff1fe5219200a03e24e93435e24fc
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S11-completion
+  branch: segment/S12-cax-importers
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 803ab40fcb8eee9e6bbfbcc7b0fd34468112d759
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: true
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-27T22:30:00Z"
+  last_checkpoint_at: "2026-08-28T09:00:00Z"
 acceptance:
   required:
-    - s10_tagged_base
+    - s11_tagged_base
     - configured_remote
-    - versioned_ide_client_contract
-    - version_mismatch_fails_closed
-    - frame_size_deadline_method_violations
-    - no_renderer_effect_outside_protocol
-    - ui_crash_does_not_kill_run
-    - replay_from_cursor_identical
-    - approval_card_scope_bound
-    - approval_ttl_death
-    - approval_minimum_alternatives
-    - explanation_marker_only_redaction
-    - exclude_revoke_are_protocol_intents
-    - s11_verifier
+    - versioned_cax_schema
+    - deterministic_validation
+    - hash_chain_from_raw_to_record
+    - record_hash_mismatch_fails_closed
+    - importer_cannot_invent_content
+    - reimport_idempotent
+    - revoke_removes_but_preserves_provenance
+    - cross_workspace_injection_denied
+    - unknown_version_fails_closed
+    - untrusted_fabric_admission
+    - s12_verifier
     - local_verification
     - verified_segment_push
     - required_ci
@@ -88,28 +90,27 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s10_tagged_base
+    - s11_tagged_base
     - configured_remote
-    - versioned_ide_client_contract
-    - version_mismatch_fails_closed
-    - frame_size_deadline_method_violations
-    - no_renderer_effect_outside_protocol
-    - ui_crash_does_not_kill_run
-    - replay_from_cursor_identical
-    - approval_card_scope_bound
-    - approval_ttl_death
-    - approval_minimum_alternatives
-    - explanation_marker_only_redaction
-    - exclude_revoke_are_protocol_intents
-    - s11_verifier
+    - versioned_cax_schema
+    - deterministic_validation
+    - hash_chain_from_raw_to_record
+    - record_hash_mismatch_fails_closed
+    - importer_cannot_invent_content
+    - reimport_idempotent
+    - revoke_removes_but_preserves_provenance
+    - cross_workspace_injection_denied
+    - unknown_version_fails_closed
+    - untrusted_fabric_admission
+    - s12_verifier
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -123,7 +124,8 @@ decisions:
   - docs/adr/ADR-011-context-engine-knowledge-mesh.md
   - docs/adr/ADR-012-memory-authority.md
   - docs/adr/ADR-013-untrusted-renderer-crash-safe-runview.md
+  - docs/adr/ADR-014-cax-recomputable-evidence.md
 blockers: []
 next_action:
-  command: after this atomic completion record merges and final main workflows pass, create annotated s11-complete and hand the next model docs/execution/NEXT-MODEL-S12.md
-  description: all S11 acceptance items passed; strict remote S11 verification green at 5761d24b449300a4b642c0c56df0c1b447278258
+  command: implement the S12 CAX schema and first importers per docs/execution/NEXT-MODEL-S12.md
+  description: freeze ADR-014, then implement the versioned CAX envelope, two importers with hash chains, idempotent re-import/revocation and untrusted fabric admission
