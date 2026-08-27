@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S09",
-  "status": "in_progress_local_gate_passed",
-  "branch": "segment/S09-context-engine",
+  "status": "completed",
+  "branch": "segment/S09-completion",
   "base": {
     "segment": "S08",
     "tag": "s08-complete",
@@ -13,8 +13,8 @@
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "ae06788287d2cacef86cea3defcea4cf47efc8ec",
-  "verified_main_checkpoint": "ae06788287d2cacef86cea3defcea4cf47efc8ec",
+  "main_head": "9213ee1feac8c05148149717ca0c688bbad9583f",
+  "verified_main_checkpoint": "9213ee1feac8c05148149717ca0c688bbad9583f",
   "checks": [
     {
       "id": "S09-INHERITED-BOUNDARY",
@@ -33,8 +33,39 @@
       "command": "focused adversarial suites",
       "exit_code": 0,
       "result": "structural nutrition labels on every chunk, unclassified admission failing closed, forged labels caught at admission and query time, zero cross-scope leakage, sensitivity ceiling plus query-time field redaction, hybrid keyword/symbol/structured channels with selection reasons, deterministic selection ordering and byte-identical explanations, corrupted-index rebuild recovery, immediate revocation, user exclusion, freshness expiry, untrusted-content explicit admission with taint-carrying exports and stable event names all passed"
+    },
+    {
+      "id": "S09-VERIFY-BRANCH-CI",
+      "command": "inspect push run 33029997731",
+      "exit_code": 0,
+      "result": "repository verification, Ubuntu, macOS, Windows and dependency audit passed for implementation SHA 184eca71cc7291207bd0ffd0f5f0ac48f5bf16e2 on the first push"
+    },
+    {
+      "id": "S09-VERIFY-PROTECTED-INTEGRATION",
+      "command": "inspect protected PR #28",
+      "exit_code": 0,
+      "result": "PR #28 squash-merged after all five required checks passed as 9213ee1feac8c05148149717ca0c688bbad9583f"
+    },
+    {
+      "id": "S09-VERIFY-MAIN-CI",
+      "command": "inspect main runs 33030395573, 33030395562 and 33030395636",
+      "exit_code": 0,
+      "result": "provenance, repository verification and the three-platform monorepo CI with dependency audit passed on 9213ee1feac8c05148149717ca0c688bbad9583f"
+    },
+    {
+      "id": "S09-VERIFY-CLEAN-CLONE",
+      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
+      "exit_code": 0,
+      "result": "clone resolved 9213ee1feac8c05148149717ca0c688bbad9583f and passed all gates in 84 seconds"
+    },
+    {
+      "id": "S09-VERIFY-REMOTE-MAIN",
+      "command": "node scripts/verify-remote-s09.mjs --repository SunArthurX/saber-harness --branch main",
+      "exit_code": 0,
+      "result": "context engine contracts, public settings, hosted security controls and same-SHA successful workflows passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-27T15:00:00Z"
+  "last_verified_at": "2026-08-27T16:30:00Z",
+  "verified_segment_checkpoint": "184eca71cc7291207bd0ffd0f5f0ac48f5bf16e2"
 }

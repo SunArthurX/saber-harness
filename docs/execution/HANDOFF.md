@@ -1,51 +1,49 @@
-# S08 Handoff
+# S09 Handoff
 
 Status: completed atomically when this completion record merges through protected main
 Date: 2026-08-27
-Branch: `segment/S08-completion`
-Implementation branch: `segment/S08-model-providers` @ `b8f7901c6d09c7a0341cfd7dde68f856a8b84a42`
-Merged main: PR #26 squash-merged as `b884fa842e057f5ac2e68a7a398b3f4b908ad694`
+Branch: `segment/S09-completion`
+Implementation branch: `segment/S09-context-engine` @ `184eca71cc7291207bd0ffd0f5f0ac48f5bf16e2`
+Merged main: PR #28 squash-merged as `9213ee1feac8c05148149717ca0c688bbad9583f`
 
 ## Objective
 
-Make the model layer replaceable and policy-bound: every invocation routes through a versioned provider SPI, egress to any provider is authorized by the S06 Egress PEP with data-classification binding, and a deterministic router selects providers by policy, capability, privacy, budget and health without touching product authority state.
+Build the permission-aware Context Engine and Knowledge Mesh: one query fabric over code, conversations, documents, decisions and memory with provenance, scope, sensitivity, freshness and selection-reason labels, scope isolation without cross-workspace/tenant leakage, context explain/inspect/exclude/revoke controls and hybrid retrieval over rebuildable derived indexes.
 
-## What shipped (PR #26)
+## What shipped (PR #28)
 
-- ADR-010 froze the policy-bound model layer.
-- `crates/model-providers` (`saber-model-providers`): versioned `ModelProvider` SPI (messages, tool declarations/calls, structured output, streaming events, usage accounting, cancellation, typed retryability-aware errors, per-request data-policy declarations).
-- Translation-only adapters for OpenAI-compatible, Anthropic-compatible and Ollama wire families; adapters perform no I/O.
-- PEP-authorized `ModelTransport` as the only network boundary: every `execute` requires an `EgressAuthorization`; credentials arrive exclusively as secret-broker lease material (`credential://broker/provider-<id>` grammar); wire envelopes are debug-redacted.
-- Usage evidence or no success: responses without meaningful usage and streams without terminal events are provider errors (the no-forged-success invariant at the model layer).
-- Digest-verified monotonic `ModelRegistry` (digest mismatch and sequence rollback rejected); release signing documented to arrive with the S22 TUF segment.
-- Capability `probe_model` through PEP-authorized transports with `exclusions_from_reports` feeding the router.
-- Deterministic classification-first `ModelRouter`: data-class/residency/capability filters before quality/cost ranking, stable tie-break, byte-identical decisions, fail-closed budgets, no silent model substitution.
-- Fail-closed `TaskBudget` with accumulating usage, clean mid-stream cancellation preserving partial-usage evidence, and bounded idempotent retryable-only retries.
-- `verify-s08.mjs` (144 checks) and `verify-remote-s08.mjs` wired into `pnpm verify` and the repository-verification workflow; FR-RUN-006 verified with evidence.
+- ADR-011 froze the design; FR-MEM-002/004/005/006 implemented with evidence (FR-MEM-003 remains S10 per DEC-0010).
+- `crates/context-engine` (`saber-context-engine`): structural `NutritionLabel` (provenance/trust, tenant-workspace scope, classification, freshness, content digest re-verified at query time — labels cannot be forged onto different content; admission fails closed without classification or origin, INV-02).
+- Scope-qualified `KnowledgeFabric`: foreign chunks structurally invisible; sensitivity ceilings exclude over-classified chunks; field-level restricted fields redacted at query time with a stable marker.
+- Hybrid keyword/symbol/structured retrieval over rebuildable digest-carrying derived indexes; per-channel selection reasons; deterministic ordering; channel queries with zero hits return nothing instead of pinning unrelated content.
+- Deterministic byte-identical explanations; user exclusion; immediate revocation removing chunk and index entries at once; freshness expiry with reason.
+- Taint-carrying `ContextBundle` exports composing into S06 `EgressRequest`s (untrusted provenance taints the bundle; max member classification binds it).
+- Stable event names (`knowledge.queried`, `context.chunk_selected`, `knowledge.redacted`, `context.explained`, `context.source_excluded`, `index.rebuilt`, `retrieval.completed`) with metadata-only payloads for the durable journal.
+- `verify-s09.mjs` (82 checks) and `verify-remote-s09.mjs` wired into `pnpm verify` and the repository-verification workflow.
 
 ## Verified evidence
 
-- Full local gate: fmt, strict clippy, 21 Rust test suites (15 model-layer adversarial tests), `pnpm verify`, `pnpm acceptance:new-machine`.
-- Branch CI: push run `33028141710` green on all five required contexts at `b8f7901` on the first push.
-- Protected integration: PR #26 merged after every required check; merge SHA `b884fa8`.
-- Main workflows at `b884fa8`: provenance `33028566313`, repository verification `33028566330`, Monorepo CI `33028566325` all passed.
-- Clean clone: anonymous HTTPS clone at `b884fa8` passed `pnpm acceptance:new-machine` in 81 seconds.
-- Strict remote S08 verification passed at `b884fa8`.
+- Full local gate: fmt, strict clippy, 23 Rust test suites (13 context-engine adversarial tests), `pnpm verify`, `pnpm acceptance:new-machine`.
+- Branch CI: push run `33029997731` green on all five required contexts at `184eca7` on the first push.
+- Protected integration: PR #28 merged after every required check; merge SHA `9213ee1`.
+- Main workflows at `9213ee1`: provenance `33030395573`, repository verification `33030395562`, Monorepo CI `33030395636` all passed.
+- Clean clone: anonymous HTTPS clone at `9213ee1` passed `pnpm acceptance:new-machine` in 84 seconds.
+- Strict remote S09 verification passed at `9213ee1`.
 
 ## Remaining steps after this record merges
 
 1. Verify final main workflows on the record merge commit.
-2. Run `node scripts/verify-remote-s08.mjs --repository SunArthurX/saber-harness --branch main` (already green at the implementation SHA).
-3. Create annotated `s08-complete` on the final commit.
-4. Hand the next model `docs/execution/NEXT-MODEL-S09.md`.
+2. Run `node scripts/verify-remote-s09.mjs --repository SunArthurX/saber-harness --branch main` (already green at the implementation SHA).
+3. Create annotated `s09-complete` on the final commit.
+4. Hand the next model `docs/execution/NEXT-MODEL-S10.md`.
 
 ## Non-negotiable review points
 
-- Adapters stay translation-only; the PEP-authorized transport is the only network path.
-- Credentials never appear in requests, logs, events or errors; lease injection only.
-- Classification-incompatible routing is denied; the router never silently substitutes a model.
-- Success requires usage evidence; budget exhaustion fails closed with partial-usage evidence.
+- Labels are structural: unclassified content never enters context; forged labels are caught at admission and query time.
+- Scope isolation is structural, not policy-checked afterwards.
+- Indexes are derived data only; corruption recovers by rebuild.
+- Exports carry taint and classification into the S06 egress boundary.
 
 ## Next action
 
-Finish the publication protocol above; do not begin S09 in this session.
+Finish the publication protocol above; do not begin S10 in this session.

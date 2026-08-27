@@ -113,7 +113,7 @@
       "statement": "Label every context chunk and memory with provenance, scope, sensitivity, freshness and selection reason.",
       "owner": "knowledge", "module": "packages/context-engine",
       "events": ["context.chunk_selected", "memory.proposed"], "tests": ["S09-CONTEXT-NUTRITION-LABEL"],
-      "segment": "S09", "source": "architecture 8.2 and PC-04 and ADR-011", "status": "implemented",
+      "segment": "S09", "source": "architecture 8.2 and PC-04 and ADR-011", "status": "verified-main",
       "evidence": ["crates/context-engine/src/label.rs"]
     },
     {
@@ -128,7 +128,7 @@
       "statement": "Query code, conversation, documents, issues, decisions and rules through one permission-aware knowledge fabric without cross-scope leakage.",
       "owner": "knowledge", "module": "packages/context-engine",
       "events": ["knowledge.queried", "knowledge.redacted"], "tests": ["S09-KNOWLEDGE-SCOPE-ISOLATION"],
-      "segment": "S09", "source": "architecture 8.6 and 8.7 and ADR-011", "status": "implemented",
+      "segment": "S09", "source": "architecture 8.6 and 8.7 and ADR-011", "status": "verified-main",
       "evidence": ["crates/context-engine/src/fabric.rs"]
     },
     {
@@ -136,7 +136,7 @@
       "statement": "Explain why each item entered model context and permit users to inspect, exclude or revoke it.",
       "owner": "knowledge", "module": "packages/context-engine",
       "events": ["context.explained", "context.source_excluded"], "tests": ["S09-CONTEXT-EXPLAIN-REVOKE"],
-      "segment": "S09", "source": "architecture 2.3 and 8.2 and ADR-011", "status": "implemented",
+      "segment": "S09", "source": "architecture 2.3 and 8.2 and ADR-011", "status": "verified-main",
       "evidence": ["crates/context-engine/src/fabric.rs"]
     },
     {
@@ -144,7 +144,7 @@
       "statement": "Combine structured, symbol, FTS and vector retrieval while treating indexes as rebuildable derived data.",
       "owner": "knowledge", "module": "packages/context-engine",
       "events": ["index.rebuilt", "retrieval.completed"], "tests": ["S09-HYBRID-RETRIEVAL-REBUILD"],
-      "segment": "S09", "source": "architecture 8.1 and ADR-011", "status": "implemented",
+      "segment": "S09", "source": "architecture 8.1 and ADR-011", "status": "verified-main",
       "evidence": ["crates/context-engine/src/fabric.rs"]
     },
     {

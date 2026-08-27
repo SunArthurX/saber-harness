@@ -15,10 +15,10 @@ Completed Segments:
 
 Current Segment:
 
-- S08 — ModelProvider, Router and Budget (`completion_pending`; implementation merged through protected PR #26 as `b884fa842e057f5ac2e68a7a398b3f4b908ad694`).
+- S09 — Context Engine and Knowledge Mesh (`completion_pending`; implementation merged through protected PR #28 as `9213ee1feac8c05148149717ca0c688bbad9583f`).
 
 Next Segment:
 
-- S09 — Context Engine and Knowledge Mesh.
+- S10 — Memory Authority.
 
-S08 started from protected `origin/main` at `s07-complete` / `041c764a44f1b517c3a82a571e0919cb247ac35e`. Its implementation branch `segment/S08-model-providers` passed every required context at `b8f7901c6d09c7a0341cfd7dde68f856a8b84a42`; the atomic completion record and `s08-complete` tag follow this merge.
+S09 started from protected `origin/main` at `s08-complete` / `ae06788287d2cacef86cea3defcea4cf47efc8ec`. Its implementation branch `segment/S09-context-engine` passed every required context at `184eca71cc7291207bd0ffd0f5f0ac48f5bf16e2`; the atomic completion record and `s09-complete` tag follow this merge.

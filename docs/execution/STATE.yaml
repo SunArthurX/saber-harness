@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S09
   name: context-engine
-  status: in_progress
+  status: completed
   objective: build the permission-aware Context Engine and Knowledge Mesh with nutrition labels, scope-isolated hybrid retrieval, explain/exclude/revoke controls and rebuildable derived indexes
 predecessor:
   segment: S08
@@ -45,20 +45,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S09-context-engine
+  branch: segment/S09-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: b8f7901c6d09c7a0341cfd7dde68f856a8b84a42
+  verified_segment_checkpoint: 184eca71cc7291207bd0ffd0f5f0ac48f5bf16e2
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-27T15:00:00Z"
+  last_checkpoint_at: "2026-08-27T16:30:00Z"
 acceptance:
   required:
     - s08_tagged_base
@@ -101,13 +101,13 @@ acceptance:
     - taint_carrying_export
     - s09_verifier
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -121,5 +121,5 @@ decisions:
   - docs/adr/ADR-011-context-engine-knowledge-mesh.md
 blockers: []
 next_action:
-  command: implement the S09 context engine per docs/execution/NEXT-MODEL-S09.md
-  description: freeze ADR-011, then implement nutrition labels, the permission-aware fabric, hybrid retrieval and explain/exclude/revoke controls
+  command: after this atomic completion record merges and final main workflows pass, create annotated s09-complete and hand the next model docs/execution/NEXT-MODEL-S10.md
+  description: all S09 acceptance items passed; strict remote S09 verification green at 9213ee1feac8c05148149717ca0c688bbad9583f
