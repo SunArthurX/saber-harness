@@ -9,6 +9,7 @@ members = [
     "crates/memory-authority",
     "crates/model-providers",
     "crates/policy",
+    "crates/resumption",
     "crates/saber-core",
     "crates/tool-broker",
     "crates/sandbox",

@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S12
-  name: cax-importers
-  status: completed
-  objective: define the Canonical Agent Exchange schema and first importers turning external agent transcripts into recomputable-evidence records with idempotent re-import, revocation and untrusted admission
+  id: S13
+  name: resumption-capsule
+  status: in_progress
+  objective: build a verifiable Resumption Capsule preserving goal, task, artifact and decision lineage across model or agent changes with environment drift surfacing as explicit reconcile
 predecessor:
-  segment: S11
+  segment: S12
   status: completed
-  tag: s11-complete
-  commit: 349aa1f196eff1fe5219200a03e24e93435e24fc
+  tag: s12-complete
+  commit: c1f10bfb7ec379217583878291d7e7a12f112ef5
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -48,41 +48,44 @@ completed_segments:
   - segment: S11
     tag: s11-complete
     commit: 349aa1f196eff1fe5219200a03e24e93435e24fc
+  - segment: S12
+    tag: s12-complete
+    commit: c1f10bfb7ec379217583878291d7e7a12f112ef5
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S12-completion
+  branch: segment/S13-resumption-capsule
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: c843abd909bff854d23ce48230c0cb52e8f5e593
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: true
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-28T10:30:00Z"
+  last_checkpoint_at: "2026-08-28T12:00:00Z"
 acceptance:
   required:
-    - s11_tagged_base
+    - s12_tagged_base
     - configured_remote
-    - versioned_cax_schema
-    - deterministic_validation
-    - hash_chain_from_raw_to_record
-    - record_hash_mismatch_fails_closed
-    - importer_cannot_invent_content
-    - reimport_idempotent
-    - revoke_removes_but_preserves_provenance
-    - cross_workspace_injection_denied
+    - versioned_capsule_schema
+    - capsule_digest_binding
+    - creation_from_authoritative_facts_only
+    - capsule_digest_mismatch_fails_closed
+    - mutated_artifact_fails_verification
+    - resumed_lineage_equals_recorded
+    - environment_drift_reconcile
+    - cross_workspace_injection_fails
     - unknown_version_fails_closed
-    - untrusted_fabric_admission
-    - s12_verifier
+    - consumer_reverification_without_trust
+    - s13_verifier
     - local_verification
     - verified_segment_push
     - required_ci
@@ -90,27 +93,27 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s11_tagged_base
+    - s12_tagged_base
     - configured_remote
-    - versioned_cax_schema
-    - deterministic_validation
-    - hash_chain_from_raw_to_record
-    - record_hash_mismatch_fails_closed
-    - importer_cannot_invent_content
-    - reimport_idempotent
-    - revoke_removes_but_preserves_provenance
-    - cross_workspace_injection_denied
+    - versioned_capsule_schema
+    - capsule_digest_binding
+    - creation_from_authoritative_facts_only
+    - capsule_digest_mismatch_fails_closed
+    - mutated_artifact_fails_verification
+    - resumed_lineage_equals_recorded
+    - environment_drift_reconcile
+    - cross_workspace_injection_fails
     - unknown_version_fails_closed
-    - untrusted_fabric_admission
-    - s12_verifier
+    - consumer_reverification_without_trust
+    - s13_verifier
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -125,7 +128,8 @@ decisions:
   - docs/adr/ADR-012-memory-authority.md
   - docs/adr/ADR-013-untrusted-renderer-crash-safe-runview.md
   - docs/adr/ADR-014-cax-recomputable-evidence.md
+  - docs/adr/ADR-015-resumption-capsule.md
 blockers: []
 next_action:
-  command: after this atomic completion record merges and final main workflows pass, create annotated s12-complete and hand the next model docs/execution/NEXT-MODEL-S13.md
-  description: all S12 acceptance items passed; strict remote S12 verification green at e213e5d53c66f38d3c0a5ee349573238fe1571eb
+  command: implement the S13 Resumption Capsule per docs/execution/NEXT-MODEL-S13.md
+  description: freeze ADR-015, then implement the versioned capsule, fact-bound creation, digest verification with drift reconcile and continuation semantics
