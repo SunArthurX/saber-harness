@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S08
-  name: model-providers
-  status: completed
-  objective: make the model layer replaceable and policy-bound through a versioned provider SPI, PEP-authorized transports, a digest-verified registry and a deterministic classification-first router with fail-closed budgets
+  id: S09
+  name: context-engine
+  status: in_progress
+  objective: build the permission-aware Context Engine and Knowledge Mesh with nutrition labels, scope-isolated hybrid retrieval, explain/exclude/revoke controls and rebuildable derived indexes
 predecessor:
-  segment: S07
+  segment: S08
   status: completed
-  tag: s07-complete
-  commit: 041c764a44f1b517c3a82a571e0919cb247ac35e
+  tag: s08-complete
+  commit: ae06788287d2cacef86cea3defcea4cf47efc8ec
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -36,44 +36,47 @@ completed_segments:
   - segment: S07
     tag: s07-complete
     commit: 041c764a44f1b517c3a82a571e0919cb247ac35e
+  - segment: S08
+    tag: s08-complete
+    commit: ae06788287d2cacef86cea3defcea4cf47efc8ec
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S08-completion
+  branch: segment/S09-context-engine
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: b8f7901c6d09c7a0341cfd7dde68f856a8b84a42
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: true
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-27T13:30:00Z"
+  last_checkpoint_at: "2026-08-27T15:00:00Z"
 acceptance:
   required:
-    - s07_tagged_base
+    - s08_tagged_base
     - configured_remote
-    - model_provider_spi
-    - streaming_tool_structured_usage_cancel
-    - typed_errors_with_retryability
-    - adapters_openai_anthropic_ollama
-    - pep_authorized_transport_only
-    - credential_lease_injection_only
-    - digest_verified_model_registry
-    - capability_probe_evidence
-    - classification_first_routing
-    - router_determinism
-    - budget_exhaustion_fail_closed
-    - no_forged_provider_success
-    - bounded_idempotent_retries
-    - s08_verifier
+    - nutrition_label_contract
+    - unclassified_admission_rejected
+    - label_forgery_detected
+    - cross_scope_leakage_zero
+    - query_time_redaction
+    - hybrid_keyword_symbol_structured
+    - deterministic_ordering
+    - deterministic_explain
+    - index_rebuild_recovery
+    - revocation_immediate
+    - user_exclusion
+    - freshness_expiry
+    - taint_carrying_export
+    - s09_verifier
     - local_verification
     - verified_segment_push
     - required_ci
@@ -81,30 +84,30 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s07_tagged_base
+    - s08_tagged_base
     - configured_remote
-    - model_provider_spi
-    - streaming_tool_structured_usage_cancel
-    - typed_errors_with_retryability
-    - adapters_openai_anthropic_ollama
-    - pep_authorized_transport_only
-    - credential_lease_injection_only
-    - digest_verified_model_registry
-    - capability_probe_evidence
-    - classification_first_routing
-    - router_determinism
-    - budget_exhaustion_fail_closed
-    - no_forged_provider_success
-    - bounded_idempotent_retries
-    - s08_verifier
+    - nutrition_label_contract
+    - unclassified_admission_rejected
+    - label_forgery_detected
+    - cross_scope_leakage_zero
+    - query_time_redaction
+    - hybrid_keyword_symbol_structured
+    - deterministic_ordering
+    - deterministic_explain
+    - index_rebuild_recovery
+    - revocation_immediate
+    - user_exclusion
+    - freshness_expiry
+    - taint_carrying_export
+    - s09_verifier
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -115,7 +118,8 @@ decisions:
   - docs/adr/ADR-008-sandbox-secret-egress-fail-closed-boundaries.md
   - docs/adr/ADR-009-tool-lifecycle-verification.md
   - docs/adr/ADR-010-policy-bound-model-layer.md
+  - docs/adr/ADR-011-context-engine-knowledge-mesh.md
 blockers: []
 next_action:
-  command: after this atomic completion record merges and final main workflows pass, create annotated s08-complete and hand the next model docs/execution/NEXT-MODEL-S09.md
-  description: all S08 acceptance items passed; strict remote S08 verification green at b884fa842e057f5ac2e68a7a398b3f4b908ad694
+  command: implement the S09 context engine per docs/execution/NEXT-MODEL-S09.md
+  description: freeze ADR-011, then implement nutrition labels, the permission-aware fabric, hybrid retrieval and explain/exclude/revoke controls
