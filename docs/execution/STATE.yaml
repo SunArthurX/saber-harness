@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S18
   name: health-safemode
-  status: in_progress
+  status: completed
   objective: build the immune system — deterministic health detection, bounded contain-first reflexes, fail-closed Safe Mode and external-authority escalation that never improvises repairs
 predecessor:
   segment: S17
@@ -72,20 +72,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S18-health-safemode
+  branch: segment/S18-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: 92a38c7abb9f9a6dbb7a3da525012ea035f6fb65
+  verified_segment_checkpoint: 70b7255f900405c56199453985dc16f7920977b6
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T12:00:00Z"
+  last_checkpoint_at: "2026-08-29T13:30:00Z"
 acceptance:
   required:
     - s17_tagged_base
@@ -124,13 +124,13 @@ acceptance:
     - game_day_cascade_contained
     - s18_verifier
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -153,5 +153,5 @@ decisions:
   - docs/adr/ADR-020-contain-first-immune-core.md
 blockers: []
 next_action:
-  command: implement the S18 health system per docs/execution/NEXT-MODEL-S18.md
-  description: freeze ADR-020, then implement deterministic detection, bounded reflexes, Safe Mode and escalation
+  command: after this atomic completion record merges and final main workflows pass, create annotated s18-complete and hand the next model docs/execution/NEXT-MODEL-S19.md
+  description: all S18 acceptance items passed; strict remote S18 verification green at 332fd72b2313da8a541ecff9fd103b6eeead2de4

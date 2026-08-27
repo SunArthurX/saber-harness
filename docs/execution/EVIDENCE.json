@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S18",
-  "status": "in_progress_local_gate_passed",
-  "branch": "segment/S18-health-safemode",
+  "status": "completed",
+  "branch": "segment/S18-completion",
   "base": {
     "segment": "S17",
     "tag": "s17-complete",
@@ -13,8 +13,8 @@
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "87d571a99992871db7e26fa9c1027e6acc4ab463",
-  "verified_main_checkpoint": "87d571a99992871db7e26fa9c1027e6acc4ab463",
+  "main_head": "332fd72b2313da8a541ecff9fd103b6eeead2de4",
+  "verified_main_checkpoint": "332fd72b2313da8a541ecff9fd103b6eeead2de4",
   "checks": [
     {
       "id": "S18-INHERITED-BOUNDARY",
@@ -33,8 +33,39 @@
       "command": "focused adversarial suites",
       "exit_code": 0,
       "result": "deterministic LLM-free detection over the H0-H4 ladder, critical boundaries failing closed into idempotent operator-exit-only Safe Mode, trust-root breaks escalating immediately with autonomy halted and a metadata-only bundle, the closed reflex vocabulary structurally excluding policy/audit/crypto, blast-radius bounds escalating instead of reflexing beyond MAX_QUARANTINED_CELLS, and a game-day cascade ending in bounded evidence-preserving containment all passed"
+    },
+    {
+      "id": "S18-VERIFY-BRANCH-CI",
+      "command": "inspect push runs 33069962580 and 33069962597",
+      "exit_code": 0,
+      "result": "repository verification and the three-platform monorepo CI with dependency audit passed for implementation SHA 70b7255f900405c56199453985dc16f7920977b6 on the first push"
+    },
+    {
+      "id": "S18-VERIFY-PROTECTED-INTEGRATION",
+      "command": "inspect protected PR #47",
+      "exit_code": 0,
+      "result": "PR #47 squash-merged after all five required checks passed as 332fd72b2313da8a541ecff9fd103b6eeead2de4"
+    },
+    {
+      "id": "S18-VERIFY-MAIN-CI",
+      "command": "inspect main runs 33070653927, 33070653910 and 33070653886",
+      "exit_code": 0,
+      "result": "provenance, repository verification and the three-platform monorepo CI passed on 332fd72b2313da8a541ecff9fd103b6eeead2de4"
+    },
+    {
+      "id": "S18-VERIFY-CLEAN-CLONE",
+      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
+      "exit_code": 0,
+      "result": "clone resolved 332fd72b2313da8a541ecff9fd103b6eeead2de4 and passed all gates in 90 seconds"
+    },
+    {
+      "id": "S18-VERIFY-REMOTE-MAIN",
+      "command": "node scripts/verify-remote-s18.mjs --repository SunArthurX/saber-harness --branch main",
+      "exit_code": 0,
+      "result": "health supervisor contracts, public settings, hosted security controls and same-SHA successful workflows passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-29T12:00:00Z"
+  "last_verified_at": "2026-08-29T13:30:00Z",
+  "verified_segment_checkpoint": "70b7255f900405c56199453985dc16f7920977b6"
 }
