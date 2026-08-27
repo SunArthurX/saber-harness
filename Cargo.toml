@@ -7,6 +7,7 @@ members = [
     "crates/code-capsule",
     "crates/context-engine",
     "crates/event-store",
+    "crates/health-supervisor",
     "crates/evolution",
     "crates/memory-authority",
     "crates/model-providers",

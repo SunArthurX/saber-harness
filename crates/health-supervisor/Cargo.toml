@@ -1,0 +1,16 @@
+[package]
+name = "saber-health-supervisor"
+description = "Deterministic health detection, bounded contain-first reflexes, fail-closed Safe Mode and escalation for Saber"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+authors.workspace = true
+license-file.workspace = true
+publish = false
+
+[dependencies]
+serde = { version = "=1.0.229", features = ["derive"] }
+serde_json = "=1.0.151"
+
+[lints]
+workspace = true
