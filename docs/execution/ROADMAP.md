@@ -15,10 +15,10 @@ Completed Segments:
 
 Current Segment:
 
-- S13 — Resumption Capsule (`completion_pending`; implementation merged through protected PR #37 as `e6ac4839cb084d72d2ce21466427430ef3e6ea25`).
+- S14 — Goal DAG and Subagents (`completion_pending`; implementation merged through protected PR #39 as `d8f8610447fa856f2ad1ac21bd83f03a06a4e5ac`).
 
 Next Segment:
 
-- S14 — Goal DAG and Subagents.
+- S15 — Evolution Workshop.
 
-S13 started from protected `origin/main` at `s12-complete` / `c1f10bfb7ec379217583878291d7e7a12f112ef5`. Its implementation branch `segment/S13-resumption-capsule` passed every required context at `22d5a13ebb6abb0b8b71d380b185345bad2cd6f6`; the atomic completion record and `s13-complete` tag follow this merge.
+S14 started from protected `origin/main` at `s13-complete` / `9fc9acfc8874e9755c1d0d83aaab06c9989b3556`. Its implementation branch `segment/S14-goal-dag-subagents` passed every required context at `fc1a4d3368ab7dcedad6fc40081a94c4ca8f8849`; the atomic completion record and `s14-complete` tag follow this merge.

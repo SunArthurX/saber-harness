@@ -102,7 +102,7 @@
       "statement": "Delegate subagents with attenuated task-scoped capabilities, budgets and isolated failure domains.",
       "owner": "agent-runtime", "module": "packages/agent-runtime",
       "events": ["subagent.delegated", "subagent.completed"], "tests": ["S14-SUBAGENT-ATTENUATION"],
-      "segment": "S14", "source": "architecture 15.6 and ADR-016", "status": "implemented",
+      "segment": "S14", "source": "architecture 15.6 and ADR-016", "status": "verified-main",
       "evidence": ["crates/orchestrator/src/delegation.rs", "crates/orchestrator/src/lib.rs"]
     },
     {
