@@ -197,7 +197,8 @@
       "statement": "Generate E4 code only as an isolated typed Code Capsule with locked dependencies, explicit capabilities and resource budgets.",
       "owner": "evolution", "module": "packages/evolution-engine",
       "events": ["capsule.generated", "capsule.tested", "capsule.signed"], "tests": ["S16-CODE-CAPSULE-ISOLATION"],
-      "segment": "S16", "source": "architecture 13.9", "status": "planned"
+      "segment": "S16", "source": "architecture 13.9 and ADR-018", "status": "implemented",
+      "evidence": ["crates/code-capsule/src/capsule.rs", "crates/code-capsule/src/registry.rs"]
     },
     {
       "id": "FR-EVO-006", "priority": "P0",

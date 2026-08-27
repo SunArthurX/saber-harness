@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S15
-  name: evolution-workshop
-  status: completed
-  objective: govern self-evolution through a typed candidate lifecycle where evidence proposes, evaluation measures, explicit review promotes and revocation removes — candidates can never bypass review into capability
+  id: S16
+  name: code-capsule
+  status: in_progress
+  objective: ship generated code as capability only through isolated typed Code Capsules with digest-pinned dependencies, declared closed-vocabulary grants, sandbox realms, budget bounds and supersession history
 predecessor:
-  segment: S14
+  segment: S15
   status: completed
-  tag: s14-complete
-  commit: 2013ba42f279e4c83ecd2fce8a0ef809421bea31
+  tag: s15-complete
+  commit: 39c2c558c7d4cde13c3944970b372fccda9b936d
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -57,41 +57,45 @@ completed_segments:
   - segment: S14
     tag: s14-complete
     commit: 2013ba42f279e4c83ecd2fce8a0ef809421bea31
+  - segment: S15
+    tag: s15-complete
+    commit: 39c2c558c7d4cde13c3944970b372fccda9b936d
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S15-completion
+  branch: segment/S16-code-capsule
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 5491bb592f0e2546eb251796a0981e8709ba44a5
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: true
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-28T19:30:00Z"
+  last_checkpoint_at: "2026-08-28T21:00:00Z"
 acceptance:
   required:
-    - s14_tagged_base
+    - s15_tagged_base
     - configured_remote
-    - typed_candidate_lifecycle
-    - states_never_skip
-    - evaluation_recorded_not_promotion
-    - evaluation_failure_blocks_promotion
-    - no_auto_promotion_path
-    - poisoned_evidence_explicit_review_only
-    - tampered_content_fails_digest
-    - promotion_digest_chain
-    - revocation_immediate_removal
-    - provenance_survives_to_source
-    - s15_verifier
+    - versioned_capsule_schema
+    - digest_pinned_dependencies
+    - declared_closed_vocabulary_grants
+    - tampered_source_fails_admission
+    - undeclared_dependency_fails_execution
+    - undeclared_grant_fails_execution
+    - budget_exhaustion_terminates
+    - grants_never_widen_across_versions
+    - unpromoted_capsules_never_execute
+    - supersession_keeps_history_rollback
+    - workshop_lifecycle_admission
+    - s16_verifier
     - local_verification
     - verified_segment_push
     - required_ci
@@ -99,27 +103,28 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s14_tagged_base
+    - s15_tagged_base
     - configured_remote
-    - typed_candidate_lifecycle
-    - states_never_skip
-    - evaluation_recorded_not_promotion
-    - evaluation_failure_blocks_promotion
-    - no_auto_promotion_path
-    - poisoned_evidence_explicit_review_only
-    - tampered_content_fails_digest
-    - promotion_digest_chain
-    - revocation_immediate_removal
-    - provenance_survives_to_source
-    - s15_verifier
+    - versioned_capsule_schema
+    - digest_pinned_dependencies
+    - declared_closed_vocabulary_grants
+    - tampered_source_fails_admission
+    - undeclared_dependency_fails_execution
+    - undeclared_grant_fails_execution
+    - budget_exhaustion_terminates
+    - grants_never_widen_across_versions
+    - unpromoted_capsules_never_execute
+    - supersession_keeps_history_rollback
+    - workshop_lifecycle_admission
+    - s16_verifier
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -137,7 +142,8 @@ decisions:
   - docs/adr/ADR-015-resumption-capsule.md
   - docs/adr/ADR-016-goal-dag-subagent-evidence.md
   - docs/adr/ADR-017-evolution-workshop.md
+  - docs/adr/ADR-018-isolated-code-capsules.md
 blockers: []
 next_action:
-  command: after this atomic completion record merges and final main workflows pass, create annotated s15-complete and hand the next model docs/execution/NEXT-MODEL-S16.md
-  description: all S15 acceptance items passed; strict remote S15 verification green at 6b166c1fd9d841549e6eb77a0e777a4b78972b73
+  command: implement the S16 Code Capsule per docs/execution/NEXT-MODEL-S16.md
+  description: freeze ADR-018, then implement the typed capsule schema, workshop admission, execution eligibility checks and supersession history
