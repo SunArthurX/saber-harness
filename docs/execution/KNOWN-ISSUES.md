@@ -44,3 +44,10 @@
 - Status: resolved 2026-08-28 (ADR-027)
 - Resolution: equivalent-strictness composition — wildcard `allow file-read*`, explicit `deny file-read*` on non-system top-level roots, canonical mount-specific re-allows (more specific allowances win); canonicalization of mount hosts (`host_mounts_of`), probe scratch and emitted filters so filters and opens agree; the guarded backend is preferred first so in-core realms never pay for a wrapper
 - Evidence: `crates/sandbox/src/platform.rs` regression tests pin the composition; `crates/saber-core/tests/agent_run.rs::real_seatbelt_executes_under_confinement_on_macos` executes a real confined child and verifies the encrypted audit trail on this exact OS
+## KI-0007 — probe-profile test read a concurrently rewritten file (flaky)
+
+- Observed: 2026-08-28, one `pnpm acceptance:new-machine` exit 101 and a ~1-in-6 failure of `saber-sandbox` under repeated local runs: `seatbelt_wrapper_probe_profile_matches_the_same_composition` asserted on the PID-keyed probe profile file that concurrent `for_current_platform()` probes rewrite; a reader could observe the file mid-write (truncated) and fail the composition assertion
+- Root cause: test-level TOCTOU — evidence read from a shared mutable artifact instead of the pure builder
+- Status: resolved 2026-08-28
+- Resolution: profile construction extracted into the pure `seatbelt_probe_profile(overlay)` used by `seatbelt_wrapper`; the regression test asserts on the pure function output and the sandbox-exec argv only, never on the shared file
+- Evidence: 15/15 consecutive clean `-p saber-core -p saber-sandbox` runs after the fix (previously ~1 failure per 6); acceptance suite green
