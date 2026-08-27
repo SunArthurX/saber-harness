@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S07
-  name: tool-broker
-  status: completed
-  objective: give every tool-mediated modification a uniform recoverable lifecycle where tools cannot forge success and failures roll back or surface as explicitly non-retriable
+  id: S08
+  name: model-providers
+  status: in_progress
+  objective: make the model layer replaceable and policy-bound through a versioned provider SPI, PEP-authorized transports, a digest-verified registry and a deterministic classification-first router with fail-closed budgets
 predecessor:
-  segment: S06
+  segment: S07
   status: completed
-  tag: s06-complete
-  commit: dd2f568d957fcadc94f48c6b40c08787c39e2195
+  tag: s07-complete
+  commit: 041c764a44f1b517c3a82a571e0919cb247ac35e
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -33,43 +33,47 @@ completed_segments:
   - segment: S06
     tag: s06-complete
     commit: dd2f568d957fcadc94f48c6b40c08787c39e2195
+  - segment: S07
+    tag: s07-complete
+    commit: 041c764a44f1b517c3a82a571e0919cb247ac35e
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S07-completion
+  branch: segment/S08-model-providers
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: b7cf964517ede8bc80cc1593f5ae7677edcc122f
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: true
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-27T10:30:00Z"
+  last_checkpoint_at: "2026-08-27T12:00:00Z"
 acceptance:
   required:
-    - s06_tagged_base
+    - s07_tagged_base
     - configured_remote
-    - tool_spi_lifecycle
-    - describe_before_authorize
-    - no_forged_success
-    - mutation_only_in_overlay
-    - intent_result_verification_ordering
-    - crash_replay_without_duplicate_effects
-    - compensation_rollback
-    - compensation_failure_non_retriable
-    - concurrent_worktree_serialization
-    - external_edit_reconcile
-    - git_fingerprint_drift_reconcile
-    - readonly_tools_first
-    - s07_verifier
+    - model_provider_spi
+    - streaming_tool_structured_usage_cancel
+    - typed_errors_with_retryability
+    - adapters_openai_anthropic_ollama
+    - pep_authorized_transport_only
+    - credential_lease_injection_only
+    - digest_verified_model_registry
+    - capability_probe_evidence
+    - classification_first_routing
+    - router_determinism
+    - budget_exhaustion_fail_closed
+    - no_forged_provider_success
+    - bounded_idempotent_retries
+    - s08_verifier
     - local_verification
     - verified_segment_push
     - required_ci
@@ -77,29 +81,30 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s06_tagged_base
+    - s07_tagged_base
     - configured_remote
-    - tool_spi_lifecycle
-    - describe_before_authorize
-    - no_forged_success
-    - mutation_only_in_overlay
-    - intent_result_verification_ordering
-    - crash_replay_without_duplicate_effects
-    - compensation_rollback
-    - compensation_failure_non_retriable
-    - concurrent_worktree_serialization
-    - external_edit_reconcile
-    - git_fingerprint_drift_reconcile
-    - readonly_tools_first
-    - s07_verifier
+    - model_provider_spi
+    - streaming_tool_structured_usage_cancel
+    - typed_errors_with_retryability
+    - adapters_openai_anthropic_ollama
+    - pep_authorized_transport_only
+    - credential_lease_injection_only
+    - digest_verified_model_registry
+    - capability_probe_evidence
+    - classification_first_routing
+    - router_determinism
+    - budget_exhaustion_fail_closed
+    - no_forged_provider_success
+    - bounded_idempotent_retries
+    - s08_verifier
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -109,7 +114,8 @@ decisions:
   - docs/adr/ADR-007-deterministic-monotonic-policy-enforcement.md
   - docs/adr/ADR-008-sandbox-secret-egress-fail-closed-boundaries.md
   - docs/adr/ADR-009-tool-lifecycle-verification.md
+  - docs/adr/ADR-010-policy-bound-model-layer.md
 blockers: []
 next_action:
-  command: after this atomic completion record merges and final main workflows pass, create annotated s07-complete and hand the next model docs/execution/NEXT-MODEL-S08.md
-  description: all S07 acceptance items passed; strict remote S07 verification green at 289f41c62ca55041feec48c68e0f1089d1de0120
+  command: implement the S08 model layer per docs/execution/NEXT-MODEL-S08.md
+  description: freeze ADR-010, then implement the provider SPI, adapters, registry, router and budget over the S06 egress and secret boundaries
