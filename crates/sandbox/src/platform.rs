@@ -414,7 +414,10 @@ fn seatbelt_profile(plan: &ValidatedPlan) -> String {
     profile
 }
 
-fn seatbelt_wrapper(overlay: &Path) -> Vec<String> {
+/// Build the seatbelt wrapper (probe) profile. Pure: concurrent probes
+/// in one process write the same PID-keyed file, so readers must never
+/// depend on that file's mid-write state.
+fn seatbelt_probe_profile(overlay: &Path) -> String {
     let mut profile = String::from(
         "(version 1)\n(deny default)\n\
          (allow file-read*)\n\
@@ -431,6 +434,11 @@ fn seatbelt_wrapper(overlay: &Path) -> Vec<String> {
         "(allow file-read* file-write* (subpath \"{overlay_text}\"))"
     );
     profile.push_str("(deny network*)\n");
+    profile
+}
+
+fn seatbelt_wrapper(overlay: &Path) -> Vec<String> {
+    let profile = seatbelt_probe_profile(overlay);
     let path = std::env::temp_dir().join(format!(
         "saber-sbx-probe-{}.sb",
         u64::from(std::process::id())
@@ -623,22 +631,24 @@ mod tests {
 
     #[test]
     fn seatbelt_wrapper_probe_profile_matches_the_same_composition() {
-        // `seatbelt_wrapper` writes the probe profile next to the scratch
-        // dir and returns the sandbox-exec argv; assert the written file
-        // uses the macOS-15.7-compatible composition.
+        // Assert on the pure profile builder: the PID-keyed probe file
+        // is rewritten by concurrent probes and must not be read as
+        // evidence (mid-write truncation caused a flaky failure).
         let scratch = std::env::temp_dir().join("saber-sbx-profile-test");
+        let profile = seatbelt_probe_profile(&scratch);
+        assert!(!profile.contains("(allow file-read* (subpath \"/usr\")"));
+        assert!(profile.contains("(allow file-read*)\n"));
+        for root in SEATBELT_DENIED_ROOTS {
+            assert!(
+                profile.contains(&format!("(deny file-read* (subpath \"{root}\"))")),
+                "missing deny for {root}"
+            );
+        }
+        assert!(profile.contains("(deny network*)"));
         let wrapper = seatbelt_wrapper(&scratch);
         assert_eq!(
             wrapper.first().map(String::as_str),
             Some("/usr/bin/sandbox-exec")
         );
-        let profile = std::fs::read_to_string(std::env::temp_dir().join(format!(
-            "saber-sbx-probe-{}.sb",
-            u64::from(std::process::id())
-        )))
-        .unwrap_or_default();
-        assert!(!profile.contains("(allow file-read* (subpath \"/usr\")"));
-        assert!(profile.contains("(allow file-read*)\n"));
-        assert!(profile.contains("(deny network*)"));
     }
 }
