@@ -4,6 +4,7 @@ use std::collections::BTreeMap;
 use std::error::Error;
 use std::fmt::{Debug, Display, Formatter};
 use std::path::Path;
+use std::sync::{Mutex, OnceLock};
 use std::time::Duration;
 
 use rusqlite::{Connection, OptionalExtension, Transaction, params};
@@ -1119,11 +1120,25 @@ impl DecisionAuditSink for EventStore {
     }
 }
 
+/// `SQLCipher`'s codec attach races when several connections apply their
+/// first key pragma concurrently in one process (observed once on a
+/// loaded Linux CI runner as `sqlcipher not initialized` followed by a
+/// misleading empty-key PRAGMA error). Database opens are rare,
+/// heavyweight operations, so serializing the key pragma process-wide
+/// removes the race class without measurable cost.
+static KEY_PRAGMA_LOCK: OnceLock<Mutex<()>> = OnceLock::new();
+
 fn apply_key_pragma(
     connection: &Connection,
     pragma: &str,
     key: &DatabaseKey,
 ) -> Result<(), StoreError> {
+    let lock = KEY_PRAGMA_LOCK.get_or_init(|| Mutex::new(()));
+    // A poisoned guard means another thread panicked inside the pragma;
+    // the C call is self-contained, so recovery is safe.
+    let _guard = lock
+        .lock()
+        .unwrap_or_else(std::sync::PoisonError::into_inner);
     let mut encoded = String::with_capacity(DATABASE_KEY_LENGTH * 2 + 3);
     encoded.push_str("x'");
     for byte in key.as_bytes() {
@@ -1715,6 +1730,39 @@ mod tests {
     fn store() -> Result<EventStore, StoreError> {
         let key = TestKeys.load("ws_01")?;
         EventStore::configure(Connection::open_in_memory()?, key, "ws_01", false)
+    }
+
+    #[test]
+    fn concurrent_first_opens_never_race_the_codec_attach() -> Result<(), StoreError> {
+        // Regression guard for the one-shot Linux CI failure where
+        // simultaneous first key pragmas tripped SQLCipher's codec
+        // attach ("sqlcipher not initialized"). The process-wide key
+        // pragma lock makes concurrent opens deterministic.
+        let directory = tempfile::tempdir()?;
+        let mut joins = Vec::new();
+        for index in 0..8 {
+            let path = directory.path().join(format!("stress-{index}.db"));
+            let keys = StaticKeys([7; DATABASE_KEY_LENGTH]);
+            joins.push(std::thread::spawn(move || {
+                let mut outcomes = Vec::new();
+                for _ in 0..4 {
+                    outcomes.push(
+                        EventStore::open(&path, "ws_01", &keys)
+                            .and_then(|store| store.verify_hash_chain())
+                            .is_ok(),
+                    );
+                }
+                outcomes
+            }));
+        }
+        for join in joins {
+            let outcomes = join.join().map_err(|_| StoreError::KeyCustody)?;
+            assert!(
+                outcomes.iter().all(|ok| *ok),
+                "every concurrent open must succeed"
+            );
+        }
+        Ok(())
     }
 
     #[test]
