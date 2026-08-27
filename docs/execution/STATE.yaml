@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S13
   name: resumption-capsule
-  status: in_progress
+  status: completed
   objective: build a verifiable Resumption Capsule preserving goal, task, artifact and decision lineage across model or agent changes with environment drift surfacing as explicit reconcile
 predecessor:
   segment: S12
@@ -57,20 +57,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S13-resumption-capsule
+  branch: segment/S13-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: c843abd909bff854d23ce48230c0cb52e8f5e593
+  verified_segment_checkpoint: 22d5a13ebb6abb0b8b71d380b185345bad2cd6f6
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-28T12:00:00Z"
+  last_checkpoint_at: "2026-08-28T13:30:00Z"
 acceptance:
   required:
     - s12_tagged_base
@@ -107,13 +107,13 @@ acceptance:
     - consumer_reverification_without_trust
     - s13_verifier
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -131,5 +131,5 @@ decisions:
   - docs/adr/ADR-015-resumption-capsule.md
 blockers: []
 next_action:
-  command: implement the S13 Resumption Capsule per docs/execution/NEXT-MODEL-S13.md
-  description: freeze ADR-015, then implement the versioned capsule, fact-bound creation, digest verification with drift reconcile and continuation semantics
+  command: after this atomic completion record merges and final main workflows pass, create annotated s13-complete and hand the next model docs/execution/NEXT-MODEL-S14.md
+  description: all S13 acceptance items passed; strict remote S13 verification green at e6ac4839cb084d72d2ce21466427430ef3e6ea25

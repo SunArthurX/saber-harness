@@ -15,10 +15,10 @@ Completed Segments:
 
 Current Segment:
 
-- S12 — CAX and First Importers (`completion_pending`; implementation merged through protected PR #35 as `e213e5d53c66f38d3c0a5ee349573238fe1571eb`).
+- S13 — Resumption Capsule (`completion_pending`; implementation merged through protected PR #37 as `e6ac4839cb084d72d2ce21466427430ef3e6ea25`).
 
 Next Segment:
 
-- S13 — Resumption Capsule.
+- S14 — Goal DAG and Subagents.
 
-S12 started from protected `origin/main` at `s11-complete` / `349aa1f196eff1fe5219200a03e24e93435e24fc`. Its implementation branch `segment/S12-cax-importers` passed every required context at `c843abd909bff854d23ce48230c0cb52e8f5e593`; the atomic completion record and `s12-complete` tag follow this merge.
+S13 started from protected `origin/main` at `s12-complete` / `c1f10bfb7ec379217583878291d7e7a12f112ef5`. Its implementation branch `segment/S13-resumption-capsule` passed every required context at `22d5a13ebb6abb0b8b71d380b185345bad2cd6f6`; the atomic completion record and `s13-complete` tag follow this merge.
