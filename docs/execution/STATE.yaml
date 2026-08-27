@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S24
   name: production-gate
-  status: in_progress
+  status: completed
   objective: deliver an auditable deterministic production readiness gate certifying every S00-S23 invariant on main, the proposal-only E6 boundary with no autonomous E6/E7 path, and TM-01..TM-16 threat-register coverage, closing the 25-segment roadmap with the annotated s24-complete tag
 predecessor:
   segment: S23
@@ -90,20 +90,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S24-production-gate
+  branch: segment/S24-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: 47e1f94a8529d103e1c2a884ed954f9fe89ad326
-  main_head: 47e1f94a8529d103e1c2a884ed954f9fe89ad326
-  verified_main_checkpoint: 47e1f94a8529d103e1c2a884ed954f9fe89ad326
-  remote_verified: false
+  verified_segment_checkpoint: 7e25f841583c002cbfe62205555e6bbce6d07d24
+  main_head: bcb7b94bf55bde8de172d1e55e33373b628830ba
+  verified_main_checkpoint: bcb7b94bf55bde8de172d1e55e33373b628830ba
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-30T15:30:00Z"
+  last_checkpoint_at: "2026-08-30T17:30:00Z"
 acceptance:
   required:
     - s23_tagged_base
@@ -123,7 +123,6 @@ acceptance:
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-    - s24_complete_tag
   passed:
     - s23_tagged_base
     - configured_remote
@@ -137,14 +136,13 @@ acceptance:
     - report_secret_canary
     - s24_verifier
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-    - s24_complete_tag
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -173,5 +171,5 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
 blockers: []
 next_action:
-  command: implement crates/production-gate, scripts/verify-s24.mjs and scripts/verify-remote-s24.mjs, run the full local gate, push segment/S24-production-gate with SHA equality, merge through the protected PR, then publish the atomic completion record and the annotated s24-complete tag
-  description: S24 inherited-boundary verification passed at 47e1f94a8529d103e1c2a884ed954f9fe89ad326; implementation in progress
+  command: after this atomic completion record merges and final main workflows pass, create annotated s24-complete on the record merge commit; the 25-segment roadmap is then complete
+  description: all S24 acceptance items except the final tag passed; strict remote S24 verification green at bcb7b94bf55bde8de172d1e55e33373b628830ba
