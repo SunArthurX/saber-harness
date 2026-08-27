@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S20
   name: remote-execution-realm
-  status: in_progress
+  status: completed
   objective: run heavyweight work on remote capacity under the same policy envelope while remote failures never spread locally and returned results re-enter as verified evidence
 predecessor:
   segment: S19
@@ -78,20 +78,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S20-remote-execution-realm
+  branch: segment/S20-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: 7e4ce4906da3770cb34d542eeb149556e985d84a
+  verified_segment_checkpoint: e156b30a969cee58742734dc85c86fe14fdcc95a
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T18:00:00Z"
+  last_checkpoint_at: "2026-08-29T19:30:00Z"
 acceptance:
   required:
     - s19_tagged_base
@@ -126,13 +126,13 @@ acceptance:
     - cancellation_propagates
     - s20_verifier
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -157,5 +157,5 @@ decisions:
   - docs/adr/ADR-022-remote-execution-realm.md
 blockers: []
 next_action:
-  command: implement the S20 remote execution realm per docs/execution/NEXT-MODEL-S20.md
-  description: freeze ADR-022, then implement the traveling policy envelope, remote state machine with heartbeats, result admission and failure containment
+  command: after this atomic completion record merges and final main workflows pass, create annotated s20-complete and hand the next model docs/execution/NEXT-MODEL-S21.md
+  description: all S20 acceptance items passed; strict remote S20 verification green at 2c30ad248c948bbafaa59c7101bf6443e12c120e
