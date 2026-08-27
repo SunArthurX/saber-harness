@@ -119,9 +119,10 @@
     {
       "id": "FR-MEM-003", "priority": "P0",
       "statement": "Use one Memory Authority per workspace and promote typed candidates through conflict, revision, TTL and revocation rules.",
-      "owner": "knowledge", "module": "packages/context-engine",
+      "owner": "knowledge", "module": "crates/memory-authority",
       "events": ["memory.promoted", "memory.revoked", "memory.stale"], "tests": ["S10-MEMORY-SINGLE-WRITER"],
-      "segment": "S10", "source": "architecture 8.3 through 8.5", "status": "planned"
+      "segment": "S10", "source": "architecture 8.3 through 8.5 and ADR-012", "status": "implemented",
+      "evidence": ["crates/memory-authority/src/authority.rs"]
     },
     {
       "id": "FR-MEM-004", "priority": "P0",

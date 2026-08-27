@@ -5,6 +5,7 @@ members = [
     "crates/egress",
     "crates/context-engine",
     "crates/event-store",
+    "crates/memory-authority",
     "crates/model-providers",
     "crates/policy",
     "crates/saber-core",

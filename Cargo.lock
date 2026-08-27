@@ -1076,6 +1076,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "saber-memory-authority"
+version = "0.0.0"
+dependencies = [
+ "saber-policy",
+ "serde",
+ "serde_json",
+ "sha2",
+]
+
+[[package]]
 name = "saber-model-providers"
 version = "0.0.0"
 dependencies = [
