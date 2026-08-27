@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S08",
-  "status": "in_progress_local_gate_passed",
-  "branch": "segment/S08-model-providers",
+  "status": "completed",
+  "branch": "segment/S08-completion",
   "base": {
     "segment": "S07",
     "tag": "s07-complete",
@@ -13,8 +13,8 @@
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "041c764a44f1b517c3a82a571e0919cb247ac35e",
-  "verified_main_checkpoint": "041c764a44f1b517c3a82a571e0919cb247ac35e",
+  "main_head": "b884fa842e057f5ac2e68a7a398b3f4b908ad694",
+  "verified_main_checkpoint": "b884fa842e057f5ac2e68a7a398b3f4b908ad694",
   "checks": [
     {
       "id": "S08-INHERITED-BOUNDARY",
@@ -33,8 +33,39 @@
       "command": "focused adversarial suites",
       "exit_code": 0,
       "result": "forged provider success (missing usage), stream abort without terminal event, egress denial with zero transport calls, credential lease injection via broker grammar, Restricted data never routing below its ceiling, byte-identical deterministic router decisions, fail-closed budget exhaustion with partial-usage evidence, bounded retryable-only retries, registry digest mismatch and rollback rejection, redacted wire debug and probe-driven routing exclusions all passed"
+    },
+    {
+      "id": "S08-VERIFY-BRANCH-CI",
+      "command": "inspect push run 33028141710",
+      "exit_code": 0,
+      "result": "repository verification, Ubuntu, macOS, Windows and dependency audit passed for implementation SHA b8f7901c6d09c7a0341cfd7dde68f856a8b84a42 on the first push"
+    },
+    {
+      "id": "S08-VERIFY-PROTECTED-INTEGRATION",
+      "command": "inspect protected PR #26",
+      "exit_code": 0,
+      "result": "PR #26 squash-merged after all five required checks passed as b884fa842e057f5ac2e68a7a398b3f4b908ad694"
+    },
+    {
+      "id": "S08-VERIFY-MAIN-CI",
+      "command": "inspect main runs 33028566313, 33028566330 and 33028566325",
+      "exit_code": 0,
+      "result": "provenance, repository verification and the three-platform monorepo CI with dependency audit passed on b884fa842e057f5ac2e68a7a398b3f4b908ad694"
+    },
+    {
+      "id": "S08-VERIFY-CLEAN-CLONE",
+      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
+      "exit_code": 0,
+      "result": "clone resolved b884fa842e057f5ac2e68a7a398b3f4b908ad694 and passed all gates in 81 seconds"
+    },
+    {
+      "id": "S08-VERIFY-REMOTE-MAIN",
+      "command": "node scripts/verify-remote-s08.mjs --repository SunArthurX/saber-harness --branch main",
+      "exit_code": 0,
+      "result": "model layer contracts, public settings, hosted security controls and same-SHA successful workflows passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-27T12:00:00Z"
+  "last_verified_at": "2026-08-27T13:30:00Z",
+  "verified_segment_checkpoint": "b8f7901c6d09c7a0341cfd7dde68f856a8b84a42"
 }

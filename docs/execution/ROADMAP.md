@@ -15,10 +15,10 @@ Completed Segments:
 
 Current Segment:
 
-- S07 — Tool Broker and Recoverable Modifications (`completion_pending`; implementation merged through protected PR #24 as `289f41c62ca55041feec48c68e0f1089d1de0120`).
+- S08 — ModelProvider, Router and Budget (`completion_pending`; implementation merged through protected PR #26 as `b884fa842e057f5ac2e68a7a398b3f4b908ad694`).
 
 Next Segment:
 
-- S08 — ModelProvider, Router and Budget.
+- S09 — Context Engine and Knowledge Mesh.
 
-S07 started from protected `origin/main` at `s06-complete` / `dd2f568d957fcadc94f48c6b40c08787c39e2195`. Its implementation branch `segment/S07-tool-broker` passed every required context at `b7cf964517ede8bc80cc1593f5ae7677edcc122f`; the atomic completion record and `s07-complete` tag follow this merge.
+S08 started from protected `origin/main` at `s07-complete` / `041c764a44f1b517c3a82a571e0919cb247ac35e`. Its implementation branch `segment/S08-model-providers` passed every required context at `b8f7901c6d09c7a0341cfd7dde68f856a8b84a42`; the atomic completion record and `s08-complete` tag follow this merge.
