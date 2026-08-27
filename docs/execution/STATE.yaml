@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S21
-  name: enterprise-iam-policy-audit
-  status: completed
-  objective: enforce multi-tenant enterprise control — tenant-qualified planes, deterministic IAM mapping onto closed policy tiers, evidenced break-glass and per-tenant audit separation
+  id: S22
+  name: release-integrity
+  status: in_progress
+  objective: deliver verifiable release integrity — reproducible digests, SBOM, provenance, a monotonic signed target chain, staged rings with last-known-good rollback, a verify-before-install updater and air-gap import
 predecessor:
-  segment: S20
+  segment: S21
   status: completed
-  tag: s20-complete
-  commit: e6df99a451a651669c07db9650dd15b5c6190405
+  tag: s21-complete
+  commit: ba90d8b1a8dd5fc4e5c2118acbefcace95021396
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -75,42 +75,44 @@ completed_segments:
   - segment: S20
     tag: s20-complete
     commit: e6df99a451a651669c07db9650dd15b5c6190405
+  - segment: S21
+    tag: s21-complete
+    commit: ba90d8b1a8dd5fc4e5c2118acbefcace95021396
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S21-completion
+  branch: segment/S22-release-integrity
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 18c0342041ae2c609d37ae00e857c19c3513d31
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: true
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T22:30:00Z"
+  last_checkpoint_at: "2026-08-30T09:00:00Z"
 acceptance:
   required:
-    - s20_tagged_base
+    - s21_tagged_base
     - configured_remote
-    - tenant_qualified_planes
-    - cross_tenant_denied
-    - deterministic_iam_mapping
-    - closed_vocabulary_only_grants
-    - bounded_role_expansion
-    - org_bundles_ride_s05_engine
-    - org_bundle_rollback_refused
-    - break_glass_timeboxed_dual_control
-    - break_glass_expires_no_self_renew
-    - per_tenant_audit_separation
-    - evidence_packs_metadata_only
-    - s21_verifier
+    - reproducible_digests
+    - release_manifest_sbom_provenance
+    - signed_target_chain
+    - rollback_attack_refused
+    - freeze_attack_refused
+    - tampered_manifest_refused
+    - ring_promote_demote_rollback
+    - updater_verifies_before_install
+    - updater_refuses_downgrade
+    - airgap_offline_verification
+    - s22_verifier
     - local_verification
     - verified_segment_push
     - required_ci
@@ -118,28 +120,27 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s20_tagged_base
+    - s21_tagged_base
     - configured_remote
-    - tenant_qualified_planes
-    - cross_tenant_denied
-    - deterministic_iam_mapping
-    - closed_vocabulary_only_grants
-    - bounded_role_expansion
-    - org_bundles_ride_s05_engine
-    - org_bundle_rollback_refused
-    - break_glass_timeboxed_dual_control
-    - break_glass_expires_no_self_renew
-    - per_tenant_audit_separation
-    - evidence_packs_metadata_only
-    - s21_verifier
+    - reproducible_digests
+    - release_manifest_sbom_provenance
+    - signed_target_chain
+    - rollback_attack_refused
+    - freeze_attack_refused
+    - tampered_manifest_refused
+    - ring_promote_demote_rollback
+    - updater_verifies_before_install
+    - updater_refuses_downgrade
+    - airgap_offline_verification
+    - s22_verifier
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -163,7 +164,8 @@ decisions:
   - docs/adr/ADR-021-governed-plugin-marketplace.md
   - docs/adr/ADR-022-remote-execution-realm.md
   - docs/adr/ADR-023-multitenant-enterprise-control.md
+  - docs/adr/ADR-024-verifiable-release-integrity.md
 blockers: []
 next_action:
-  command: after this atomic completion record merges and final main workflows pass, create annotated s21-complete and hand the next model docs/execution/NEXT-MODEL-S22.md
-  description: all S21 acceptance items passed; strict remote S21 verification green at e58fbfb1acab7544238accd8979c2564cd292529
+  command: implement the S22 release integrity chain per docs/execution/NEXT-MODEL-S22.md
+  description: freeze ADR-024, then implement the signed manifest model, monotonic target chain, staged rings and verify-before-install updater
