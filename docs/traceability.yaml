@@ -377,7 +377,7 @@
       "statement": "Detect integrity, budget, latency, crash, policy and contamination health signals without relying on an LLM.",
       "owner": "reliability", "module": "crates/health-supervisor",
       "events": ["health.signal_raised", "cell.degraded"], "tests": ["S18-DETERMINISTIC-HEALTH-DETECTION"],
-      "segment": "S18", "source": "architecture 14.1 and PC-10 and ADR-020", "status": "implemented",
+      "segment": "S18", "source": "architecture 14.1 and PC-10 and ADR-020", "status": "verified-main",
       "evidence": ["crates/health-supervisor/src/detect.rs"]
     },
     {
@@ -385,7 +385,7 @@
       "statement": "Contain an incident in the smallest Trust Cell before diagnosis, retry or repair.",
       "owner": "reliability", "module": "crates/health-supervisor",
       "events": ["incident.contained", "cell.isolated"], "tests": ["S18-CELL-FAULT-CONTAINMENT"],
-      "segment": "S18", "source": "architecture 5.5 and 14.5 and ADR-020", "status": "implemented",
+      "segment": "S18", "source": "architecture 5.5 and 14.5 and ADR-020", "status": "verified-main",
       "evidence": ["crates/health-supervisor/src/lib.rs"]
     },
     {
@@ -393,7 +393,7 @@
       "statement": "Enter fail-closed Safe Mode when Policy, Sandbox, Audit, Crypto or Recovery enforcement is unavailable.",
       "owner": "reliability", "module": "crates/health-supervisor",
       "events": ["safe_mode.entered", "safe_mode.exited"], "tests": ["S18-SAFE-MODE-FAIL-CLOSED"],
-      "segment": "S18", "source": "architecture 14.4 and INV-08 and ADR-020", "status": "implemented",
+      "segment": "S18", "source": "architecture 14.4 and INV-08 and ADR-020", "status": "verified-main",
       "evidence": ["crates/health-supervisor/src/lib.rs"]
     },
     {
@@ -401,7 +401,7 @@
       "statement": "Escalate trust-root, sandbox-escape, audit-break and irreversible incidents with a minimal DLP-reviewed diagnostic bundle.",
       "owner": "reliability", "module": "crates/incident-manager",
       "events": ["incident.escalated", "incident.external_help_requested"], "tests": ["S18-EXTERNAL-AUTHORITY-ESCALATION"],
-      "segment": "S18", "source": "architecture 14.8 and ADR-020", "status": "implemented",
+      "segment": "S18", "source": "architecture 14.8 and ADR-020", "status": "verified-main",
       "evidence": ["crates/health-supervisor/src/lib.rs"]
     },
     {

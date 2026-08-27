@@ -15,10 +15,10 @@ Completed Segments:
 
 Current Segment:
 
-- S17 — E2EE Sync (`completion_pending`; implementation merged through protected PR #45 as `210ad5a051c53300de2be5c70cb64da3fe6284a5`).
+- S18 — Health, Safe Mode and Self-Healing (`completion_pending`; implementation merged through protected PR #47 as `332fd72b2313da8a541ecff9fd103b6eeead2de4`).
 
 Next Segment:
 
-- S18 — Health, Safe Mode and Self-Healing.
+- S19 — Plugin SDK and Registry.
 
-S17 started from protected `origin/main` at `s16-complete` / `cc49f69db65c4d527eb436f379574a79d4432f98`. Its implementation branch `segment/S17-e2ee-sync` passed every required context at `92a38c7abb9f9a6dbb7a3da525012ea035f6fb65`; the atomic completion record and `s17-complete` tag follow this merge.
+S18 started from protected `origin/main` at `s17-complete` / `87d571a99992871db7e26fa9c1027e6acc4ab463`. Its implementation branch `segment/S18-health-safemode` passed every required context at `70b7255f900405c56199453985dc16f7920977b6`; the atomic completion record and `s18-complete` tag follow this merge.
