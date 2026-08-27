@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S08
   name: model-providers
-  status: in_progress
+  status: completed
   objective: make the model layer replaceable and policy-bound through a versioned provider SPI, PEP-authorized transports, a digest-verified registry and a deterministic classification-first router with fail-closed budgets
 predecessor:
   segment: S07
@@ -42,20 +42,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S08-model-providers
+  branch: segment/S08-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: b7cf964517ede8bc80cc1593f5ae7677edcc122f
+  verified_segment_checkpoint: b8f7901c6d09c7a0341cfd7dde68f856a8b84a42
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-27T12:00:00Z"
+  last_checkpoint_at: "2026-08-27T13:30:00Z"
 acceptance:
   required:
     - s07_tagged_base
@@ -98,13 +98,13 @@ acceptance:
     - bounded_idempotent_retries
     - s08_verifier
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -117,5 +117,5 @@ decisions:
   - docs/adr/ADR-010-policy-bound-model-layer.md
 blockers: []
 next_action:
-  command: implement the S08 model layer per docs/execution/NEXT-MODEL-S08.md
-  description: freeze ADR-010, then implement the provider SPI, adapters, registry, router and budget over the S06 egress and secret boundaries
+  command: after this atomic completion record merges and final main workflows pass, create annotated s08-complete and hand the next model docs/execution/NEXT-MODEL-S09.md
+  description: all S08 acceptance items passed; strict remote S08 verification green at b884fa842e057f5ac2e68a7a398b3f4b908ad694
