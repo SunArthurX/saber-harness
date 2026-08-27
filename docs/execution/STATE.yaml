@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S22
   name: release-integrity
-  status: in_progress
+  status: completed
   objective: deliver verifiable release integrity — reproducible digests, SBOM, provenance, a monotonic signed target chain, staged rings with last-known-good rollback, a verify-before-install updater and air-gap import
 predecessor:
   segment: S21
@@ -84,20 +84,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S22-release-integrity
+  branch: segment/S22-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: 18c0342041ae2c609d37ae00e857c19c3513d31
+  verified_segment_checkpoint: 9b8b560381c59d1f1f12d57a1a49852992dbb819
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-30T09:00:00Z"
+  last_checkpoint_at: "2026-08-30T10:30:00Z"
 acceptance:
   required:
     - s21_tagged_base
@@ -134,13 +134,13 @@ acceptance:
     - airgap_offline_verification
     - s22_verifier
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -167,5 +167,5 @@ decisions:
   - docs/adr/ADR-024-verifiable-release-integrity.md
 blockers: []
 next_action:
-  command: implement the S22 release integrity chain per docs/execution/NEXT-MODEL-S22.md
-  description: freeze ADR-024, then implement the signed manifest model, monotonic target chain, staged rings and verify-before-install updater
+  command: after this atomic completion record merges and final main workflows pass, create annotated s22-complete and hand the next model docs/execution/NEXT-MODEL-S23.md
+  description: all S22 acceptance items passed; strict remote S22 verification green at ca3774f559b9143264a184b99b33638cc9471692
