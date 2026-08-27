@@ -1,71 +1,40 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S19",
-  "status": "completed",
-  "branch": "segment/S19-completion",
+  "segment": "S20",
+  "status": "in_progress_local_gate_passed",
+  "branch": "segment/S20-remote-execution-realm",
   "base": {
-    "segment": "S18",
-    "tag": "s18-complete",
-    "commit": "180f876840b48dad124a65752c2a670b1877a08c"
+    "segment": "S19",
+    "tag": "s19-complete",
+    "commit": "5b6b8419e119c74b5ef3b36491bd8eb0cf1404b6"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "58165946ce01bd23bb5aca94e9c7a16558ca677f",
-  "verified_main_checkpoint": "58165946ce01bd23bb5aca94e9c7a16558ca677f",
+  "main_head": "5b6b8419e119c74b5ef3b36491bd8eb0cf1404b6",
+  "verified_main_checkpoint": "5b6b8419e119c74b5ef3b36491bd8eb0cf1404b6",
   "checks": [
     {
-      "id": "S19-INHERITED-BOUNDARY",
-      "command": "git cat-file -t s18-complete && git rev-parse 's18-complete^{}' origin/main && node scripts/verify-remote-s18.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
+      "id": "S20-INHERITED-BOUNDARY",
+      "command": "git cat-file -t s19-complete && git rev-parse 's19-complete^{}' origin/main && node scripts/verify-remote-s19.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
       "exit_code": 0,
-      "result": "annotated s18-complete resolves to 180f876840b48dad124a65752c2a670b1877a08c equal to origin/main; strict remote S18 verification and new-machine acceptance passed before the first S19 commit"
+      "result": "annotated s19-complete resolves to 5b6b8419e119c74b5ef3b36491bd8eb0cf1404b6 equal to origin/main; strict remote S19 verification and new-machine acceptance passed before the first S20 commit"
     },
     {
-      "id": "S19-FULL-LOCAL-GATE",
+      "id": "S20-FULL-LOCAL-GATE",
       "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
       "exit_code": 0,
-      "result": "format, strict clippy, 41 Rust test suites (7 plugin-registry adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S19 verifiers and governance tests passed"
+      "result": "format, strict clippy, 43 Rust test suites (7 remote-realm adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S20 verifiers and governance tests passed"
     },
     {
-      "id": "S19-VERIFY-PLUGIN-REGISTRY",
+      "id": "S20-VERIFY-REALM",
       "command": "focused adversarial suites",
       "exit_code": 0,
-      "result": "digest-bound manifests failing admission when tampered, the monotonic registry refusing rollback and revoked republishing, undeclared capabilities and unadmitted plugins failing closed at authorization, revocation removing execution immediately with terminal tombstones, the boundary-only SDK surface exposing no host-access path, and S06 fault containment holding for registry-sourced plugins all passed"
-    },
-    {
-      "id": "S19-VERIFY-BRANCH-CI",
-      "command": "inspect push runs 33072864115 and 33072864151",
-      "exit_code": 0,
-      "result": "repository verification and the three-platform monorepo CI with dependency audit passed for implementation SHA 7e4ce4906da3770cb34d542eeb149556e985d84a on the first push"
-    },
-    {
-      "id": "S19-VERIFY-PROTECTED-INTEGRATION",
-      "command": "inspect protected PR #49",
-      "exit_code": 0,
-      "result": "PR #49 squash-merged after all five required checks passed as 58165946ce01bd23bb5aca94e9c7a16558ca677f"
-    },
-    {
-      "id": "S19-VERIFY-MAIN-CI",
-      "command": "inspect main runs 33073561451, 33073561467 and 33073561461",
-      "exit_code": 0,
-      "result": "provenance, repository verification and the three-platform monorepo CI passed on 58165946ce01bd23bb5aca94e9c7a16558ca677f"
-    },
-    {
-      "id": "S19-VERIFY-CLEAN-CLONE",
-      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
-      "exit_code": 0,
-      "result": "clone resolved 58165946ce01bd23bb5aca94e9c7a16558ca677f and passed all gates in 89 seconds"
-    },
-    {
-      "id": "S19-VERIFY-REMOTE-MAIN",
-      "command": "node scripts/verify-remote-s19.mjs --repository SunArthurX/saber-harness --branch main",
-      "exit_code": 0,
-      "result": "plugin registry contracts, public settings, hosted security controls and same-SHA successful workflows passed"
+      "result": "digest-chained policy envelopes detecting transit tampering (including grant escalation), the deterministic submitted/running/succeeded/failed/cancelled state machine refusing skips, heartbeat leases with reaping so crashed realms never report success and stale successes are refused, digest-mismatch results refused and nonzero exits failing terminally, returned data taint-labeled as untrusted source, one cell's expired lease contained while siblings succeed, and cancellation propagating deterministically all passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-29T16:30:00Z",
-  "verified_segment_checkpoint": "7e4ce4906da3770cb34d542eeb149556e985d84a"
+  "last_verified_at": "2026-08-29T18:00:00Z"
 }

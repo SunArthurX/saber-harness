@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S19
-  name: plugin-sdk-registry
-  status: completed
-  objective: govern external armor — digest-pinned plugin manifests, a monotonic revocable registry and an SDK whose only capability path is the S05/S06 boundaries
+  id: S20
+  name: remote-execution-realm
+  status: in_progress
+  objective: run heavyweight work on remote capacity under the same policy envelope while remote failures never spread locally and returned results re-enter as verified evidence
 predecessor:
-  segment: S18
+  segment: S19
   status: completed
-  tag: s18-complete
-  commit: 180f876840b48dad124a65752c2a670b1877a08c
+  tag: s19-complete
+  commit: 5b6b8419e119c74b5ef3b36491bd8eb0cf1404b6
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -69,40 +69,43 @@ completed_segments:
   - segment: S18
     tag: s18-complete
     commit: 180f876840b48dad124a65752c2a670b1877a08c
+  - segment: S19
+    tag: s19-complete
+    commit: 5b6b8419e119c74b5ef3b36491bd8eb0cf1404b6
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S19-completion
+  branch: segment/S20-remote-execution-realm
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 7e4ce4906da3770cb34d542eeb149556e985d84a
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: true
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T16:30:00Z"
+  last_checkpoint_at: "2026-08-29T18:00:00Z"
 acceptance:
   required:
-    - s18_tagged_base
+    - s19_tagged_base
     - configured_remote
-    - plugin_manifest_schema
-    - digest_pinned_registry_entries
-    - tampered_manifests_fail_admission
-    - undeclared_capability_fail_closed
-    - revocation_removes_execution_immediately
-    - registry_rollback_refused
-    - sdk_surface_no_host_access
-    - fault_containment_with_registry_plugins
-    - monotonic_registry_updates
-    - s19_verifier
+    - policy_envelope_travels
+    - envelope_tamper_detection
+    - deterministic_remote_state_machine
+    - heartbeat_lease_reaping
+    - crashed_realm_never_reports_success
+    - result_digest_admission
+    - returned_data_taint_labeled
+    - remote_fault_contained_to_cell
+    - cancellation_propagates
+    - s20_verifier
     - local_verification
     - verified_segment_push
     - required_ci
@@ -110,26 +113,26 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s18_tagged_base
+    - s19_tagged_base
     - configured_remote
-    - plugin_manifest_schema
-    - digest_pinned_registry_entries
-    - tampered_manifests_fail_admission
-    - undeclared_capability_fail_closed
-    - revocation_removes_execution_immediately
-    - registry_rollback_refused
-    - sdk_surface_no_host_access
-    - fault_containment_with_registry_plugins
-    - monotonic_registry_updates
-    - s19_verifier
+    - policy_envelope_travels
+    - envelope_tamper_detection
+    - deterministic_remote_state_machine
+    - heartbeat_lease_reaping
+    - crashed_realm_never_reports_success
+    - result_digest_admission
+    - returned_data_taint_labeled
+    - remote_fault_contained_to_cell
+    - cancellation_propagates
+    - s20_verifier
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -151,7 +154,8 @@ decisions:
   - docs/adr/ADR-019-client-key-e2ee-sync.md
   - docs/adr/ADR-020-contain-first-immune-core.md
   - docs/adr/ADR-021-governed-plugin-marketplace.md
+  - docs/adr/ADR-022-remote-execution-realm.md
 blockers: []
 next_action:
-  command: after this atomic completion record merges and final main workflows pass, create annotated s19-complete and hand the next model docs/execution/NEXT-MODEL-S20.md
-  description: all S19 acceptance items passed; strict remote S19 verification green at 58165946ce01bd23bb5aca94e9c7a16558ca677f
+  command: implement the S20 remote execution realm per docs/execution/NEXT-MODEL-S20.md
+  description: freeze ADR-022, then implement the traveling policy envelope, remote state machine with heartbeats, result admission and failure containment
