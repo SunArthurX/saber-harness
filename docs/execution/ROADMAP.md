@@ -15,10 +15,10 @@ Completed Segments:
 
 Current Segment:
 
-- S16 — Code Capsule (`completion_pending`; implementation merged through protected PR #43 as `f676955a0fcd1ebde987558d242cdba62b2dad09`).
+- S17 — E2EE Sync (`completion_pending`; implementation merged through protected PR #45 as `210ad5a051c53300de2be5c70cb64da3fe6284a5`).
 
 Next Segment:
 
-- S17 — E2EE Sync.
+- S18 — Health, Safe Mode and Self-Healing.
 
-S16 started from protected `origin/main` at `s15-complete` / `39c2c558c7d4cde13c3944970b372fccda9b936d`. Its implementation branch `segment/S16-code-capsule` passed every required context at `ded8db4f2b1bd744d511830ce08c093487b07854`; the atomic completion record and `s16-complete` tag follow this merge.
+S17 started from protected `origin/main` at `s16-complete` / `cc49f69db65c4d527eb436f379574a79d4432f98`. Its implementation branch `segment/S17-e2ee-sync` passed every required context at `92a38c7abb9f9a6dbb7a3da525012ea035f6fb65`; the atomic completion record and `s17-complete` tag follow this merge.
