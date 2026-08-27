@@ -31,7 +31,7 @@
       "statement": "Resume work from a verifiable capsule that preserves goal, task, artifact, decision and causal lineage across model or agent changes.",
       "owner": "agent-runtime", "module": "packages/agent-runtime",
       "events": ["task.resumption_capsule.created", "task.continued"], "tests": ["S13-RESUME-CROSS-PROVIDER"],
-      "segment": "S13", "source": "architecture 4.4 and 9.6 and ADR-015", "status": "implemented",
+      "segment": "S13", "source": "architecture 4.4 and 9.6 and ADR-015", "status": "verified-main",
       "evidence": ["crates/resumption/src/capsule.rs", "crates/resumption/src/verify.rs"]
     },
     {
