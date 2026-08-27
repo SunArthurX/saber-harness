@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S19
   name: plugin-sdk-registry
-  status: in_progress
+  status: completed
   objective: govern external armor — digest-pinned plugin manifests, a monotonic revocable registry and an SDK whose only capability path is the S05/S06 boundaries
 predecessor:
   segment: S18
@@ -75,20 +75,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S19-plugin-sdk-registry
+  branch: segment/S19-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: 70b7255f900405c56199453985dc16f7920977b6
+  verified_segment_checkpoint: 7e4ce4906da3770cb34d542eeb149556e985d84a
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T15:00:00Z"
+  last_checkpoint_at: "2026-08-29T16:30:00Z"
 acceptance:
   required:
     - s18_tagged_base
@@ -123,13 +123,13 @@ acceptance:
     - monotonic_registry_updates
     - s19_verifier
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -153,5 +153,5 @@ decisions:
   - docs/adr/ADR-021-governed-plugin-marketplace.md
 blockers: []
 next_action:
-  command: implement the S19 plugin SDK and registry per docs/execution/NEXT-MODEL-S19.md
-  description: freeze ADR-021, then implement the manifest schema, digest-pinned monotonic registry and boundary-only SDK surface
+  command: after this atomic completion record merges and final main workflows pass, create annotated s19-complete and hand the next model docs/execution/NEXT-MODEL-S20.md
+  description: all S19 acceptance items passed; strict remote S19 verification green at 58165946ce01bd23bb5aca94e9c7a16558ca677f
