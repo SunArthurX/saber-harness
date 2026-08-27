@@ -31,10 +31,13 @@ export function resolveCoreBinary(): string | null {
   if (override !== undefined && override.length > 0) {
     return override;
   }
-  for (const candidate of ["release", "debug"]) {
-    const path = resolve(repositoryRoot(), "target", candidate, "saber-core");
-    if (existsSync(path)) {
-      return path;
+  const binaryNames = process.platform === "win32" ? ["saber-core.exe", "saber-core"] : ["saber-core"];
+  for (const profile of ["release", "debug"]) {
+    for (const binaryName of binaryNames) {
+      const path = resolve(repositoryRoot(), "target", profile, binaryName);
+      if (existsSync(path)) {
+        return path;
+      }
     }
   }
   return null;
