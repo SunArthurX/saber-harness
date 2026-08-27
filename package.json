@@ -10,17 +10,17 @@
     "pnpm": "11.23.0"
   },
   "scripts": {
-    "build": "pnpm --filter @saber/agent-runtime build && pnpm --filter @saber/cli build",
+    "build": "pnpm --filter @saber/agent-runtime build && pnpm --filter @saber/ide-client build && pnpm --filter @saber/cli build",
     "format": "biome check --write .",
     "format:check": "biome check .",
     "lint": "biome lint .",
     "test": "pnpm build && pnpm -r --if-present test",
     "test:governance": "node --test scripts/tests/*.test.mjs",
-    "typecheck": "pnpm --filter @saber/agent-runtime typecheck && pnpm --filter @saber/agent-runtime build && pnpm --filter @saber/cli typecheck",
+    "typecheck": "pnpm --filter @saber/agent-runtime typecheck && pnpm --filter @saber/ide-client typecheck && pnpm --filter @saber/agent-runtime build && pnpm --filter @saber/cli typecheck",
     "generate": "node scripts/generate-contracts.mjs",
     "generate:check": "node scripts/generate-contracts.mjs --check",
     "verify:licenses": "node scripts/verify-licenses.mjs",
-    "verify:repo": "node scripts/verify-s00.mjs && node scripts/verify-s01.mjs && node scripts/verify-s02.mjs && node scripts/verify-s03.mjs && node scripts/verify-s04.mjs && node scripts/verify-s05.mjs && node scripts/verify-s06.mjs && node scripts/verify-s07.mjs && node scripts/verify-s08.mjs && node scripts/verify-s09.mjs && node scripts/verify-s10.mjs && node --test scripts/tests/*.test.mjs",
+    "verify:repo": "node scripts/verify-s00.mjs && node scripts/verify-s01.mjs && node scripts/verify-s02.mjs && node scripts/verify-s03.mjs && node scripts/verify-s04.mjs && node scripts/verify-s05.mjs && node scripts/verify-s06.mjs && node scripts/verify-s07.mjs && node scripts/verify-s08.mjs && node scripts/verify-s09.mjs && node scripts/verify-s10.mjs && node scripts/verify-s11.mjs && node --test scripts/tests/*.test.mjs",
     "verify": "pnpm generate:check && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm verify:licenses && pnpm verify:repo",
     "bootstrap:check": "node scripts/bootstrap.mjs --check",
     "acceptance:new-machine": "node scripts/new-machine-acceptance.mjs"

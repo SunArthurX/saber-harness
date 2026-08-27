@@ -50,6 +50,8 @@ jobs:
         run: node scripts/verify-s09.mjs
       - name: Verify S10 boundary
         run: node scripts/verify-s10.mjs
+      - name: Verify S11 boundary
+        run: node scripts/verify-s11.mjs
       - name: Test repository governance policy
         run: node --test scripts/tests/*.test.mjs
       - name: Verify Git whitespace contract
