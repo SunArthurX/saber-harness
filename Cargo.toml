@@ -4,6 +4,7 @@ members = [
     "crates/effect-broker",
     "crates/egress",
     "crates/cax",
+    "crates/code-capsule",
     "crates/context-engine",
     "crates/event-store",
     "crates/evolution",

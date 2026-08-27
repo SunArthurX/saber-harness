@@ -1,71 +1,40 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S15",
-  "status": "completed",
-  "branch": "segment/S15-completion",
+  "segment": "S16",
+  "status": "in_progress_local_gate_passed",
+  "branch": "segment/S16-code-capsule",
   "base": {
-    "segment": "S14",
-    "tag": "s14-complete",
-    "commit": "2013ba42f279e4c83ecd2fce8a0ef809421bea31"
+    "segment": "S15",
+    "tag": "s15-complete",
+    "commit": "39c2c558c7d4cde13c3944970b372fccda9b936d"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "6b166c1fd9d841549e6eb77a0e777a4b78972b73",
-  "verified_main_checkpoint": "6b166c1fd9d841549e6eb77a0e777a4b78972b73",
+  "main_head": "39c2c558c7d4cde13c3944970b372fccda9b936d",
+  "verified_main_checkpoint": "39c2c558c7d4cde13c3944970b372fccda9b936d",
   "checks": [
     {
-      "id": "S15-INHERITED-BOUNDARY",
-      "command": "git cat-file -t s14-complete && git rev-parse 's14-complete^{}' origin/main && node scripts/verify-remote-s14.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
+      "id": "S16-INHERITED-BOUNDARY",
+      "command": "git cat-file -t s15-complete && git rev-parse 's15-complete^{}' origin/main && node scripts/verify-remote-s15.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
       "exit_code": 0,
-      "result": "annotated s14-complete resolves to 2013ba42f279e4c83ecd2fce8a0ef809421bea31 equal to origin/main; strict remote S14 verification and new-machine acceptance passed before the first S15 commit"
+      "result": "annotated s15-complete resolves to 39c2c558c7d4cde13c3944970b372fccda9b936d equal to origin/main; strict remote S15 verification and new-machine acceptance passed before the first S16 commit"
     },
     {
-      "id": "S15-FULL-LOCAL-GATE",
+      "id": "S16-FULL-LOCAL-GATE",
       "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
       "exit_code": 0,
-      "result": "format, strict clippy, 33 Rust test suites (8 evolution adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S15 verifiers and governance tests passed"
+      "result": "format, strict clippy, 35 Rust test suites (7 code-capsule adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S16 verifiers and governance tests passed"
     },
     {
-      "id": "S15-VERIFY-EVOLUTION",
+      "id": "S16-VERIFY-CAPSULE",
       "command": "focused adversarial suites",
       "exit_code": 0,
-      "result": "lifecycle states never skipping (proposed->promoted and quarantined->promoted structurally rejected), failed evaluations blocking promotion, no runtime-authority promotion path existing at the type level, untrusted provenance promoting only through explicit review with provenance retained on the promotion record, tampered payloads failing digest re-verification before every transition, revoked promotions disappearing from the active capability surface immediately with the audit trail retained and deterministic promotion records for identical inputs all passed"
-    },
-    {
-      "id": "S15-VERIFY-BRANCH-CI",
-      "command": "inspect push run 33041617481",
-      "exit_code": 0,
-      "result": "repository verification, Ubuntu, macOS, Windows and dependency audit passed for implementation SHA 5491bb592f0e2546eb251796a0981e8709ba44a5 on the first push"
-    },
-    {
-      "id": "S15-VERIFY-PROTECTED-INTEGRATION",
-      "command": "inspect protected PR #41",
-      "exit_code": 0,
-      "result": "PR #41 squash-merged after all five required checks passed as 6b166c1fd9d841549e6eb77a0e777a4b78972b73"
-    },
-    {
-      "id": "S15-VERIFY-MAIN-CI",
-      "command": "inspect main runs 33042019799, 33042019779 and 33042019766",
-      "exit_code": 0,
-      "result": "provenance, repository verification and the three-platform monorepo CI with dependency audit passed on 6b166c1fd9d841549e6eb77a0e777a4b78972b73"
-    },
-    {
-      "id": "S15-VERIFY-CLEAN-CLONE",
-      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
-      "exit_code": 0,
-      "result": "clone resolved 6b166c1fd9d841549e6eb77a0e777a4b78972b73 and passed all gates in 86 seconds"
-    },
-    {
-      "id": "S15-VERIFY-REMOTE-MAIN",
-      "command": "node scripts/verify-remote-s15.mjs --repository SunArthurX/saber-harness --branch main",
-      "exit_code": 0,
-      "result": "evolution workshop contracts, public settings, hosted security controls and same-SHA successful workflows passed"
+      "result": "tampered sources and envelopes failing admission, unpromoted capsules never executing (candidate and evaluated-only states both refused), undeclared grants and unpinned dependencies failing closed at execution, budget exhaustion terminating eligibility, supersession refusing widened grants while keeping history and rolling back cleanly, and realm/budget-bound plan construction all passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-28T19:30:00Z",
-  "verified_segment_checkpoint": "5491bb592f0e2546eb251796a0981e8709ba44a5"
+  "last_verified_at": "2026-08-28T21:00:00Z"
 }

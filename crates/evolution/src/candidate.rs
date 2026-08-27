@@ -16,6 +16,8 @@ pub enum EvolutionKind {
     Rule,
     /// A multi-step workflow.
     Workflow,
+    /// An isolated code capsule (E4 generated code, ADR-018).
+    Code,
 }
 
 /// Lifecycle states; transitions never skip (INV-03, ADR-017).
@@ -175,5 +177,6 @@ pub fn kind_label(kind: EvolutionKind) -> &'static str {
         EvolutionKind::Memory => "memory",
         EvolutionKind::Rule => "rule",
         EvolutionKind::Workflow => "workflow",
+        EvolutionKind::Code => "code",
     }
 }
