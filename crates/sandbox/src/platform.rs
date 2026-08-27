@@ -74,11 +74,14 @@ impl OsWrapperBackend {
     fn run_probes(kind: WrapperKind) -> HealthReport {
         let pid = u64::from(std::process::id());
         let scratch = std::env::temp_dir().join(format!("saber-sbx-probe-{pid}"));
-        let outside = std::env::temp_dir().join(format!("saber-sbx-escape-{pid}.txt"));
-        let inside = scratch.join("inside.txt");
         if std::fs::create_dir_all(&scratch).is_err() {
             return HealthReport::unhealthy("probe_scratch_unavailable");
         }
+        // Canonicalize after creation so the scratch paths the probes open
+        // agree with the canonical seatbelt filters (KI-0006).
+        let scratch = scratch.canonicalize().unwrap_or(scratch);
+        let outside = std::env::temp_dir().join(format!("saber-sbx-escape-{pid}.txt"));
+        let inside = scratch.join("inside.txt");
         let _ = std::fs::remove_file(&outside);
         let _ = std::fs::remove_file(&inside);
         let wrapper = match kind {
@@ -346,29 +349,62 @@ impl SandboxBackend for OsWrapperBackend {
     }
 }
 
+/// Non-system top-level host roots whose reads are denied before the
+/// declared mounts re-allow their exact subtrees.
+const SEATBELT_DENIED_ROOTS: [&str; 7] = [
+    "/Users", "/home", "/opt", "/Volumes", "/private", "/tmp", "/var",
+];
+
+/// Render the seatbelt profile for one validated plan.
+///
+/// macOS 15.7 aborts `sandbox-exec` (SIGABRT) on any `allow file-read*`
+/// rule carrying `subpath`/`literal`/`regex` filters (KI-0006), so the
+/// equivalent-strictness composition is used instead: a wildcard read
+/// allowance, explicit `deny file-read*` on every non-system top-level
+/// root, then mount-specific re-allows. More specific allowances win,
+/// which keeps reads confined to system trees plus declared mounts and
+/// writes confined to declared overlays — the same lattice as the
+/// pre-15.7 profile.
+/// Canonicalize a host path for seatbelt emission: macOS resolves
+/// `/tmp` and `/var` to `/private/...`, and seatbelt subpath filters
+/// match the canonical path the kernel sees, so unresolved symlink
+/// prefixes would silently fall under the denied roots.
+fn seatbelt_path(host: &Path) -> String {
+    host.canonicalize().map_or_else(
+        |_| host.to_string_lossy().into_owned(),
+        |resolved| resolved.to_string_lossy().into_owned(),
+    )
+}
+
 fn seatbelt_profile(plan: &ValidatedPlan) -> String {
     let mut profile = String::from(
         "(version 1)\n(deny default)\n\
-         (allow file-read* (subpath \"/usr\") (subpath \"/bin\") (subpath \"/sbin\") \
-         (subpath \"/Library\") (subpath \"/System\") (subpath \"/etc\") (subpath \"/dev\") \
-         (subpath \"/private/etc\") (subpath \"/private/tmp\") (subpath \"/private/var/tmp\"))\n\
+         (allow file-read*)\n\
          (allow process-exec (subpath \"/usr\") (subpath \"/bin\") (subpath \"/sbin\"))\n\
          (allow sysctl-read)\n(allow mach-lookup)\n(allow process-fork)\n",
     );
+    for root in SEATBELT_DENIED_ROOTS {
+        let _ = writeln!(profile, "(deny file-read* (subpath \"{root}\"))");
+    }
     for mount in &plan.plan.mounts {
         match &mount.source {
             MountSource::Workspace { host_path } | MountSource::SystemTools { host_path } => {
                 let _ = writeln!(
                     profile,
                     "(allow file-read* (subpath \"{}\"))",
-                    host_path.to_string_lossy()
+                    seatbelt_path(host_path)
                 );
             }
             MountSource::Overlay { host_path } => {
                 let _ = writeln!(
                     profile,
+                    "(allow file-read* (subpath \"{}\"))",
+                    seatbelt_path(host_path)
+                );
+                let _ = writeln!(
+                    profile,
                     "(allow file-read* file-write* (subpath \"{}\"))",
-                    host_path.to_string_lossy()
+                    seatbelt_path(host_path)
                 );
             }
             MountSource::Temporary => {}
@@ -379,17 +415,22 @@ fn seatbelt_profile(plan: &ValidatedPlan) -> String {
 }
 
 fn seatbelt_wrapper(overlay: &Path) -> Vec<String> {
-    let profile = format!(
+    let mut profile = String::from(
         "(version 1)\n(deny default)\n\
-         (allow file-read* (subpath \"/usr\") (subpath \"/bin\") (subpath \"/sbin\") \
-         (subpath \"/Library\") (subpath \"/System\") (subpath \"/etc\") (subpath \"/dev\") \
-         (subpath \"/private/etc\") (subpath \"/private/tmp\"))\n\
+         (allow file-read*)\n\
          (allow process-exec (subpath \"/usr\") (subpath \"/bin\") (subpath \"/sbin\"))\n\
-         (allow sysctl-read)\n(allow mach-lookup)\n(allow process-fork)\n\
-         (allow file-read* file-write* (subpath \"{}\"))\n\
-         (deny network*)\n",
-        overlay.to_string_lossy()
+         (allow sysctl-read)\n(allow mach-lookup)\n(allow process-fork)\n",
     );
+    for root in SEATBELT_DENIED_ROOTS {
+        let _ = writeln!(profile, "(deny file-read* (subpath \"{root}\"))");
+    }
+    let overlay_text = seatbelt_path(overlay);
+    let _ = writeln!(profile, "(allow file-read* (subpath \"{overlay_text}\"))");
+    let _ = writeln!(
+        profile,
+        "(allow file-read* file-write* (subpath \"{overlay_text}\"))"
+    );
+    profile.push_str("(deny network*)\n");
     let path = std::env::temp_dir().join(format!(
         "saber-sbx-probe-{}.sb",
         u64::from(std::process::id())
@@ -542,5 +583,62 @@ mod tests {
                 stdin: None,
             }),
         }
+    }
+
+    #[test]
+    fn seatbelt_profiles_avoid_filtered_read_allows_and_stay_strict() {
+        // macOS 15.7 aborts sandbox-exec on `allow file-read*` rules with
+        // subpath filters (KI-0006); the composition must express read
+        // confinement as a wildcard allowance plus explicit denies and
+        // mount-specific re-allows.
+        let plan = minimal_s3_plan();
+        let validated = plan
+            .validate()
+            .unwrap_or_else(|error| unreachable!("{error}"));
+        let profile = seatbelt_profile(&validated);
+        // The pre-15.7 form enumerated system roots as filtered allows,
+        // which macOS 15.7's compiler aborts on when no read denies
+        // accompany them; the composition must start from a wildcard
+        // read allowance plus explicit denied roots.
+        assert!(!profile.contains("(allow file-read* (subpath \"/usr\")"));
+        assert!(profile.contains("(allow file-read*)\n"));
+        for root in SEATBELT_DENIED_ROOTS {
+            assert!(
+                profile.contains(&format!("(deny file-read* (subpath \"{root}\"))")),
+                "missing deny for {root}"
+            );
+        }
+        // The declared mounts keep read access and the overlay keeps
+        // write access through canonical re-allows.
+        let scratch = std::env::temp_dir()
+            .canonicalize()
+            .unwrap_or_else(|_| std::env::temp_dir());
+        let scratch_text = scratch.to_string_lossy();
+        assert!(profile.contains(&format!("(allow file-read* (subpath \"{scratch_text}\"))")));
+        assert!(profile.contains(&format!(
+            "(allow file-read* file-write* (subpath \"{scratch_text}\"))"
+        )));
+        assert!(profile.contains("(deny network*)"));
+    }
+
+    #[test]
+    fn seatbelt_wrapper_probe_profile_matches_the_same_composition() {
+        // `seatbelt_wrapper` writes the probe profile next to the scratch
+        // dir and returns the sandbox-exec argv; assert the written file
+        // uses the macOS-15.7-compatible composition.
+        let scratch = std::env::temp_dir().join("saber-sbx-profile-test");
+        let wrapper = seatbelt_wrapper(&scratch);
+        assert_eq!(
+            wrapper.first().map(String::as_str),
+            Some("/usr/bin/sandbox-exec")
+        );
+        let profile = std::fs::read_to_string(std::env::temp_dir().join(format!(
+            "saber-sbx-probe-{}.sb",
+            u64::from(std::process::id())
+        )))
+        .unwrap_or_default();
+        assert!(!profile.contains("(allow file-read* (subpath \"/usr\")"));
+        assert!(profile.contains("(allow file-read*)\n"));
+        assert!(profile.contains("(deny network*)"));
     }
 }

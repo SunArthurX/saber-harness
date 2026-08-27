@@ -36,3 +36,11 @@
 - Status: resolved 2026-08-27
 - Resolution: `apply_key_pragma` now serializes the pragma process-wide behind a `OnceLock<Mutex<()>>` (opens are rare, heavyweight operations, so the lock is free in practice); regression guard `concurrent_first_opens_never_race_the_codec_attach` hammers 8 threads × 4 file-backed opens plus hash-chain verification
 - Evidence: the failed run was rerun green (`monorepo-ubuntu-latest => success` on 502dd1d) and the fix landed through a reviewed PR afterward
+## KI-0006 — macOS 15.7 sandbox-exec aborts on filtered read allowances
+
+- Observed: 2026-08-28 while wiring the trusted agent core end-to-end run: `OsWrapperBackend::probe(DarwinSeatbelt)` reported `probe_exec_blocked` on macOS 15.7.2 (darwin 24.6); `/usr/bin/sandbox-exec` exits with SIGABRT (134) on any profile whose `allow file-read*` rules carry `subpath`/`literal`/`regex` filters when no read denies accompany them (empirical matrix; silent abort, no diagnostics)
+- Impact: the seatbelt backend correctly failed closed (all `process.spawn` effects denied) but real sandboxed execution was unavailable on macOS 15.7+; on macOS 14 the previous form kept working
+- Root cause: host platform profile-compiler behavior change; additionally seatbelt subpath filters match the literal path string the child opens, so unresolved macOS symlinks (`/tmp`, `/var` -> `/private/...`) made filters and opens disagree
+- Status: resolved 2026-08-28 (ADR-027)
+- Resolution: equivalent-strictness composition — wildcard `allow file-read*`, explicit `deny file-read*` on non-system top-level roots, canonical mount-specific re-allows (more specific allowances win); canonicalization of mount hosts (`host_mounts_of`), probe scratch and emitted filters so filters and opens agree; the guarded backend is preferred first so in-core realms never pay for a wrapper
+- Evidence: `crates/sandbox/src/platform.rs` regression tests pin the composition; `crates/saber-core/tests/agent_run.rs::real_seatbelt_executes_under_confinement_on_macos` executes a real confined child and verifies the encrypted audit trail on this exact OS

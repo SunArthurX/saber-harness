@@ -1,6 +1,6 @@
 [package]
 name = "saber-core"
-description = "Minimal trusted-core executable skeleton for Saber"
+description = "Trusted agent core for Saber: composes deterministic policy, fail-closed sandbox execution and the encrypted event store into one auditable run"
 version.workspace = true
 edition.workspace = true
 rust-version.workspace = true
@@ -10,7 +10,15 @@ repository.workspace = true
 publish = false
 
 [dependencies]
+getrandom = "=0.4.3"
 saber-core-protocol = { path = "../core-protocol" }
+saber-event-store = { path = "../event-store" }
+saber-policy = { path = "../policy" }
+saber-sandbox = { path = "../sandbox" }
+serde_json = "=1.0.151"
+
+[dev-dependencies]
+tempfile = "=3.27.0"
 
 [lints]
 workspace = true
