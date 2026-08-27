@@ -199,3 +199,16 @@ Decision:
 Reason:
 
 - The recoverable-modification lifecycle is where artifact integrity is actually produced; a separate artifact store without the lifecycle would duplicate hashing and rollback state.
+
+## DEC-0013 — Serve FR-MEM-003 from a dedicated memory-authority crate
+
+Status: accepted for S10
+Date: 2026-08-27
+
+Decision:
+
+- FR-MEM-003 (one Memory Authority per workspace) is implemented in `crates/memory-authority` (`saber-memory-authority`) rather than the draft `packages/context-engine` module. The traceability module field is realigned accordingly.
+
+Reason:
+
+- The authority is trusted-core state (INV-03, TM-06) and belongs beside policy/sandbox in Rust; the TypeScript context engine consumes its contracts rather than owning them.

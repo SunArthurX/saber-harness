@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S09
-  name: context-engine
-  status: completed
-  objective: build the permission-aware Context Engine and Knowledge Mesh with nutrition labels, scope-isolated hybrid retrieval, explain/exclude/revoke controls and rebuildable derived indexes
+  id: S10
+  name: memory-authority
+  status: in_progress
+  objective: implement one governed Memory Authority per workspace promoting typed candidates through conflict, revision, TTL and revocation rules with poisoning defenses
 predecessor:
-  segment: S08
+  segment: S09
   status: completed
-  tag: s08-complete
-  commit: ae06788287d2cacef86cea3defcea4cf47efc8ec
+  tag: s09-complete
+  commit: 8ee455ee685561b331607611535cc341f6cadd91
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -39,44 +39,47 @@ completed_segments:
   - segment: S08
     tag: s08-complete
     commit: ae06788287d2cacef86cea3defcea4cf47efc8ec
+  - segment: S09
+    tag: s09-complete
+    commit: 8ee455ee685561b331607611535cc341f6cadd91
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S09-completion
+  branch: segment/S10-memory-authority
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 184eca71cc7291207bd0ffd0f5f0ac48f5bf16e2
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: true
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-27T16:30:00Z"
+  last_checkpoint_at: "2026-08-27T18:00:00Z"
 acceptance:
   required:
-    - s08_tagged_base
+    - s09_tagged_base
     - configured_remote
-    - nutrition_label_contract
-    - unclassified_admission_rejected
-    - label_forgery_detected
-    - cross_scope_leakage_zero
-    - query_time_redaction
-    - hybrid_keyword_symbol_structured
-    - deterministic_ordering
-    - deterministic_explain
-    - index_rebuild_recovery
+    - single_writer_state_machine
+    - candidate_reviewed_promoted_states
+    - no_auto_promotion
+    - poisoned_candidate_blocked
+    - explicit_review_authority_only
+    - conflicts_create_revisions
+    - revision_history_preserved
+    - deterministic_conflict_resolution
+    - ttl_expiry_stale
     - revocation_immediate
-    - user_exclusion
-    - freshness_expiry
-    - taint_carrying_export
-    - s09_verifier
+    - cross_workspace_injection_denied
+    - sensitivity_ceiling_queries
+    - concurrent_writers_serialized
+    - s10_verifier
     - local_verification
     - verified_segment_push
     - required_ci
@@ -84,30 +87,30 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s08_tagged_base
+    - s09_tagged_base
     - configured_remote
-    - nutrition_label_contract
-    - unclassified_admission_rejected
-    - label_forgery_detected
-    - cross_scope_leakage_zero
-    - query_time_redaction
-    - hybrid_keyword_symbol_structured
-    - deterministic_ordering
-    - deterministic_explain
-    - index_rebuild_recovery
+    - single_writer_state_machine
+    - candidate_reviewed_promoted_states
+    - no_auto_promotion
+    - poisoned_candidate_blocked
+    - explicit_review_authority_only
+    - conflicts_create_revisions
+    - revision_history_preserved
+    - deterministic_conflict_resolution
+    - ttl_expiry_stale
     - revocation_immediate
-    - user_exclusion
-    - freshness_expiry
-    - taint_carrying_export
-    - s09_verifier
+    - cross_workspace_injection_denied
+    - sensitivity_ceiling_queries
+    - concurrent_writers_serialized
+    - s10_verifier
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -119,7 +122,8 @@ decisions:
   - docs/adr/ADR-009-tool-lifecycle-verification.md
   - docs/adr/ADR-010-policy-bound-model-layer.md
   - docs/adr/ADR-011-context-engine-knowledge-mesh.md
+  - docs/adr/ADR-012-memory-authority.md
 blockers: []
 next_action:
-  command: after this atomic completion record merges and final main workflows pass, create annotated s09-complete and hand the next model docs/execution/NEXT-MODEL-S10.md
-  description: all S09 acceptance items passed; strict remote S09 verification green at 9213ee1feac8c05148149717ca0c688bbad9583f
+  command: implement the S10 Memory Authority per docs/execution/NEXT-MODEL-S10.md
+  description: freeze ADR-012, then implement the single-writer state machine with conflict revisions, TTL/revocation and poisoning defenses

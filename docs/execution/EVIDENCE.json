@@ -1,71 +1,40 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S09",
-  "status": "completed",
-  "branch": "segment/S09-completion",
+  "segment": "S10",
+  "status": "in_progress_local_gate_passed",
+  "branch": "segment/S10-memory-authority",
   "base": {
-    "segment": "S08",
-    "tag": "s08-complete",
-    "commit": "ae06788287d2cacef86cea3defcea4cf47efc8ec"
+    "segment": "S09",
+    "tag": "s09-complete",
+    "commit": "8ee455ee685561b331607611535cc341f6cadd91"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "9213ee1feac8c05148149717ca0c688bbad9583f",
-  "verified_main_checkpoint": "9213ee1feac8c05148149717ca0c688bbad9583f",
+  "main_head": "8ee455ee685561b331607611535cc341f6cadd91",
+  "verified_main_checkpoint": "8ee455ee685561b331607611535cc341f6cadd91",
   "checks": [
     {
-      "id": "S09-INHERITED-BOUNDARY",
-      "command": "git cat-file -t s08-complete && git rev-parse 's08-complete^{}' origin/main && node scripts/verify-remote-s08.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
+      "id": "S10-INHERITED-BOUNDARY",
+      "command": "git cat-file -t s09-complete && git rev-parse 's09-complete^{}' origin/main && node scripts/verify-remote-s09.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
       "exit_code": 0,
-      "result": "annotated s08-complete resolves to ae06788287d2cacef86cea3defcea4cf47efc8ec equal to origin/main; strict remote S08 verification and new-machine acceptance passed before the first S09 commit"
+      "result": "annotated s09-complete resolves to 8ee455ee685561b331607611535cc341f6cadd91 equal to origin/main; strict remote S09 verification and new-machine acceptance passed before the first S10 commit"
     },
     {
-      "id": "S09-FULL-LOCAL-GATE",
+      "id": "S10-FULL-LOCAL-GATE",
       "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
       "exit_code": 0,
-      "result": "format, strict clippy, 23 Rust test suites (13 context-engine adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S09 verifiers and governance tests passed"
+      "result": "format, strict clippy, 25 Rust test suites (12 memory-authority adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S10 verifiers and governance tests passed"
     },
     {
-      "id": "S09-VERIFY-CONTEXT-ENGINE",
+      "id": "S10-VERIFY-MEMORY-AUTHORITY",
       "command": "focused adversarial suites",
       "exit_code": 0,
-      "result": "structural nutrition labels on every chunk, unclassified admission failing closed, forged labels caught at admission and query time, zero cross-scope leakage, sensitivity ceiling plus query-time field redaction, hybrid keyword/symbol/structured channels with selection reasons, deterministic selection ordering and byte-identical explanations, corrupted-index rebuild recovery, immediate revocation, user exclusion, freshness expiry, untrusted-content explicit admission with taint-carrying exports and stable event names all passed"
-    },
-    {
-      "id": "S09-VERIFY-BRANCH-CI",
-      "command": "inspect push run 33029997731",
-      "exit_code": 0,
-      "result": "repository verification, Ubuntu, macOS, Windows and dependency audit passed for implementation SHA 184eca71cc7291207bd0ffd0f5f0ac48f5bf16e2 on the first push"
-    },
-    {
-      "id": "S09-VERIFY-PROTECTED-INTEGRATION",
-      "command": "inspect protected PR #28",
-      "exit_code": 0,
-      "result": "PR #28 squash-merged after all five required checks passed as 9213ee1feac8c05148149717ca0c688bbad9583f"
-    },
-    {
-      "id": "S09-VERIFY-MAIN-CI",
-      "command": "inspect main runs 33030395573, 33030395562 and 33030395636",
-      "exit_code": 0,
-      "result": "provenance, repository verification and the three-platform monorepo CI with dependency audit passed on 9213ee1feac8c05148149717ca0c688bbad9583f"
-    },
-    {
-      "id": "S09-VERIFY-CLEAN-CLONE",
-      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
-      "exit_code": 0,
-      "result": "clone resolved 9213ee1feac8c05148149717ca0c688bbad9583f and passed all gates in 84 seconds"
-    },
-    {
-      "id": "S09-VERIFY-REMOTE-MAIN",
-      "command": "node scripts/verify-remote-s09.mjs --repository SunArthurX/saber-harness --branch main",
-      "exit_code": 0,
-      "result": "context engine contracts, public settings, hosted security controls and same-SHA successful workflows passed"
+      "result": "candidates never auto-promoting, poisoned candidates requiring explicit review authority (no runtime-evidence variant exists), contradicting promotions creating linked revisions with intact history, TTL expiry surfacing stale not truth, immediate auditable revocation, cross-workspace and unclassified admission denials, sensitivity-ceiling queries, concurrent writers serializing without lost updates, deterministic outcomes for identical inputs and duplicate-candidate rejection all passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-27T16:30:00Z",
-  "verified_segment_checkpoint": "184eca71cc7291207bd0ffd0f5f0ac48f5bf16e2"
+  "last_verified_at": "2026-08-27T18:00:00Z"
 }
