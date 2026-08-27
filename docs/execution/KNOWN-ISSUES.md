@@ -28,3 +28,11 @@
 - Compensating controls: private visibility, CODEOWNERS, squash-only merge setting, passing PR CI, main-provenance detection workflow, explicit no-force-push repository instructions
 - Resolution: pre-publication history scan passed, repository visibility changed to public, and `node scripts/configure-main-protection.mjs --apply` succeeded
 - Completion evidence: `node scripts/verify-remote-s00.mjs` exited 0 and proved required PR, `repository-verification`, admin enforcement, linear history, conversation resolution, no force push, and no deletion on `main`
+
+## KI-0005 — SQLCipher codec-attach race on concurrent first key pragmas (Linux CI)
+
+- Observed: 2026-08-27, one failure of `saber-event-store` test `artifact_blob_is_authenticated_encrypted_and_idempotent` on `monorepo-ubuntu-latest` at docs-only commit 502dd1d (run 33092189921): `sqlcipherCodecAttach: sqlcipher not initialized` followed by `PRAGMA key requires a key of one or more characters`
+- Root cause: the vendored SQLCipher codec attach is not safe when several connections in one process apply their first key pragma simultaneously; the loaded Linux runner widened the window (never reproduced across 480 local suite executions on macOS; the same code was green on all three platforms at 7e25f84 and bcb7b94)
+- Status: resolved 2026-08-27
+- Resolution: `apply_key_pragma` now serializes the pragma process-wide behind a `OnceLock<Mutex<()>>` (opens are rare, heavyweight operations, so the lock is free in practice); regression guard `concurrent_first_opens_never_race_the_codec_attach` hammers 8 threads × 4 file-backed opens plus hash-chain verification
+- Evidence: the failed run was rerun green (`monorepo-ubuntu-latest => success` on 502dd1d) and the fix landed through a reviewed PR afterward
