@@ -15,10 +15,10 @@ Completed Segments:
 
 Current Segment:
 
-- S10 — Memory Authority (`completion_pending`; implementation merged through protected PR #31 as `ef00a55ecf71f488bc45db54c29b1357be99a916`).
+- S11 — Code-OSS Vertical IDE Loop (`completion_pending`; implementation merged through protected PR #33 as `5761d24b449300a4b642c0c56df0c1b447278258`).
 
 Next Segment:
 
-- S11 — Code-OSS Vertical IDE Loop.
+- S12 — CAX and First Importers.
 
-S10 started from protected `origin/main` at `s09-complete` / `8ee455ee685561b331607611535cc341f6cadd91`. Its implementation branch `segment/S10-memory-authority` passed every required context at `6e66b25e2919343f9982c98978b693911b6c95a5`; the atomic completion record and `s10-complete` tag follow this merge.
+S11 started from protected `origin/main` at `s10-complete` / `dbba2d9ee10b8abef5575e25c078c3762156d7e9`. Its implementation branch `segment/S11-codeoss-ide-loop` passed every required context at `803ab40fcb8eee9e6bbfbcc7b0fd34468112d759`; the atomic completion record and `s11-complete` tag follow this merge.

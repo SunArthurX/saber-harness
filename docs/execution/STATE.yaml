@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S11
   name: codeoss-ide-loop
-  status: in_progress
+  status: completed
   objective: close the vertical IDE loop with an untrusted renderer protocol client, crash-safe replayable run views, request-scoped approval cards and marker-only explanation rendering
 predecessor:
   segment: S10
@@ -51,20 +51,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S11-codeoss-ide-loop
+  branch: segment/S11-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: 6e66b25e2919343f9982c98978b693911b6c95a5
+  verified_segment_checkpoint: 803ab40fcb8eee9e6bbfbcc7b0fd34468112d759
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-27T21:00:00Z"
+  last_checkpoint_at: "2026-08-27T22:30:00Z"
 acceptance:
   required:
     - s10_tagged_base
@@ -103,13 +103,13 @@ acceptance:
     - exclude_revoke_are_protocol_intents
     - s11_verifier
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -125,5 +125,5 @@ decisions:
   - docs/adr/ADR-013-untrusted-renderer-crash-safe-runview.md
 blockers: []
 next_action:
-  command: implement the S11 IDE loop per docs/execution/NEXT-MODEL-S11.md
-  description: freeze ADR-013, then implement the untrusted renderer protocol client, crash-safe run view, scoped approval cards and marker-only explanation panel
+  command: after this atomic completion record merges and final main workflows pass, create annotated s11-complete and hand the next model docs/execution/NEXT-MODEL-S12.md
+  description: all S11 acceptance items passed; strict remote S11 verification green at 5761d24b449300a4b642c0c56df0c1b447278258
