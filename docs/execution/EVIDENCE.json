@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S23",
-  "status": "in_progress_local_gate_passed",
-  "branch": "segment/S23-design-partner-beta",
+  "status": "completed",
+  "branch": "segment/S23-completion",
   "base": {
     "segment": "S22",
     "tag": "s22-complete",
@@ -13,8 +13,8 @@
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "a0fd39f4420a251625dbd580a9235f808efd58e9",
-  "verified_main_checkpoint": "a0fd39f4420a251625dbd580a9235f808efd58e9",
+  "main_head": "5d11ff6350aa5920ff88a3c7c364fd7927292803",
+  "verified_main_checkpoint": "5d11ff6350aa5920ff88a3c7c364fd7927292803",
   "checks": [
     {
       "id": "S23-INHERITED-BOUNDARY",
@@ -33,8 +33,39 @@
       "command": "focused adversarial suites",
       "exit_code": 0,
       "result": "SLO budgets failing the gate on intentional regressions and on budgets without measurements, deterministic benchmark mapping, opt-in metadata-only telemetry with canary detection of forbidden labels, single-command onboarding exercised by the new-machine acceptance on every push, and feedback intake producing imported-trust candidates with no promotion path all passed"
+    },
+    {
+      "id": "S23-VERIFY-BRANCH-CI",
+      "command": "inspect push runs 33085780258 and 33085780321",
+      "exit_code": 0,
+      "result": "repository verification and the three-platform monorepo CI with dependency audit passed for implementation SHA 377004e5effcf5f86f36da5301e547265e92ac1d on the first push"
+    },
+    {
+      "id": "S23-VERIFY-PROTECTED-INTEGRATION",
+      "command": "inspect protected PR #57",
+      "exit_code": 0,
+      "result": "PR #57 squash-merged after all five required checks passed as 5d11ff6350aa5920ff88a3c7c364fd7927292803"
+    },
+    {
+      "id": "S23-VERIFY-MAIN-CI",
+      "command": "inspect main runs 33086674823, 33086674811 and 33086674869",
+      "exit_code": 0,
+      "result": "provenance, repository verification and the three-platform monorepo CI passed on 5d11ff6350aa5920ff88a3c7c364fd7927292803"
+    },
+    {
+      "id": "S23-VERIFY-CLEAN-CLONE",
+      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
+      "exit_code": 0,
+      "result": "clone resolved 5d11ff6350aa5920ff88a3c7c364fd7927292803 and passed all gates in 100 seconds"
+    },
+    {
+      "id": "S23-VERIFY-REMOTE-MAIN",
+      "command": "node scripts/verify-remote-s23.mjs --repository SunArthurX/saber-harness --branch main",
+      "exit_code": 0,
+      "result": "beta SLO contracts, public settings, hosted security controls and same-SHA successful workflows passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-30T12:00:00Z"
+  "last_verified_at": "2026-08-30T13:30:00Z",
+  "verified_segment_checkpoint": "377004e5effcf5f86f36da5301e547265e92ac1d"
 }
