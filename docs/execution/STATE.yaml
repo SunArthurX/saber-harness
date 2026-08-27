@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S12
   name: cax-importers
-  status: in_progress
+  status: completed
   objective: define the Canonical Agent Exchange schema and first importers turning external agent transcripts into recomputable-evidence records with idempotent re-import, revocation and untrusted admission
 predecessor:
   segment: S11
@@ -54,20 +54,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S12-cax-importers
+  branch: segment/S12-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: 803ab40fcb8eee9e6bbfbcc7b0fd34468112d759
+  verified_segment_checkpoint: c843abd909bff854d23ce48230c0cb52e8f5e593
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-28T09:00:00Z"
+  last_checkpoint_at: "2026-08-28T10:30:00Z"
 acceptance:
   required:
     - s11_tagged_base
@@ -104,13 +104,13 @@ acceptance:
     - untrusted_fabric_admission
     - s12_verifier
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -127,5 +127,5 @@ decisions:
   - docs/adr/ADR-014-cax-recomputable-evidence.md
 blockers: []
 next_action:
-  command: implement the S12 CAX schema and first importers per docs/execution/NEXT-MODEL-S12.md
-  description: freeze ADR-014, then implement the versioned CAX envelope, two importers with hash chains, idempotent re-import/revocation and untrusted fabric admission
+  command: after this atomic completion record merges and final main workflows pass, create annotated s12-complete and hand the next model docs/execution/NEXT-MODEL-S13.md
+  description: all S12 acceptance items passed; strict remote S12 verification green at e213e5d53c66f38d3c0a5ee349573238fe1571eb

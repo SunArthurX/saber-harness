@@ -15,7 +15,7 @@
       "statement": "Import observable conversations and artifacts from supported external coding agents without inventing hidden reasoning.",
       "owner": "agent-integrations", "module": "packages/agent-adapters",
       "events": ["import.snapshotted", "import.completed"], "tests": ["S12-IMPORT-FIDELITY"],
-      "segment": "S12", "source": "architecture 9.1 and 9.4 and ADR-014", "status": "implemented",
+      "segment": "S12", "source": "architecture 9.1 and 9.4 and ADR-014", "status": "verified-main",
       "evidence": ["crates/cax/src/importer.rs", "crates/cax/src/library.rs"]
     },
     {
@@ -23,7 +23,7 @@
       "statement": "Represent external agent records in a versioned Canonical Agent Exchange schema with source references and hashes.",
       "owner": "protocol", "module": "schemas/exchange",
       "events": ["cax.record.validated"], "tests": ["S12-CAX-ROUNDTRIP"],
-      "segment": "S12", "source": "architecture 9.2 and ADR-014", "status": "implemented",
+      "segment": "S12", "source": "architecture 9.2 and ADR-014", "status": "verified-main",
       "evidence": ["crates/cax/src/record.rs", "schemas/exchange/v1/cax.schema.json"]
     },
     {
@@ -38,7 +38,7 @@
       "statement": "Re-import, revoke and delete imported sources deterministically while preserving minimal audit provenance.",
       "owner": "agent-integrations", "module": "packages/agent-adapters",
       "events": ["import.replayed", "import.revoked"], "tests": ["S12-IMPORT-REPLAY-REVOKE"],
-      "segment": "S12", "source": "architecture 9.4 and 19.22 and ADR-014", "status": "implemented",
+      "segment": "S12", "source": "architecture 9.4 and 19.22 and ADR-014", "status": "verified-main",
       "evidence": ["crates/cax/src/library.rs"]
     },
     {
