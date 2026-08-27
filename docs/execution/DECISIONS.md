@@ -238,3 +238,16 @@ Decision:
 Reason:
 
 - Same class as DEC-0010/0011/0014: traceability stays aligned with the roadmap, preserving the P0 orphan-free invariant.
+
+## DEC-0016 — Realign RES-HEAL-003..006 to S18
+
+Status: accepted for S18
+Date: 2026-08-29
+
+Decision:
+
+- Fifth draft-schedule collision: RES-HEAL-003/004/005/006 carried `segment: S12` while the authoritative roadmap assigns S18 to Health/Safe Mode/自愈. They realign to S18, implemented in `crates/health-supervisor`, with test identifiers renamed to `S18-*`.
+
+Reason:
+
+- Same class as DEC-0010/0011/0014/0015: traceability stays roadmap-aligned, preserving the P0 orphan-free invariant.

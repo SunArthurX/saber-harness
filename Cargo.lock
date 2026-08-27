@@ -1110,6 +1110,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "saber-health-supervisor"
+version = "0.0.0"
+dependencies = [
+ "serde",
+ "serde_json",
+]
+
+[[package]]
 name = "saber-memory-authority"
 version = "0.0.0"
 dependencies = [

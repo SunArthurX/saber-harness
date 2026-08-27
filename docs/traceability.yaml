@@ -376,29 +376,33 @@
       "id": "RES-HEAL-003", "priority": "P0",
       "statement": "Detect integrity, budget, latency, crash, policy and contamination health signals without relying on an LLM.",
       "owner": "reliability", "module": "crates/health-supervisor",
-      "events": ["health.signal_raised", "cell.degraded"], "tests": ["S12-DETERMINISTIC-HEALTH-DETECTION"],
-      "segment": "S12", "source": "architecture 14.1 and PC-10", "status": "planned"
+      "events": ["health.signal_raised", "cell.degraded"], "tests": ["S18-DETERMINISTIC-HEALTH-DETECTION"],
+      "segment": "S18", "source": "architecture 14.1 and PC-10 and ADR-020", "status": "implemented",
+      "evidence": ["crates/health-supervisor/src/detect.rs"]
     },
     {
       "id": "RES-HEAL-004", "priority": "P0",
       "statement": "Contain an incident in the smallest Trust Cell before diagnosis, retry or repair.",
       "owner": "reliability", "module": "crates/health-supervisor",
-      "events": ["incident.contained", "cell.isolated"], "tests": ["S12-CELL-FAULT-CONTAINMENT"],
-      "segment": "S12", "source": "architecture 5.5 and 14.5", "status": "planned"
+      "events": ["incident.contained", "cell.isolated"], "tests": ["S18-CELL-FAULT-CONTAINMENT"],
+      "segment": "S18", "source": "architecture 5.5 and 14.5 and ADR-020", "status": "implemented",
+      "evidence": ["crates/health-supervisor/src/lib.rs"]
     },
     {
       "id": "RES-HEAL-005", "priority": "P0",
       "statement": "Enter fail-closed Safe Mode when Policy, Sandbox, Audit, Crypto or Recovery enforcement is unavailable.",
       "owner": "reliability", "module": "crates/health-supervisor",
-      "events": ["safe_mode.entered", "safe_mode.exited"], "tests": ["S12-SAFE-MODE-FAIL-CLOSED"],
-      "segment": "S12", "source": "architecture 14.4 and INV-08", "status": "planned"
+      "events": ["safe_mode.entered", "safe_mode.exited"], "tests": ["S18-SAFE-MODE-FAIL-CLOSED"],
+      "segment": "S18", "source": "architecture 14.4 and INV-08 and ADR-020", "status": "implemented",
+      "evidence": ["crates/health-supervisor/src/lib.rs"]
     },
     {
       "id": "RES-HEAL-006", "priority": "P0",
       "statement": "Escalate trust-root, sandbox-escape, audit-break and irreversible incidents with a minimal DLP-reviewed diagnostic bundle.",
       "owner": "reliability", "module": "crates/incident-manager",
-      "events": ["incident.escalated", "incident.external_help_requested"], "tests": ["S12-EXTERNAL-AUTHORITY-ESCALATION"],
-      "segment": "S12", "source": "architecture 14.8", "status": "planned"
+      "events": ["incident.escalated", "incident.external_help_requested"], "tests": ["S18-EXTERNAL-AUTHORITY-ESCALATION"],
+      "segment": "S18", "source": "architecture 14.8 and ADR-020", "status": "implemented",
+      "evidence": ["crates/health-supervisor/src/lib.rs"]
     },
     {
       "id": "OPS-ENT-001", "priority": "P0",

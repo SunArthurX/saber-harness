@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S17
-  name: e2ee-sync
-  status: completed
-  objective: synchronize events, memories and artifacts as client-encrypted immutable objects with per-object data keys, anti-rollback epochs and zero server-visible plaintext
+  id: S18
+  name: health-safemode
+  status: in_progress
+  objective: build the immune system — deterministic health detection, bounded contain-first reflexes, fail-closed Safe Mode and external-authority escalation that never improvises repairs
 predecessor:
-  segment: S16
+  segment: S17
   status: completed
-  tag: s16-complete
-  commit: cc49f69db65c4d527eb436f379574a79d4432f98
+  tag: s17-complete
+  commit: 87d571a99992871db7e26fa9c1027e6acc4ab463
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -63,41 +63,45 @@ completed_segments:
   - segment: S16
     tag: s16-complete
     commit: cc49f69db65c4d527eb436f379574a79d4432f98
+  - segment: S17
+    tag: s17-complete
+    commit: 87d571a99992871db7e26fa9c1027e6acc4ab463
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S17-completion
+  branch: segment/S18-health-safemode
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 92a38c7abb9f9a6dbb7a3da525012ea035f6fb65
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: true
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T10:30:00Z"
+  last_checkpoint_at: "2026-08-29T12:00:00Z"
 acceptance:
   required:
-    - s16_tagged_base
+    - s17_tagged_base
     - configured_remote
-    - client_encrypted_object_model
-    - aead_roundtrip_with_auth_metadata
-    - wrong_key_fails_closed
-    - tampered_ciphertext_fails
-    - classification_downgrade_refused
-    - per_object_data_keys
-    - anti_rollback_epochs
-    - server_zero_plaintext_canary
-    - device_revocation_unwrap
-    - metadata_only_audit
-    - s17_verifier
+    - deterministic_health_detection
+    - h0_h4_severity_ladder
+    - contain_before_diagnose
+    - bounded_reflexes_with_cooldowns
+    - reflexes_never_touch_policy_or_audit
+    - health_fault_cannot_amplify
+    - safe_mode_fail_closed_entry
+    - safe_mode_exit_requires_operator
+    - escalation_stops_autonomy
+    - minimal_dlp_reviewed_bundle
+    - game_day_cascade_contained
+    - s18_verifier
     - local_verification
     - verified_segment_push
     - required_ci
@@ -105,27 +109,28 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s16_tagged_base
+    - s17_tagged_base
     - configured_remote
-    - client_encrypted_object_model
-    - aead_roundtrip_with_auth_metadata
-    - wrong_key_fails_closed
-    - tampered_ciphertext_fails
-    - classification_downgrade_refused
-    - per_object_data_keys
-    - anti_rollback_epochs
-    - server_zero_plaintext_canary
-    - device_revocation_unwrap
-    - metadata_only_audit
-    - s17_verifier
+    - deterministic_health_detection
+    - h0_h4_severity_ladder
+    - contain_before_diagnose
+    - bounded_reflexes_with_cooldowns
+    - reflexes_never_touch_policy_or_audit
+    - health_fault_cannot_amplify
+    - safe_mode_fail_closed_entry
+    - safe_mode_exit_requires_operator
+    - escalation_stops_autonomy
+    - minimal_dlp_reviewed_bundle
+    - game_day_cascade_contained
+    - s18_verifier
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -145,7 +150,8 @@ decisions:
   - docs/adr/ADR-017-evolution-workshop.md
   - docs/adr/ADR-018-isolated-code-capsules.md
   - docs/adr/ADR-019-client-key-e2ee-sync.md
+  - docs/adr/ADR-020-contain-first-immune-core.md
 blockers: []
 next_action:
-  command: after this atomic completion record merges and final main workflows pass, create annotated s17-complete and hand the next model docs/execution/NEXT-MODEL-S18.md
-  description: all S17 acceptance items passed; strict remote S17 verification green at 210ad5a051c53300de2be5c70cb64da3fe6284a5
+  command: implement the S18 health system per docs/execution/NEXT-MODEL-S18.md
+  description: freeze ADR-020, then implement deterministic detection, bounded reflexes, Safe Mode and escalation
