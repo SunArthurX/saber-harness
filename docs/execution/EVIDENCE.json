@@ -1,71 +1,47 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S23",
-  "status": "completed",
-  "branch": "segment/S23-completion",
+  "segment": "S24",
+  "status": "in_progress",
+  "branch": "segment/S24-production-gate",
   "base": {
-    "segment": "S22",
-    "tag": "s22-complete",
-    "commit": "a0fd39f4420a251625dbd580a9235f808efd58e9"
+    "segment": "S23",
+    "tag": "s23-complete",
+    "commit": "47e1f94a8529d103e1c2a884ed954f9fe89ad326"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "5d11ff6350aa5920ff88a3c7c364fd7927292803",
-  "verified_main_checkpoint": "5d11ff6350aa5920ff88a3c7c364fd7927292803",
+  "main_head": "47e1f94a8529d103e1c2a884ed954f9fe89ad326",
+  "verified_main_checkpoint": "47e1f94a8529d103e1c2a884ed954f9fe89ad326",
   "checks": [
     {
-      "id": "S23-INHERITED-BOUNDARY",
-      "command": "git cat-file -t s22-complete && git rev-parse 's22-complete^{}' origin/main && node scripts/verify-remote-s22.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
+      "id": "S24-INHERITED-BOUNDARY",
+      "command": "git cat-file -t s23-complete && git rev-parse 's23-complete^{}' origin/main && node scripts/verify-remote-s23.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
       "exit_code": 0,
-      "result": "annotated s22-complete resolves to a0fd39f4420a251625dbd580a9235f808efd58e9 equal to origin/main; strict remote S22 verification and new-machine acceptance passed before the first S23 commit"
+      "result": "annotated s23-complete resolves to 47e1f94a8529d103e1c2a884ed954f9fe89ad326 equal to origin/main with all six check contexts successful; strict remote S23 verification and new-machine acceptance passed before the first S24 commit"
     },
     {
-      "id": "S23-FULL-LOCAL-GATE",
+      "id": "S24-FULL-LOCAL-GATE",
       "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
       "exit_code": 0,
-      "result": "format, strict clippy, 48 Rust test suites (4 beta-slo adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S23 verifiers and governance tests passed"
+      "result": "format, strict clippy, 49 Rust test suites (246 tests including 9 production-gate adversarial tests), TypeScript gates, deterministic generation, licenses, S00-S24 verifiers and governance tests passed"
     },
     {
-      "id": "S23-VERIFY-BETA",
-      "command": "focused adversarial suites",
+      "id": "S24-VERIFY-GATE",
+      "command": "node scripts/verify-s24.mjs",
       "exit_code": 0,
-      "result": "SLO budgets failing the gate on intentional regressions and on budgets without measurements, deterministic benchmark mapping, opt-in metadata-only telemetry with canary detection of forbidden labels, single-command onboarding exercised by the new-machine acceptance on every push, and feedback intake producing imported-trust candidates with no promotion path all passed"
+      "result": "934 checks passed: gate contracts, nine adversarial tests, workspace member, gate wiring, ADR-026 accepted, TM-01..TM-16 register and baseline mapping, and a zero-occurrence forbidden-autonomy-marker scan across the tracked source surface"
     },
     {
-      "id": "S23-VERIFY-BRANCH-CI",
-      "command": "inspect push runs 33085780258 and 33085780321",
+      "id": "S24-ACCEPTANCE",
+      "command": "pnpm acceptance:new-machine",
       "exit_code": 0,
-      "result": "repository verification and the three-platform monorepo CI with dependency audit passed for implementation SHA 377004e5effcf5f86f36da5301e547265e92ac1d on the first push"
-    },
-    {
-      "id": "S23-VERIFY-PROTECTED-INTEGRATION",
-      "command": "inspect protected PR #57",
-      "exit_code": 0,
-      "result": "PR #57 squash-merged after all five required checks passed as 5d11ff6350aa5920ff88a3c7c364fd7927292803"
-    },
-    {
-      "id": "S23-VERIFY-MAIN-CI",
-      "command": "inspect main runs 33086674823, 33086674811 and 33086674869",
-      "exit_code": 0,
-      "result": "provenance, repository verification and the three-platform monorepo CI passed on 5d11ff6350aa5920ff88a3c7c364fd7927292803"
-    },
-    {
-      "id": "S23-VERIFY-CLEAN-CLONE",
-      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
-      "exit_code": 0,
-      "result": "clone resolved 5d11ff6350aa5920ff88a3c7c364fd7927292803 and passed all gates in 100 seconds"
-    },
-    {
-      "id": "S23-VERIFY-REMOTE-MAIN",
-      "command": "node scripts/verify-remote-s23.mjs --repository SunArthurX/saber-harness --branch main",
-      "exit_code": 0,
-      "result": "beta SLO contracts, public settings, hosted security controls and same-SHA successful workflows passed"
+      "result": "new-machine acceptance passed in 41 seconds"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-30T13:30:00Z",
-  "verified_segment_checkpoint": "377004e5effcf5f86f36da5301e547265e92ac1d"
+  "last_verified_at": "2026-08-30T15:30:00Z",
+  "verified_segment_checkpoint": "47e1f94a8529d103e1c2a884ed954f9fe89ad326"
 }

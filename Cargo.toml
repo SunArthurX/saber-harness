@@ -16,6 +16,7 @@ members = [
     "crates/orchestrator",
     "crates/plugin-registry",
     "crates/policy",
+    "crates/production-gate",
     "crates/remote-realm",
     "crates/release-integrity",
     "crates/resumption",

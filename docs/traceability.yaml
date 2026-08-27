@@ -463,6 +463,14 @@
       "owner": "release-owner", "module": "docs/execution",
       "events": ["segment.checkpoint_created", "segment.completed"], "tests": ["S00-VERIFY-CONTINUITY"],
       "segment": "S00", "source": "enterprise execution plan Continuity Pack", "status": "verified-main"
+    },
+    {
+      "id": "OPS-ENT-009", "priority": "P0",
+      "statement": "Certify production readiness through a deterministic metadata-only gate asserting every S00-S23 invariant family, the proposal-only E6 boundary with no autonomous E6/E7 path, and full TM-01..TM-16 threat-register coverage before release.",
+      "owner": "release-owner", "module": "crates/production-gate",
+      "events": ["gate.evaluated", "gate.report_published"], "tests": ["S24-PRODUCTION-GATE"],
+      "segment": "S24", "source": "enterprise execution plan S24 and ADR-026", "status": "implemented",
+      "evidence": ["crates/production-gate/src/lib.rs", "scripts/verify-s24.mjs"]
     }
   ]
 }
