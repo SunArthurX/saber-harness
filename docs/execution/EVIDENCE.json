@@ -1,71 +1,40 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S12",
-  "status": "completed",
-  "branch": "segment/S12-completion",
+  "segment": "S13",
+  "status": "in_progress_local_gate_passed",
+  "branch": "segment/S13-resumption-capsule",
   "base": {
-    "segment": "S11",
-    "tag": "s11-complete",
-    "commit": "349aa1f196eff1fe5219200a03e24e93435e24fc"
+    "segment": "S12",
+    "tag": "s12-complete",
+    "commit": "c1f10bfb7ec379217583878291d7e7a12f112ef5"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "e213e5d53c66f38d3c0a5ee349573238fe1571eb",
-  "verified_main_checkpoint": "e213e5d53c66f38d3c0a5ee349573238fe1571eb",
+  "main_head": "c1f10bfb7ec379217583878291d7e7a12f112ef5",
+  "verified_main_checkpoint": "c1f10bfb7ec379217583878291d7e7a12f112ef5",
   "checks": [
     {
-      "id": "S12-INHERITED-BOUNDARY",
-      "command": "git cat-file -t s11-complete && git rev-parse 's11-complete^{}' origin/main && node scripts/verify-remote-s11.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
+      "id": "S13-INHERITED-BOUNDARY",
+      "command": "git cat-file -t s12-complete && git rev-parse 's12-complete^{}' origin/main && node scripts/verify-remote-s12.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
       "exit_code": 0,
-      "result": "annotated s11-complete resolves to 349aa1f196eff1fe5219200a03e24e93435e24fc equal to origin/main; strict remote S11 verification and new-machine acceptance passed before the first S12 commit"
+      "result": "annotated s12-complete resolves to c1f10bfb7ec379217583878291d7e7a12f112ef5 equal to origin/main; strict remote S12 verification and new-machine acceptance passed before the first S13 commit"
     },
     {
-      "id": "S12-FULL-LOCAL-GATE",
+      "id": "S13-FULL-LOCAL-GATE",
       "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
       "exit_code": 0,
-      "result": "format, strict clippy, 27 Rust test suites (9 CAX adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S12 verifiers and governance tests passed"
+      "result": "format, strict clippy, 29 Rust test suites (9 resumption adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S13 verifiers and governance tests passed"
     },
     {
-      "id": "S12-VERIFY-CAX",
+      "id": "S13-VERIFY-CAPSULE",
       "command": "focused adversarial suites",
       "exit_code": 0,
-      "result": "valid hash chains from raw bytes through entries to the record digest, tampered records/sources and unknown versions failing closed, importer invention breaking the chain, verbatim-presence recomputation, idempotent re-import with evolved sources creating distinct records, revocation removing records while preserving tombstone provenance (and revoked sources staying revoked), cross-workspace injection denial and untrusted fabric admission with S09 visibility semantics all passed"
-    },
-    {
-      "id": "S12-VERIFY-BRANCH-CI",
-      "command": "inspect push run 33036366007",
-      "exit_code": 0,
-      "result": "repository verification, Ubuntu, macOS, Windows and dependency audit passed for implementation SHA c843abd909bff854d23ce48230c0cb52e8f5e593 on the first push"
-    },
-    {
-      "id": "S12-VERIFY-PROTECTED-INTEGRATION",
-      "command": "inspect protected PR #35",
-      "exit_code": 0,
-      "result": "PR #35 squash-merged after all five required checks passed as e213e5d53c66f38d3c0a5ee349573238fe1571eb"
-    },
-    {
-      "id": "S12-VERIFY-MAIN-CI",
-      "command": "inspect main runs 33036787695, 33036787724 and 33036787710",
-      "exit_code": 0,
-      "result": "provenance, repository verification and the three-platform monorepo CI with dependency audit passed on e213e5d53c66f38d3c0a5ee349573238fe1571eb"
-    },
-    {
-      "id": "S12-VERIFY-CLEAN-CLONE",
-      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
-      "exit_code": 0,
-      "result": "clone resolved e213e5d53c66f38d3c0a5ee349573238fe1571eb and passed all gates in 86 seconds"
-    },
-    {
-      "id": "S12-VERIFY-REMOTE-MAIN",
-      "command": "node scripts/verify-remote-s12.mjs --repository SunArthurX/saber-harness --branch main",
-      "exit_code": 0,
-      "result": "CAX contracts, public settings, hosted security controls and same-SHA successful workflows passed"
+      "result": "digest-bound capsule creation from complete authoritative facts (missing facts refused), tampered capsules and unknown versions failing closed in any consumer, mutated/missing artifacts and fingerprint drift surfacing NeedsReconcile with drift evidence instead of silent continuation, verbatim lineage continuation only from Ready state, cross-workspace injection denial and offline consumer reverification without producer trust all passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-28T10:30:00Z",
-  "verified_segment_checkpoint": "c843abd909bff854d23ce48230c0cb52e8f5e593"
+  "last_verified_at": "2026-08-28T12:00:00Z"
 }
