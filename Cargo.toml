@@ -16,6 +16,7 @@ members = [
     "crates/plugin-registry",
     "crates/policy",
     "crates/remote-realm",
+    "crates/release-integrity",
     "crates/resumption",
     "crates/saber-core",
     "crates/sync-e2ee",
