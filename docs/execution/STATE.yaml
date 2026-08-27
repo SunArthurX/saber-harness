@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S21
   name: enterprise-iam-policy-audit
-  status: in_progress
+  status: completed
   objective: enforce multi-tenant enterprise control — tenant-qualified planes, deterministic IAM mapping onto closed policy tiers, evidenced break-glass and per-tenant audit separation
 predecessor:
   segment: S20
@@ -81,20 +81,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S21-enterprise-iam-policy-audit
+  branch: segment/S21-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: e156b30a969cee58742734dc85c86fe14fdcc95a
+  verified_segment_checkpoint: 18c0342041ae2c609d37ae00e857c19c3513d31
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T21:00:00Z"
+  last_checkpoint_at: "2026-08-29T22:30:00Z"
 acceptance:
   required:
     - s20_tagged_base
@@ -133,13 +133,13 @@ acceptance:
     - evidence_packs_metadata_only
     - s21_verifier
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -165,5 +165,5 @@ decisions:
   - docs/adr/ADR-023-multitenant-enterprise-control.md
 blockers: []
 next_action:
-  command: implement the S21 enterprise control plane per docs/execution/NEXT-MODEL-S21.md
-  description: freeze ADR-023, then implement tenant planes, IAM tier mapping, break-glass and audit separation
+  command: after this atomic completion record merges and final main workflows pass, create annotated s21-complete and hand the next model docs/execution/NEXT-MODEL-S22.md
+  description: all S21 acceptance items passed; strict remote S21 verification green at e58fbfb1acab7544238accd8979c2564cd292529

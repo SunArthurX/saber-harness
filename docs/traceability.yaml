@@ -431,7 +431,7 @@
       "statement": "Represent human, device, runtime, subagent, plugin, workload and administrator principals with on-behalf-of identity.",
       "owner": "enterprise-governance", "module": "crates/identity",
       "events": ["principal.authenticated", "delegation.issued"], "tests": ["S21-PRINCIPAL-DELEGATION"],
-      "segment": "S21", "source": "architecture 15.6 and ADR-023", "status": "implemented",
+      "segment": "S21", "source": "architecture 15.6 and ADR-023", "status": "verified-main",
       "evidence": ["crates/enterprise/src/lib.rs"]
     },
     {

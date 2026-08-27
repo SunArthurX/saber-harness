@@ -15,10 +15,10 @@ Completed Segments:
 
 Current Segment:
 
-- S20 — Remote Execution Realm (`completion_pending`; implementation merged through protected PR #51 as `2c30ad248c948bbafaa59c7101bf6443e12c120e`).
+- S21 — Enterprise IAM, Policy and Audit (`completion_pending`; implementation merged through protected PR #53 as `e58fbfb1acab7544238accd8979c2564cd292529`).
 
 Next Segment:
 
-- S21 — Enterprise IAM, Policy and Audit.
+- S22 — TUF/SLSA, SBOM, Updater and Air-Gap.
 
-S20 started from protected `origin/main` at `s19-complete` / `5b6b8419e119c74b5ef3b36491bd8eb0cf1404b6`. Its implementation branch `segment/S20-remote-execution-realm` passed every required context at `e156b30a969cee58742734dc85c86fe14fdcc95a`; the atomic completion record and `s20-complete` tag follow this merge.
+S21 started from protected `origin/main` at `s20-complete` / `e6df99a451a651669c07db9650dd15b5c6190405`. Its implementation branch `segment/S21-enterprise-iam-policy-audit` passed every required context at `18c0342041ae2c609d37ae00e857c19c3513d31`; the atomic completion record and `s21-complete` tag follow this merge.
