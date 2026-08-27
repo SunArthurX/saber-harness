@@ -20,8 +20,10 @@ Completed Segments (continued):
 
 Current Segment:
 
-- S24 — Production Gate and E6 Experiments (`in_progress` on `segment/S24-production-gate` from `s23-complete` / `47e1f94a8529d103e1c2a884ed954f9fe89ad326`).
+- None — the 25-segment roadmap is complete.
 
-Next Segment:
+Completed Segments (final):
 
-- None — S24 closes the 25-segment roadmap with the annotated `s24-complete` tag.
+- S24 — Production Gate and E6 Experiments (completed through protected PR #59 as `bcb7b94bf55bde8de172d1e55e33373b628830ba`; deterministic readiness gate over nine invariant families, proposal-only E6 boundary with a zero-autonomy-marker surface scan, TM-01..TM-16 coverage, metadata-only readiness report).
+
+S24 started from protected `origin/main` at `s23-complete` / `47e1f94a8529d103e1c2a884ed954f9fe89ad326`. Its implementation branch `segment/S24-production-gate` passed every required context at `7e25f841583c002cbfe62205555e6bbce6d07d24` on the first push; the annotated `s24-complete` tag follows the merge of this completion record.
