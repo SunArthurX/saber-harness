@@ -8,6 +8,7 @@ members = [
     "crates/event-store",
     "crates/memory-authority",
     "crates/model-providers",
+    "crates/orchestrator",
     "crates/policy",
     "crates/resumption",
     "crates/saber-core",

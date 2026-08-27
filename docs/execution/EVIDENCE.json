@@ -1,71 +1,40 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S13",
-  "status": "completed",
-  "branch": "segment/S13-completion",
+  "segment": "S14",
+  "status": "in_progress_local_gate_passed",
+  "branch": "segment/S14-goal-dag-subagents",
   "base": {
-    "segment": "S12",
-    "tag": "s12-complete",
-    "commit": "c1f10bfb7ec379217583878291d7e7a12f112ef5"
+    "segment": "S13",
+    "tag": "s13-complete",
+    "commit": "9fc9acfc8874e9755c1d0d83aaab06c9989b3556"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "e6ac4839cb084d72d2ce21466427430ef3e6ea25",
-  "verified_main_checkpoint": "e6ac4839cb084d72d2ce21466427430ef3e6ea25",
+  "main_head": "9fc9acfc8874e9755c1d0d83aaab06c9989b3556",
+  "verified_main_checkpoint": "9fc9acfc8874e9755c1d0d83aaab06c9989b3556",
   "checks": [
     {
-      "id": "S13-INHERITED-BOUNDARY",
-      "command": "git cat-file -t s12-complete && git rev-parse 's12-complete^{}' origin/main && node scripts/verify-remote-s12.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
+      "id": "S14-INHERITED-BOUNDARY",
+      "command": "git cat-file -t s13-complete && git rev-parse 's13-complete^{}' origin/main && node scripts/verify-remote-s13.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
       "exit_code": 0,
-      "result": "annotated s12-complete resolves to c1f10bfb7ec379217583878291d7e7a12f112ef5 equal to origin/main; strict remote S12 verification and new-machine acceptance passed before the first S13 commit"
+      "result": "annotated s13-complete resolves to 9fc9acfc8874e9755c1d0d83aaab06c9989b3556 equal to origin/main; strict remote S13 verification and new-machine acceptance passed before the first S14 commit"
     },
     {
-      "id": "S13-FULL-LOCAL-GATE",
+      "id": "S14-FULL-LOCAL-GATE",
       "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
       "exit_code": 0,
-      "result": "format, strict clippy, 29 Rust test suites (9 resumption adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S13 verifiers and governance tests passed"
+      "result": "format, strict clippy, 31 Rust test suites (11 orchestrator adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S14 verifiers and governance tests passed"
     },
     {
-      "id": "S13-VERIFY-CAPSULE",
+      "id": "S14-VERIFY-ORCHESTRATION",
       "command": "focused adversarial suites",
       "exit_code": 0,
-      "result": "digest-bound capsule creation from complete authoritative facts (missing facts refused), tampered capsules and unknown versions failing closed in any consumer, mutated/missing artifacts and fingerprint drift surfacing NeedsReconcile with drift evidence instead of silent continuation, verbatim lineage continuation only from Ready state, cross-workspace injection denial and offline consumer reverification without producer trust all passed"
-    },
-    {
-      "id": "S13-VERIFY-BRANCH-CI",
-      "command": "inspect push run 33038075282",
-      "exit_code": 0,
-      "result": "repository verification, Ubuntu, macOS, Windows and dependency audit passed for implementation SHA 22d5a13ebb6abb0b8b71d380b185345bad2cd6f6 on the first push"
-    },
-    {
-      "id": "S13-VERIFY-PROTECTED-INTEGRATION",
-      "command": "inspect protected PR #37",
-      "exit_code": 0,
-      "result": "PR #37 squash-merged after all five required checks passed as e6ac4839cb084d72d2ce21466427430ef3e6ea25"
-    },
-    {
-      "id": "S13-VERIFY-MAIN-CI",
-      "command": "inspect main runs 33038543794, 33038543799 and 33038543832",
-      "exit_code": 0,
-      "result": "provenance, repository verification and the three-platform monorepo CI with dependency audit passed on e6ac4839cb084d72d2ce21466427430ef3e6ea25"
-    },
-    {
-      "id": "S13-VERIFY-CLEAN-CLONE",
-      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
-      "exit_code": 0,
-      "result": "clone resolved e6ac4839cb084d72d2ce21466427430ef3e6ea25 and passed all gates in 84 seconds"
-    },
-    {
-      "id": "S13-VERIFY-REMOTE-MAIN",
-      "command": "node scripts/verify-remote-s13.mjs --repository SunArthurX/saber-harness --branch main",
-      "exit_code": 0,
-      "result": "resumption capsule contracts, public settings, hosted security controls and same-SHA successful workflows passed"
+      "result": "DAG cycles and unknown dependencies rejected with deterministic ready ordering, dependency-order violations impossible through the scheduler, delegation strictly attenuating (broader selectors and foreign actions refused), self-reported success without matching declared evidence rejected, forged identities/delegations and undeclared evidence rejected, budget exhaustion failing only its task, bounded retries never widening authority and cancellation cascading to descendants exactly once all passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-28T13:30:00Z",
-  "verified_segment_checkpoint": "22d5a13ebb6abb0b8b71d380b185345bad2cd6f6"
+  "last_verified_at": "2026-08-28T15:00:00Z"
 }
