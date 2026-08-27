@@ -15,10 +15,10 @@ Completed Segments:
 
 Current Segment:
 
-- S11 — Code-OSS Vertical IDE Loop (`completion_pending`; implementation merged through protected PR #33 as `5761d24b449300a4b642c0c56df0c1b447278258`).
+- S12 — CAX and First Importers (`completion_pending`; implementation merged through protected PR #35 as `e213e5d53c66f38d3c0a5ee349573238fe1571eb`).
 
 Next Segment:
 
-- S12 — CAX and First Importers.
+- S13 — Resumption Capsule.
 
-S11 started from protected `origin/main` at `s10-complete` / `dbba2d9ee10b8abef5575e25c078c3762156d7e9`. Its implementation branch `segment/S11-codeoss-ide-loop` passed every required context at `803ab40fcb8eee9e6bbfbcc7b0fd34468112d759`; the atomic completion record and `s11-complete` tag follow this merge.
+S12 started from protected `origin/main` at `s11-complete` / `349aa1f196eff1fe5219200a03e24e93435e24fc`. Its implementation branch `segment/S12-cax-importers` passed every required context at `c843abd909bff854d23ce48230c0cb52e8f5e593`; the atomic completion record and `s12-complete` tag follow this merge.

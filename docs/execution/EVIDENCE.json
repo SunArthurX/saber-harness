@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S12",
-  "status": "in_progress_local_gate_passed",
-  "branch": "segment/S12-cax-importers",
+  "status": "completed",
+  "branch": "segment/S12-completion",
   "base": {
     "segment": "S11",
     "tag": "s11-complete",
@@ -13,8 +13,8 @@
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "349aa1f196eff1fe5219200a03e24e93435e24fc",
-  "verified_main_checkpoint": "349aa1f196eff1fe5219200a03e24e93435e24fc",
+  "main_head": "e213e5d53c66f38d3c0a5ee349573238fe1571eb",
+  "verified_main_checkpoint": "e213e5d53c66f38d3c0a5ee349573238fe1571eb",
   "checks": [
     {
       "id": "S12-INHERITED-BOUNDARY",
@@ -33,8 +33,39 @@
       "command": "focused adversarial suites",
       "exit_code": 0,
       "result": "valid hash chains from raw bytes through entries to the record digest, tampered records/sources and unknown versions failing closed, importer invention breaking the chain, verbatim-presence recomputation, idempotent re-import with evolved sources creating distinct records, revocation removing records while preserving tombstone provenance (and revoked sources staying revoked), cross-workspace injection denial and untrusted fabric admission with S09 visibility semantics all passed"
+    },
+    {
+      "id": "S12-VERIFY-BRANCH-CI",
+      "command": "inspect push run 33036366007",
+      "exit_code": 0,
+      "result": "repository verification, Ubuntu, macOS, Windows and dependency audit passed for implementation SHA c843abd909bff854d23ce48230c0cb52e8f5e593 on the first push"
+    },
+    {
+      "id": "S12-VERIFY-PROTECTED-INTEGRATION",
+      "command": "inspect protected PR #35",
+      "exit_code": 0,
+      "result": "PR #35 squash-merged after all five required checks passed as e213e5d53c66f38d3c0a5ee349573238fe1571eb"
+    },
+    {
+      "id": "S12-VERIFY-MAIN-CI",
+      "command": "inspect main runs 33036787695, 33036787724 and 33036787710",
+      "exit_code": 0,
+      "result": "provenance, repository verification and the three-platform monorepo CI with dependency audit passed on e213e5d53c66f38d3c0a5ee349573238fe1571eb"
+    },
+    {
+      "id": "S12-VERIFY-CLEAN-CLONE",
+      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
+      "exit_code": 0,
+      "result": "clone resolved e213e5d53c66f38d3c0a5ee349573238fe1571eb and passed all gates in 86 seconds"
+    },
+    {
+      "id": "S12-VERIFY-REMOTE-MAIN",
+      "command": "node scripts/verify-remote-s12.mjs --repository SunArthurX/saber-harness --branch main",
+      "exit_code": 0,
+      "result": "CAX contracts, public settings, hosted security controls and same-SHA successful workflows passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-28T09:00:00Z"
+  "last_verified_at": "2026-08-28T10:30:00Z",
+  "verified_segment_checkpoint": "c843abd909bff854d23ce48230c0cb52e8f5e593"
 }
