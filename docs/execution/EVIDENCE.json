@@ -1,71 +1,40 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S07",
-  "status": "completed",
-  "branch": "segment/S07-completion",
+  "segment": "S08",
+  "status": "in_progress_local_gate_passed",
+  "branch": "segment/S08-model-providers",
   "base": {
-    "segment": "S06",
-    "tag": "s06-complete",
-    "commit": "dd2f568d957fcadc94f48c6b40c08787c39e2195"
+    "segment": "S07",
+    "tag": "s07-complete",
+    "commit": "041c764a44f1b517c3a82a571e0919cb247ac35e"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "289f41c62ca55041feec48c68e0f1089d1de0120",
-  "verified_main_checkpoint": "289f41c62ca55041feec48c68e0f1089d1de0120",
+  "main_head": "041c764a44f1b517c3a82a571e0919cb247ac35e",
+  "verified_main_checkpoint": "041c764a44f1b517c3a82a571e0919cb247ac35e",
   "checks": [
     {
-      "id": "S07-INHERITED-BOUNDARY",
-      "command": "git cat-file -t s06-complete && git rev-parse 's06-complete^{}' origin/main && node scripts/verify-remote-s06.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
+      "id": "S08-INHERITED-BOUNDARY",
+      "command": "git cat-file -t s07-complete && git rev-parse 's07-complete^{}' origin/main && node scripts/verify-remote-s07.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
       "exit_code": 0,
-      "result": "annotated s06-complete resolves to dd2f568d957fcadc94f48c6b40c08787c39e2195 equal to origin/main; strict remote S06 verification and new-machine acceptance passed before the first S07 commit"
+      "result": "annotated s07-complete resolves to 041c764a44f1b517c3a82a571e0919cb247ac35e equal to origin/main; strict remote S07 verification and new-machine acceptance passed before the first S08 commit"
     },
     {
-      "id": "S07-FULL-LOCAL-GATE",
+      "id": "S08-FULL-LOCAL-GATE",
       "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
       "exit_code": 0,
-      "result": "format, strict clippy, 19 Rust test suites (including 17 tool-broker adversarial tests and 2 real-EventStore crash-replay tests), TypeScript gates, deterministic generation, licenses, S00-S07 verifiers and governance tests passed"
+      "result": "format, strict clippy, 21 Rust test suites (15 model-layer adversarial tests included), TypeScript gates, deterministic generation, licenses, S00-S08 verifiers and governance tests passed"
     },
     {
-      "id": "S07-VERIFY-TOOL-LIFECYCLE",
+      "id": "S08-VERIFY-MODEL-LAYER",
       "command": "focused adversarial suites",
       "exit_code": 0,
-      "result": "forged-success (missing declared artifact, hash mismatch, exit-status-only claims), stale before-hash, mutation outside declared overlay, external-edit and git-index drift into NeedsReconcile, checkpoint compensation with exact restore, durable non-retriable compensation failure, crash replay with exactly one effect through the encrypted store, contract gating before authorization and worktree lock release all passed"
-    },
-    {
-      "id": "S07-VERIFY-BRANCH-CI",
-      "command": "inspect push run 32997365321",
-      "exit_code": 0,
-      "result": "repository verification, Ubuntu, macOS, Windows and dependency audit passed for implementation SHA b7cf964517ede8bc80cc1593f5ae7677edcc122f on the first push"
-    },
-    {
-      "id": "S07-VERIFY-PROTECTED-INTEGRATION",
-      "command": "inspect protected PR #24",
-      "exit_code": 0,
-      "result": "PR #24 squash-merged after all five required checks passed as 289f41c62ca55041feec48c68e0f1089d1de0120"
-    },
-    {
-      "id": "S07-VERIFY-MAIN-CI",
-      "command": "inspect main runs 32998259915, 32998259153 and 32998260012",
-      "exit_code": 0,
-      "result": "provenance, repository verification and the three-platform monorepo CI with dependency audit passed on 289f41c62ca55041feec48c68e0f1089d1de0120"
-    },
-    {
-      "id": "S07-VERIFY-CLEAN-CLONE",
-      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
-      "exit_code": 0,
-      "result": "clone resolved 289f41c62ca55041feec48c68e0f1089d1de0120 and passed all gates in 80 seconds"
-    },
-    {
-      "id": "S07-VERIFY-REMOTE-MAIN",
-      "command": "node scripts/verify-remote-s07.mjs --repository SunArthurX/saber-harness --branch main",
-      "exit_code": 0,
-      "result": "tool lifecycle contracts, public settings, hosted security controls and same-SHA successful workflows passed"
+      "result": "forged provider success (missing usage), stream abort without terminal event, egress denial with zero transport calls, credential lease injection via broker grammar, Restricted data never routing below its ceiling, byte-identical deterministic router decisions, fail-closed budget exhaustion with partial-usage evidence, bounded retryable-only retries, registry digest mismatch and rollback rejection, redacted wire debug and probe-driven routing exclusions all passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-27T10:30:00Z",
-  "verified_segment_checkpoint": "b7cf964517ede8bc80cc1593f5ae7677edcc122f"
+  "last_verified_at": "2026-08-27T12:00:00Z"
 }

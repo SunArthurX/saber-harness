@@ -4,6 +4,7 @@ members = [
     "crates/effect-broker",
     "crates/egress",
     "crates/event-store",
+    "crates/model-providers",
     "crates/policy",
     "crates/saber-core",
     "crates/tool-broker",

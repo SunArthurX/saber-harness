@@ -90,7 +90,8 @@
       "statement": "Route replaceable local and cloud models by policy, capability, privacy, budget and health without changing product authority state.",
       "owner": "agent-runtime", "module": "packages/model-providers",
       "events": ["model.route_decided", "model.invocation.completed"], "tests": ["S08-MODEL-ROUTER-POLICY"],
-      "segment": "S08", "source": "architecture 10.1 and 10.2", "status": "planned"
+      "segment": "S08", "source": "architecture 10.1 and 10.2 and ADR-010", "status": "implemented",
+      "evidence": ["crates/model-providers/src/router.rs", "crates/model-providers/src/invoker.rs"]
     },
     {
       "id": "FR-RUN-007", "priority": "P1",
