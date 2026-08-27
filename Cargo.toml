@@ -12,6 +12,7 @@ members = [
     "crates/memory-authority",
     "crates/model-providers",
     "crates/orchestrator",
+    "crates/plugin-registry",
     "crates/policy",
     "crates/resumption",
     "crates/saber-core",

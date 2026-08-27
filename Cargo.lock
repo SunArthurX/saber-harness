@@ -1150,6 +1150,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "saber-plugin-registry"
+version = "0.0.0"
+dependencies = [
+ "saber-effect-broker",
+ "saber-orchestrator",
+ "saber-policy",
+ "saber-sandbox",
+ "serde",
+ "serde_json",
+ "sha2",
+]
+
+[[package]]
 name = "saber-policy"
 version = "0.0.0"
 dependencies = [
