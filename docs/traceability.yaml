@@ -165,7 +165,7 @@
       "statement": "Classify every self-improvement candidate from E0 through E7 and enforce the automation ceiling for its level.",
       "owner": "evolution", "module": "packages/evolution-engine",
       "events": ["evolution.classified"], "tests": ["S15-EVOLUTION-LEVEL-BOUNDARY"],
-      "segment": "S15", "source": "architecture 13.1 and EVOLUTION-BOUNDARIES and ADR-017", "status": "implemented",
+      "segment": "S15", "source": "architecture 13.1 and EVOLUTION-BOUNDARIES and ADR-017", "status": "verified-main",
       "evidence": ["crates/evolution/src/candidate.rs"]
     },
     {
@@ -173,7 +173,7 @@
       "statement": "Create immutable EvolutionCandidates with evidence, source trust, ownership, target hash, permissions and evaluation plan.",
       "owner": "evolution", "module": "packages/evolution-engine",
       "events": ["evolution.proposed", "evolution.stale"], "tests": ["S15-CANDIDATE-PROVENANCE-HASH"],
-      "segment": "S15", "source": "architecture 13.2 and 13.3 and ADR-017", "status": "implemented",
+      "segment": "S15", "source": "architecture 13.2 and 13.3 and ADR-017", "status": "verified-main",
       "evidence": ["crates/evolution/src/candidate.rs"]
     },
     {
@@ -181,7 +181,7 @@
       "statement": "Require paired evaluation, affected regression slices and security gates before promotion.",
       "owner": "evolution", "module": "evals",
       "events": ["evolution.evaluated", "evolution.blocked"], "tests": ["S15-PAIRED-EVAL-GATE"],
-      "segment": "S15", "source": "architecture 13.6 and ADR-017", "status": "implemented",
+      "segment": "S15", "source": "architecture 13.6 and ADR-017", "status": "verified-main",
       "evidence": ["crates/evolution/src/workshop.rs"]
     },
     {
@@ -189,7 +189,7 @@
       "statement": "Select the least-powerful governed medium that can solve an observed problem.",
       "owner": "evolution", "module": "packages/evolution-engine",
       "events": ["evolution.medium_selected"], "tests": ["S15-LEAST-POWERFUL-MEDIUM"],
-      "segment": "S15", "source": "architecture 13.7 and ADR-017", "status": "implemented",
+      "segment": "S15", "source": "architecture 13.7 and ADR-017", "status": "verified-main",
       "evidence": ["crates/evolution/src/candidate.rs"]
     },
     {
@@ -211,7 +211,7 @@
       "statement": "Every promoted capability retains immutable generations, last-known-good, rollback, quarantine and supersession paths.",
       "owner": "evolution", "module": "packages/evolution-engine",
       "events": ["evolution.promoted", "evolution.rolled_back", "evolution.quarantined"], "tests": ["S15-EVOLUTION-ROLLBACK"],
-      "segment": "S15", "source": "architecture 13.3 and 13.4 and ADR-017", "status": "implemented",
+      "segment": "S15", "source": "architecture 13.3 and 13.4 and ADR-017", "status": "verified-main",
       "evidence": ["crates/evolution/src/workshop.rs"]
     },
     {

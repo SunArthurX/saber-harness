@@ -15,10 +15,10 @@ Completed Segments:
 
 Current Segment:
 
-- S14 — Goal DAG and Subagents (`completion_pending`; implementation merged through protected PR #39 as `d8f8610447fa856f2ad1ac21bd83f03a06a4e5ac`).
+- S15 — Evolution Workshop (`completion_pending`; implementation merged through protected PR #41 as `6b166c1fd9d841549e6eb77a0e777a4b78972b73`).
 
 Next Segment:
 
-- S15 — Evolution Workshop.
+- S16 — Code Capsule.
 
-S14 started from protected `origin/main` at `s13-complete` / `9fc9acfc8874e9755c1d0d83aaab06c9989b3556`. Its implementation branch `segment/S14-goal-dag-subagents` passed every required context at `fc1a4d3368ab7dcedad6fc40081a94c4ca8f8849`; the atomic completion record and `s14-complete` tag follow this merge.
+S15 started from protected `origin/main` at `s14-complete` / `2013ba42f279e4c83ecd2fce8a0ef809421bea31`. Its implementation branch `segment/S15-evolution-workshop` passed every required context at `5491bb592f0e2546eb251796a0981e8709ba44a5`; the atomic completion record and `s15-complete` tag follow this merge.

@@ -1,49 +1,49 @@
-# S14 Handoff
+# S15 Handoff
 
 Status: completed atomically when this completion record merges through protected main
 Date: 2026-08-28
-Branch: `segment/S14-completion`
-Implementation branch: `segment/S14-goal-dag-subagents` @ `fc1a4d3368ab7dcedad6fc40081a94c4ca8f8849`
-Merged main: PR #39 squash-merged as `d8f8610447fa856f2ad1ac21bd83f03a06a4e5ac`
+Branch: `segment/S15-completion`
+Implementation branch: `segment/S15-evolution-workshop` @ `5491bb592f0e2546eb251796a0981e8709ba44a5`
+Merged main: PR #41 squash-merged as `6b166c1fd9d841549e6eb77a0e777a4b78972b73`
 
 ## Objective
 
-Decompose goals into a typed dependency DAG, delegate subagents with attenuated task-scoped capabilities, budgets and isolated failure domains, and judge completion by verified evidence — never self-report (TM-08).
+Govern self-evolution: runtime evidence proposes candidates, deterministic evaluation measures them, explicit review promotes them, and revocation removes them — candidates can never bypass review into capability (INV-03, TM-07).
 
-## What shipped (PR #39)
+## What shipped (PR #41)
 
-- ADR-016 froze the design; FR-RUN-007 realigned to S14 and implemented with evidence.
-- `crates/orchestrator` (`saber-orchestrator`):
-  - `GoalDag`: task nodes with dependencies and declared acceptance evidence; total validation (unknown dependencies, DFS cycle detection); the scheduler exposes only dependency-complete tasks in deterministic sorted order — dependency-order violations are impossible by construction.
-  - Attenuated delegation: grants (closed-vocabulary action + exact/prefix selector) issue only strictly within the parent authority; retries start fresh cycles re-derived from the parent — never wider.
-  - Evidence judgment: reports must match declared evidence exactly (digests recomputed by the judge, command outcomes verified) and carry the assigned subagent identity; self-reported success without evidence, missing/undeclared evidence, mutated digests, forged identities and foreign delegations are rejected.
-  - Failure domains: budget exhaustion fails its task alone; bounded rejections terminate terminally.
-  - Deterministic cancellation: cascades to transitive descendants exactly once, idempotently.
-- `verify-s14.mjs` (69 checks) and `verify-remote-s14.mjs` wired into `pnpm verify` and the repository-verification workflow.
+- ADR-017 froze the design; DEC-0014 realigned the FR-EVO schedule collision (001-004/007 → S15 implemented; 005 → S16; 006 → S22).
+- `crates/evolution` (`saber-evolution`):
+  - Typed lifecycle `Proposed → Quarantined → Evaluated → (Promoted | Rejected)` plus terminal `Revoked`; every transition validates the current state — skipping is structurally rejected; digest re-verification runs before **every** transition so tampering between states is detected.
+  - Evaluation is evidence, never promotion: deterministic evaluation records gate promotion; failures block it.
+  - Promotion authority mirrors S10: only explicit `ReviewAuthority` values exist (no runtime-evidence variant — a run cannot construct authority over its own evolution); promotions emit a digest chain binding content, reviewer, provenance and timestamp (signing keys arrive with S22 TUF, documented).
+  - Provenance survives to the source event; poisoned evidence promotes only through explicit review with provenance retained on the promotion record.
+  - Revocation removes capability from the active surface immediately while the audit trail remains.
+- `verify-s15.mjs` (57 checks) and `verify-remote-s15.mjs` wired into `pnpm verify` and the repository-verification workflow.
 
 ## Verified evidence
 
-- Full local gate: fmt, strict clippy, 31 Rust test suites (11 orchestrator adversarial tests), `pnpm verify`, `pnpm acceptance:new-machine`.
-- Branch CI: push run `33039976917` green on all five required contexts at `fc1a4d3` on the first push.
-- Protected integration: PR #39 merged after every required check; merge SHA `d8f8610`.
-- Main workflows at `d8f8610`: provenance `33040354140`, repository verification `33040354142`, Monorepo CI `33040354177` all passed.
-- Clean clone: anonymous HTTPS clone at `d8f8610` passed `pnpm acceptance:new-machine` in 85 seconds.
-- Strict remote S14 verification passed at `d8f8610`.
+- Full local gate: fmt, strict clippy, 33 Rust test suites (8 evolution adversarial tests), `pnpm verify`, `pnpm acceptance:new-machine`.
+- Branch CI: push run `33041617481` green on all five required contexts at `5491bb5` on the first push.
+- Protected integration: PR #41 merged after every required check; merge SHA `6b166c1`.
+- Main workflows at `6b166c1`: provenance `33042019779`, repository verification `33042019799`, Monorepo CI `33042019766` all passed.
+- Clean clone: anonymous HTTPS clone at `6b166c1` passed `pnpm acceptance:new-machine` in 86 seconds.
+- Strict remote S15 verification passed at `6b166c1`.
 
 ## Remaining steps after this record merges
 
 1. Verify final main workflows on the record merge commit.
-2. Run `node scripts/verify-remote-s14.mjs --repository SunArthurX/saber-harness --branch main` (already green at the implementation SHA).
-3. Create annotated `s14-complete` on the final commit.
-4. Hand the next model `docs/execution/NEXT-MODEL-S15.md`.
+2. Run `node scripts/verify-remote-s15.mjs --repository SunArthurX/saber-harness --branch main` (already green at the implementation SHA).
+3. Create annotated `s15-complete` on the final commit.
+4. Hand the next model `docs/execution/NEXT-MODEL-S16.md`.
 
 ## Non-negotiable review points
 
-- Delegation only attenuates; retries never widen.
-- Completion is judged by recomputed evidence with bound identity, never self-reported.
-- A subagent failure stays in its failure domain.
-- Cancellation is deterministic and idempotent.
+- Candidates never bypass review; no auto-promotion path exists at the type level.
+- Tampering fails the digest chain before every transition.
+- Untrusted provenance promotes only through explicit review, provenance retained.
+- Revoked capability disappears from the active surface immediately.
 
 ## Next action
 
-Finish the publication protocol above; do not begin S15 in this session.
+Finish the publication protocol above; do not begin S16 in this session.

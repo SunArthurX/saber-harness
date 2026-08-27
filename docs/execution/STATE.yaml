@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S15
   name: evolution-workshop
-  status: in_progress
+  status: completed
   objective: govern self-evolution through a typed candidate lifecycle where evidence proposes, evaluation measures, explicit review promotes and revocation removes — candidates can never bypass review into capability
 predecessor:
   segment: S14
@@ -63,20 +63,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S15-evolution-workshop
+  branch: segment/S15-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: fc1a4d3368ab7dcedad6fc40081a94c4ca8f8849
+  verified_segment_checkpoint: 5491bb592f0e2546eb251796a0981e8709ba44a5
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-28T18:00:00Z"
+  last_checkpoint_at: "2026-08-28T19:30:00Z"
 acceptance:
   required:
     - s14_tagged_base
@@ -113,13 +113,13 @@ acceptance:
     - provenance_survives_to_source
     - s15_verifier
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -139,5 +139,5 @@ decisions:
   - docs/adr/ADR-017-evolution-workshop.md
 blockers: []
 next_action:
-  command: implement the S15 Evolution Workshop per docs/execution/NEXT-MODEL-S15.md
-  description: freeze ADR-017, then implement the typed candidate lifecycle with evaluation records, explicit review promotion, digest chains and revocation
+  command: after this atomic completion record merges and final main workflows pass, create annotated s15-complete and hand the next model docs/execution/NEXT-MODEL-S16.md
+  description: all S15 acceptance items passed; strict remote S15 verification green at 6b166c1fd9d841549e6eb77a0e777a4b78972b73
