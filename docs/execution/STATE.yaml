@@ -4,7 +4,7 @@ architecture_version: "2.0"
 current_segment:
   id: S16
   name: code-capsule
-  status: in_progress
+  status: completed
   objective: ship generated code as capability only through isolated typed Code Capsules with digest-pinned dependencies, declared closed-vocabulary grants, sandbox realms, budget bounds and supersession history
 predecessor:
   segment: S15
@@ -66,20 +66,20 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S16-code-capsule
+  branch: segment/S16-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: 5491bb592f0e2546eb251796a0981e8709ba44a5
+  verified_segment_checkpoint: ded8db4f2b1bd744d511830ce08c093487b07854
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-28T21:00:00Z"
+  last_checkpoint_at: "2026-08-28T22:30:00Z"
 acceptance:
   required:
     - s15_tagged_base
@@ -118,13 +118,13 @@ acceptance:
     - workshop_lifecycle_admission
     - s16_verifier
     - local_verification
-  failed: []
-  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -145,5 +145,5 @@ decisions:
   - docs/adr/ADR-018-isolated-code-capsules.md
 blockers: []
 next_action:
-  command: implement the S16 Code Capsule per docs/execution/NEXT-MODEL-S16.md
-  description: freeze ADR-018, then implement the typed capsule schema, workshop admission, execution eligibility checks and supersession history
+  command: after this atomic completion record merges and final main workflows pass, create annotated s16-complete and hand the next model docs/execution/NEXT-MODEL-S17.md
+  description: all S16 acceptance items passed; strict remote S16 verification green at f676955a0fcd1ebde987558d242cdba62b2dad09

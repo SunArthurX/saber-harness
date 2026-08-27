@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S16",
-  "status": "in_progress_local_gate_passed",
-  "branch": "segment/S16-code-capsule",
+  "status": "completed",
+  "branch": "segment/S16-completion",
   "base": {
     "segment": "S15",
     "tag": "s15-complete",
@@ -13,8 +13,8 @@
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "39c2c558c7d4cde13c3944970b372fccda9b936d",
-  "verified_main_checkpoint": "39c2c558c7d4cde13c3944970b372fccda9b936d",
+  "main_head": "f676955a0fcd1ebde987558d242cdba62b2dad09",
+  "verified_main_checkpoint": "f676955a0fcd1ebde987558d242cdba62b2dad09",
   "checks": [
     {
       "id": "S16-INHERITED-BOUNDARY",
@@ -33,8 +33,39 @@
       "command": "focused adversarial suites",
       "exit_code": 0,
       "result": "tampered sources and envelopes failing admission, unpromoted capsules never executing (candidate and evaluated-only states both refused), undeclared grants and unpinned dependencies failing closed at execution, budget exhaustion terminating eligibility, supersession refusing widened grants while keeping history and rolling back cleanly, and realm/budget-bound plan construction all passed"
+    },
+    {
+      "id": "S16-VERIFY-BRANCH-CI",
+      "command": "inspect push runs 33064376530 and 33064376579",
+      "exit_code": 0,
+      "result": "repository verification and the three-platform monorepo CI with dependency audit passed for implementation SHA ded8db4f2b1bd744d511830ce08c093487b07854 on the first push"
+    },
+    {
+      "id": "S16-VERIFY-PROTECTED-INTEGRATION",
+      "command": "inspect protected PR #43",
+      "exit_code": 0,
+      "result": "PR #43 squash-merged after all five required checks passed as f676955a0fcd1ebde987558d242cdba62b2dad09"
+    },
+    {
+      "id": "S16-VERIFY-MAIN-CI",
+      "command": "inspect main runs 33064999109, 33064999082 and 33064999074",
+      "exit_code": 0,
+      "result": "provenance, repository verification and the three-platform monorepo CI passed on f676955a0fcd1ebde987558d242cdba62b2dad09"
+    },
+    {
+      "id": "S16-VERIFY-CLEAN-CLONE",
+      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
+      "exit_code": 0,
+      "result": "clone resolved f676955a0fcd1ebde987558d242cdba62b2dad09 and passed all gates in 87 seconds"
+    },
+    {
+      "id": "S16-VERIFY-REMOTE-MAIN",
+      "command": "node scripts/verify-remote-s16.mjs --repository SunArthurX/saber-harness --branch main",
+      "exit_code": 0,
+      "result": "code capsule contracts, public settings, hosted security controls and same-SHA successful workflows passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-28T21:00:00Z"
+  "last_verified_at": "2026-08-28T22:30:00Z",
+  "verified_segment_checkpoint": "ded8db4f2b1bd744d511830ce08c093487b07854"
 }
