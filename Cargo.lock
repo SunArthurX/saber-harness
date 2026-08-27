@@ -1054,7 +1054,13 @@ dependencies = [
 name = "saber-core"
 version = "0.0.0"
 dependencies = [
+ "getrandom 0.4.3",
  "saber-core-protocol",
+ "saber-event-store",
+ "saber-policy",
+ "saber-sandbox",
+ "serde_json",
+ "tempfile",
 ]
 
 [[package]]

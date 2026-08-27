@@ -1095,8 +1095,12 @@ impl EventStore {
         Ok(())
     }
 
-    #[cfg(test)]
-    fn event_count(&self) -> Result<i64, StoreError> {
+    /// Count all events across workspaces (read-only audit statistic).
+    ///
+    /// # Errors
+    ///
+    /// Returns a database error when the count query fails.
+    pub fn event_count(&self) -> Result<i64, StoreError> {
         Ok(self
             .connection
             .query_row("SELECT count(*) FROM events", [], |row| row.get(0))?)

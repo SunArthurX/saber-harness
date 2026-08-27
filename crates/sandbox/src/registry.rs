@@ -37,7 +37,13 @@ impl BackendRegistry {
     /// carries the non-isolating guarded backend for S0/S1 plans.
     #[must_use]
     pub fn for_current_platform() -> Self {
-        let mut backends: Vec<Box<dyn SandboxBackend>> = Vec::new();
+        // The lightest capable backend is preferred: in-core guarded
+        // realms (S0/S1) select the guarded backend without paying for
+        // an OS wrapper, while child-execution realms (S2+) can only be
+        // hosted by the wrapper backends because the guarded backend
+        // refuses command plans.
+        let mut backends: Vec<Box<dyn SandboxBackend>> =
+            vec![Box::new(GuardedProcessBackend::new(current_platform()))];
         match current_platform() {
             Platform::MacOs => {
                 backends.push(Box::new(OsWrapperBackend::probe(
@@ -49,7 +55,6 @@ impl BackendRegistry {
             }
             Platform::Windows => {}
         }
-        backends.push(Box::new(GuardedProcessBackend::new(current_platform())));
         Self {
             backends,
             testing: false,

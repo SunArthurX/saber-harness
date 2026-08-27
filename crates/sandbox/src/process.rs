@@ -244,7 +244,16 @@ pub fn host_mounts_of(plan: &crate::plan::ValidatedPlan) -> BTreeMap<String, Pat
                 match &mount.source {
                     MountSource::Workspace { host_path }
                     | MountSource::Overlay { host_path }
-                    | MountSource::SystemTools { host_path } => host_path.clone(),
+                    | MountSource::SystemTools { host_path } => {
+                        // macOS resolves /tmp and /var to /private/..., and the
+                        // seatbelt profile filters match the canonical form the
+                        // kernel enforces; the child's argv/cwd derive from this
+                        // table, so canonicalization keeps emitter and opens in
+                        // agreement (KI-0006).
+                        host_path
+                            .canonicalize()
+                            .unwrap_or_else(|_| host_path.clone())
+                    }
                     MountSource::Temporary => std::env::temp_dir(),
                 },
             )
