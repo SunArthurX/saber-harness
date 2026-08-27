@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S14",
-  "status": "in_progress_local_gate_passed",
-  "branch": "segment/S14-goal-dag-subagents",
+  "status": "completed",
+  "branch": "segment/S14-completion",
   "base": {
     "segment": "S13",
     "tag": "s13-complete",
@@ -13,8 +13,8 @@
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "9fc9acfc8874e9755c1d0d83aaab06c9989b3556",
-  "verified_main_checkpoint": "9fc9acfc8874e9755c1d0d83aaab06c9989b3556",
+  "main_head": "d8f8610447fa856f2ad1ac21bd83f03a06a4e5ac",
+  "verified_main_checkpoint": "d8f8610447fa856f2ad1ac21bd83f03a06a4e5ac",
   "checks": [
     {
       "id": "S14-INHERITED-BOUNDARY",
@@ -33,8 +33,39 @@
       "command": "focused adversarial suites",
       "exit_code": 0,
       "result": "DAG cycles and unknown dependencies rejected with deterministic ready ordering, dependency-order violations impossible through the scheduler, delegation strictly attenuating (broader selectors and foreign actions refused), self-reported success without matching declared evidence rejected, forged identities/delegations and undeclared evidence rejected, budget exhaustion failing only its task, bounded retries never widening authority and cancellation cascading to descendants exactly once all passed"
+    },
+    {
+      "id": "S14-VERIFY-BRANCH-CI",
+      "command": "inspect push run 33039976917",
+      "exit_code": 0,
+      "result": "repository verification, Ubuntu, macOS, Windows and dependency audit passed for implementation SHA fc1a4d3368ab7dcedad6fc40081a94c4ca8f8849 on the first push"
+    },
+    {
+      "id": "S14-VERIFY-PROTECTED-INTEGRATION",
+      "command": "inspect protected PR #39",
+      "exit_code": 0,
+      "result": "PR #39 squash-merged after all five required checks passed as d8f8610447fa856f2ad1ac21bd83f03a06a4e5ac"
+    },
+    {
+      "id": "S14-VERIFY-MAIN-CI",
+      "command": "inspect main runs 33040354142, 33040354140 and 33040354177",
+      "exit_code": 0,
+      "result": "provenance, repository verification and the three-platform monorepo CI with dependency audit passed on d8f8610447fa856f2ad1ac21bd83f03a06a4e5ac"
+    },
+    {
+      "id": "S14-VERIFY-CLEAN-CLONE",
+      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
+      "exit_code": 0,
+      "result": "clone resolved d8f8610447fa856f2ad1ac21bd83f03a06a4e5ac and passed all gates in 85 seconds"
+    },
+    {
+      "id": "S14-VERIFY-REMOTE-MAIN",
+      "command": "node scripts/verify-remote-s14.mjs --repository SunArthurX/saber-harness --branch main",
+      "exit_code": 0,
+      "result": "goal DAG and subagent contracts, public settings, hosted security controls and same-SHA successful workflows passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-28T15:00:00Z"
+  "last_verified_at": "2026-08-28T16:30:00Z",
+  "verified_segment_checkpoint": "fc1a4d3368ab7dcedad6fc40081a94c4ca8f8849"
 }

@@ -1,47 +1,49 @@
-# S13 Handoff
+# S14 Handoff
 
 Status: completed atomically when this completion record merges through protected main
 Date: 2026-08-28
-Branch: `segment/S13-completion`
-Implementation branch: `segment/S13-resumption-capsule` @ `22d5a13ebb6abb0b8b71d380b185345bad2cd6f6`
-Merged main: PR #37 squash-merged as `e6ac4839cb084d72d2ce21466427430ef3e6ea25`
+Branch: `segment/S14-completion`
+Implementation branch: `segment/S14-goal-dag-subagents` @ `fc1a4d3368ab7dcedad6fc40081a94c4ca8f8849`
+Merged main: PR #39 squash-merged as `d8f8610447fa856f2ad1ac21bd83f03a06a4e5ac`
 
 ## Objective
 
-A verifiable Resumption Capsule preserving goal, task, artifact and decision causal lineage across model, agent or session changes, with environment drift discoverable rather than silently tolerated.
+Decompose goals into a typed dependency DAG, delegate subagents with attenuated task-scoped capabilities, budgets and isolated failure domains, and judge completion by verified evidence — never self-report (TM-08).
 
-## What shipped (PR #37)
+## What shipped (PR #39)
 
-- ADR-015 froze the design; FR-CONT-003 realigned to S13 and implemented with evidence.
-- `crates/resumption` (`saber-resumption`): versioned capsule envelope (schema 1.0.0) — scope, goal, ordered task lineage, content-addressed artifact references, decision pointers, workspace fingerprint at creation, `capsule_digest` over the canonical body and a derived capsule id; validation recomputes the chain so tampered capsules and unknown versions fail closed in any consumer without producer trust.
-- Fact-bound creation: capsules build only from complete authoritative facts supplied by the durable event store; missing identifiers, empty lineage or malformed digests are refused — nothing is invented.
-- Verification against the present world: scope gate (cross-workspace injection denied), per-artifact content digests and the workspace fingerprint; missing/mutated artifacts and fingerprint drift yield `NeedsReconcile` with exact drift evidence — never a silent continue (S07 semantics, the S13 gate 环境漂移可发现).
-- Continuation is lineage, not replay: `continue_from` returns the recorded lineage verbatim only from a `Ready` verification; drifted environments must reconcile first.
-- `verify-s13.mjs` (50 checks) and `verify-remote-s13.mjs` wired into `pnpm verify` and the repository-verification workflow.
+- ADR-016 froze the design; FR-RUN-007 realigned to S14 and implemented with evidence.
+- `crates/orchestrator` (`saber-orchestrator`):
+  - `GoalDag`: task nodes with dependencies and declared acceptance evidence; total validation (unknown dependencies, DFS cycle detection); the scheduler exposes only dependency-complete tasks in deterministic sorted order — dependency-order violations are impossible by construction.
+  - Attenuated delegation: grants (closed-vocabulary action + exact/prefix selector) issue only strictly within the parent authority; retries start fresh cycles re-derived from the parent — never wider.
+  - Evidence judgment: reports must match declared evidence exactly (digests recomputed by the judge, command outcomes verified) and carry the assigned subagent identity; self-reported success without evidence, missing/undeclared evidence, mutated digests, forged identities and foreign delegations are rejected.
+  - Failure domains: budget exhaustion fails its task alone; bounded rejections terminate terminally.
+  - Deterministic cancellation: cascades to transitive descendants exactly once, idempotently.
+- `verify-s14.mjs` (69 checks) and `verify-remote-s14.mjs` wired into `pnpm verify` and the repository-verification workflow.
 
 ## Verified evidence
 
-- Full local gate: fmt, strict clippy, 29 Rust test suites (9 resumption adversarial tests), `pnpm verify`, `pnpm acceptance:new-machine`.
-- Branch CI: push run `33038075282` green on all five required contexts at `22d5a13` on the first push.
-- Protected integration: PR #37 merged after every required check; merge SHA `e6ac483`.
-- Main workflows at `e6ac483`: provenance `33038543794`, repository verification `33038543799`, Monorepo CI `33038543832` all passed.
-- Clean clone: anonymous HTTPS clone at `e6ac483` passed `pnpm acceptance:new-machine` in 84 seconds.
-- Strict remote S13 verification passed at `e6ac483`.
+- Full local gate: fmt, strict clippy, 31 Rust test suites (11 orchestrator adversarial tests), `pnpm verify`, `pnpm acceptance:new-machine`.
+- Branch CI: push run `33039976917` green on all five required contexts at `fc1a4d3` on the first push.
+- Protected integration: PR #39 merged after every required check; merge SHA `d8f8610`.
+- Main workflows at `d8f8610`: provenance `33040354140`, repository verification `33040354142`, Monorepo CI `33040354177` all passed.
+- Clean clone: anonymous HTTPS clone at `d8f8610` passed `pnpm acceptance:new-machine` in 85 seconds.
+- Strict remote S14 verification passed at `d8f8610`.
 
 ## Remaining steps after this record merges
 
 1. Verify final main workflows on the record merge commit.
-2. Run `node scripts/verify-remote-s13.mjs --repository SunArthurX/saber-harness --branch main` (already green at the implementation SHA).
-3. Create annotated `s13-complete` on the final commit.
-4. Hand the next model `docs/execution/NEXT-MODEL-S14.md`.
+2. Run `node scripts/verify-remote-s14.mjs --repository SunArthurX/saber-harness --branch main` (already green at the implementation SHA).
+3. Create annotated `s14-complete` on the final commit.
+4. Hand the next model `docs/execution/NEXT-MODEL-S15.md`.
 
 ## Non-negotiable review points
 
-- Capsules are digest-bound fact sets, not prompts; tampering fails closed anywhere.
-- Creation refuses incomplete facts; the event store remains the authority (INV-01).
-- Drift is an explicit reconcile state with evidence, never a silent continue.
-- Continuation carries the recorded lineage verbatim.
+- Delegation only attenuates; retries never widen.
+- Completion is judged by recomputed evidence with bound identity, never self-reported.
+- A subagent failure stays in its failure domain.
+- Cancellation is deterministic and idempotent.
 
 ## Next action
 
-Finish the publication protocol above; do not begin S14 in this session.
+Finish the publication protocol above; do not begin S15 in this session.
