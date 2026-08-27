@@ -1,42 +1,41 @@
-# S18 Handoff
+# S19 Handoff
 
 Status: completed atomically when this completion record merges through protected main
 Date: 2026-08-29
-Branch: `segment/S18-completion`
-Implementation branch: `segment/S18-health-safemode` @ `70b7255f900405c56199453985dc16f7920977b6`
-Merged main: PR #47 squash-merged as `332fd72b2313da8a541ecff9fd103b6eeead2de4`
+Branch: `segment/S19-completion`
+Implementation branch: `segment/S19-plugin-sdk-registry` @ `7e4ce4906da3770cb34d542eeb149556e985d84a`
+Merged main: PR #49 squash-merged as `58165946ce01bd23bb5aca94e9c7a16558ca677f`
 
 ## Objective
 
-The immune system: deterministic detection, bounded contain-first reflexes, fail-closed Safe Mode and escalation that never improvises repairs (INV-08, TM-15).
+Governed external armor: digest-pinned plugin manifests, a monotonic revocable registry and a boundary-only SDK (TB-07, SEC-ISO-005).
 
-## What shipped (PR #47)
+## What shipped (PR #49)
 
-- ADR-020 froze the design; DEC-0016 realigned RES-HEAL-003..006 to S18.
-- `crates/health-supervisor` (`saber-health-supervisor`):
-  - Deterministic LLM-free detection over the H0-H4 ladder (integrity/budget/latency/crash/policy/contamination); critical boundaries fail closed into Safe Mode; trust-root breaks escalate immediately.
-  - Closed reflex vocabulary (rate limit, circuit break, budget suspend, quarantine) with cooldowns and a MAX_QUARANTINED_CELLS blast radius; policy/sandbox/audit/crypto/recovery are structurally absent from the vocabulary; overflow escalates instead of reflexing.
-  - Safe Mode: idempotent fail-closed entry; exit only via explicit operator action.
-  - Escalation stops autonomy with a metadata-only DLP-reviewed diagnostic bundle.
-- `verify-s18.mjs` (68 checks) and `verify-remote-s18.mjs` wired into gates.
+- ADR-021 froze the design.
+- `crates/plugin-registry` (`saber-plugin-registry`):
+  - Digest-bound manifests (closed S05 action + S14 selector grants, realm, budgets, manifest digest) — tampering fails admission.
+  - Monotonic revocable registry: rollback refused; revocation terminal with tombstones; undeclared/unadmitted authorization fails closed.
+  - Boundary-only SDK: typed capability requests + lifecycle events; no host/store/network/filesystem access in the module.
+  - Registry plugins inherit S06 fault containment (circuit/quarantine).
+- `verify-s19.mjs` (43 checks) and `verify-remote-s19.mjs` wired into gates.
 
 ## Verified evidence
 
-- Full local gate: fmt, strict clippy, 39 Rust test suites (8 adversarial including a game-day cascade), `pnpm verify`, `pnpm acceptance:new-machine`.
-- Branch CI green on all five contexts at `70b7255` first push; PR #47 merged at `332fd72`; main workflows green; clean clone 90 s; strict remote S18 verification passed.
+- Full local gate: fmt, strict clippy, 41 Rust test suites (7 adversarial), `pnpm verify`, `pnpm acceptance:new-machine`.
+- Branch CI green on all five contexts at `7e4ce49` first push; PR #49 merged at `5816594`; main workflows green; clean clone 89 s; strict remote S19 verification passed.
 
 ## Remaining steps after this record merges
 
 1. Verify final main workflows on the record merge commit.
-2. Run `node scripts/verify-remote-s18.mjs --repository SunArthurX/saber-harness --branch main`.
-3. Create annotated `s18-complete`; hand the next model `docs/execution/NEXT-MODEL-S19.md`.
+2. Run `node scripts/verify-remote-s19.mjs --repository SunArthurX/saber-harness --branch main`.
+3. Create annotated `s19-complete`; hand the next model `docs/execution/NEXT-MODEL-S20.md`.
 
 ## Non-negotiable review points
 
-- Reflexes can never touch policy, sandbox, audit, crypto or recovery.
-- Safe Mode exit is operator-only; escalation halts autonomy.
-- Contain first, diagnose never beyond the ladder, evidence always preserved.
+- Plugin governance equals core governance: same vocabulary, same boundaries.
+- The SDK has no host path; revocation is terminal and immediate.
 
 ## Next action
 
-Finish the publication protocol above; do not begin S19 in this session.
+Finish the publication protocol above; do not begin S20 in this session.

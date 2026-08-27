@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S19",
-  "status": "in_progress_local_gate_passed",
-  "branch": "segment/S19-plugin-sdk-registry",
+  "status": "completed",
+  "branch": "segment/S19-completion",
   "base": {
     "segment": "S18",
     "tag": "s18-complete",
@@ -13,8 +13,8 @@
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "180f876840b48dad124a65752c2a670b1877a08c",
-  "verified_main_checkpoint": "180f876840b48dad124a65752c2a670b1877a08c",
+  "main_head": "58165946ce01bd23bb5aca94e9c7a16558ca677f",
+  "verified_main_checkpoint": "58165946ce01bd23bb5aca94e9c7a16558ca677f",
   "checks": [
     {
       "id": "S19-INHERITED-BOUNDARY",
@@ -33,8 +33,39 @@
       "command": "focused adversarial suites",
       "exit_code": 0,
       "result": "digest-bound manifests failing admission when tampered, the monotonic registry refusing rollback and revoked republishing, undeclared capabilities and unadmitted plugins failing closed at authorization, revocation removing execution immediately with terminal tombstones, the boundary-only SDK surface exposing no host-access path, and S06 fault containment holding for registry-sourced plugins all passed"
+    },
+    {
+      "id": "S19-VERIFY-BRANCH-CI",
+      "command": "inspect push runs 33072864115 and 33072864151",
+      "exit_code": 0,
+      "result": "repository verification and the three-platform monorepo CI with dependency audit passed for implementation SHA 7e4ce4906da3770cb34d542eeb149556e985d84a on the first push"
+    },
+    {
+      "id": "S19-VERIFY-PROTECTED-INTEGRATION",
+      "command": "inspect protected PR #49",
+      "exit_code": 0,
+      "result": "PR #49 squash-merged after all five required checks passed as 58165946ce01bd23bb5aca94e9c7a16558ca677f"
+    },
+    {
+      "id": "S19-VERIFY-MAIN-CI",
+      "command": "inspect main runs 33073561451, 33073561467 and 33073561461",
+      "exit_code": 0,
+      "result": "provenance, repository verification and the three-platform monorepo CI passed on 58165946ce01bd23bb5aca94e9c7a16558ca677f"
+    },
+    {
+      "id": "S19-VERIFY-CLEAN-CLONE",
+      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
+      "exit_code": 0,
+      "result": "clone resolved 58165946ce01bd23bb5aca94e9c7a16558ca677f and passed all gates in 89 seconds"
+    },
+    {
+      "id": "S19-VERIFY-REMOTE-MAIN",
+      "command": "node scripts/verify-remote-s19.mjs --repository SunArthurX/saber-harness --branch main",
+      "exit_code": 0,
+      "result": "plugin registry contracts, public settings, hosted security controls and same-SHA successful workflows passed"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-29T15:00:00Z"
+  "last_verified_at": "2026-08-29T16:30:00Z",
+  "verified_segment_checkpoint": "7e4ce4906da3770cb34d542eeb149556e985d84a"
 }
