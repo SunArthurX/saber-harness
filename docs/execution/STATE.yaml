@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "1.0"
 architecture_version: "2.0"
 current_segment:
-  id: S22
-  name: release-integrity
-  status: completed
-  objective: deliver verifiable release integrity — reproducible digests, SBOM, provenance, a monotonic signed target chain, staged rings with last-known-good rollback, a verify-before-install updater and air-gap import
+  id: S23
+  name: design-partner-beta
+  status: in_progress
+  objective: run real projects on all three platforms under measured SLO budgets, opt-in metadata-only telemetry, single-command onboarding and a feedback intake that proposes evolution candidates but never promotes them
 predecessor:
-  segment: S21
+  segment: S22
   status: completed
-  tag: s21-complete
-  commit: ba90d8b1a8dd5fc4e5c2118acbefcace95021396
+  tag: s22-complete
+  commit: a0fd39f4420a251625dbd580a9235f808efd58e9
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -78,41 +78,42 @@ completed_segments:
   - segment: S21
     tag: s21-complete
     commit: ba90d8b1a8dd5fc4e5c2118acbefcace95021396
+  - segment: S22
+    tag: s22-complete
+    commit: a0fd39f4420a251625dbd580a9235f808efd58e9
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S22-completion
+  branch: segment/S23-design-partner-beta
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 9b8b560381c59d1f1f12d57a1a49852992dbb819
   main_head: 13f09808da978c6c5438d08b91bd6996958973a2
   verified_main_checkpoint: 13f09808da978c6c5438d08b91bd6996958973a2
-  remote_verified: true
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-30T10:30:00Z"
+  last_checkpoint_at: "2026-08-30T12:00:00Z"
 acceptance:
   required:
-    - s21_tagged_base
+    - s22_tagged_base
     - configured_remote
-    - reproducible_digests
-    - release_manifest_sbom_provenance
-    - signed_target_chain
-    - rollback_attack_refused
-    - freeze_attack_refused
-    - tampered_manifest_refused
-    - ring_promote_demote_rollback
-    - updater_verifies_before_install
-    - updater_refuses_downgrade
-    - airgap_offline_verification
-    - s22_verifier
+    - benchmark_harness
+    - slo_budgets_as_contracts
+    - slo_regression_fails_gate
+    - benchmark_determinism
+    - telemetry_opt_in_metadata_only
+    - telemetry_plaintext_canary
+    - single_command_onboarding
+    - feedback_intake_candidates_only
+    - s23_verifier
     - local_verification
     - verified_segment_push
     - required_ci
@@ -120,27 +121,25 @@ acceptance:
     - clean_clone_gate
     - completion_record_merged
   passed:
-    - s21_tagged_base
+    - s22_tagged_base
     - configured_remote
-    - reproducible_digests
-    - release_manifest_sbom_provenance
-    - signed_target_chain
-    - rollback_attack_refused
-    - freeze_attack_refused
-    - tampered_manifest_refused
-    - ring_promote_demote_rollback
-    - updater_verifies_before_install
-    - updater_refuses_downgrade
-    - airgap_offline_verification
-    - s22_verifier
+    - benchmark_harness
+    - slo_budgets_as_contracts
+    - slo_regression_fails_gate
+    - benchmark_determinism
+    - telemetry_opt_in_metadata_only
+    - telemetry_plaintext_canary
+    - single_command_onboarding
+    - feedback_intake_candidates_only
+    - s23_verifier
     - local_verification
+  failed: []
+  pending:
     - verified_segment_push
     - required_ci
     - protected_pr_merge
     - clean_clone_gate
     - completion_record_merged
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-26T11:30:15Z"
@@ -165,7 +164,8 @@ decisions:
   - docs/adr/ADR-022-remote-execution-realm.md
   - docs/adr/ADR-023-multitenant-enterprise-control.md
   - docs/adr/ADR-024-verifiable-release-integrity.md
+  - docs/adr/ADR-025-beta-slo-and-feedback.md
 blockers: []
 next_action:
-  command: after this atomic completion record merges and final main workflows pass, create annotated s22-complete and hand the next model docs/execution/NEXT-MODEL-S23.md
-  description: all S22 acceptance items passed; strict remote S22 verification green at ca3774f559b9143264a184b99b33638cc9471692
+  command: implement the S23 design partner beta per docs/execution/NEXT-MODEL-S23.md
+  description: freeze ADR-025, then implement the benchmark harness, SLO budgets, telemetry contracts, onboarding and feedback intake
