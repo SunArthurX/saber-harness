@@ -91,7 +91,11 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Audit production JavaScript dependencies
         run: pnpm audit --prod --audit-level high
+      - name: Install cargo-audit
+        run: cargo install --locked cargo-audit
       - name: Audit Rust dependencies
-        uses: rustsec/audit-check@69366f33c96575abad1ee0dba8212993eecbe998 # v2.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+        # Vulnerabilities fail the gate through cargo-audit's exit code;
+        # informational warnings (for example a yanked transitive already
+        # pinned in the lockfile) surface in the log without depending on
+        # the check-run annotation API.
+        run: cargo audit
