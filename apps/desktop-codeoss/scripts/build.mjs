@@ -48,12 +48,20 @@ function resolveToolchain(lock) {
     ...process.env,
     PATH: `${nodeDir}${process.platform === "win32" ? ";" : ":"}${process.env.PATH ?? ""}`,
   };
-  return { nodeBinary, npm: process.platform === "win32" ? "npm.cmd" : "npm", env, version };
+  const onWindows = process.platform === "win32";
+  return {
+    nodeBinary,
+    npm: onWindows ? "npm.cmd" : "npm",
+    // npm.cmd is a batch script: Windows needs a shell to execute it.
+    npmShell: onWindows,
+    env,
+    version,
+  };
 }
 
-function stage(env, command, args, cwd, label) {
+function stage(env, command, args, cwd, label, shell = false) {
   console.log(`build: ${label} → ${command} ${args.join(" ")}`);
-  const result = spawnSync(command, args, { cwd, env, stdio: "inherit" });
+  const result = spawnSync(command, args, { cwd, env, stdio: "inherit", shell });
   if (result.status !== 0) {
     console.error(`build: ${label} failed with exit ${result.status}`);
     process.exit(1);
@@ -75,10 +83,17 @@ async function main() {
   const stages = process.argv.slice(2).filter((flag) => flag.startsWith("--"));
 
   if (stages.includes("--install")) {
-    stage(toolchain.env, toolchain.npm, ["install", "--no-fund", "--no-audit"], worktree, "npm install");
+    stage(
+      toolchain.env,
+      toolchain.npm,
+      ["install", "--no-fund", "--no-audit"],
+      worktree,
+      "npm install",
+      toolchain.npmShell,
+    );
   }
   if (stages.includes("--compile")) {
-    stage(toolchain.env, toolchain.npm, ["run", "compile"], worktree, "npm run compile");
+    stage(toolchain.env, toolchain.npm, ["run", "compile"], worktree, "npm run compile", toolchain.npmShell);
   }
   if (stages.includes("--launch-smoke")) {
     const upstream = JSON.parse(readFileSync(join(worktree, "package.json"), "utf8"));
@@ -109,7 +124,7 @@ async function main() {
       console.error("build: --package requires SABER_DESKTOP_GULP_TASK");
       process.exit(64);
     }
-    stage(toolchain.env, toolchain.npm, ["run", "gulp", task], worktree, `package ${task}`);
+    stage(toolchain.env, toolchain.npm, ["run", "gulp", task], worktree, `package ${task}`, toolchain.npmShell);
   }
 
   if (stages.length === 0) {

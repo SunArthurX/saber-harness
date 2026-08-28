@@ -29,6 +29,10 @@ jobs:
             gulp: vscode-linux-x64
           - os: windows-latest
             gulp: vscode-win32-x64
+    env:
+      # The upstream built-in extension sync reads GitHub release metadata;
+      # the job token keeps it off anonymous rate limits.
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Check out the repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -37,6 +41,12 @@ jobs:
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: "24.18.0"
+
+      - name: Install Linux native-module build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libkrb5-dev libx11-dev libxkbfile-dev libsecret-1-dev
 
       - name: Record the active toolchain
         run: |
