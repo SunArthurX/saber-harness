@@ -30,6 +30,15 @@
       "upstream_files": ["product.json"],
       "security_impact": "identity-only: no protocol, telemetry, update or extension-gallery behavior changes; the OSS product.json already ships without extensionsGallery",
       "expected_base_commit": "08d4889f9ec4a1685d257b9b95de036c8e1ce1e5"
+    },
+    {
+      "id": "0002-workbench-default-route",
+      "file": "patches/0002-workbench-default-route.patch",
+      "owner": "S26",
+      "rationale": "Make the Desktop Agent Workbench the default startup sidebar route: when no view container has been stored yet, prefer the saber-workbench container contributed by the built-in extension, falling back to the upstream default when it is absent",
+      "upstream_files": ["src/vs/workbench/browser/layout.ts"],
+      "security_impact": "startup layout preference only: restores a stored container exactly as upstream does, changes no authority, protocol, telemetry or extension-host behavior",
+      "expected_base_commit": "08d4889f9ec4a1685d257b9b95de036c8e1ce1e5"
     }
   ],
   "exclusions": {

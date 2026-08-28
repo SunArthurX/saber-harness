@@ -24,6 +24,7 @@ const requiredFiles = [
   "apps/desktop-codeoss/upstream.lock.json",
   "apps/desktop-codeoss/patches/series.json",
   "apps/desktop-codeoss/patches/0001-product-identity.patch",
+  "apps/desktop-codeoss/patches/0002-workbench-default-route.patch",
   "apps/desktop-codeoss/scripts/fetch-upstream.mjs",
   "apps/desktop-codeoss/scripts/apply-patches.mjs",
   "apps/desktop-codeoss/scripts/build.mjs",
@@ -81,6 +82,14 @@ for (const patch of lock.patches ?? []) {
   );
 }
 const patchText = text("apps/desktop-codeoss/patches/0001-product-identity.patch");
+const routePatch = text("apps/desktop-codeoss/patches/0002-workbench-default-route.patch");
+check(
+  routePatch.includes("--- a/src/vs/workbench/browser/layout.ts") &&
+    routePatch.includes("getViewContainerById('saber-workbench')") &&
+    routePatch.includes("?? this.viewDescriptorService.getDefaultViewContainer"),
+  "s26-route-patch-contract",
+  "0002 makes the saber workbench the default sidebar route with an upstream fallback",
+);
 check(
   patchText.includes("--- a/product.json") && patchText.includes("+++ b/product.json"),
   "s26-patch-format",

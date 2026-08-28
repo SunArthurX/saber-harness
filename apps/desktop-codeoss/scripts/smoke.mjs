@@ -57,6 +57,13 @@ async function main() {
     "welcome copy states the honest unconnected preview",
   );
 
+  const layout = readFileSync(join(worktree, "src", "vs", "workbench", "browser", "layout.ts"), "utf8");
+  check(
+    layout.includes("getViewContainerById('saber-workbench')") &&
+      layout.includes("saberWorkbenchContainer?.id ?? this.viewDescriptorService.getDefaultViewContainer"),
+    "Desktop Agent Workbench is the default startup sidebar route (patch 0002)",
+  );
+
   if (failures.length > 0) {
     console.error(`smoke failed with ${failures.length} failing checks`);
     process.exit(1);
