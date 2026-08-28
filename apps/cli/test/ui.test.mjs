@@ -1,10 +1,16 @@
 import assert from "node:assert/strict";
 import { get as httpGet } from "node:http";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
 import { gunzipSync } from "node:zlib";
 
 import { resolveCoreBinary } from "../dist/index.js";
 import { executeForUi, parseRunReceipt, splitArgs, startUiServer, uiDictionary } from "../dist/ui.js";
+
+// A POSIX-looking store path resolves against the current drive on Windows
+// and the core fails to open it (exit 64); tmpdir keeps every platform green.
+const testStore = join(tmpdir(), "saber-ui-test");
 
 test("splitArgs is quote-aware", () => {
   assert.deepEqual(splitArgs("/bin/sh -c 'echo hello world'"), ["/bin/sh", "-c", "echo hello world"]);
@@ -83,7 +89,7 @@ test("every state chip the client renders has a dictionary entry", async () => {
 test("ui server serves the studio console and runs the governed core", async () => {
   const core = resolveCoreBinary();
   assert.notEqual(core, null, "saber-core must be built before cli tests");
-  const { server, port } = await startUiServer({ core, port: 0, store: "/tmp/saber-ui-test" });
+  const { server, port } = await startUiServer({ core, port: 0, store: testStore });
   const close = () => new Promise((resolve) => server.close(resolve));
 
   try {
