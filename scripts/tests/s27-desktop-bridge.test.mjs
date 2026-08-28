@@ -2,11 +2,13 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import test from "node:test";
+import { pathToFileURL } from "node:url";
 
 const root = process.cwd();
 const bridgePath = join(root, "apps/desktop-codeoss/extensions/saber-agent/src/bridge.js");
 const bridgeSource = readFileSync(bridgePath, "utf8");
-const bridge = await import(bridgePath);
+// A Windows absolute path is not a valid ESM specifier; always use a file URL.
+const bridge = await import(pathToFileURL(bridgePath).href);
 
 test("S27 bridge exposes exactly the frozen supervision allowlist", () => {
   assert.deepEqual(
