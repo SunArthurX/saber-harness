@@ -80,7 +80,12 @@ jobs:
         run: node scripts/verify-s24.mjs
       - name: Verify S25 desktop product baseline
         run: node scripts/verify-s25.mjs
+      - name: Verify S26 codeoss bootstrap
+        run: node scripts/verify-s26.mjs
       - name: Test repository governance policy
         run: node --test scripts/tests/*.test.mjs
       - name: Verify Git whitespace contract
-        run: git diff --check HEAD^
+        # apps/desktop-codeoss/patches embeds upstream bytes verbatim
+        # (tab-indented JSON context lines); it is the one place where
+        # reformatting would break `git apply` fidelity.
+        run: git diff --check HEAD^ -- . ':(exclude)apps/desktop-codeoss/patches'

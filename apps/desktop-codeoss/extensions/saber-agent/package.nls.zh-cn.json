@@ -1,0 +1,10 @@
+{
+  "displayName": "Saber Agent 工作台",
+  "description": "Saber Studio 桌面 Agent 工作台投影（工程预览；S26 尚未连接受治理的 Rust Core）。",
+  "category": "Saber",
+  "viewContainer.title": "Saber Agent 工作台",
+  "view.goals.name": "目标",
+  "viewWelcome.goals.contents": "本工程预览未连接 Saber Core。\nGoal、Task 与 Run 的身份权威在受信任的 Rust Core 中，此处仅是投影。\nS27 将接入真实的 Core 监督传输。",
+  "command.workbench.open.title": "打开桌面 Agent 工作台",
+  "command.workbench.status.title": "显示工作台连接状态"
+}

@@ -29,3 +29,6 @@ coverage/
 *.db
 *.db-shm
 *.db-wal
+
+# Saber Studio Desktop upstream cache and build worktrees (S26+)
+apps/desktop-codeoss/.cache/

@@ -1,0 +1,15 @@
+--- a/src/vs/workbench/browser/layout.ts
++++ b/src/vs/workbench/browser/layout.ts
+@@ -798,7 +798,11 @@
+ 
+ 		// Sidebar View Container To Restore
+ 		if (this.isVisible(Parts.SIDEBAR_PART)) {
+-			let viewContainerToRestore = this.storageService.get(SidebarPart.activeViewletSettingsKey, StorageScope.WORKSPACE, this.viewDescriptorService.getDefaultViewContainer(ViewContainerLocation.Sidebar)?.id);
++			// Saber: prefer the Desktop Agent Workbench container as the default
++			// sidebar route when the user has not stored a container yet; fall
++			// back to the upstream default when the extension is absent.
++			const saberWorkbenchContainer = this.viewDescriptorService.getViewContainerById('saber-workbench');
++			let viewContainerToRestore = this.storageService.get(SidebarPart.activeViewletSettingsKey, StorageScope.WORKSPACE, saberWorkbenchContainer?.id ?? this.viewDescriptorService.getDefaultViewContainer(ViewContainerLocation.Sidebar)?.id);
+ 			if (
+ 				!this.environmentService.isBuilt ||
+ 				lifecycleService.startupKind === StartupKind.ReloadedWindow ||

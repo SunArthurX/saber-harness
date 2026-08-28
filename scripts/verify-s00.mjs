@@ -148,6 +148,11 @@ if (evidence?.status === "acceptance_blocked_external") {
 
 const textExtensions = new Set([".md", ".yaml", ".yml", ".json", ".mjs", ""]);
 const skipDirectories = new Set([".git", "tmp", "node_modules", "target", "dist", "build"]);
+// The disposable Code-OSS upstream cache (archive, extracted worktrees and
+// the pinned Node toolchain) holds third-party bytes that must never be
+// reformatted or scanned as Saber source; it is gitignored and regenerable
+// from the digest-verified archive.
+const skipPaths = new Set([join("apps", "desktop-codeoss", ".cache")]);
 const conflictPattern = /^(<<<<<<<|=======|>>>>>>>)/m;
 const secretPatterns = [
   /AKIA[0-9A-Z]{16}/,
@@ -165,6 +170,7 @@ function scan(directory) {
     check(!info.isSymbolicLink(), "no-symbolic-link", relative(root, absolute));
     if (info.isSymbolicLink()) continue;
     if (info.isDirectory()) {
+      if (skipPaths.has(relative(root, absolute))) continue;
       scan(absolute);
       continue;
     }

@@ -1,0 +1,137 @@
+name: Desktop Build
+
+# S26-WP05/WP06 — hosted three-platform build matrix over the pinned
+# upstream. Every step reuses the same reviewed entry points as local
+# development (fetch-upstream, apply-patches, smoke, build stages) so the
+# runner evidence and local evidence cannot diverge. Development artifacts
+# only: digest-recorded, unsigned, no production claim.
+
+on:
+  push:
+    branches: [segment/S26-codeoss-bootstrap]
+  workflow_dispatch:
+
+concurrency:
+  group: desktop-build-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ matrix.os }} (${{ matrix.gulp }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-14
+            gulp: vscode-darwin-arm64
+          - os: ubuntu-24.04
+            gulp: vscode-linux-x64
+          - os: windows-latest
+            gulp: vscode-win32-x64
+    env:
+      # The upstream built-in extension sync reads GitHub release metadata;
+      # the job token keeps it off anonymous rate limits.
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install the pinned upstream Node toolchain
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24.18.0"
+
+      - name: Install Linux native-module build dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libkrb5-dev libx11-dev libxkbfile-dev libsecret-1-dev xvfb
+
+      - name: Locate the Visual Studio C++ toolchain (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vs = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          if (-not $vs) { throw "no Visual Studio with C++ workload found" }
+          Write-Host "VS toolchain: $vs"
+          "vs2022_install=$vs" >> $env:GITHUB_ENV
+          # The upstream win32 packaging runs signtool.exe (verify/remove of
+          # Electron's pre-shipped Authenticode signature); the Windows SDK
+          # has it, just not on PATH.
+          $signtool = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin\*\x64\signtool.exe" |
+            Sort-Object FullName -Descending | Select-Object -First 1
+          if (-not $signtool) { throw "signtool.exe not found in the Windows SDK" }
+          Write-Host "signtool: $($signtool.FullName)"
+          Add-Content $env:GITHUB_PATH $signtool.DirectoryName
+
+      - name: Record the active toolchain
+        run: |
+          node --version
+          npm --version
+
+      - name: Fetch and digest-verify the pinned upstream archive
+        run: node apps/desktop-codeoss/scripts/fetch-upstream.mjs
+
+      - name: Extract, patch, prove reversibility, copy the built-in extension
+        run: node apps/desktop-codeoss/scripts/apply-patches.mjs
+
+      - name: Static smoke over the patched tree
+        run: node apps/desktop-codeoss/scripts/smoke.mjs
+
+      - name: Install upstream dependencies (pinned toolchain)
+        run: node apps/desktop-codeoss/scripts/build.mjs --install
+
+      - name: Compile the workbench (pinned toolchain)
+        run: node apps/desktop-codeoss/scripts/build.mjs --compile
+
+      - name: Runtime launch smoke (boot, report pinned release, exit cleanly)
+        run: node apps/desktop-codeoss/scripts/build.mjs --launch-smoke
+
+      - name: Package the development artifact
+        run: node apps/desktop-codeoss/scripts/build.mjs --package
+        env:
+          SABER_DESKTOP_GULP_TASK: ${{ matrix.gulp }}
+
+      - name: Digest the packaged development artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          cd apps/desktop-codeoss/.cache/worktrees
+          # The upstream gulp task leaves a VSCode-<platform> directory (the
+          # branded application); wrap it into one deterministic dev archive.
+          for directory in VSCode-*/; do
+            name="saber-studio-dev-${{ matrix.gulp }}.tar.gz"
+            tar -czf "$name" "$directory"
+            echo "packaged $directory -> $name"
+          done
+          digests="$(pwd)/digests.txt"
+          : > "$digests"
+          for artifact in saber-studio-dev-*.tar.gz *.zip; do
+            if command -v sha256sum >/dev/null 2>&1; then
+              sha256sum "$artifact" >> "$digests"
+            else
+              shasum -a 256 "$artifact" >> "$digests"
+            fi
+          done
+          if [ ! -s "$digests" ]; then
+            echo "no packaged development artifact found" >&2
+            exit 1
+          fi
+          cat "$digests" | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the packaged development artifact
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: saber-studio-dev-${{ matrix.gulp }}
+          path: |
+            apps/desktop-codeoss/.cache/worktrees/saber-studio-dev-*.tar.gz
+            apps/desktop-codeoss/.cache/worktrees/*.zip
+          if-no-files-found: error
+          retention-days: 14

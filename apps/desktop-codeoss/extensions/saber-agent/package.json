@@ -1,0 +1,54 @@
+{
+  "name": "saber-agent",
+  "displayName": "%displayName%",
+  "description": "%description%",
+  "publisher": "saber",
+  "version": "0.1.0",
+  "license": "UNLICENSED",
+  "private": true,
+  "engines": {
+    "vscode": "^1.135.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "main": "./src/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "saber-workbench",
+          "title": "%viewContainer.title%",
+          "icon": "media/saber.svg"
+        }
+      ]
+    },
+    "views": {
+      "saber-workbench": [
+        {
+          "id": "saber.goals",
+          "name": "%view.goals.name%"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "saber.goals",
+        "contents": "%viewWelcome.goals.contents%"
+      }
+    ],
+    "commands": [
+      {
+        "command": "saber.workbench.open",
+        "title": "%command.workbench.open.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.status",
+        "title": "%command.workbench.status.title%",
+        "category": "%category%"
+      }
+    ]
+  }
+}
