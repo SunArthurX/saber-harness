@@ -93,7 +93,7 @@ git:
   branch: segment/S25-desktop-workbench-baseline
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: ea3b97140b62ab74840a7d520bb086e5bae327cb
+  verified_segment_checkpoint: ed0ca1ab9bca7967f899066f80e937d663b35612
   main_head: af85f697a47a94e667536d396066639d2d56578a
   verified_main_checkpoint: af85f697a47a94e667536d396066639d2d56578a
   remote_verified: true
@@ -103,7 +103,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-28T07:45:48Z"
+  last_checkpoint_at: "2026-08-28T07:52:39Z"
 acceptance:
   required:
     - s24_tagged_base
@@ -157,7 +157,7 @@ acceptance:
     - protected_pr_merge
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-28T07:45:48Z"
+  last_verified_at: "2026-08-28T07:52:39Z"
 decisions:
   - docs/adr/ADR-001-rust-trusted-core.md
   - docs/adr/ADR-004-events-transactional-projections.md
@@ -186,4 +186,4 @@ decisions:
 blockers: []
 next_action:
   command: review the S26-S38 execution pack and merge protected PR https://github.com/SunArthurX/saber-harness/pull/69, then update the S25 completion record before starting S26 from docs/execution/desktop/NEXT-MODEL-S26.md
-  description: PR #69 is open and mergeable with 10 successful hosted checks on 33dc031cd109f7bca683ee533fc4b34e3cceaad7 before the current research update; the desktop-primary ADR and plan now include 31 evidence-graded competitor capabilities, 13 Saber decisions, 13 runbooks, 78 machine-readable work packages, 35-screen UX inventory, 24 acceptance journeys, platform/release, RACI, evaluation and copy-ready S26 handoff controls; protected merge remains pending and desktop implementation deliberately remains unclaimed
+  description: PR #69 is open and mergeable with 10 successful hosted checks on ed0ca1ab9bca7967f899066f80e937d663b35612; the desktop-primary ADR and plan now include 31 evidence-graded competitor capabilities, 13 Saber decisions, 13 runbooks, 78 machine-readable work packages, 35-screen UX inventory, 24 acceptance journeys, platform/release, RACI, evaluation and copy-ready S26 handoff controls; protected merge remains pending and desktop implementation deliberately remains unclaimed

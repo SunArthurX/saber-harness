@@ -85,9 +85,15 @@
       "command": "git diff origin/main --check && pnpm verify",
       "exit_code": 0,
       "result": "the full base diff is whitespace-clean; deterministic generation, format, lint, typecheck, builds, 22 package tests, license gate, S00-S25 verifiers and 15 governance tests passed; one pre-existing Biome warning and one pre-existing info diagnostic remain unchanged"
+    },
+    {
+      "id": "S25-COMPETITIVE-RESEARCH-HOSTED-CI",
+      "command": "GitHub Repository Verification runs 33152873608 and 33152875838 plus Monorepo CI runs 33152873714 and 33152875817 on ed0ca1ab9bca7967f899066f80e937d663b35612",
+      "exit_code": 0,
+      "result": "push and pull-request Repository Verification, both dependency audits, and macOS, Windows and Linux jobs all succeeded; PR #69 reports 10 successful checks, no pending or failing checks, and mergeStateStatus CLEAN"
     }
   ],
   "known_blockers": [],
   "pending": ["protected_pr_merge"],
-  "last_verified_at": "2026-08-28T07:45:48Z"
+  "last_verified_at": "2026-08-28T07:52:39Z"
 }
