@@ -21,6 +21,7 @@
  */
 import { spawn, spawnSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -111,7 +112,10 @@ async function main() {
     // (SIGTRAP/133). ELECTRON_DISABLE_SANDBOX is a dev-CI flag about
     // Chromium's sandbox, never about Saber's Rust Core authority.
     const command = process.platform === "linux" ? "xvfb-run" : launcher;
-    const userDataDir = join(worktree, ".smoke-user-data");
+    // A short user-data-dir: the single-instance unix socket
+    // (<dir>/<version>-main.sock) must stay under the OS path limit (103
+    // chars on macOS) or the main process dies at claimInstance.
+    const userDataDir = join(tmpdir(), `saber-smoke-${process.pid}`);
     const args =
       process.platform === "linux"
         ? ["-a", launcher, `--user-data-dir=${userDataDir}`]
