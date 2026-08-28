@@ -328,6 +328,22 @@ pub struct RecoveryReport {
     pub pending_effects: Vec<PendingEffect>,
 }
 
+/// One replayed event in durable cursor order (S27 supervision transport).
+/// The payload stays opaque JSON; callers never get raw store handles.
+#[derive(Clone, Debug, PartialEq, Eq, serde::Serialize)]
+pub struct ReplayedEvent {
+    /// Durable, monotonically increasing cursor position.
+    pub sequence: i64,
+    /// Stable event identifier from the audited hash chain.
+    pub event_id: String,
+    /// Closed event-type vocabulary entry.
+    pub event_type: String,
+    /// Wall-clock milliseconds at commit time.
+    pub occurred_at_ms: i64,
+    /// Opaque committed payload; secrets never appear here.
+    pub payload_json: String,
+}
+
 /// `SQLCipher` connection owning the authoritative local event log and projections.
 pub struct EventStore {
     connection: Connection,
@@ -1115,6 +1131,38 @@ impl EventStore {
         Ok(self
             .connection
             .query_row("SELECT count(*) FROM runs", [], |row| row.get(0))?)
+    }
+
+    /// Replay at most `limit` events with `sequence > after_sequence` in
+    /// durable order, plus the next cursor. Read-only: replaying cannot
+    /// mutate or skip the hash chain.
+    ///
+    /// # Errors
+    ///
+    /// Returns a database error when the replay query fails.
+    pub fn replay_events(
+        &self,
+        after_sequence: i64,
+        limit: i64,
+    ) -> Result<(Vec<ReplayedEvent>, i64), StoreError> {
+        let capped = limit.clamp(1, 500);
+        let mut statement = self.connection.prepare(
+            "SELECT sequence, event_id, event_type, occurred_at_ms, payload_json
+             FROM events WHERE sequence > ?1 ORDER BY sequence ASC LIMIT ?2",
+        )?;
+        let rows = statement
+            .query_map(params![after_sequence, capped], |row| {
+                Ok(ReplayedEvent {
+                    sequence: row.get(0)?,
+                    event_id: row.get(1)?,
+                    event_type: row.get(2)?,
+                    occurred_at_ms: row.get(3)?,
+                    payload_json: row.get(4)?,
+                })
+            })?
+            .collect::<Result<Vec<_>, _>>()?;
+        let next_cursor = rows.last().map_or(after_sequence, |event| event.sequence);
+        Ok((rows, next_cursor))
     }
 }
 

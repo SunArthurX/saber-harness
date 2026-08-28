@@ -108,7 +108,7 @@ export interface EventEnvelope {
   payload: Record<string, unknown>;
 }
 
-export type ControlMethod = "run.steer" | "run.cancel" | "run.retry" | "run.fork" | "events.subscribe";
+export type ControlMethod = "run.steer" | "run.cancel" | "run.retry" | "run.fork" | "events.subscribe" | "core.initialize" | "core.health";
 
 export interface RequestContext {
   request_id: string;

@@ -18,6 +18,18 @@ fn usage() -> String {
     "usage: saber-core run --store <dir> [--workspace <id>] [--task <id>] \
      [--allow <program>]... [--approve] [--stdin <payload>] -- <program> [args...]"
         .to_owned()
+        + " | saber-core serve --store <dir> [--workspace <id>]"
+}
+
+fn flag_value(args: &[String], flag: &str) -> Option<String> {
+    let mut index = 0;
+    while index + 1 < args.len() {
+        if args[index] == flag {
+            return Some(args[index + 1].clone());
+        }
+        index += 1;
+    }
+    None
 }
 
 struct Cli {
@@ -157,6 +169,32 @@ fn main() -> ExitCode {
                 ExitCode::from(64)
             }
         },
+        Some("serve") => {
+            let Some(store) = flag_value(&args[1..], "--store") else {
+                eprintln!("saber-core: --store <dir> is required");
+                eprintln!("{}", usage());
+                return ExitCode::from(64);
+            };
+            let workspace =
+                flag_value(&args[1..], "--workspace").unwrap_or_else(|| "ws_local".to_owned());
+            #[cfg(unix)]
+            {
+                match saber_core::serve::serve(std::path::Path::new(&store), &workspace) {
+                    Ok(()) => ExitCode::SUCCESS,
+                    Err(message) => {
+                        eprintln!("saber-core: {message}");
+                        eprintln!("{}", usage());
+                        ExitCode::from(64)
+                    }
+                }
+            }
+            #[cfg(not(unix))]
+            {
+                let _ = (store, workspace);
+                eprintln!("saber-core: serve requires the unix-domain transport; unavailable here");
+                ExitCode::from(64)
+            }
+        }
         Some("banner") => {
             println!("{}", create_banner());
             ExitCode::SUCCESS

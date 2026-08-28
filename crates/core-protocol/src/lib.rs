@@ -44,6 +44,8 @@ pub enum ProtocolError {
     IdempotencyConflict,
     /// Workspace identifier cannot form a local endpoint.
     InvalidWorkspaceId,
+    /// The one-time bootstrap token was missing, wrong or already used.
+    Unauthorized,
 }
 
 impl Display for ProtocolError {
@@ -69,12 +71,16 @@ impl ProtocolError {
             Self::IdempotencyRequired => "idempotency_required",
             Self::IdempotencyConflict => "idempotency_conflict",
             Self::InvalidWorkspaceId => "invalid_workspace_id",
+            Self::Unauthorized => "unauthorized",
         }
     }
 }
 
 fn is_mutation(method: &ControlMethod) -> bool {
-    !matches!(method, ControlMethod::EventsSubscribe)
+    !matches!(
+        method,
+        ControlMethod::EventsSubscribe | ControlMethod::CoreInitialize | ControlMethod::CoreHealth
+    )
 }
 
 /// Decode and validate a bounded control request.
@@ -92,7 +98,13 @@ pub fn decode_request(frame: &[u8], now_unix_ms: u64) -> Result<ControlRequest, 
     if method.is_some_and(|value| {
         !matches!(
             value,
-            "run.steer" | "run.cancel" | "run.retry" | "run.fork" | "events.subscribe"
+            "run.steer"
+                | "run.cancel"
+                | "run.retry"
+                | "run.fork"
+                | "events.subscribe"
+                | "core.initialize"
+                | "core.health"
         )
     }) {
         return Err(ProtocolError::UnknownMethod);

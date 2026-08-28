@@ -1116,6 +1116,7 @@ dependencies = [
  "rusqlite",
  "saber-core-protocol",
  "saber-policy",
+ "serde",
  "serde_json",
  "sha2",
  "tempfile",

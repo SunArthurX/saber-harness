@@ -2,10 +2,10 @@ project: saber
 roadmap_version: "2.0"
 architecture_version: "2.1"
 current_segment:
-  id: S26
-  name: codeoss-bootstrap
-  status: completed
-  objective: deliver a reproducible, minimally branded Code-OSS/Electron development desktop shell pinned to upstream commit 08d4889f9ec4a1685d257b9b95de036c8e1e5 (release 1.135.0) with an atomic digest-verified source cache, a reversible single-purpose patch series, a built-in saber-agent extension skeleton limited to native contribution points, a deterministic static smoke and focused verification — an RT-0 engineering preview that opens toward the Desktop Agent Workbench and claims no Core IPC, Agent execution, production signing or packaged release
+  id: S27
+  name: core-supervision-transport
+  status: in_progress
+  objective: connect the development desktop to a real supervised Core over the contracted local versioned protocol (one-time CSPRNG bootstrap handshake, hardened unix endpoint, cursor replay with acknowledgement, fail-closed adversarial behavior) while keeping every effect authority inside the Core and the renderer a pure projection
 predecessor:
   segment: S25
   status: completed
@@ -93,7 +93,7 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S26-completion
+  branch: segment/S27-core-supervision-transport
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 99e0f20e8a2e6e6ee27df04a6a1b4a90946e547f
@@ -109,45 +109,45 @@ execution:
   last_checkpoint_at: "2026-08-28T22:00:25Z"
 acceptance:
   required:
-    - s25_tagged_base
-    - upstream_pinned_and_verified
-    - license_and_exclusion_checklist
-    - atomic_source_cache
-    - offline_cache_verification
-    - reversible_patch_series
-    - builtin_extension_skeleton
-    - static_smoke
-    - negative_supplychain_tests
-    - toolchain_fail_closed
-    - s26_verifier
+    - s26_tagged_base
+    - lifecycle_contract_registry
+    - unix_endpoint_hardening
+    - one_time_bootstrap_token
+    - cursor_replay_with_ack
+    - adversarial_fail_closed
+    - crash_recovery_matrix
+    - renderer_bridge_allowlist
+    - windows_named_pipe_transport
+    - electron_main_lifecycle_wiring
+    - handshake_failure_audit_events
+    - safe_mode_and_support_bundle_ux
+    - slow_consumer_cursor_gap_cases
+    - s27_verifier
     - full_local_verification
     - verified_segment_push
     - hosted_branch_ci
-    - three_platform_dev_packages
-    - runtime_platform_smoke
-    - default_workbench_route_patch
     - protected_pr_merge
   passed:
-    - s25_tagged_base
-    - upstream_pinned_and_verified
-    - license_and_exclusion_checklist
-    - atomic_source_cache
-    - offline_cache_verification
-    - reversible_patch_series
-    - builtin_extension_skeleton
-    - static_smoke
-    - negative_supplychain_tests
-    - toolchain_fail_closed
-    - s26_verifier
-    - three_platform_dev_packages
-    - runtime_platform_smoke
+    - s26_tagged_base
+    - lifecycle_contract_registry
+    - unix_endpoint_hardening
+    - one_time_bootstrap_token
+    - cursor_replay_with_ack
+    - adversarial_fail_closed
+    - crash_recovery_matrix
+    - renderer_bridge_allowlist
+    - s27_verifier
     - full_local_verification
+  failed: []
+  pending:
+    - windows_named_pipe_transport
+    - electron_main_lifecycle_wiring
+    - handshake_failure_audit_events
+    - safe_mode_and_support_bundle_ux
+    - slow_consumer_cursor_gap_cases
     - verified_segment_push
     - hosted_branch_ci
-    - default_workbench_route_patch
     - protected_pr_merge
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-28T22:00:25Z"
@@ -178,5 +178,5 @@ decisions:
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
 blockers: []
 next_action:
-  command: after this completion record merges, create annotated s26-complete on the record merge commit and verify its peeled SHA equals that main commit; S27 (Core supervision transport) then starts only from docs/execution/desktop/S27-CORE-SUPERVISION-TRANSPORT.md
-  description: PR #71 squash-merged as 08dfd5cce865db460734e839d57eb361fec3b045 after the required checks and the three-platform Desktop Build matrix succeeded on the evidence head 99e0f20; all six main contexts are green on the merge commit. The completion record closes S26 with no pending acceptance items: pinned upstream 1.135.0 at 08d4889f, reversible patches 0001/0002, built-in saber-agent skeleton, default Desktop Agent Workbench startup route, three-platform unsigned development artifacts with digests, static + runtime smoke, 6 negative supply-chain tests, verify-s26 60 checks chained into local and hosted gates. RT-0 engineering preview only; S27 is not started
+  command: implement the Windows named-pipe transport and the Electron main lifecycle wiring (spawn/monitor with piped bootstrap descriptor, single instance, shutdown deadlines), persist handshake-failure audit events in the encrypted store, add the slow-consumer and cursor-gap adversarial cases and the safe-mode/support-bundle UX, then push PR-hosted checks and protected merge before s27-complete
+  description: S27 in progress. Landed and verified against the real Core: contracted core.initialize/core.health methods in the schema with identical Rust/TS registries; saber-core serve with a 0600 unix endpoint (symlink refused, live endpoint never stolen, stale reaped), a one-time CSPRNG stdout token, thread-per-connection (fixed a serial-accept starvation found by a third-connection probe), handshake-gated health and cursor-ordered replay of audited events; ide-client SupervisionClient with lazy attach retries, the ten-state lifecycle machine, bounded frames, cursor acknowledgement and version gating; a frozen four-intent renderer bridge with no host capability. Honestly pending: Windows named pipes (fail closed today), Electron main wiring, durable handshake-failure audit, safe-mode/support-bundle UX and slow-consumer/cursor-gap cases. S28 is not started

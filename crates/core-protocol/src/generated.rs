@@ -238,6 +238,10 @@ pub enum ControlMethod {
     RunFork,
     #[serde(rename = "events.subscribe")]
     EventsSubscribe,
+    #[serde(rename = "core.initialize")]
+    CoreInitialize,
+    #[serde(rename = "core.health")]
+    CoreHealth,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]

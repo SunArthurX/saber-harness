@@ -8,6 +8,8 @@
 //! its decision is durably audited, and an unavailable sandbox denies
 //! the effect rather than degrading to host execution.
 
+pub mod serve;
+
 use std::cell::RefCell;
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
