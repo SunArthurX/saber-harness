@@ -144,13 +144,16 @@ console is an optional supervisor surface, not the desktop implementation.
 - The advanced research/philosophy content checkpoint is
   `a0eea3ecfbd63ffb6002cf4214ad7b7e4cdc44fb`; this continuity-only update records
   it before branch push and hosted verification.
+- The evidence checkpoint `a184108` passed push and PR workflows: Repository
+  Verification runs 33171209822/33171212253 and Monorepo CI runs
+  33171209813/33171212250. Both dependency audits and all macOS, Windows and
+  Linux jobs succeeded; PR #69 reports 10/10 successful checks and a clean,
+  mergeable state.
 
 ## Remaining S25 acceptance
 
-1. Commit and push the advanced research/philosophy checkpoint, verify remote
-   SHA and hosted PR checks, then review and merge PR #69 through protected
-   main. Update the completion record and tag only if every S25 acceptance item
-   is proved.
+1. Review and merge PR #69 through protected main. Update the completion record
+   and tag only if every S25 acceptance item is proved.
 
 ## S26 start condition
 

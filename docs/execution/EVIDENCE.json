@@ -114,10 +114,16 @@
       "id": "S25-ADVANCED-HARNESS-PHILOSOPHY-CHECKPOINT",
       "command": "git rev-parse a0eea3ecfbd63ffb6002cf4214ad7b7e4cdc44fb",
       "exit_code": 0,
-      "result": "the locally verified advanced research, philosophy, GUI and execution-plan content checkpoint resolves to a0eea3ecfbd63ffb6002cf4214ad7b7e4cdc44fb; hosted verification remains pending until push"
+      "result": "the locally verified advanced research, philosophy, GUI and execution-plan content checkpoint resolves to a0eea3ecfbd63ffb6002cf4214ad7b7e4cdc44fb and is included in the subsequently hosted-verified evidence checkpoint"
+    },
+    {
+      "id": "S25-ADVANCED-HARNESS-PHILOSOPHY-HOSTED-CI",
+      "command": "GitHub Repository Verification runs 33171209822 and 33171212253 plus Monorepo CI runs 33171209813 and 33171212250 on a184108ce983260e5695abfeb84fd0d323aeccd0",
+      "exit_code": 0,
+      "result": "push and pull-request Repository Verification, both dependency audits, and macOS, Windows and Linux jobs all succeeded; PR #69 reports 10 successful checks, no pending or failing checks, and mergeStateStatus CLEAN"
     }
   ],
   "known_blockers": [],
   "pending": ["protected_pr_merge"],
-  "last_verified_at": "2026-08-28T12:27:33Z"
+  "last_verified_at": "2026-08-28T12:35:23Z"
 }
