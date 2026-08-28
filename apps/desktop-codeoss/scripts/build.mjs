@@ -75,6 +75,38 @@ function stage(env, command, args, cwd, label, shell = false, timeoutMillisecond
   }
 }
 
+/**
+ * Spawn a step in its own process group and kill the whole group on
+ * timeout: a killed direct child can otherwise leave grandchildren holding
+ * the inherited stdio, and spawnSync would wait on them forever.
+ */
+async function stageBounded(env, command, args, cwd, label, timeoutMilliseconds, shell = false) {
+  console.log(`build: ${label} → ${command} ${args.join(" ")}`);
+  const child = spawn(command, args, { cwd, env, stdio: "inherit", shell, detached: !shell });
+  let timedOut = false;
+  const timer = setTimeout(() => {
+    timedOut = true;
+    if (process.platform === "win32" || shell) {
+      spawnSync("taskkill", ["/pid", String(child.pid), "/T", "/F"]);
+      child.kill("SIGKILL");
+    } else {
+      try {
+        process.kill(-child.pid, "SIGKILL");
+      } catch {
+        child.kill("SIGKILL");
+      }
+    }
+  }, timeoutMilliseconds);
+  const code = await new Promise((resolve) => child.on("exit", (exitCode) => resolve(exitCode)));
+  clearTimeout(timer);
+  if (timedOut || code !== 0) {
+    console.error(
+      `build: ${label} ${timedOut ? `timed out after ${timeoutMilliseconds}ms` : `failed with exit ${code}`}`,
+    );
+    process.exit(1);
+  }
+}
+
 async function main() {
   const lock = loadLock();
   const validation = validateLock(lock);
@@ -110,7 +142,7 @@ async function main() {
     // the process boots, stays alive and healthy for 45 seconds, and then
     // terminates on the operator's signal — "starts and exits cleanly"
     // with the exit initiated by the smoke itself.
-    stage(toolchain.env, "node", ["build/lib/electron.ts"], worktree, "fetch electron binary", false, 600_000);
+    await stageBounded(toolchain.env, "node", ["build/lib/electron.ts"], worktree, "fetch electron binary", 600_000);
 
     const launcher = join("scripts", process.platform === "win32" ? "code.bat" : "code.sh");
     // Headless Linux runners have no X server (xvfb) and restrict unprivileged
