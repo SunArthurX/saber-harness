@@ -2,6 +2,8 @@
 
 Status: planned
 
+Release train: RT-2 Collaborative Continuity Beta
+
 Duration: 12-15 working days
 
 Owners: Data/Knowledge Lead (A), Import/Retrieval/Runtime Engineers (R), Privacy

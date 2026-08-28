@@ -2,6 +2,8 @@
 
 Status: planned; do not start before S25 protected merge
 
+Release train: RT-0 Foundation Preview — engineering preview, not MVP
+
 Duration: 10-15 working days
 
 Owners: Desktop Tech Lead (A), Build/Release Engineer (R), Extension Engineer

@@ -55,6 +55,17 @@
 
 ## Competitor-derived interaction contracts
 
+### Product identity grammar
+
+- The stable hierarchy is Workspace → Goal → Task → Conversation/Run/Change
+  Set/Evidence. Focused Pane state never substitutes for object identity.
+- Every authoritative action names Workspace, Goal, Task, Run and Realm; an
+  absent object is visibly absent instead of inherited from the last screen.
+- Switching Pane is presentation. Switching Task, Worktree or Realm is an
+  identity transition with stale-draft and pending-approval revalidation.
+- Global Knowledge, Armor, Evolution, Health and Admin surfaces show their
+  current Workspace, team or organization scope before any mutation.
+
 ### Pane lattice
 
 - Each Pane carries Workspace, Task, Run, Worktree/Realm and source-revision

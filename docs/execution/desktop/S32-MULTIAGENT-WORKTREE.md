@@ -2,6 +2,8 @@
 
 Status: planned
 
+Release train: RT-2 Collaborative Continuity Beta
+
 Duration: 10-15 working days
 
 Owners: Orchestration Lead (A), Git/Runtime/Editor Engineers (R), Security and

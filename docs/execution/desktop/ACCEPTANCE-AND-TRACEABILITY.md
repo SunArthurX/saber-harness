@@ -94,6 +94,18 @@ identical Run projection after restart and complete Evidence Receipt.
 | Memory-to-capability promotion is reversible | S33/S34 | lineage/eval/canary/rollback suite | evolution review | yes |
 | Remote/computer effects are device-bound | S34/S35/S37 | forged-device/injection/global-stop suite | remote session review | yes |
 
+## Release claim gates
+
+| Claim | Required Segments | Required proof | Explicitly forbidden substitute |
+|---|---|---|---|
+| RT-0 engineering preview | S26-S29 | packaged three-platform workbench, real Core projection, explainable context | mock, Storybook or Web Supervisor |
+| RT-1 first CodingAgent MVP | S26-S31 | DJ-01 through DJ-04 and DJ-18 on a real repository with restart and rollback | shell launch, transcript or model-declared completion |
+| RT-2 local-first Beta | S26-S34 | Agent-team isolation, import lineage, Memory/Armor/evolution rollback and containment together | several parallel chats or generated Skills alone |
+| RT-3 production candidate | S26-S38 | one reviewed SHA passes signed platform, enterprise, SLO, security, accessibility and design-partner Gates | combining evidence from different candidate SHAs |
+
+Release names are evidence-bearing claims. A train may be delayed or narrowed,
+but cannot be renamed upward while its required proof is missing.
+
 ## Non-functional gates
 
 Thresholds are frozen in S37 using reference hardware; any change requires a

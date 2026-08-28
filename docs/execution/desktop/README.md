@@ -1,6 +1,6 @@
 # Saber Studio Desktop Execution Pack
 
-Version: 1.1
+Version: 1.2
 
 Status: executable planning baseline; S26 implementation has not started
 
@@ -38,6 +38,8 @@ higher authority.
 | `desktop-workbench-wbs.json` | Machine-readable Segment, task, dependency and Gate index |
 | `COMPETITIVE-CAPABILITY-RESEARCH.md` | Official-source Codex/Claude/ZCode/MiniMax findings and Saber decisions |
 | `competitive-capability-map.json` | Machine-readable competitor capability → Segment/UI/journey mapping |
+| `DESKTOP-PRODUCT-OPERATING-MODEL.md` | Canonical objects, lifecycle ownership, MVP cut line and recovery semantics |
+| `desktop-product-release-trains.json` | Machine-readable RT-0 through RT-3 scope, distribution and Exit Gates |
 | `ACCEPTANCE-AND-TRACEABILITY.md` | Product journeys, evidence owners and release traceability |
 | `UX-SCREEN-INVENTORY.md` | Every desktop screen, state, action and accessibility obligation |
 | `PLATFORM-AND-RELEASE-MATRIX.md` | OS, architecture, packaging, signing, update and recovery matrix |
@@ -51,7 +53,7 @@ higher authority.
 ```text
 S25 baseline and protected merge
   ↓
-S26 Code-OSS bootstrap
+RT-0 Foundation Preview: S26 Code-OSS bootstrap
   ↓
 S27 Core supervision and transport
   ↓
@@ -59,17 +61,17 @@ S28 desktop workbench shell
   ↓
 S29 conversation and context
   ↓
-S30 governed Agent run
+RT-1 Governed Coding Alpha / first MVP: S30 governed Agent run
   ↓
 S31 changes and evidence review
   ↓
-S32 multi-Agent and Worktree
+RT-2 Collaborative Continuity Beta: S32 multi-Agent and Worktree
   ↓
 S33 continuity and knowledge
   ↓
 S34 armor, evolution and health
   ↓
-S35 enterprise desktop
+RT-3 Enterprise Production Candidate: S35 enterprise desktop
   ↓
 S36 packaging and update
   ↓

@@ -2,6 +2,8 @@
 
 Status: planned
 
+Release train: RT-1 Governed Coding Alpha — first desktop CodingAgent MVP
+
 Duration: 10-15 working days
 
 Owners: Agent Architect (A), Runtime and Frontend Engineers (R), Security

@@ -2,6 +2,8 @@
 
 Status: planned
 
+Release train: RT-0 Foundation Preview — engineering preview, not MVP
+
 Duration: 8-12 working days
 
 Owners: Runtime Architect (A), Rust Runtime and Desktop Engineers (R), Security

@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "program": "Saber Studio Desktop",
+  "mvp_release_train": "RT-1",
+  "release_trains": [
+    {
+      "id": "RT-0",
+      "name": "foundation-preview",
+      "label": "engineering preview, not MVP",
+      "segments": ["S26", "S27", "S28", "S29"],
+      "distribution": "internal engineers only",
+      "required_journeys": ["DJ-01", "DJ-16"],
+      "required_ui": ["UI-01", "UI-02", "UI-04", "UI-05", "UI-06", "UI-25", "UI-26"],
+      "entry_gate": "S25 is merged through protected main and the S26 upstream, license and reproducibility inputs are accepted",
+      "exit_gate": "packaged three-platform shell opens the real workbench, projects a supervised Core and explains every outbound context fragment",
+      "non_claims": [
+        "not a complete CodingAgent desktop product",
+        "no claim of governed code execution",
+        "no replacement for the existing Web supervisor"
+      ]
+    },
+    {
+      "id": "RT-1",
+      "name": "governed-coding-alpha",
+      "label": "first desktop CodingAgent MVP",
+      "segments": ["S30", "S31"],
+      "distribution": "named internal alpha users",
+      "required_journeys": ["DJ-01", "DJ-02", "DJ-03", "DJ-04", "DJ-18"],
+      "required_ui": ["UI-03", "UI-07", "UI-08", "UI-09", "UI-10", "UI-11", "UI-28"],
+      "entry_gate": "RT-0 evidence is accepted and the real Core transport, identity and context boundaries pass adversarial review",
+      "exit_gate": "a real repository Goal runs through exact approval, isolated changes, tests, Hunk review, rollback and independent Evidence after Renderer restart",
+      "non_claims": [
+        "no multi-Agent production claim",
+        "no long-term knowledge or self-evolution claim",
+        "no enterprise deployment claim"
+      ]
+    },
+    {
+      "id": "RT-2",
+      "name": "collaborative-continuity-beta",
+      "label": "local-first beta",
+      "segments": ["S32", "S33", "S34"],
+      "distribution": "consented design partners",
+      "required_journeys": [
+        "DJ-05",
+        "DJ-06",
+        "DJ-07",
+        "DJ-08",
+        "DJ-09",
+        "DJ-14",
+        "DJ-15",
+        "DJ-19",
+        "DJ-20",
+        "DJ-22",
+        "DJ-23",
+        "DJ-24"
+      ],
+      "required_ui": [
+        "UI-12",
+        "UI-13",
+        "UI-14",
+        "UI-15",
+        "UI-16",
+        "UI-17",
+        "UI-18",
+        "UI-19",
+        "UI-20",
+        "UI-21",
+        "UI-29",
+        "UI-30",
+        "UI-31",
+        "UI-32",
+        "UI-34"
+      ],
+      "entry_gate": "RT-1 CodingAgent MVP is accepted without weakening Core authority, review or rollback",
+      "exit_gate": "isolated Agent teams, external continuity, governed knowledge, Armor, evolution and immune recovery pass combined failure and rollback scenarios",
+      "non_claims": [
+        "no general availability claim",
+        "no unrestricted marketplace claim",
+        "no autonomous Core self-modification claim"
+      ]
+    },
+    {
+      "id": "RT-3",
+      "name": "enterprise-production-candidate",
+      "label": "production candidate",
+      "segments": ["S35", "S36", "S37", "S38"],
+      "distribution": "bounded enterprise rollout",
+      "required_journeys": ["DJ-10", "DJ-11", "DJ-12", "DJ-13", "DJ-17", "DJ-21"],
+      "required_ui": ["UI-22", "UI-23", "UI-24", "UI-27", "UI-33", "UI-35"],
+      "entry_gate": "RT-2 beta evidence, rollback and incident findings are accepted for the candidate scope",
+      "exit_gate": "signed artifacts on the supported platform matrix satisfy enterprise isolation, SLO, security, accessibility, recovery and fixed design-partner acceptance on one reviewed SHA",
+      "non_claims": [
+        "no global rollout before production review",
+        "no server-readable private knowledge without separate consent",
+        "no remote or computer authority beyond the executing device Realm"
+      ]
+    }
+  ]
+}

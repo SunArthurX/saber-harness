@@ -7,6 +7,7 @@
     {
       "id": "S26",
       "name": "codeoss-bootstrap",
+      "release_train": "RT-0",
       "duration_days": [10, 15],
       "risk": "high",
       "depends_on": ["S25"],
@@ -28,6 +29,7 @@
     {
       "id": "S27",
       "name": "core-supervision-transport",
+      "release_train": "RT-0",
       "duration_days": [8, 12],
       "risk": "critical",
       "depends_on": ["S26"],
@@ -57,6 +59,7 @@
     {
       "id": "S28",
       "name": "desktop-workbench-shell",
+      "release_train": "RT-0",
       "duration_days": [10, 15],
       "risk": "high",
       "depends_on": ["S27"],
@@ -82,6 +85,7 @@
     {
       "id": "S29",
       "name": "conversation-context",
+      "release_train": "RT-0",
       "duration_days": [10, 15],
       "risk": "high",
       "depends_on": ["S28"],
@@ -107,6 +111,7 @@
     {
       "id": "S30",
       "name": "governed-agent-run",
+      "release_train": "RT-1",
       "duration_days": [10, 15],
       "risk": "critical",
       "depends_on": ["S29"],
@@ -146,6 +151,7 @@
     {
       "id": "S31",
       "name": "changes-evidence-review",
+      "release_train": "RT-1",
       "duration_days": [10, 15],
       "risk": "critical",
       "depends_on": ["S30"],
@@ -171,6 +177,7 @@
     {
       "id": "S32",
       "name": "multiagent-worktree",
+      "release_train": "RT-2",
       "duration_days": [10, 15],
       "risk": "critical",
       "depends_on": ["S31"],
@@ -202,6 +209,7 @@
     {
       "id": "S33",
       "name": "continuity-knowledge",
+      "release_train": "RT-2",
       "duration_days": [12, 15],
       "risk": "critical",
       "depends_on": ["S32"],
@@ -237,6 +245,7 @@
     {
       "id": "S34",
       "name": "armor-evolution-health",
+      "release_train": "RT-2",
       "duration_days": [12, 15],
       "risk": "critical",
       "depends_on": ["S33"],
@@ -266,6 +275,7 @@
     {
       "id": "S35",
       "name": "enterprise-desktop",
+      "release_train": "RT-3",
       "duration_days": [12, 15],
       "risk": "critical",
       "depends_on": ["S34"],
@@ -295,6 +305,7 @@
     {
       "id": "S36",
       "name": "packaging-update",
+      "release_train": "RT-3",
       "duration_days": [10, 15],
       "risk": "critical",
       "depends_on": ["S35"],
@@ -320,6 +331,7 @@
     {
       "id": "S37",
       "name": "quality-security-gate",
+      "release_train": "RT-3",
       "duration_days": [12, 15],
       "risk": "critical",
       "depends_on": ["S36"],
@@ -353,6 +365,7 @@
     {
       "id": "S38",
       "name": "design-partner-production",
+      "release_train": "RT-3",
       "duration_days": [20, 30],
       "risk": "critical",
       "depends_on": ["S37"],

@@ -91,9 +91,15 @@
       "command": "GitHub Repository Verification runs 33152873608 and 33152875838 plus Monorepo CI runs 33152873714 and 33152875817 on ed0ca1ab9bca7967f899066f80e937d663b35612",
       "exit_code": 0,
       "result": "push and pull-request Repository Verification, both dependency audits, and macOS, Windows and Linux jobs all succeeded; PR #69 reports 10 successful checks, no pending or failing checks, and mergeStateStatus CLEAN"
+    },
+    {
+      "id": "S25-PRODUCT-OPERATING-MODEL-GATE",
+      "command": "node scripts/verify-s25.mjs && pnpm verify",
+      "exit_code": 0,
+      "result": "1542 focused checks plus the full repository gate passed: the canonical product objects and lifecycle contracts, RT-0 through RT-3 release cut lines, RT-1 MVP definition, WBS/runbook release symmetry and evidence-bearing release claims are present and internally consistent; S26 implementation remains unstarted"
     }
   ],
   "known_blockers": [],
   "pending": ["protected_pr_merge"],
-  "last_verified_at": "2026-08-28T07:52:39Z"
+  "last_verified_at": "2026-08-28T11:47:41Z"
 }

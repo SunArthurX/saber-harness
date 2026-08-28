@@ -2,6 +2,8 @@
 
 Status: planned
 
+Release train: RT-3 Enterprise Production Candidate
+
 Duration: 12-15 working days
 
 Owners: Enterprise Platform Lead (A), Identity/Policy/Security Engineers (R),

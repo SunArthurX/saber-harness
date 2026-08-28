@@ -1,6 +1,6 @@
 # Saber Studio 桌面 CodingAgent 工作台企业级实施计划
 
-版本：2.1
+版本：2.2
 
 日期：2026-08-28
 
@@ -41,10 +41,16 @@ CodingAgent 工作台。它不是 Web 监督台套壳，也不是“聊天框加
   工作包、失败状态、安全边界、验证命令、Exit Gate、证据和交接要求；
 - [`desktop-workbench-wbs.json`](desktop/desktop-workbench-wbs.json) 中 78 个带唯一
   ID、Owner、产物和依赖关系的机器可读工作包；
-- [`UX-SCREEN-INVENTORY.md`](desktop/UX-SCREEN-INVENTORY.md) 中 UI-01 至 UI-24
+- [`UX-SCREEN-INVENTORY.md`](desktop/UX-SCREEN-INVENTORY.md) 中 UI-01 至 UI-35
   的桌面界面、空态、加载态、失败态、键盘和无障碍契约；
 - [`ACCEPTANCE-AND-TRACEABILITY.md`](desktop/ACCEPTANCE-AND-TRACEABILITY.md) 中
-  DJ-01 至 DJ-13 的端到端旅程、非功能门槛与证据强度；
+  DJ-01 至 DJ-24 的端到端旅程、非功能门槛与证据强度；
+- [`DESKTOP-PRODUCT-OPERATING-MODEL.md`](desktop/DESKTOP-PRODUCT-OPERATING-MODEL.md)
+  冻结 Workspace、Goal、Task、Conversation、Run、Realm、Evidence、Memory、
+  Capability 与 Incident 等产品对象、生命周期、所有权和恢复语义；
+- [`desktop-product-release-trains.json`](desktop/desktop-product-release-trains.json)
+  冻结 RT-0 工程预览、RT-1 首个 CodingAgent MVP、RT-2 协作连续性 Beta 和
+  RT-3 企业生产候选的范围、分发对象、进入与退出 Gate；
 - 跨平台安装更新矩阵、团队 RACI、真实仓库评测与设计伙伴放量计划；
 - [`NEXT-MODEL-S26.md`](desktop/NEXT-MODEL-S26.md) 作为完成 S25 后可直接交给
   下一模型的启动说明。
@@ -55,6 +61,11 @@ CodingAgent 工作台。它不是 Web 监督台套壳，也不是“聊天框加
 
 S25 只交付可验证的桌面产品基线与执行计划，不交付或声称交付 S26 代码。
 S26 必须在 S25 受保护合并后单独开段实施。
+
+产品里程碑不得由外观替代：S26-S29 的 RT-0 只能称为工程预览；完成 S31、
+跑通真实仓库的受治理执行、Diff、测试、Evidence 与回滚之后，RT-1 才能称为
+首个桌面 CodingAgent MVP。多 Agent、跨 Agent 连续性、自我进化和企业生产
+能力分别属于 RT-2 与 RT-3，不能提前宣传为已交付。
 
 ### 1.2 竞品能力校准后的产品原则
 

@@ -2,6 +2,8 @@
 
 Status: planned
 
+Release train: RT-2 Collaborative Continuity Beta
+
 Duration: 12-15 working days
 
 Owners: Capability/Evolution Lead (A), Plugin/Eval/Reliability Engineers (R),

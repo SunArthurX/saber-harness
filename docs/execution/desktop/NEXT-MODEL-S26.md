@@ -7,6 +7,11 @@ Before implementation, also read `COMPETITIVE-CAPABILITY-RESEARCH.md` and
 and future UX, but they do not authorize implementing later-Segment behavior in
 S26.
 
+Read `DESKTOP-PRODUCT-OPERATING-MODEL.md` and
+`desktop-product-release-trains.json`. S26 belongs to RT-0, which is an
+engineering preview rather than the CodingAgent MVP. Do not invent alternate
+Workspace/Goal/Task/Run/Realm identities in the shell or claim RT-1 behavior.
+
 ## Authority and stop rule
 
 Repository state outranks this file. Read `AGENTS.md`, `STATE.yaml`, `HANDOFF.md`
@@ -48,6 +53,8 @@ Before modifying the product shell, produce and review:
 7. Exact S26 smoke journey and negative tests.
 8. A shell capability map proving future Pane Layout, Preview, Adapter and Task
    surfaces can be contributed without forking Core authority.
+9. An object-identity projection note showing how the shell displays
+   Workspace/Goal/Task/Run/Realm without becoming their authority.
 
 Do not invent a production signing identity, update URL, telemetry endpoint,
 extension marketplace entitlement or Saber legal entity.

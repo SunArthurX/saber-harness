@@ -26,6 +26,8 @@ const requiredFiles = [
   "docs/execution/desktop/NEXT-MODEL-S26.md",
   "docs/execution/desktop/COMPETITIVE-CAPABILITY-RESEARCH.md",
   "docs/execution/desktop/competitive-capability-map.json",
+  "docs/execution/desktop/DESKTOP-PRODUCT-OPERATING-MODEL.md",
+  "docs/execution/desktop/desktop-product-release-trains.json",
 ];
 
 for (const file of requiredFiles) {
@@ -60,6 +62,8 @@ for (const contract of [
   "S25 只交付可验证的桌面产品基线与执行计划",
   "### 1.2 竞品能力校准后的产品原则",
   "一个受治理的身体、可替换的大脑",
+  "RT-0 只能称为工程预览",
+  "RT-1 才能称为",
 ]) {
   check(plan.includes(contract), "enterprise-plan-contract", contract);
 }
@@ -117,6 +121,8 @@ for (const contract of [
   "NEXT-MODEL-S26.md",
   "COMPETITIVE-CAPABILITY-RESEARCH.md",
   "competitive-capability-map.json",
+  "DESKTOP-PRODUCT-OPERATING-MODEL.md",
+  "desktop-product-release-trains.json",
 ]) {
   check(executionIndex.includes(contract), "desktop-execution-index", contract);
 }
@@ -196,6 +202,14 @@ for (const [segment, file] of runbooks) {
     check(runbook.includes(contract), "desktop-runbook-contract", `${segment}: ${contract}`);
   }
   check(runbook.includes("## Competitive-derived requirements"), "desktop-runbook-competitive-section", segment);
+  const segmentNumber = Number(segment.slice(1));
+  const expectedReleaseTrain =
+    segmentNumber <= 29 ? "RT-0" : segmentNumber <= 31 ? "RT-1" : segmentNumber <= 34 ? "RT-2" : "RT-3";
+  check(
+    runbook.includes(`Release train: ${expectedReleaseTrain}`),
+    "desktop-runbook-release-train",
+    `${segment}: ${expectedReleaseTrain}`,
+  );
   check(runbook.toLowerCase().includes("verification"), "desktop-runbook-contract", `${segment}: verification`);
   for (let workPackage = 1; workPackage <= 6; workPackage += 1) {
     const id = `${segment}-WP${String(workPackage).padStart(2, "0")}`;
@@ -253,12 +267,104 @@ if (existsSync(join(root, wbsPath))) {
 }
 
 const acceptance = text(`${desktopDirectory}/ACCEPTANCE-AND-TRACEABILITY.md`);
+const screenInventory = text(`${desktopDirectory}/UX-SCREEN-INVENTORY.md`);
 check(acceptance.includes("DJ-01"), "desktop-acceptance-first-journey", "DJ-01");
 check(acceptance.includes("DJ-13"), "desktop-acceptance-last-journey", "DJ-13");
 check(acceptance.includes("DJ-24"), "desktop-acceptance-competitive-last-journey", "DJ-24");
 check(acceptance.includes("## DJ-03 canonical fixture"), "desktop-acceptance-canonical-fixture", "DJ-03 fixture");
+check(acceptance.includes("## Release claim gates"), "desktop-release-claim-gates", "release claims");
 
-const screenInventory = text(`${desktopDirectory}/UX-SCREEN-INVENTORY.md`);
+const operatingModel = text(`${desktopDirectory}/DESKTOP-PRODUCT-OPERATING-MODEL.md`);
+for (const contract of [
+  "## Canonical product objects",
+  "## Ownership and projection rules",
+  "## Lifecycle contracts",
+  "## Navigation and command grammar",
+  "## Release cut lines",
+  "### MVP cut line",
+  "## Recovery decision table",
+  "## Product telemetry and privacy contract",
+  "RT-0 Foundation Preview",
+  "RT-1 Governed Coding Alpha",
+  "first desktop CodingAgent MVP",
+]) {
+  check(operatingModel.includes(contract), "desktop-product-operating-model", contract);
+}
+for (const object of [
+  "Workspace",
+  "Goal",
+  "Task",
+  "Conversation",
+  "Plan",
+  "Run",
+  "Realm",
+  "Worktree",
+  "Context Receipt",
+  "Approval",
+  "Change Set",
+  "Evidence",
+  "Memory",
+  "Capability",
+  "Evolution Candidate",
+  "Incident",
+]) {
+  check(operatingModel.includes(`| ${object} |`), "desktop-canonical-product-object", object);
+}
+
+const releaseTrainPath = `${desktopDirectory}/desktop-product-release-trains.json`;
+let releaseTrains;
+try {
+  releaseTrains = JSON.parse(text(releaseTrainPath));
+  check(true, "desktop-release-train-json", "valid JSON");
+} catch (error) {
+  check(false, "desktop-release-train-json", error.message);
+}
+if (releaseTrains) {
+  check(releaseTrains.schema_version === 1, "desktop-release-train-schema", "schema_version 1");
+  check(releaseTrains.mvp_release_train === "RT-1", "desktop-mvp-release-train", releaseTrains.mvp_release_train);
+  check(releaseTrains.release_trains.length === 4, "desktop-release-train-count", releaseTrains.release_trains.length);
+  const expectedSegments = Array.from({ length: 13 }, (_, index) => `S${26 + index}`);
+  const actualSegments = [];
+  for (const [index, train] of releaseTrains.release_trains.entries()) {
+    const expectedId = `RT-${index}`;
+    check(train.id === expectedId, "desktop-release-train-order", `${train.id}: ${index}`);
+    check(Boolean(train.name && train.label && train.distribution), "desktop-release-train-identity", train.id);
+    check(Boolean(train.entry_gate && train.exit_gate), "desktop-release-train-gates", train.id);
+    check(train.segments.length > 0, "desktop-release-train-segments", train.id);
+    check(train.required_journeys.length > 0, "desktop-release-train-journeys", train.id);
+    check(train.required_ui.length > 0, "desktop-release-train-ui", train.id);
+    check(train.non_claims.length > 0, "desktop-release-train-non-claims", train.id);
+    actualSegments.push(...train.segments);
+    const releaseWbs = JSON.parse(text(wbsPath));
+    for (const segmentId of train.segments) {
+      check(
+        releaseWbs.segments.find((segment) => segment.id === segmentId)?.release_train === train.id,
+        "desktop-release-train-wbs-symmetry",
+        `${train.id}: ${segmentId}`,
+      );
+    }
+    for (const journey of train.required_journeys) {
+      check(
+        /^DJ-(?:0[1-9]|1[0-9]|2[0-4])$/.test(journey) && acceptance.includes(journey),
+        "desktop-release-train-journey-id",
+        `${train.id}: ${journey}`,
+      );
+    }
+    for (const ui of train.required_ui) {
+      check(
+        /^UI-(?:0[1-9]|[12][0-9]|3[0-5])$/.test(ui) && screenInventory.includes(ui),
+        "desktop-release-train-ui-id",
+        `${train.id}: ${ui}`,
+      );
+    }
+  }
+  check(
+    JSON.stringify(actualSegments) === JSON.stringify(expectedSegments),
+    "desktop-release-train-segment-coverage",
+    actualSegments.join(","),
+  );
+}
+
 check(screenInventory.includes("UI-01"), "desktop-screen-first", "UI-01");
 check(screenInventory.includes("UI-24"), "desktop-screen-last", "UI-24");
 check(screenInventory.includes("UI-35"), "desktop-screen-competitive-last", "UI-35");
@@ -288,6 +394,9 @@ for (const contract of [
   "upstream.lock.json",
   "## Mandatory handoff",
   "COMPETITIVE-CAPABILITY-RESEARCH.md",
+  "DESKTOP-PRODUCT-OPERATING-MODEL.md",
+  "desktop-product-release-trains.json",
+  "engineering preview rather than the CodingAgent MVP",
 ]) {
   check(nextModel.includes(contract), "desktop-next-model-contract", contract);
 }

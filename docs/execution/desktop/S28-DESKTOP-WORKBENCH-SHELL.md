@@ -2,6 +2,8 @@
 
 Status: planned
 
+Release train: RT-0 Foundation Preview — engineering preview, not MVP
+
 Duration: 10-15 working days
 
 Owners: Product/UX Lead (A), Extension and Editor Engineers (R), Accessibility

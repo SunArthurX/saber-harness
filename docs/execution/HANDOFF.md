@@ -44,7 +44,17 @@ console is an optional supervisor surface, not the desktop implementation.
   automations, remote Realms and governed Memory-to-Code evolution.
 - Added competitor-derived requirements to every S26-S38 runbook and WBS
   Segment while keeping future implementation outside S25 scope.
-- Expanded the S25 verifier from 41 to 1386 checks so the execution pack cannot
+- Added `DESKTOP-PRODUCT-OPERATING-MODEL.md` to freeze 16 canonical product
+  objects, Core/projection ownership, Goal/Task/Run/Approval/Evidence/knowledge/
+  health lifecycles, navigation identity, recovery and telemetry semantics.
+- Added four machine-readable release trains and mirrored them into every WBS
+  Segment and runbook: RT-0 is explicitly an engineering preview, RT-1 after
+  S31 is the first real CodingAgent MVP, RT-2 is local-first continuity/team
+  Beta and RT-3 is the enterprise production candidate.
+- Added evidence-bearing release claim Gates so a shell, screenshot, Web
+  Supervisor, transcript or mixed-SHA result cannot be renamed into a higher
+  product milestone.
+- Expanded the S25 verifier from 41 to 1542 checks so the execution pack cannot
   silently lose a Segment, work package, owner, Gate or cross-cutting control.
 - Corrected ADR-028's trailing blank line after the PR merge-ref whitespace gate
   exposed it; the execution Definition of Done now checks the whole base diff.
@@ -63,9 +73,9 @@ console is an optional supervisor surface, not the desktop implementation.
 
 ## Local evidence
 
-- `node scripts/verify-s25.mjs`: 1386 checks passed for the product baseline,
+- `node scripts/verify-s25.mjs`: 1542 checks passed for the product baseline,
   detailed execution pack, 31-item competitive capability map and bidirectional
-  capability/Segment/runbook traceability.
+  capability/Segment/runbook plus release-train/WBS traceability.
 - `pnpm verify`: passed after correcting only new-file formatting; existing
   non-blocking Biome warnings remain unchanged.
 - TypeScript build/typecheck, 22 package tests, license gate, S00-S25 verifiers
