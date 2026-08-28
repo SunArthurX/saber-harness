@@ -107,19 +107,20 @@ jobs:
             tar -czf "$name" "$directory"
             echo "packaged $directory -> $name"
           done
-          found=0
+          digests="$(pwd)/digests.txt"
+          : > "$digests"
           for artifact in saber-studio-dev-*.tar.gz *.zip; do
-            found=1
             if command -v sha256sum >/dev/null 2>&1; then
-              sha256sum "$artifact"
+              sha256sum "$artifact" >> "$digests"
             else
-              shasum -a 256 "$artifact"
+              shasum -a 256 "$artifact" >> "$digests"
             fi
-          done | tee -a "$GITHUB_STEP_SUMMARY"
-          if [ "$found" -ne 1 ]; then
+          done
+          if [ ! -s "$digests" ]; then
             echo "no packaged development artifact found" >&2
             exit 1
           fi
+          cat "$digests" | tee -a "$GITHUB_STEP_SUMMARY"
 
       - name: Upload the packaged development artifact
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
