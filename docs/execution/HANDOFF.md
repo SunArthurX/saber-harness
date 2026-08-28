@@ -90,38 +90,65 @@ verified by re-extracting the worktree, re-passing reverse-apply, and
 re-running a full-repo `biome check --write` without damage. The cache is
 disposable and was regenerated from the digest-verified archive.
 
+## Hosted three-platform evidence (run 33201038521, head 6ad3acc)
+
+All three jobs — `macos-14` (arm64), `ubuntu-24.04` (x64), `windows-latest`
+(x64) — succeeded end to end: digest-verified fetch (`f5a0bd67…`), patch
+apply/reverse, 14-check static smoke, pinned-toolchain (Node 24.18.0)
+`npm install` and compile, runtime launch smoke (the branded app booted,
+stayed healthy for 45 seconds and terminated on the smoke's signal — the
+Linux orphan list literally showed the `saber-studio` process), platform
+packaging of the branded application, digest and upload:
+
+| Artifact | SHA-256 | Size |
+|---|---|---|
+| saber-studio-dev-vscode-darwin-arm64.tar.gz | `f454906bf43cd9ee40787d369f858f30e3a5214cedbb27491641ceec60976759` | 320,053,204 B |
+| saber-studio-dev-vscode-linux-x64.tar.gz | `9e0ff2f83e2b0d7da069d5866b60c942aedb4b91560f831eeecc05c3d8796831` | 344,138,889 B |
+| saber-studio-dev-vscode-win32-x64.tar.gz | `e74eb94e0882962af6eb9911e07c7a3114dac2782710baeadd86b17b5638707f` | 352,020,709 B |
+
+Unsigned development builds only (RT-0 engineering preview); no production
+signing, update feed or marketplace claim.
+
+CI lessons fixed along the way (each verified by the following run):
+missing cache dir before download; `npm.cmd` needs a shell on Windows;
+upstream built-in-extension sync needs the job `GITHUB_TOKEN` (anonymous
+runners are rate-limited); Linux needs `libkrb5-dev libx11-dev
+libxkbfile-dev libsecret-1-dev` + xvfb + `ELECTRON_DISABLE_SANDBOX=1`
+(Ubuntu 24.04 restricts unprivileged user namespaces — Chromium's own OS
+sandbox, unrelated to the Rust Core authority); the single-instance socket
+needs a short `--user-data-dir` (macOS 103-char limit); win32 packaging
+spawns `signtool.exe` (locate the SDK binary and put it on PATH); the dev
+main opens a window instead of serving `--version`, so the smoke asserts
+boot + 45 s health + controlled termination with bounded timeouts; killed
+children leave Electron grandchildren holding the stdout pipe, so teardown
+kills the direct child and its process group and destroys the pipes; and
+the digest step must not set its found-flag inside a pipeline subshell.
+
 ## What is NOT done (honest pending)
 
-- `pnpm desktop:build --full`: **attempted and blocked locally**. The pinned
-  toolchain (Node 24.18.0 / npm 11.16.0) ran `npm install` inside the
-  patched worktree; native module `native-keymap` 3.3.9 fails with
-  `fatal error: 'source_location' file not found` — this machine's Xcode
-  14.3.1 / Apple clang 14 predates the libc++ that Node 24's V8 headers
-  require. Upgrading local Xcode needs explicit user authorization
-  (large system change); per the engineering discipline the build evidence
-  moves to the hosted matrix (GitHub macOS runners ship Xcode 15+).
-- The upstream `npm install` did not complete; no partial install is
-  counted as success and the disposable worktree can be re-extracted.
-- Three-platform development artifacts (macOS arm64/x64, Windows x64,
-  Linux x64) and their digests/license notice output do not exist yet.
-- Runtime launch smoke on packaged builds has not run.
 - Patch 0002 (Desktop Agent Workbench as the default startup view) is
-  designed, deliberately unwritten until the build baseline exists.
-- Hosted build matrix wiring, protected merge and the `s26-complete` tag
-  are pending. PR #71 stays open as the living S26 review (S25 pattern).
+  designed, deliberately unwritten. It is the last product Exit-Gate item;
+  after it lands, the smoke must assert the default route.
+- A formal Saber-side license/notice emission step for each artifact (the
+  packaged app ships upstream `LICENSE.txt` and `ThirdPartyNotices.txt`;
+  a Saber notice manifest is still to be generated and digested).
+- The full hosted PR check set (repository-verification, monorepo
+  three-platform, dependency-audit) on the final branch head, then
+  protected merge and the `s26-complete` tag.
+- Local full Electron build remains blocked by this machine's Xcode
+  14.3.1 (native-keymap fails on `<source_location>`); hosted runners
+  with Xcode 15+ carried the evidence instead. A local Xcode upgrade
+  would need explicit user authorization.
 
 ## Next exact commands
 
 ```sh
 # 0. PR #71 remains the open S26 review branch — continue pushing to it
-# 1. preferred: wire the hosted three-platform build matrix (GitHub macOS
-#    runners carry Xcode 15+; verify Windows VS Build Tools and Ubuntu
-#    toolchains there), producing dev artifacts + digests + license output
-# 2. alternative with explicit user authorization: upgrade local Xcode to
-#    15+ and retry the local build:
-SABER_DESKTOP_NODE=$PWD/apps/desktop-codeoss/.cache/node/node-v24.18.0-darwin-arm64/bin/node \
-  pnpm desktop:build --full
-# 3. then runtime launch smoke and patch 0002 (default workbench view)
+# 1. write patches/0002-workbench-default-route.patch + its smoke assertion
+# 2. rerun the hosted matrix (concurrency cancels the superseded run):
+git push origin segment/S26-codeoss-bootstrap
+# 3. after the matrix is green with the default route asserted: final-hosted
+#    checks, completion record, protected merge, then s26-complete
 ```
 
 ## Stop rule

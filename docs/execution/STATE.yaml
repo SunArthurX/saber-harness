@@ -125,6 +125,7 @@ acceptance:
     - hosted_branch_ci
     - three_platform_dev_packages
     - runtime_platform_smoke
+    - default_workbench_route_patch
     - protected_pr_merge
   passed:
     - s25_tagged_base
@@ -138,13 +139,14 @@ acceptance:
     - negative_supplychain_tests
     - toolchain_fail_closed
     - s26_verifier
+    - three_platform_dev_packages
+    - runtime_platform_smoke
   failed: []
   pending:
     - full_local_verification
     - verified_segment_push
     - hosted_branch_ci
-    - three_platform_dev_packages
-    - runtime_platform_smoke
+    - default_workbench_route_patch
     - protected_pr_merge
 evidence:
   file: docs/execution/EVIDENCE.json
@@ -176,5 +178,5 @@ decisions:
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
 blockers: []
 next_action:
-  command: wire the hosted three-platform build matrix (GitHub macOS runners carry Xcode 15+) to run the pinned-toolchain upstream build, emit development artifacts with digests and license output, and run the runtime launch smoke; alternatively upgrade local Xcode with explicit user authorization and retry pnpm desktop:build --full
-  description: S26 in progress on open PR #71 (all hosted checks green on the latest head). Proven locally: pinned upstream 1.135.0 at 08d4889f with archive sha256 f5a0bd67 verified online and offline, atomic commit-addressed cache, reversible patch 0001-product-identity, built-in saber-agent skeleton (native-only contributions), 14-check static smoke, 6/6 negative tests, fail-closed toolchain preflight, verify-s26 55 checks, full pnpm verify. Blocked locally with evidence: npm install fails at native-keymap because Xcode 14.3.1/clang 14 predates the libc++ required by Node 24 V8 headers ('source_location' not found) — the Electron build moves to hosted runners or an authorized Xcode upgrade. S27 is not started
+  command: write patch 0002 making the Desktop Agent Workbench the default startup view, extend smoke to assert it, rerun the three-platform matrix, then update records, push PR #71 through hosted checks and protected merge, and tag s26-complete only when the Exit Gate fully holds
+  description: S26 in progress on PR #71. Desktop Build run 33201038521 succeeded on all three platforms at head 6ad3acc: pinned upstream fetch/verify, patch apply/reverse, static smoke, pinned-toolchain install+compile, runtime launch smoke (boot, 45s healthy survival, controlled termination) and packaging of the branded Saber Studio dev builds with digests (darwin-arm64 f454906b..., linux-x64 9e0ff2f8..., win32-x64 e74eb94e..., uploaded as unsigned development artifacts). Remaining honestly: patch 0002 default workbench route + its smoke assertion, formal Saber license-notice emission, final-head hosted PR checks and protected merge; S27 is not started

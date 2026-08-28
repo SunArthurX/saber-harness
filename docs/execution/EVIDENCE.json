@@ -105,15 +105,21 @@
       "command": "git push -u origin segment/S26-codeoss-bootstrap",
       "exit_code": 0,
       "result": "branch pushed; PR #71 hosted checks: repository-verification, monorepo ubuntu/macos/windows and dependency-audit all succeeded on the latest head after the whitespace-contract carve-out for embedded upstream patch bytes"
+    },
+    {
+      "id": "S26-HOSTED-THREE-PLATFORM-BUILD",
+      "command": "GitHub Desktop Build run 33201038521 (macos-14 arm64, ubuntu-24.04 x64, windows-latest x64) at branch head 6ad3acc",
+      "exit_code": 0,
+      "result": "all three jobs succeeded end to end: digest-verified fetch (f5a0bd67...), patch apply/reverse, 14-check static smoke, pinned-toolchain npm install, compile, runtime launch smoke (booted, stayed healthy 45s, terminated on the smoke signal) and platform packaging of the branded Saber Studio app"
+    },
+    {
+      "id": "S26-DEV-ARTIFACTS",
+      "command": "digest + upload of the packaged development artifacts",
+      "exit_code": 0,
+      "result": "saber-studio-dev-vscode-darwin-arm64.tar.gz sha256 f454906bf43cd9ee40787d369f858f30e3a5214cedbb27491641ceec60976759 (320053204 B); saber-studio-dev-vscode-linux-x64.tar.gz sha256 9e0ff2f83e2b0d7da069d5866b60c942aedb4b91560f831eeecc05c3d8796831 (344138889 B); saber-studio-dev-vscode-win32-x64.tar.gz sha256 e74eb94e0882962af6eb9911e07c7a3114dac2782710baeadd86b17b5638707f (352020709 B); uploaded as workflow artifacts of run 33201038521, unsigned development builds only"
     }
   ],
   "known_blockers": [],
-  "pending": [
-    "three_platform_dev_packages",
-    "runtime_platform_smoke",
-    "verified_segment_push",
-    "hosted_branch_ci",
-    "protected_pr_merge"
-  ],
+  "pending": ["default_workbench_route_patch", "hosted_branch_ci", "protected_pr_merge"],
   "last_verified_at": "2026-08-28T14:10:00Z"
 }
