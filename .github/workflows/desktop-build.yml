@@ -1,0 +1,96 @@
+name: Desktop Build
+
+# S26-WP05/WP06 — hosted three-platform build matrix over the pinned
+# upstream. Every step reuses the same reviewed entry points as local
+# development (fetch-upstream, apply-patches, smoke, build stages) so the
+# runner evidence and local evidence cannot diverge. Development artifacts
+# only: digest-recorded, unsigned, no production claim.
+
+on:
+  push:
+    branches: [segment/S26-codeoss-bootstrap]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: ${{ matrix.os }} (${{ matrix.gulp }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-14
+            gulp: vscode-darwin-arm64
+          - os: ubuntu-24.04
+            gulp: vscode-linux-x64
+          - os: windows-latest
+            gulp: vscode-win32-x64
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install the pinned upstream Node toolchain
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "24.18.0"
+
+      - name: Record the active toolchain
+        run: |
+          node --version
+          npm --version
+
+      - name: Fetch and digest-verify the pinned upstream archive
+        run: node apps/desktop-codeoss/scripts/fetch-upstream.mjs
+
+      - name: Extract, patch, prove reversibility, copy the built-in extension
+        run: node apps/desktop-codeoss/scripts/apply-patches.mjs
+
+      - name: Static smoke over the patched tree
+        run: node apps/desktop-codeoss/scripts/smoke.mjs
+
+      - name: Install upstream dependencies (pinned toolchain)
+        run: node apps/desktop-codeoss/scripts/build.mjs --install
+
+      - name: Compile the workbench (pinned toolchain)
+        run: node apps/desktop-codeoss/scripts/build.mjs --compile
+
+      - name: Runtime launch smoke (boot, report pinned release, exit cleanly)
+        run: node apps/desktop-codeoss/scripts/build.mjs --launch-smoke
+
+      - name: Package the development artifact
+        run: node apps/desktop-codeoss/scripts/build.mjs --package
+        env:
+          SABER_DESKTOP_GULP_TASK: ${{ matrix.gulp }}
+
+      - name: Digest the packaged development artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          found=0
+          for artifact in apps/desktop-codeoss/.cache/worktrees/*.zip apps/desktop-codeoss/.cache/worktrees/*.tar.gz; do
+            found=1
+            if command -v sha256sum >/dev/null 2>&1; then
+              sha256sum "$artifact"
+            else
+              shasum -a 256 "$artifact"
+            fi
+          done | tee -a "$GITHUB_STEP_SUMMARY"
+          if [ "$found" -ne 1 ]; then
+            echo "no packaged artifact found in apps/desktop-codeoss/.cache/worktrees" >&2
+            exit 1
+          fi
+
+      - name: Upload the packaged development artifact
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: saber-studio-dev-${{ matrix.gulp }}
+          path: |
+            apps/desktop-codeoss/.cache/worktrees/*.zip
+            apps/desktop-codeoss/.cache/worktrees/*.tar.gz
+          if-no-files-found: error
+          retention-days: 14

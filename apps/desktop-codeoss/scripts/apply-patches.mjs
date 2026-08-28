@@ -10,7 +10,7 @@ import { spawnSync } from "node:child_process";
  * attempt starts from the pristine archive — the cache is never hand-edited
  * to make a patch fit.
  */
-import { cpSync, existsSync, mkdirSync, readFileSync, rmSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readFileSync, renameSync, rmSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -46,7 +46,7 @@ export async function extractWorktree(lock, { desktopRoot = DESKTOP_ROOT } = {})
       throw new Error("archive layout changed: expected vscode-<commit> root directory");
     }
     mkdirSync(worktrees, { recursive: true });
-    run("mv", [extracted, worktree]);
+    renameSync(extracted, worktree);
   } catch (error) {
     rmSync(staging, { force: true, recursive: true });
     rmSync(worktree, { force: true, recursive: true });

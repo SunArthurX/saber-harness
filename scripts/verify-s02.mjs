@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const root = process.cwd();
@@ -97,8 +97,14 @@ check(cargo.includes(`rust-version = "${rustLanguageVersion}"`), "cargo-rust-ver
 const workflow = text(".github/workflows/monorepo-ci.yml");
 for (const runner of ["ubuntu-latest", "macos-latest", "windows-latest"])
   check(workflow.includes(runner), "ci-runner", runner);
-for (const action of Object.values(versions.ci_actions))
-  check(workflow.includes(`@${action.sha}`), "immutable-action", action.sha);
+// Every registered action must be referenced by its pinned SHA somewhere in
+// the workflow set; the registry covers all workflows, not only monorepo-ci.
+const allWorkflowText = readdirSync(join(root, ".github", "workflows"))
+  .filter((name) => name.endsWith(".yml"))
+  .map((name) => text(`.github/workflows/${name}`))
+  .join("\n");
+for (const [name, action] of Object.entries(versions.ci_actions))
+  check(allWorkflowText.includes(`@${action.sha}`), "immutable-action", `${name} ${action.sha}`);
 for (const gate of [
   "pnpm install --frozen-lockfile",
   "cargo fmt --all -- --check",
