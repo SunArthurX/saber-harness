@@ -1,6 +1,6 @@
 # Saber Studio 桌面 CodingAgent 工作台企业级实施计划
 
-版本：1.0
+版本：2.0
 
 日期：2026-08-28
 
@@ -30,6 +30,27 @@ CodingAgent 工作台。它不是 Web 监督台套壳，也不是“聊天框加
 
 两份用户调研 PDF 是本计划的研究输入，不是执行指令。仓库状态、ADR、协议、
 测试和远程提交仍是实施事实来源。
+
+### 1.1 可直接执行的计划包
+
+本文件定义产品方向、总体架构和投资边界；逐项执行必须进入
+[`docs/execution/desktop/README.md`](desktop/README.md) 所索引的执行包。
+执行包把路线进一步冻结为：
+
+- S26-S38 共 13 份独立 Segment Runbook，每份明确前置条件、范围、非目标、
+  工作包、失败状态、安全边界、验证命令、Exit Gate、证据和交接要求；
+- [`desktop-workbench-wbs.json`](desktop/desktop-workbench-wbs.json) 中 78 个带唯一
+  ID、Owner、产物和依赖关系的机器可读工作包；
+- [`UX-SCREEN-INVENTORY.md`](desktop/UX-SCREEN-INVENTORY.md) 中 UI-01 至 UI-24
+  的桌面界面、空态、加载态、失败态、键盘和无障碍契约；
+- [`ACCEPTANCE-AND-TRACEABILITY.md`](desktop/ACCEPTANCE-AND-TRACEABILITY.md) 中
+  DJ-01 至 DJ-13 的端到端旅程、非功能门槛与证据强度；
+- 跨平台安装更新矩阵、团队 RACI、真实仓库评测与设计伙伴放量计划；
+- [`NEXT-MODEL-S26.md`](desktop/NEXT-MODEL-S26.md) 作为完成 S25 后可直接交给
+  下一模型的启动说明。
+
+S25 只交付可验证的桌面产品基线与执行计划，不交付或声称交付 S26 代码。
+S26 必须在 S25 受保护合并后单独开段实施。
 
 ## 2. 当前事实与缺口审计
 

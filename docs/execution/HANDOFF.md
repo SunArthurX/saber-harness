@@ -1,9 +1,9 @@
 # S25 Handoff — Desktop Workbench Baseline
 
-Status: ready for protected review; local, remote and hosted gates pass
+Status: ready for protected review; refined execution pack passes local gates
 Date: 2026-08-28
 Branch: `segment/S25-desktop-workbench-baseline`
-Verified content checkpoint: `a74d09bf05ad0b3213c5f5c377f64fc9826929d0`
+Verified content checkpoint: resolve the latest branch head from Git
 Protected review: <https://github.com/SunArthurX/saber-harness/pull/69>
 Base main: `af85f697a47a94e667536d396066639d2d56578a`
 Predecessor: annotated `s24-complete` resolves to `502dd1db348be7e0c4ab1a6e188275b26027d5dd`
@@ -27,6 +27,16 @@ console is an optional supervisor surface, not the desktop implementation.
   not landed.
 - Added `scripts/verify-s25.mjs` and wired it into local and hosted repository
   verification.
+- Added `docs/execution/desktop/README.md` and 13 S26-S38 Segment runbooks. They
+  define 78 owned work packages with prerequisites, non-goals, failure states,
+  platform cases, verification, Exit Gates, evidence and handoff requirements.
+- Added a machine-readable WBS, 24-screen UX inventory, 13 acceptance journeys,
+  platform/release matrix, team RACI, real-repository evaluation plan and a
+  copy-ready S26 next-model instruction file.
+- Expanded the S25 verifier from 41 to 521 checks so the execution pack cannot
+  silently lose a Segment, work package, owner, Gate or cross-cutting control.
+- Corrected ADR-028's trailing blank line after the PR merge-ref whitespace gate
+  exposed it; the execution Definition of Done now checks the whole base diff.
 
 ## Current truth
 
@@ -34,12 +44,14 @@ console is an optional supervisor surface, not the desktop implementation.
 - `packages/ide-client` contains protocol and replayable headless ViewModels.
 - `apps/desktop-codeoss` is still a placeholder. No packaged desktop app,
   Code-OSS fork or real desktop vertical slice exists yet.
+- No S26 implementation was started while refining this plan.
 - The S00-S24 Core, security and governance evidence remains authoritative for
   those contracts. It is not proof of desktop GUI completion.
 
 ## Local evidence
 
-- `node scripts/verify-s25.mjs`: 41 checks passed.
+- `node scripts/verify-s25.mjs`: 521 checks passed for the original product
+  baseline plus the detailed desktop execution pack.
 - `pnpm verify`: passed after correcting only new-file formatting; existing
   non-blocking Biome warnings remain unchanged.
 - TypeScript build/typecheck, 22 package tests, license gate, S00-S25 verifiers

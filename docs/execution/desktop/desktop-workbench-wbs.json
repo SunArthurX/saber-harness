@@ -1,0 +1,328 @@
+{
+  "schema_version": 1,
+  "program": "Saber Studio Desktop",
+  "primary_surface": "Code-OSS/Electron Desktop Agent Workbench",
+  "authority": "separately supervised Rust Core",
+  "segments": [
+    {
+      "id": "S26",
+      "name": "codeoss-bootstrap",
+      "duration_days": [10, 15],
+      "risk": "high",
+      "depends_on": ["S25"],
+      "tasks": [
+        { "id": "S26-WP01", "owner": "desktop-tech-lead", "output": "accepted upstream and redistribution review" },
+        { "id": "S26-WP02", "owner": "build-engineer", "output": "upstream.lock.json and verified source fetch" },
+        {
+          "id": "S26-WP03",
+          "owner": "desktop-engineer",
+          "output": "minimal product.json and Saber branding patch series"
+        },
+        { "id": "S26-WP04", "owner": "extension-engineer", "output": "built-in Saber Agent extension skeleton" },
+        { "id": "S26-WP05", "owner": "release-engineer", "output": "macOS Windows Linux dev package smoke" },
+        { "id": "S26-WP06", "owner": "sdet", "output": "verify-s26 and clean-machine bootstrap evidence" }
+      ],
+      "exit_gate": "packaged development builds open the Desktop Agent Workbench by default on all three operating systems"
+    },
+    {
+      "id": "S27",
+      "name": "core-supervision-transport",
+      "duration_days": [8, 12],
+      "risk": "critical",
+      "depends_on": ["S26"],
+      "tasks": [
+        {
+          "id": "S27-WP01",
+          "owner": "runtime-architect",
+          "output": "desktop bootstrap and process lifecycle contract"
+        },
+        {
+          "id": "S27-WP02",
+          "owner": "security-engineer",
+          "output": "local socket or named-pipe authentication and ACL"
+        },
+        { "id": "S27-WP03", "owner": "protocol-engineer", "output": "N and N-1 handshake reconnect and backpressure" },
+        { "id": "S27-WP04", "owner": "desktop-engineer", "output": "minimal preload bridge and protocol-only client" },
+        {
+          "id": "S27-WP05",
+          "owner": "reliability-engineer",
+          "output": "renderer extension-host and Core crash matrix"
+        },
+        { "id": "S27-WP06", "owner": "sdet", "output": "adversarial IPC and replay integration suite" }
+      ],
+      "exit_gate": "a real Core Run survives Renderer restart and forged or incompatible local clients fail closed"
+    },
+    {
+      "id": "S28",
+      "name": "desktop-workbench-shell",
+      "duration_days": [10, 15],
+      "risk": "high",
+      "depends_on": ["S27"],
+      "tasks": [
+        { "id": "S28-WP01", "owner": "product-designer", "output": "approved desktop layout and responsive states" },
+        { "id": "S28-WP02", "owner": "extension-engineer", "output": "Project Goal Task and Conversation navigation" },
+        {
+          "id": "S28-WP03",
+          "owner": "editor-engineer",
+          "output": "Editor SCM Diff Terminal Test and Problems integration"
+        },
+        { "id": "S28-WP04", "owner": "frontend-engineer", "output": "Evidence drawer Vital Bar and pane identity" },
+        { "id": "S28-WP05", "owner": "desktop-engineer", "output": "layout persistence and crash-safe restoration" },
+        {
+          "id": "S28-WP06",
+          "owner": "accessibility-engineer",
+          "output": "keyboard screen-reader zoom and contrast baseline"
+        }
+      ],
+      "exit_gate": "a real repository opens in the three-zone workbench with native editor terminal and SCM; no supervisor page is the default"
+    },
+    {
+      "id": "S29",
+      "name": "conversation-context",
+      "duration_days": [10, 15],
+      "risk": "high",
+      "depends_on": ["S28"],
+      "tasks": [
+        {
+          "id": "S29-WP01",
+          "owner": "product-designer",
+          "output": "conversation message and composer state specification"
+        },
+        {
+          "id": "S29-WP02",
+          "owner": "frontend-engineer",
+          "output": "streaming conversation and structured message renderer"
+        },
+        { "id": "S29-WP03", "owner": "context-engineer", "output": "at hash slash dollar and attachment resolvers" },
+        { "id": "S29-WP04", "owner": "security-engineer", "output": "Context Preview Receipt DLP exclude and revoke" },
+        { "id": "S29-WP05", "owner": "model-platform-engineer", "output": "model Realm autonomy and budget selectors" },
+        { "id": "S29-WP06", "owner": "sdet", "output": "redaction provenance and provider-destination test suite" }
+      ],
+      "exit_gate": "every outbound context fragment has visible provenance reason sensitivity destination and effective exclusion or revocation"
+    },
+    {
+      "id": "S30",
+      "name": "governed-agent-run",
+      "duration_days": [10, 15],
+      "risk": "critical",
+      "depends_on": ["S29"],
+      "tasks": [
+        { "id": "S30-WP01", "owner": "agent-architect", "output": "editable Goal Plan Acceptance and Run start flow" },
+        {
+          "id": "S30-WP02",
+          "owner": "runtime-engineer",
+          "output": "Tool and Run event projection with durable cursors"
+        },
+        {
+          "id": "S30-WP03",
+          "owner": "security-engineer",
+          "output": "Approval Queue exact scope TTL deny and narrow flow"
+        },
+        {
+          "id": "S30-WP04",
+          "owner": "agent-architect",
+          "output": "pause steer cancel resume fork and replan semantics"
+        },
+        { "id": "S30-WP05", "owner": "frontend-engineer", "output": "Timeline Plan and running-state desktop UI" },
+        { "id": "S30-WP06", "owner": "sdet", "output": "real repository governed-run vertical acceptance" }
+      ],
+      "exit_gate": "a real task runs through Core with exact approvals and observable events; no effect can originate from Renderer state"
+    },
+    {
+      "id": "S31",
+      "name": "changes-evidence-review",
+      "duration_days": [10, 15],
+      "risk": "critical",
+      "depends_on": ["S30"],
+      "tasks": [
+        { "id": "S31-WP01", "owner": "editor-engineer", "output": "change-set and Hunk Diff projection" },
+        { "id": "S31-WP02", "owner": "frontend-engineer", "output": "review comments accept reject and revise flow" },
+        {
+          "id": "S31-WP03",
+          "owner": "runtime-engineer",
+          "output": "Core-owned apply rollback checkpoint and commit methods"
+        },
+        { "id": "S31-WP04", "owner": "qa-engineer", "output": "test artifact and failure evidence presentation" },
+        {
+          "id": "S31-WP05",
+          "owner": "security-engineer",
+          "output": "boundary Diff and generated-secret canary review"
+        },
+        { "id": "S31-WP06", "owner": "sdet", "output": "independent completion and rollback acceptance suite" }
+      ],
+      "exit_gate": "model text cannot mark completion; accepted changes tests and rollback are independently verifiable from Evidence"
+    },
+    {
+      "id": "S32",
+      "name": "multiagent-worktree",
+      "duration_days": [10, 15],
+      "risk": "critical",
+      "depends_on": ["S31"],
+      "tasks": [
+        { "id": "S32-WP01", "owner": "orchestration-engineer", "output": "Goal DAG and delegation canvas" },
+        { "id": "S32-WP02", "owner": "git-engineer", "output": "per-Task Worktree lifecycle and cleanup" },
+        {
+          "id": "S32-WP03",
+          "owner": "runtime-engineer",
+          "output": "Realm budget capability and cancellation propagation"
+        },
+        { "id": "S32-WP04", "owner": "editor-engineer", "output": "follow Agent queued steer and take-over UX" },
+        { "id": "S32-WP05", "owner": "git-engineer", "output": "conflict detection review and ordered integration" },
+        { "id": "S32-WP06", "owner": "sdet", "output": "parallel fault containment and conflict game day" }
+      ],
+      "exit_gate": "parallel Agents are isolated by Task Worktree Realm and budget, and integration remains reviewable and recoverable"
+    },
+    {
+      "id": "S33",
+      "name": "continuity-knowledge",
+      "duration_days": [12, 15],
+      "risk": "critical",
+      "depends_on": ["S32"],
+      "tasks": [
+        { "id": "S33-WP01", "owner": "data-engineer", "output": "consent-aware conversation Import Wizard" },
+        { "id": "S33-WP02", "owner": "data-engineer", "output": "Raw Canonical Derived and Lineage browser" },
+        { "id": "S33-WP03", "owner": "runtime-engineer", "output": "Resumption Capsule and environment drift UI" },
+        {
+          "id": "S33-WP04",
+          "owner": "retrieval-engineer",
+          "output": "hybrid search Context retrieval and source receipts"
+        },
+        {
+          "id": "S33-WP05",
+          "owner": "knowledge-curator",
+          "output": "Memory ledger conflict TTL revoke forget and scopes"
+        },
+        { "id": "S33-WP06", "owner": "privacy-engineer", "output": "deletion propagation E2EE and data-export tests" }
+      ],
+      "exit_gate": "external conversations can be imported and resumed with recomputable lineage and no untrusted Memory promotion"
+    },
+    {
+      "id": "S34",
+      "name": "armor-evolution-health",
+      "duration_days": [12, 15],
+      "risk": "critical",
+      "depends_on": ["S33"],
+      "tasks": [
+        { "id": "S34-WP01", "owner": "plugin-engineer", "output": "Armor Rack inventory trust and capability cards" },
+        { "id": "S34-WP02", "owner": "evolution-engineer", "output": "candidate intake ranking and media selection" },
+        {
+          "id": "S34-WP03",
+          "owner": "eval-engineer",
+          "output": "baseline eval canary last-known-good and rollback UI"
+        },
+        {
+          "id": "S34-WP04",
+          "owner": "reliability-engineer",
+          "output": "Vital Bar Incident Safe Mode and containment receipts"
+        },
+        {
+          "id": "S34-WP05",
+          "owner": "security-engineer",
+          "output": "code-capsule and plugin isolation adversarial suite"
+        },
+        { "id": "S34-WP06", "owner": "sdet", "output": "contain repair verify and rollback game day" }
+      ],
+      "exit_gate": "external capabilities and internal evolution remain distinguishable, rejectable, isolated, canaried and reversible"
+    },
+    {
+      "id": "S35",
+      "name": "enterprise-desktop",
+      "duration_days": [12, 15],
+      "risk": "critical",
+      "depends_on": ["S34"],
+      "tasks": [
+        { "id": "S35-WP01", "owner": "identity-engineer", "output": "SSO device enrollment and SCIM mapping" },
+        {
+          "id": "S35-WP02",
+          "owner": "policy-engineer",
+          "output": "signed organization policy distribution and conflict UI"
+        },
+        {
+          "id": "S35-WP03",
+          "owner": "security-engineer",
+          "output": "KMS key rotation secret broker and DLP administration"
+        },
+        { "id": "S35-WP04", "owner": "plugin-engineer", "output": "governed model skill MCP and plugin registries" },
+        {
+          "id": "S35-WP05",
+          "owner": "compliance-engineer",
+          "output": "RBAC audit export retention legal hold and break glass"
+        },
+        { "id": "S35-WP06", "owner": "sdet", "output": "tenant isolation role and policy adversarial suite" }
+      ],
+      "exit_gate": "organization controls are enforced by Core with tenant isolation, scoped administration and no unintended plaintext exposure"
+    },
+    {
+      "id": "S36",
+      "name": "packaging-update",
+      "duration_days": [10, 15],
+      "risk": "critical",
+      "depends_on": ["S35"],
+      "tasks": [
+        { "id": "S36-WP01", "owner": "release-engineer", "output": "macOS Windows and Linux signed package pipelines" },
+        {
+          "id": "S36-WP02",
+          "owner": "release-engineer",
+          "output": "signed update metadata channels and rollout rings"
+        },
+        { "id": "S36-WP03", "owner": "data-engineer", "output": "forward and backward data migration fixtures" },
+        {
+          "id": "S36-WP04",
+          "owner": "reliability-engineer",
+          "output": "interrupted install update and rollback recovery"
+        },
+        { "id": "S36-WP05", "owner": "supply-chain-engineer", "output": "SBOM provenance license and offline bundle" },
+        { "id": "S36-WP06", "owner": "sdet", "output": "new install upgrade downgrade-refusal and uninstall matrix" }
+      ],
+      "exit_gate": "signed packages install update migrate recover and roll back safely on supported platforms"
+    },
+    {
+      "id": "S37",
+      "name": "quality-security-gate",
+      "duration_days": [12, 15],
+      "risk": "critical",
+      "depends_on": ["S36"],
+      "tasks": [
+        {
+          "id": "S37-WP01",
+          "owner": "performance-engineer",
+          "output": "cold-start workspace event Diff and memory SLOs"
+        },
+        {
+          "id": "S37-WP02",
+          "owner": "accessibility-engineer",
+          "output": "WCAG keyboard screen-reader contrast and zoom audit"
+        },
+        {
+          "id": "S37-WP03",
+          "owner": "localization-engineer",
+          "output": "Chinese English pseudo-localization and truncation audit"
+        },
+        { "id": "S37-WP04", "owner": "security-engineer", "output": "threat-model red team and secret canary report" },
+        {
+          "id": "S37-WP05",
+          "owner": "reliability-engineer",
+          "output": "crash migration disk network and provider chaos report"
+        },
+        { "id": "S37-WP06", "owner": "release-manager", "output": "deterministic production readiness evaluator" }
+      ],
+      "exit_gate": "all desktop SLO accessibility security recovery privacy and supply-chain requirements pass with no open P0 or P1"
+    },
+    {
+      "id": "S38",
+      "name": "design-partner-production",
+      "duration_days": [20, 30],
+      "risk": "critical",
+      "depends_on": ["S37"],
+      "tasks": [
+        { "id": "S38-WP01", "owner": "product-manager", "output": "design-partner cohort consent and support plan" },
+        { "id": "S38-WP02", "owner": "eval-engineer", "output": "representative repository benchmark and baseline" },
+        { "id": "S38-WP03", "owner": "sdet", "output": "staged alpha beta and release-candidate acceptance" },
+        { "id": "S38-WP04", "owner": "support-lead", "output": "diagnostics runbooks rollback and incident response" },
+        { "id": "S38-WP05", "owner": "privacy-officer", "output": "telemetry privacy retention and deletion review" },
+        { "id": "S38-WP06", "owner": "release-manager", "output": "signed production decision and rollout evidence" }
+      ],
+      "exit_gate": "design-partner evidence meets fixed task reliability trust recovery and security thresholds and the signed production review approves release"
+    }
+  ]
+}

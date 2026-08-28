@@ -1,0 +1,88 @@
+# S34 Runbook — Armor, Evolution and Health
+
+Status: planned
+
+Duration: 12-15 working days
+
+Owners: Capability/Evolution Lead (A), Plugin/Eval/Reliability Engineers (R),
+Security Engineer and SDET (R)
+
+Risk: critical
+
+## Outcome
+
+Users can distinguish external Armor from internal capability growth, review
+every candidate's evidence and permission delta, canary or reject it and recover
+to a last-known-good state. Health mechanisms contain faults before asking the
+Agent brain for advice.
+
+## Work packages
+
+### S34-WP01 — Armor Rack
+
+- Unified cards for model, external Agent, MCP, plugin, browser and Realm.
+- Show publisher, source digest, signer, version, runtime location, data scope,
+  capabilities, secrets, egress, health, cost and uninstall impact.
+- Install/update/enable grants no capability beyond reviewed Manifest.
+- Revocation immediately removes authorization and marks dependent workflows.
+
+### S34-WP02 — Evolution candidate intake
+
+- Candidate sources: feedback, repeated correction, failed task, accepted
+  workflow and benchmark opportunity.
+- Select medium deliberately: Memory, rule, workflow, Skill, strategy, isolated
+  Code Capsule or protected Core proposal.
+- Show expected benefit, affected scopes, new permissions, training/eval data,
+  owner, expiry and rollback.
+- Duplicate, conflicting and source-poisoned candidates are blocked or grouped.
+
+### S34-WP03 — Eval, canary and rollback
+
+- Freeze baseline task set and last-known-good version.
+- Candidate runs in isolated evaluation Realm with no production secret.
+- Compare success, regression, safety, latency, cost and human correction.
+- Canary has explicit cohort, duration, stop thresholds and owner.
+- Rollback is available from UI and Core even if the candidate crashes.
+
+### S34-WP04 — Vital Bar and Incident UX
+
+- Signals: Core/provider/plugin crash loop, sandbox denial, secret/egress alarm,
+  storage integrity, sync failure, update failure, budget and degraded model.
+- Severity H0-H4 with detect, contain, repair, verify and escalate timestamps.
+- Low severity is quiet; serious events display impact, automatic action,
+  remaining risk and user choices.
+- Support Bundle is metadata/redaction first and user-reviewed before export.
+
+### S34-WP05 — Immune controls
+
+- Supervisor can stop, quarantine, revoke, isolate, roll back and enter Safe Mode
+  without model approval.
+- Agent cannot suppress health events, edit their audit history or exit Safe
+  Mode.
+- Bound retry/circuit breaker to prevent inflammatory crash loops.
+- External medicine means explicit human/admin/vendor authority with evidence.
+
+### S34-WP06 — Game day
+
+Inject plugin crash loop, poisoned candidate, sandbox escape signal, provider
+misroute, corrupt index and bad update candidate. Prove bounded containment,
+last-known-good recovery, preserved evidence and correct user escalation.
+
+## Verification
+
+```sh
+node scripts/verify-s34.mjs
+pnpm desktop:test:armor-rack
+pnpm desktop:test:evolution-workshop
+pnpm desktop:test:health-incidents
+pnpm desktop:test:game-day
+pnpm verify
+git diff --check origin/main...HEAD
+```
+
+## Exit Gate
+
+- Armor and internal evolution are visually and structurally distinct.
+- No candidate bypasses review, eval, canary or rollback requirements.
+- Supervisor containment outranks Agent action.
+- Game-day failures preserve evidence and return to last-known-good or Safe Mode.

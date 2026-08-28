@@ -103,4 +103,3 @@ ADR-013.
   protocol and trusted Core.
 - macOS, Windows and Linux packages pass signing, update, rollback, license,
   accessibility and smoke-test gates before production release.
-
