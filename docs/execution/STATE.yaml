@@ -166,4 +166,4 @@ decisions:
 blockers: []
 next_action:
   command: wait for the two hosted push workflows on 317ee1baa4d7a1f3c83ca3200c50537b40c59d03, then open and merge a protected-main PR before starting S26
-  description: desktop-primary ADR, S25-S38 plan and focused verifier pass locally; branch push SHA is verified, hosted Monorepo CI is queued and Repository Verification is running; desktop implementation deliberately remains unclaimed
+  description: desktop-primary ADR, S25-S38 plan and focused verifier pass locally; branch push is verified; Repository Verification passed, while the first Monorepo CI attempt rejected non-canonical EVIDENCE.json formatting and requires a corrected retry; desktop implementation deliberately remains unclaimed

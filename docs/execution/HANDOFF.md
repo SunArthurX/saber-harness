@@ -50,6 +50,10 @@ console is an optional supervisor surface, not the desktop implementation.
   resolve the latest continuity-only head directly from Git.
 - GitHub push workflows were queued/running at the checkpoint; they are not yet
   completion evidence.
+- The first Monorepo CI attempt reached the JavaScript gate on all three OSes
+  after Rust checks passed, then rejected non-canonical Biome formatting in the
+  newly updated `EVIDENCE.json`. Repository Verification passed. The formatting
+  correction requires a new hosted run before `hosted_branch_ci` can pass.
 
 ## Remaining S25 acceptance
 

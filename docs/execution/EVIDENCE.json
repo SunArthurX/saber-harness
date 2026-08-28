@@ -38,12 +38,15 @@
       "command": "git push -u origin segment/S25-desktop-workbench-baseline; compare git rev-parse HEAD with git ls-remote origin refs/heads/segment/S25-desktop-workbench-baseline",
       "exit_code": 0,
       "result": "local and remote branch both resolve to 317ee1baa4d7a1f3c83ca3200c50537b40c59d03"
+    },
+    {
+      "id": "S25-HOSTED-CI-ATTEMPT-1",
+      "command": "GitHub Monorepo CI run 33148506205 on 578440f02bd592eb801b5f4107024da24a345b37",
+      "exit_code": 1,
+      "result": "Repository Verification succeeded; macOS, Windows and Linux reached the JavaScript gate after Rust checks passed, then consistently rejected the newly updated EVIDENCE.json because its two-item pending array was not in Biome canonical format; no product or platform test failed"
     }
   ],
   "known_blockers": [],
-  "pending": [
-    "hosted_branch_ci",
-    "protected_pr_merge"
-  ],
+  "pending": ["hosted_branch_ci", "protected_pr_merge"],
   "last_verified_at": "2026-08-28T16:30:00Z"
 }
