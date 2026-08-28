@@ -15,10 +15,8 @@ use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 
-use saber_core_protocol::{
-    ControlMethod, DesktopPlatform, MAX_FRAME_BYTES, PROTOCOL_VERSION, ProtocolError,
-};
-use saber_event_store::{DatabaseKeyProvider, EventStore};
+use saber_core_protocol::{ControlMethod, DesktopPlatform, MAX_FRAME_BYTES, PROTOCOL_VERSION};
+use saber_event_store::EventStore;
 
 use crate::KeyFileProvider;
 
@@ -75,7 +73,7 @@ pub fn serve(store_dir: &Path, workspace_id: &str) -> Result<(), String> {
         let token = token.clone();
         let token_spent = Arc::clone(&token_spent);
         std::thread::spawn(move || {
-            if let Err(error) = handle_connection(stream, store, &token, token_spent) {
+            if let Err(error) = handle_connection(stream, &store, &token, &token_spent) {
                 eprintln!("saber-core serve: connection error: {error}");
             }
         });
@@ -116,7 +114,12 @@ fn bind_hardened(address: &str) -> Result<UnixListener, String> {
 fn bootstrap_token() -> Result<String, String> {
     let mut bytes = [0_u8; TOKEN_BYTES];
     getrandom::fill(&mut bytes).map_err(|error| format!("csprng unavailable: {error}"))?;
-    Ok(bytes.iter().map(|byte| format!("{byte:02x}")).collect())
+    let mut token = String::with_capacity(TOKEN_BYTES * 2);
+    for byte in bytes {
+        use std::fmt::Write as _;
+        let _ = write!(token, "{byte:02x}");
+    }
+    Ok(token)
 }
 
 fn error_frame(request_id: Option<&str>, code: &str) -> String {
@@ -126,7 +129,7 @@ fn error_frame(request_id: Option<&str>, code: &str) -> String {
     )
 }
 
-fn result_frame(request_id: &str, result: serde_json::Value) -> String {
+fn result_frame(request_id: &str, result: &serde_json::Value) -> String {
     format!(
         "{{\"jsonrpc\":\"2.0\",\"id\":{},\"result\":{}}}\n",
         serde_json::to_string(request_id).unwrap_or_else(|_| "\"\"".into()),
@@ -134,11 +137,71 @@ fn result_frame(request_id: &str, result: serde_json::Value) -> String {
     )
 }
 
+fn initialize_result(request: &saber_core_protocol::ControlRequest) -> serde_json::Value {
+    serde_json::json!({
+        "protocol_version": PROTOCOL_VERSION,
+        "core_build": env!("CARGO_PKG_VERSION"),
+        "workspace_id": request.context.workspace_id,
+        "capabilities": ["core.health", "events.subscribe"],
+    })
+}
+
+fn health_result(runs: i64, events: i64) -> serde_json::Value {
+    serde_json::json!({
+        "status": "ready",
+        "run_count": runs,
+        "event_count": events,
+    })
+}
+
+fn replay_result(
+    events: &[saber_event_store::ReplayedEvent],
+    next_cursor: i64,
+    total: i64,
+) -> serde_json::Value {
+    serde_json::json!({
+        "events": events,
+        "next_cursor": next_cursor,
+        "has_more": next_cursor < total,
+    })
+}
+
+fn handshake(
+    writer: &mut UnixStream,
+    request: &saber_core_protocol::ControlRequest,
+    token: &str,
+    token_spent: &AtomicBool,
+) -> Result<bool, String> {
+    let request_id = request.context.request_id.clone();
+    if request.method != ControlMethod::CoreInitialize {
+        write_frame(writer, &error_frame(Some(&request_id), "unauthorized"))?;
+        return Ok(false);
+    }
+    if token_spent.load(Ordering::SeqCst)
+        || request
+            .params
+            .get("bootstrap_token")
+            .and_then(serde_json::Value::as_str)
+            != Some(token)
+    {
+        // Never echo the token; never accept a second handshake.
+        eprintln!("saber-core serve: rejected handshake (invalid or reused token)");
+        write_frame(writer, &error_frame(Some(&request_id), "unauthorized"))?;
+        return Ok(false);
+    }
+    token_spent.store(true, Ordering::SeqCst);
+    write_frame(
+        writer,
+        &result_frame(&request_id, &initialize_result(request)),
+    )?;
+    Ok(true)
+}
+
 fn handle_connection(
     stream: UnixStream,
-    store: Arc<Mutex<EventStore>>,
+    store: &Arc<Mutex<EventStore>>,
     token: &str,
-    token_spent: Arc<AtomicBool>,
+    token_spent: &Arc<AtomicBool>,
 ) -> Result<(), String> {
     let mut reader = BufReader::new(stream.try_clone().map_err(|e| e.to_string())?);
     let mut writer = stream;
@@ -166,36 +229,7 @@ fn handle_connection(
         };
         let request_id = request.context.request_id.clone();
         if !initialized {
-            if request.method != ControlMethod::CoreInitialize {
-                write_frame(&mut writer, &error_frame(Some(&request_id), "unauthorized"))?;
-                continue;
-            }
-            if token_spent.load(Ordering::SeqCst)
-                || request
-                    .params
-                    .get("bootstrap_token")
-                    .and_then(|v| v.as_str())
-                    != Some(token)
-            {
-                // Never echo the token; never accept a second handshake.
-                eprintln!("saber-core serve: rejected handshake (invalid or reused token)");
-                write_frame(&mut writer, &error_frame(Some(&request_id), "unauthorized"))?;
-                continue;
-            }
-            token_spent.store(true, Ordering::SeqCst);
-            initialized = true;
-            write_frame(
-                &mut writer,
-                &result_frame(
-                    &request_id,
-                    serde_json::json!({
-                        "protocol_version": PROTOCOL_VERSION,
-                        "core_build": env!("CARGO_PKG_VERSION"),
-                        "workspace_id": request.context.workspace_id,
-                        "capabilities": ["core.health", "events.subscribe"],
-                    }),
-                ),
-            )?;
+            initialized = handshake(&mut writer, &request, token, token_spent)?;
             continue;
         }
         match request.method {
@@ -205,14 +239,7 @@ fn handle_connection(
                 let events = store.event_count().map_err(|e| e.to_string())?;
                 write_frame(
                     &mut writer,
-                    &result_frame(
-                        &request_id,
-                        serde_json::json!({
-                            "status": "ready",
-                            "run_count": runs,
-                            "event_count": events,
-                        }),
-                    ),
+                    &result_frame(&request_id, &health_result(runs, events)),
                 )?;
             }
             ControlMethod::EventsSubscribe => {
@@ -234,14 +261,7 @@ fn handle_connection(
                 let total = store.event_count().map_err(|e| e.to_string())?;
                 write_frame(
                     &mut writer,
-                    &result_frame(
-                        &request_id,
-                        serde_json::json!({
-                            "events": events,
-                            "next_cursor": next_cursor,
-                            "has_more": next_cursor < total,
-                        }),
-                    ),
+                    &result_frame(&request_id, &replay_result(&events, next_cursor, total)),
                 )?;
             }
             other => {
@@ -302,7 +322,7 @@ mod tests {
             Err(error) => assert!(error.contains("symlink"), "unexpected error: {error}"),
             Ok(listener) => {
                 drop(listener);
-                assert!(false, "symlinked endpoint must be refused");
+                unreachable!("symlinked endpoint must be refused");
             }
         }
         std::fs::remove_file(&target).ok();
@@ -322,7 +342,7 @@ mod tests {
             ),
             Ok(listener) => {
                 drop(listener);
-                assert!(false, "a live endpoint must never be stolen");
+                unreachable!("a live endpoint must never be stolen");
             }
         }
         drop(live);
