@@ -46,7 +46,17 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y libkrb5-dev libx11-dev libxkbfile-dev libsecret-1-dev
+          sudo apt-get install -y libkrb5-dev libx11-dev libxkbfile-dev libsecret-1-dev xvfb
+
+      - name: Locate the Visual Studio C++ toolchain (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $vs = & $vswhere -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath
+          if (-not $vs) { throw "no Visual Studio with C++ workload found" }
+          Write-Host "VS toolchain: $vs"
+          "vs2022_install=$vs" >> $env:GITHUB_ENV
 
       - name: Record the active toolchain
         run: |

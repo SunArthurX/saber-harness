@@ -98,8 +98,12 @@ async function main() {
   if (stages.includes("--launch-smoke")) {
     const upstream = JSON.parse(readFileSync(join(worktree, "package.json"), "utf8"));
     const launcher = process.platform === "win32" ? join("scripts", "code.bat") : join("scripts", "code.sh");
-    console.log(`build: runtime launch smoke → ${launcher} --version`);
-    const smoke = spawnSync(launcher, ["--version"], {
+    // Headless Linux runners have no X server; Chromium needs xvfb even to
+    // answer --version.
+    const command = process.platform === "linux" ? "xvfb-run" : launcher;
+    const args = process.platform === "linux" ? ["-a", launcher, "--version"] : ["--version"];
+    console.log(`build: runtime launch smoke → ${command} ${args.join(" ")}`);
+    const smoke = spawnSync(command, args, {
       cwd: worktree,
       encoding: "utf8",
       env: toolchain.env,
