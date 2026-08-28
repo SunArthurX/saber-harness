@@ -97,28 +97,38 @@ async function main() {
   }
   if (stages.includes("--launch-smoke")) {
     const upstream = JSON.parse(readFileSync(join(worktree, "package.json"), "utf8"));
+    // Bound every part of the dev launch: the Electron binary download is
+    // fetched explicitly, then the app launches with the heavy preLaunch
+    // (compile + built-in extension sync) skipped so the smoke is
+    // deterministic instead of a multi-minute download train.
+    stage(toolchain.env, "node", ["build/lib/electron.ts"], worktree, "fetch electron binary");
+
     const launcher = process.platform === "win32" ? join("scripts", "code.bat") : join("scripts", "code.sh");
-    // Headless Linux runners have no X server; Chromium needs xvfb even to
-    // answer --version.
+    // Headless Linux runners have no X server (xvfb) and restrict unprivileged
+    // user namespaces, so Chromium's own OS sandbox cannot initialize
+    // (SIGTRAP/133). ELECTRON_DISABLE_SANDBOX is a dev-CI flag about
+    // Chromium's sandbox, never about Saber's Rust Core authority.
     const command = process.platform === "linux" ? "xvfb-run" : launcher;
     const args = process.platform === "linux" ? ["-a", launcher, "--version"] : ["--version"];
     console.log(`build: runtime launch smoke → ${command} ${args.join(" ")}`);
-    // Ubuntu 24.04 restricts unprivileged user namespaces, so the Chromium
-    // OS sandbox of the development Electron build cannot initialize on the
-    // runner (SIGTRAP/133). This dev-CI flag is about Chromium's own sandbox,
-    // never about Saber's policy/sandbox authority in the Rust Core.
-    const smokeEnv = process.platform === "linux" ? { ...toolchain.env, ELECTRON_DISABLE_SANDBOX: "1" } : toolchain.env;
+    const smokeEnv = {
+      ...toolchain.env,
+      VSCODE_SKIP_PRELAUNCH: "1",
+      ...(process.platform === "linux" ? { ELECTRON_DISABLE_SANDBOX: "1" } : {}),
+    };
     const smoke = spawnSync(command, args, {
       cwd: worktree,
       encoding: "utf8",
       env: smokeEnv,
       shell: process.platform === "win32",
+      timeout: 240_000,
+      killSignal: "SIGKILL",
     });
     const output = `${smoke.stdout ?? ""}${smoke.stderr ?? ""}`.trim();
     console.log(output);
     const pinned = lock.source.ref.replace(/^v/, "");
-    if (smoke.status !== 0) {
-      console.error(`build: launch smoke failed with exit ${smoke.status}`);
+    if (smoke.status !== 0 || smoke.signal !== null) {
+      console.error(`build: launch smoke failed with exit ${smoke.status} signal ${smoke.signal ?? "-"}`);
       process.exit(1);
     }
     if (!output.includes(pinned) && !output.includes(upstream.version)) {
