@@ -93,7 +93,7 @@ git:
   branch: segment/S25-desktop-workbench-baseline
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: a74d09bf05ad0b3213c5f5c377f64fc9826929d0
+  verified_segment_checkpoint: ea3b97140b62ab74840a7d520bb086e5bae327cb
   main_head: af85f697a47a94e667536d396066639d2d56578a
   verified_main_checkpoint: af85f697a47a94e667536d396066639d2d56578a
   remote_verified: true
@@ -103,7 +103,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-28T07:08:53Z"
+  last_checkpoint_at: "2026-08-28T07:15:22Z"
 acceptance:
   required:
     - s24_tagged_base
@@ -147,7 +147,7 @@ acceptance:
     - protected_pr_merge
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-28T07:08:53Z"
+  last_verified_at: "2026-08-28T07:15:22Z"
 decisions:
   - docs/adr/ADR-001-rust-trusted-core.md
   - docs/adr/ADR-004-events-transactional-projections.md
@@ -176,4 +176,4 @@ decisions:
 blockers: []
 next_action:
   command: review the S26-S38 execution pack and merge protected PR https://github.com/SunArthurX/saber-harness/pull/69, then update the S25 completion record before starting S26 from docs/execution/desktop/NEXT-MODEL-S26.md
-  description: PR #69 is open; the desktop-primary ADR and plan now include 13 runbooks, 78 machine-readable work packages, 24-screen UX inventory, 13 acceptance journeys, platform/release, RACI, evaluation and copy-ready S26 handoff controls; protected merge remains pending and desktop implementation deliberately remains unclaimed
+  description: PR #69 is open and mergeable with 10 successful hosted checks on ea3b97140b62ab74840a7d520bb086e5bae327cb; the desktop-primary ADR and plan include 13 runbooks, 78 machine-readable work packages, 24-screen UX inventory, 13 acceptance journeys, platform/release, RACI, evaluation and copy-ready S26 handoff controls; protected merge remains pending and desktop implementation deliberately remains unclaimed

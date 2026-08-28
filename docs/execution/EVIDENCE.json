@@ -67,9 +67,15 @@
       "command": "git diff origin/main --check",
       "exit_code": 0,
       "result": "the ADR-028 trailing blank line reported by the PR merge-ref Repository Verification job was removed and the complete worktree diff against origin/main is clean"
+    },
+    {
+      "id": "S25-EXECUTION-PACK-HOSTED-CI",
+      "command": "GitHub Repository Verification runs 33150529040 and 33150531933 plus Monorepo CI runs 33150528988 and 33150531890 on ea3b97140b62ab74840a7d520bb086e5bae327cb",
+      "exit_code": 0,
+      "result": "push and pull-request Repository Verification, dependency audit, macOS, Windows and Linux jobs all succeeded; PR #69 reports 10 successful checks, no pending or failing checks, and mergeStateStatus CLEAN"
     }
   ],
   "known_blockers": [],
   "pending": ["protected_pr_merge"],
-  "last_verified_at": "2026-08-28T07:08:53Z"
+  "last_verified_at": "2026-08-28T07:15:22Z"
 }

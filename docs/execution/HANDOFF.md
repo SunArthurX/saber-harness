@@ -3,7 +3,7 @@
 Status: ready for protected review; refined execution pack passes local gates
 Date: 2026-08-28
 Branch: `segment/S25-desktop-workbench-baseline`
-Verified content checkpoint: resolve the latest branch head from Git
+Verified content checkpoint: `ea3b97140b62ab74840a7d520bb086e5bae327cb`
 Protected review: <https://github.com/SunArthurX/saber-harness/pull/69>
 Base main: `af85f697a47a94e667536d396066639d2d56578a`
 Predecessor: annotated `s24-complete` resolves to `502dd1db348be7e0c4ab1a6e188275b26027d5dd`
@@ -67,6 +67,10 @@ console is an optional supervisor surface, not the desktop implementation.
 - The corrected checkpoint `a74d09b` passed Repository Verification run
   33148770142 and Monorepo CI run 33148770147: dependency audit plus macOS,
   Windows and Linux jobs all succeeded.
+- The refined execution-pack checkpoint `ea3b971` passed push and PR workflows:
+  Repository Verification runs 33150529040/33150531933 and Monorepo CI runs
+  33150528988/33150531890. All 10 PR checks succeeded and GitHub reports the
+  PR merge state as clean.
 
 ## Remaining S25 acceptance
 
