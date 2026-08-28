@@ -103,9 +103,15 @@
       "command": "GitHub Repository Verification runs 33168573327 and 33168575644 plus Monorepo CI runs 33168573273 and 33168575647 on 60c85b59b04d55f31da429aad982b2a31c52edc9",
       "exit_code": 0,
       "result": "push and pull-request Repository Verification, both dependency audits, and macOS, Windows and Linux jobs all succeeded; PR #69 reports 10 successful checks, no pending or failing checks, and mergeStateStatus CLEAN"
+    },
+    {
+      "id": "S25-ADVANCED-HARNESS-PHILOSOPHY-LOCAL-GATE",
+      "command": "node scripts/verify-s25.mjs && git diff --check && pnpm verify",
+      "exit_code": 0,
+      "result": "3049 focused checks plus the full repository gate passed: 36 official-source Cursor, DeepSeek Harness, Zed, Kiro, OpenHands, Cline and Aider capabilities map to 12 philosophy invariants, 19 system organs, 13 Segment runbooks, 42 UI surfaces, 32 product journeys and 12 philosophy journeys; the operating model contains 23 canonical objects and the E0-E7/H0-H4 authority and recovery contracts; one pre-existing Biome warning and one pre-existing info diagnostic remain unchanged; S26 implementation remains unstarted"
     }
   ],
   "known_blockers": [],
   "pending": ["protected_pr_merge"],
-  "last_verified_at": "2026-08-28T11:52:31Z"
+  "last_verified_at": "2026-08-28T12:25:40Z"
 }

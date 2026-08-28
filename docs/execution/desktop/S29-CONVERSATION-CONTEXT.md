@@ -27,6 +27,17 @@ effective Core intents, not visual decorations.
 - `CDX-06`: each conversation independently controls whether generated Memory
   may be read or proposed, with the effective policy visible before send.
 
+## Advanced harness and philosophy requirements
+
+- `CUR-01`, `ZED-05`, `KIR-05`: queue/immediate Steer, compaction and continuation
+  expose their event cursor, omissions, budget and current drift.
+- `CUR-03`, `KIR-04`: keep scoped Rule/Steering and reviewed Memory as distinct,
+  conflict-aware records.
+- `DSH-03`, `ZED-01`, `ZED-02`, `ZED-06`: every model-visible input is
+  reconstructable and provider/Agent switches preserve provenance and gaps.
+- `CLN-01`, `CLN-02`, `AID-01`: Plan receives policy-approved read-only context,
+  including a revision-labelled budgeted Repository Map, but no write capability.
+
 ## Work packages
 
 ### S29-WP01 — Message model and rendering

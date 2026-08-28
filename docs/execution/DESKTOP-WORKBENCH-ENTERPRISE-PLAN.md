@@ -84,6 +84,13 @@ Saber 不以“把四个产品的按钮放进同一窗口”为集成。它吸�
 的外部装甲、可验证的内生进化和先隔离后修复的免疫系统**。模型、外部 Agent、
 Skill、Plugin 与 Code Capsule 都不能绕过 Rust Core 成为第二权威。
 
+S25 的第二层调研将 Cursor、DeepSeek Harness、Zed、Kiro、OpenHands、Cline
+与 Aider 的官方能力拆成可追踪合同，并在
+`desktop/ADVANCED-HARNESS-RESEARCH.md` 中记录证据与 Saber 差异。初始哲学
+不再停留在比喻：`desktop/PHILOSOPHY-TO-ARCHITECTURE.md` 将钢铁侠外部装甲、
+浩克内生成长、人体器官、免疫与自愈映射为权限顺序、E0-E7 进化阶梯、
+H0-H4 健康等级、故障反应、UI、验收旅程和回滚证据。
+
 ## 2. 当前事实与缺口审计
 
 | 范围 | 当前证据 | 判定 |

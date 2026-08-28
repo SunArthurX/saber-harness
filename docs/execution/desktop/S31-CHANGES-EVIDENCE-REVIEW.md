@@ -29,6 +29,16 @@ revision, accept, reject, apply, roll back, commit or create a PR through Core.
 - `MMX-07`: Developer, Tester and Reviewer evidence is attributable; a producer
   cannot be the sole signer of completion.
 
+## Advanced harness and philosophy requirements
+
+- `CUR-02`, `ZED-04`, `KIR-05`, `CLN-03`, `AID-03`: checkpoint/rewind previews
+  repository, event, context and external-effect consequences and preserves
+  unrelated manual drift.
+- `CUR-05`, `KIR-01`, `OHD-01`, `AID-04`: browser, lint, test and review results
+  are independent Observations linked back to the current requirement revision.
+- Platelet behavior from `PHL-06` closes the write gate on partial effect,
+  records uncertainty and verifies rollback before resuming.
+
 ## Work packages
 
 ### S31-WP01 — Change Set projection

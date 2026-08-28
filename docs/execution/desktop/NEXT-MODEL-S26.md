@@ -2,10 +2,12 @@
 
 Use this file as the first prompt/checklist for the model implementing S26.
 
-Before implementation, also read `COMPETITIVE-CAPABILITY-RESEARCH.md` and
-`competitive-capability-map.json`. They constrain the shell extension points
-and future UX, but they do not authorize implementing later-Segment behavior in
-S26.
+Before implementation, also read `COMPETITIVE-CAPABILITY-RESEARCH.md`,
+`competitive-capability-map.json`, `ADVANCED-HARNESS-RESEARCH.md`,
+`advanced-harness-capability-map.json`, `PHILOSOPHY-TO-ARCHITECTURE.md` and
+`philosophy-architecture-map.json`. They constrain the shell extension points,
+authority and future UX, but they do not authorize implementing later-Segment
+behavior in S26.
 
 Read `DESKTOP-PRODUCT-OPERATING-MODEL.md` and
 `desktop-product-release-trains.json`. S26 belongs to RT-0, which is an

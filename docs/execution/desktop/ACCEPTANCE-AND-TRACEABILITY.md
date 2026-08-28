@@ -34,6 +34,14 @@ Core prove product behavior.
 | DJ-22 | Schedule independent Automation Run or contextual Goal Heartbeat | S30/S34 | missed-run, budget, approval, isolation and stop behavior proven | Automation/SDET |
 | DJ-23 | Promote experience from Memory to Skill or Code safely | S33/S34 | lineage, eval, review, canary, last-known-good and rollback | Evolution/Security |
 | DJ-24 | Send an attributed message or proposed Task across sessions | S30/S32 | receiving Policy applies and no message inherits authority | Orchestration/Security |
+| DJ-25 | Switch model, Agent or harness during a live Goal | S27/S29/S30 | stable Goal identity, explicit capability/config boundary and revalidated Plan/approval | Adapter/Runtime |
+| DJ-26 | Restore checkpoint while preserving manual drift | S30/S31/S32 | repository/event/context/external-effect preview proves no unowned overwrite | Git/Recovery/SDET |
+| DJ-27 | Reconstruct model-visible context and UI from canonical events | S27/S29/S30/S33 | source→canonical→projection hashes and cursor replay reconcile | Runtime/Data |
+| DJ-28 | Simulate, enable, block, circuit-break and unload a Reflex Hook | S30/S34/S37 | deterministic budget, no authority widening and zero residual effect | Automation/Security |
+| DJ-29 | Reproduce and attest one execution Realm | S27/S30/S35/S37 | filesystem, shell, PTY, LSP, preview and tests prove one image/revision identity | Runtime/Security |
+| DJ-30 | Move Specification from requirements through verified implementation | S28/S30/S31/S38 | bidirectional requirement/design/task/change/test/evidence trace remains current | Product/SDET |
+| DJ-31 | Compact long context and continue within a visible budget | S29/S33 | source range, omissions, summary lineage and actual consumption reconcile | Context/Privacy |
+| DJ-32 | Corrupt and rebuild repository/context indexes | S29/S33/S34 | canonical records survive and rebuilt projection passes equivalence/staleness tests | Knowledge/Reliability |
 
 ## DJ-03 canonical fixture
 
@@ -93,15 +101,24 @@ identical Run projection after restart and complete Evidence Receipt.
 | Automation distinguishes Run and Heartbeat | S30/S34 | schedule/restart/missed-run tests | inbox review | yes |
 | Memory-to-capability promotion is reversible | S33/S34 | lineage/eval/canary/rollback suite | evolution review | yes |
 | Remote/computer effects are device-bound | S34/S35/S37 | forged-device/injection/global-stop suite | remote session review | yes |
+| Adapter switch preserves body identity | S27/S29/S30 | capability-drift and continuity fixtures | adapter transition review | yes |
+| Checkpoint preserves manual drift | S30/S31/S32 | mixed-ownership rollback matrix | restore preview review | yes |
+| Model-visible context is reconstructable | S27/S29/S30/S33 | source/event/projection replay and hash suite | causal Timeline inspection | yes |
+| Hooks are bounded reflexes | S30/S34/S37 | recursion/block/unload/residue suite | Hook simulation review | yes |
+| Runtime observations share one Realm | S27/S30/S35/S37 | forged-world and image-drift suite | Runtime identity inspection | yes |
+| Specification trace is bidirectional | S28/S30/S31/S38 | stale-requirement/evidence negative tests | spec-to-evidence walkthrough | yes |
+| Context compaction exposes omissions | S29/S33 | deterministic compaction and budget suite | receipt comprehension review | yes |
+| Derived indexes are rebuildable | S29/S33/S34 | corrupt/drop/rebuild equivalence tests | outage and recovery walkthrough | yes |
+| Immune Core outranks Agent and Hook | S27/S34/S37 | bypass, suppression and Safe Mode-exit attacks | security game day | yes |
 
 ## Release claim gates
 
 | Claim | Required Segments | Required proof | Explicitly forbidden substitute |
 |---|---|---|---|
 | RT-0 engineering preview | S26-S29 | packaged three-platform workbench, real Core projection, explainable context | mock, Storybook or Web Supervisor |
-| RT-1 first CodingAgent MVP | S26-S31 | DJ-01 through DJ-04 and DJ-18 on a real repository with restart and rollback | shell launch, transcript or model-declared completion |
-| RT-2 local-first Beta | S26-S34 | Agent-team isolation, import lineage, Memory/Armor/evolution rollback and containment together | several parallel chats or generated Skills alone |
-| RT-3 production candidate | S26-S38 | one reviewed SHA passes signed platform, enterprise, SLO, security, accessibility and design-partner Gates | combining evidence from different candidate SHAs |
+| RT-1 first CodingAgent MVP | S26-S31 | DJ-01 through DJ-04, DJ-18 and DJ-25 on a real repository with restart, adapter continuity and rollback | shell launch, transcript or model-declared completion |
+| RT-2 local-first Beta | S26-S34 | Agent-team isolation, import lineage, safe checkpoint/replay/compaction/index rebuild, bounded Hooks and Memory/Armor/evolution rollback pass together | several parallel chats or generated Skills alone |
+| RT-3 production candidate | S26-S38 | DJ-29/DJ-30 and PJ-01 through PJ-12 join signed platform, enterprise, SLO, security, accessibility and design-partner Gates on one reviewed SHA | combining evidence from different candidate SHAs |
 
 Release names are evidence-bearing claims. A train may be delayed or narrowed,
 but cannot be renamed upward while its required proof is missing.

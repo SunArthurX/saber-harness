@@ -29,6 +29,16 @@ restart. No Agent execution is required yet.
 - `ZCD-03`: Task navigation supports saved group/workspace/timeline views,
   search, pin and archive; generated Repository Map shows source revision.
 
+## Advanced harness and philosophy requirements
+
+- `CUR-05`, `DSH-05`: bind Preview, editor, terminal, LSP and repository views
+  to visible Realm and revision identity.
+- `ZED-01`, `ZED-03`, `KIR-03`, `OHD-03`: present native, external and terminal
+  Agent paths in one project/task workbench while keeping UI a disposable
+  projection of Core state.
+- `KIR-01`: reserve a Specification Studio route linked to Goal/Task identity;
+  S28 supplies the accessible shell, not authoritative spec execution.
+
 ## Work packages
 
 ### S28-WP01 — Information architecture and layout tokens

@@ -29,6 +29,17 @@ plaintext.
 - `MMX-06`: Knowledge Board entries are typed references pulled on demand,
   never an unbounded shared prompt copied to every Agent.
 
+## Advanced harness and philosophy requirements
+
+- `CUR-03`, `KIR-04`: Memory and persistent Steering retain scope, source,
+  confidence, conflicts, expiry, review and forgetting.
+- `DSH-03`, `ZED-02`, `ZED-04`, `ZED-05`, `KIR-05`: continuation is rebuilt
+  from canonical events with adapter provenance, compaction lineage and drift.
+- `AID-01`: Repository Map and hybrid indexes are revision-labelled derived
+  projections with coverage, budget, staleness and deterministic rebuild tests.
+- Prove `PHL-08`, `PHL-09` and `PHL-11`: canonical sources survive index loss;
+  client-key remote continuity does not hide conflict or move authority.
+
 ## Work packages
 
 ### S33-WP01 — Import Wizard and consent

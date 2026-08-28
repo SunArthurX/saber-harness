@@ -30,6 +30,19 @@ Gate finding.
 - Test every `CDX`/`CLD`/`ZCD`/`MMX` adoption as a Saber contract rather than a
   claim of competitor parity.
 
+## Advanced harness and philosophy requirements
+
+- `CUR-05`, `DSH-07`, `OHD-03`: attack browser input, replaceable subsystems and
+  Renderer projection without permitting a Policy, credential or Runtime bypass.
+- `DSH-06`, `KIR-02`: fuzz typed event/ID boundaries and Hook blocking,
+  recursion, circuit breaker, unload and residue behavior.
+- `OHD-05`: rebuild Runtime images from locked provenance and reject drifted or
+  unverifiable execution evidence.
+- `AID-02`, `AID-04`: measure verifier independence and bounded repair-loop
+  quality, cost, retry amplification and regression.
+- Execute PJ-01 through PJ-12, including the negative rule that a brain or
+  reflex cannot suppress, replace or exit immune containment.
+
 ## Work packages
 
 ### S37-WP01 — Performance and resource SLO

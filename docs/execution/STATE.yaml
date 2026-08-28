@@ -5,7 +5,7 @@ current_segment:
   id: S25
   name: desktop-workbench-baseline
   status: in_progress
-  objective: freeze Saber Studio Desktop as the primary product, select the Code-OSS/Electron production shell with a separately supervised Rust Core, demote the Web supervisor to an optional companion, and publish a handoff-safe S26-S38 execution pack calibrated against official Codex, Claude Code, ZCode and MiniMax evidence with canonical product objects, lifecycle ownership, an honest CodingAgent MVP cut line, machine-readable release trains, capability, work-package, UX, platform, team, evaluation and release controls without claiming the desktop implementation exists
+  objective: freeze Saber Studio Desktop as the primary product, select the Code-OSS/Electron production shell with a separately supervised Rust Core, demote the Web supervisor to an optional companion, and publish a handoff-safe S26-S38 execution pack calibrated against official Codex, Claude Code, ZCode, MiniMax, Cursor, DeepSeek Harness, Zed, Kiro, OpenHands, Cline and Aider evidence with canonical product objects, lifecycle ownership, a philosophy-to-architecture contract, an honest CodingAgent MVP cut line, machine-readable release trains, capability, work-package, UX, platform, team, evaluation and release controls without claiming the desktop implementation exists
 predecessor:
   segment: S24
   status: completed
@@ -103,7 +103,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-28T11:52:31Z"
+  last_checkpoint_at: "2026-08-28T12:25:40Z"
 acceptance:
   required:
     - s24_tagged_base
@@ -127,6 +127,11 @@ acceptance:
     - desktop_product_operating_model
     - machine_readable_release_trains
     - evidence_bearing_release_claims
+    - advanced_harness_official_research
+    - philosophy_to_architecture_contract
+    - machine_readable_philosophy_map
+    - advanced_capability_segment_traceability
+    - advanced_gui_acceptance
     - s25_verifier
     - full_local_verification
     - verified_segment_push
@@ -154,6 +159,11 @@ acceptance:
     - desktop_product_operating_model
     - machine_readable_release_trains
     - evidence_bearing_release_claims
+    - advanced_harness_official_research
+    - philosophy_to_architecture_contract
+    - machine_readable_philosophy_map
+    - advanced_capability_segment_traceability
+    - advanced_gui_acceptance
     - s25_verifier
     - full_local_verification
     - verified_segment_push
@@ -163,7 +173,7 @@ acceptance:
     - protected_pr_merge
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-28T11:52:31Z"
+  last_verified_at: "2026-08-28T12:25:40Z"
 decisions:
   - docs/adr/ADR-001-rust-trusted-core.md
   - docs/adr/ADR-004-events-transactional-projections.md
@@ -192,4 +202,4 @@ decisions:
 blockers: []
 next_action:
   command: review the S26-S38 execution pack and merge protected PR https://github.com/SunArthurX/saber-harness/pull/69, then update the S25 completion record before starting S26 from docs/execution/desktop/NEXT-MODEL-S26.md
-  description: PR #69 is open and mergeable with 10 successful hosted checks on 60c85b59b04d55f31da429aad982b2a31c52edc9; the desktop-primary plan now includes 31 evidence-graded competitor capabilities, 13 Saber decisions, canonical product objects and lifecycles, four machine-readable release trains with RT-1 as the first honest CodingAgent MVP, 13 runbooks, 78 work packages, 35-screen UX inventory and 24 acceptance journeys; protected merge remains pending and desktop implementation deliberately remains unclaimed
+  description: PR #69 remains the protected review path; the desktop-primary plan now includes 31 first-layer and 36 advanced evidence-graded capabilities, 12 philosophy invariants, 19 system organs, E0-E7 evolution, H0-H4 health, 23 canonical product objects, four machine-readable release trains with RT-1 as the first honest CodingAgent MVP, 13 runbooks, 78 work packages, 42-screen UX inventory, 32 product journeys and 12 philosophy journeys; rerun hosted checks on the forthcoming checkpoint, then merge through protected main; desktop implementation deliberately remains unclaimed

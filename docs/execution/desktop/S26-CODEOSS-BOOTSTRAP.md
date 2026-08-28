@@ -83,6 +83,14 @@ scripts/verify-s26.mjs
 Upstream source and build output stay under ignored cache/output directories;
 do not commit an extracted Code-OSS tree or unreviewed binaries.
 
+## Advanced harness and philosophy requirements
+
+- No advanced harness capability is implemented in S26. The shell must preserve
+  `PHL-02` replaceable-brain and `PHL-04` immune-Core boundaries so later
+  adapters, Runtime Realms and causal replay do not require Renderer authority.
+- Built-in extension and product branding are projections. They cannot own Goal
+  identity, secrets, provider credentials, Policy verdicts or execution state.
+
 ## Work packages
 
 ### S26-WP01 — Upstream decision and legal inventory

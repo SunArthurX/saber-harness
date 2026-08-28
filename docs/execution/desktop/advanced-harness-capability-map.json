@@ -1,0 +1,410 @@
+{
+  "schema_version": 1,
+  "research_date": "2026-08-28",
+  "status": "official-source planning inputs; volatile product behavior must be reverified by implementing Segment",
+  "products": ["cursor", "deepseek-harness", "zed", "kiro", "openhands", "cline", "aider"],
+  "capabilities": [
+    {
+      "id": "CUR-01",
+      "product": "cursor",
+      "evidence_grade": "A",
+      "capability": "long-lived Goal with queued or immediate steering",
+      "saber_decision": "Goal remains Core-owned; Steer is an attributed control event with effect point and cancellation semantics",
+      "philosophy": ["PHL-01", "PHL-05", "PHL-11"],
+      "segments": ["S29", "S30"],
+      "ui": ["UI-07", "UI-39"],
+      "journeys": ["DJ-25"]
+    },
+    {
+      "id": "CUR-02",
+      "product": "cursor",
+      "evidence_grade": "A",
+      "capability": "Agent checkpoints separate from Git",
+      "saber_decision": "checkpoint previews manual and Agent drift separately and never silently overwrites user edits",
+      "philosophy": ["PHL-01", "PHL-06"],
+      "segments": ["S30", "S31"],
+      "ui": ["UI-10", "UI-42"],
+      "journeys": ["DJ-26"]
+    },
+    {
+      "id": "CUR-03",
+      "product": "cursor",
+      "evidence_grade": "B",
+      "capability": "scoped rules and human-reviewed project Memory",
+      "saber_decision": "rules and Memory are separate typed ledgers with source scope expiry conflict and approval",
+      "philosophy": ["PHL-07", "PHL-08"],
+      "segments": ["S29", "S33", "S34"],
+      "ui": ["UI-17", "UI-34"],
+      "journeys": ["DJ-23"]
+    },
+    {
+      "id": "CUR-04",
+      "product": "cursor",
+      "evidence_grade": "A",
+      "capability": "asynchronous remote background agents with status and takeover",
+      "saber_decision": "Remote Agent Run receives a device-bound Realm egress budget takeover protocol and evidence continuity",
+      "philosophy": ["PHL-01", "PHL-09", "PHL-10"],
+      "segments": ["S32", "S35", "S36"],
+      "ui": ["UI-31", "UI-33"],
+      "journeys": ["DJ-21", "DJ-25"]
+    },
+    {
+      "id": "CUR-05",
+      "product": "cursor",
+      "evidence_grade": "A",
+      "capability": "browser verification integrated with Agent work",
+      "saber_decision": "Browser Realm records taint semantic target action result and screenshot or DOM evidence",
+      "philosophy": ["PHL-04", "PHL-05", "PHL-12"],
+      "segments": ["S28", "S31", "S34", "S37"],
+      "ui": ["UI-27", "UI-35"],
+      "journeys": ["DJ-17", "DJ-30"]
+    },
+    {
+      "id": "CUR-06",
+      "product": "cursor",
+      "evidence_grade": "A",
+      "capability": "agent orchestration over instructions tools and model",
+      "saber_decision": "Agent Profile is versioned and capability-negotiated while Core retains Policy and effect authority",
+      "philosophy": ["PHL-02", "PHL-04"],
+      "segments": ["S27", "S30"],
+      "ui": ["UI-36"],
+      "journeys": ["DJ-25"]
+    },
+
+    {
+      "id": "DSH-01",
+      "product": "deepseek-harness",
+      "evidence_grade": "A",
+      "capability": "Cordis plugin framework with services events and reversible effects",
+      "saber_decision": "use reversible plugin composition outside the trusted immune Core; unload must remove listeners and effects deterministically",
+      "philosophy": ["PHL-03", "PHL-04", "PHL-06"],
+      "segments": ["S27", "S34"],
+      "ui": ["UI-18", "UI-36"],
+      "journeys": ["DJ-27", "DJ-28"]
+    },
+    {
+      "id": "DSH-02",
+      "product": "deepseek-harness",
+      "evidence_grade": "A",
+      "capability": "capability seams with swappable providers",
+      "saber_decision": "typed service contract provider attestation dependency graph and visible fallback or gap",
+      "philosophy": ["PHL-02", "PHL-03"],
+      "segments": ["S27", "S34"],
+      "ui": ["UI-36"],
+      "journeys": ["DJ-25", "DJ-27"]
+    },
+    {
+      "id": "DSH-03",
+      "product": "deepseek-harness",
+      "evidence_grade": "A",
+      "capability": "append-only SessionEvent log reconstructs model-visible history",
+      "saber_decision": "Core journal makes every model-visible input reconstructable and separates source canonical and projection layers",
+      "philosophy": ["PHL-02", "PHL-05", "PHL-08"],
+      "segments": ["S27", "S29", "S30", "S33"],
+      "ui": ["UI-39"],
+      "journeys": ["DJ-27"]
+    },
+    {
+      "id": "DSH-04",
+      "product": "deepseek-harness",
+      "evidence_grade": "A",
+      "capability": "profiles and bundles compose plugin trees",
+      "saber_decision": "signed Agent Profile composes Armor without inheriting capabilities not present in its manifest",
+      "philosophy": ["PHL-03", "PHL-12"],
+      "segments": ["S27", "S34", "S35"],
+      "ui": ["UI-18", "UI-36"],
+      "journeys": ["DJ-25"]
+    },
+    {
+      "id": "DSH-05",
+      "product": "deepseek-harness",
+      "evidence_grade": "A",
+      "capability": "filesystem subprocess terminal and LSP share an execution world",
+      "saber_decision": "Realm Provider exposes one attested environment identity so observations and effects cannot cross worlds accidentally",
+      "philosophy": ["PHL-09", "PHL-11"],
+      "segments": ["S27", "S28", "S35"],
+      "ui": ["UI-13", "UI-38"],
+      "journeys": ["DJ-29"]
+    },
+    {
+      "id": "DSH-06",
+      "product": "deepseek-harness",
+      "evidence_grade": "A",
+      "capability": "typed durable event taxonomy and branded identifiers",
+      "saber_decision": "Goal Task Run Realm capability and event IDs are non-interchangeable and migration-tested",
+      "philosophy": ["PHL-05", "PHL-11"],
+      "segments": ["S27", "S30", "S37"],
+      "ui": ["UI-39"],
+      "journeys": ["DJ-27"]
+    },
+    {
+      "id": "DSH-07",
+      "product": "deepseek-harness",
+      "evidence_grade": "A",
+      "capability": "sandbox extensions skills and compaction are replaceable subsystems",
+      "saber_decision": "adopt subsystem seams but keep Policy Sandbox Secret Egress Audit Update and Recovery roots privileged and fail closed",
+      "philosophy": ["PHL-03", "PHL-04"],
+      "segments": ["S27", "S34", "S37"],
+      "ui": ["UI-36", "UI-42"],
+      "journeys": ["DJ-28", "DJ-30"]
+    },
+
+    {
+      "id": "ZED-01",
+      "product": "zed",
+      "evidence_grade": "A",
+      "capability": "native Agent external ACP Agent and terminal thread paths",
+      "saber_decision": "multiple harness paths share one task identity while configuration and trust boundaries remain visible",
+      "philosophy": ["PHL-02", "PHL-10"],
+      "segments": ["S27", "S28", "S29"],
+      "ui": ["UI-30", "UI-36"],
+      "journeys": ["DJ-25"]
+    },
+    {
+      "id": "ZED-02",
+      "product": "zed",
+      "evidence_grade": "A",
+      "capability": "Agent Client Protocol interoperability",
+      "saber_decision": "ACP adapter negotiates and attests capabilities then normalizes events without erasing source ownership",
+      "philosophy": ["PHL-02", "PHL-03"],
+      "segments": ["S27", "S29", "S33"],
+      "ui": ["UI-30", "UI-36"],
+      "journeys": ["DJ-25"]
+    },
+    {
+      "id": "ZED-03",
+      "product": "zed",
+      "evidence_grade": "A",
+      "capability": "parallel project-grouped Agent threads",
+      "saber_decision": "Task sidebar exposes parallel Runs grouped by Goal and repository with queue and attention state",
+      "philosophy": ["PHL-10", "PHL-11"],
+      "segments": ["S28", "S30", "S32"],
+      "ui": ["UI-03", "UI-12", "UI-31"],
+      "journeys": ["DJ-19"]
+    },
+    {
+      "id": "ZED-04",
+      "product": "zed",
+      "evidence_grade": "A",
+      "capability": "worktree isolation and restoring thread Git state",
+      "saber_decision": "Conversation restore verifies Worktree identity manual drift and current repository state before effect",
+      "philosophy": ["PHL-06", "PHL-11"],
+      "segments": ["S31", "S32", "S33"],
+      "ui": ["UI-13", "UI-16", "UI-42"],
+      "journeys": ["DJ-26"]
+    },
+    {
+      "id": "ZED-05",
+      "product": "zed",
+      "evidence_grade": "A",
+      "capability": "visible token use compaction and continue-from-summary",
+      "saber_decision": "Context budget and compaction receipt show sources omissions and summary lineage before continuation",
+      "philosophy": ["PHL-05", "PHL-08", "PHL-11"],
+      "segments": ["S29", "S33"],
+      "ui": ["UI-06", "UI-39"],
+      "journeys": ["DJ-27", "DJ-31"]
+    },
+    {
+      "id": "ZED-06",
+      "product": "zed",
+      "evidence_grade": "A",
+      "capability": "per-thread Agent selection across projects",
+      "saber_decision": "Agent Profile selection is Task-scoped and capability drift revalidates pending Plan and approvals",
+      "philosophy": ["PHL-02", "PHL-11"],
+      "segments": ["S27", "S29", "S32"],
+      "ui": ["UI-03", "UI-36"],
+      "journeys": ["DJ-25"]
+    },
+
+    {
+      "id": "KIR-01",
+      "product": "kiro",
+      "evidence_grade": "A",
+      "capability": "specification workflow from requirements through design to tasks",
+      "saber_decision": "Specification is a versioned Goal input whose requirements design tasks tests and evidence are bidirectionally traced",
+      "philosophy": ["PHL-01", "PHL-05"],
+      "segments": ["S28", "S30", "S31", "S38"],
+      "ui": ["UI-40"],
+      "journeys": ["DJ-30"]
+    },
+    {
+      "id": "KIR-02",
+      "product": "kiro",
+      "evidence_grade": "A",
+      "capability": "event-driven hooks with blocking lifecycle points",
+      "saber_decision": "Reflex Hook declares trigger read/write set deterministic budget recursion guard and whether it may block",
+      "philosophy": ["PHL-04", "PHL-06", "PHL-12"],
+      "segments": ["S30", "S34", "S37"],
+      "ui": ["UI-37", "UI-42"],
+      "journeys": ["DJ-28"]
+    },
+    {
+      "id": "KIR-03",
+      "product": "kiro",
+      "evidence_grade": "A",
+      "capability": "one Agent harness across IDE CLI and Web with shared project package",
+      "saber_decision": "Core protocol and repository configuration are surface-neutral while Desktop remains the primary product",
+      "philosophy": ["PHL-02", "PHL-09"],
+      "segments": ["S27", "S28", "S36"],
+      "ui": ["UI-02", "UI-36"],
+      "journeys": ["DJ-25"]
+    },
+    {
+      "id": "KIR-04",
+      "product": "kiro",
+      "evidence_grade": "A",
+      "capability": "persistent steering with scoped inclusion modes",
+      "saber_decision": "Steering Rule records scope inclusion trigger precedence source revision and conflict with Memory or organization Policy",
+      "philosophy": ["PHL-07", "PHL-08"],
+      "segments": ["S29", "S33", "S34"],
+      "ui": ["UI-17", "UI-34"],
+      "journeys": ["DJ-31"]
+    },
+    {
+      "id": "KIR-05",
+      "product": "kiro",
+      "evidence_grade": "A",
+      "capability": "checkpoints rewind and context compaction",
+      "saber_decision": "rewind separates code event context and external-effect recovery then revalidates current drift",
+      "philosophy": ["PHL-06", "PHL-11"],
+      "segments": ["S29", "S31", "S33"],
+      "ui": ["UI-10", "UI-16", "UI-39"],
+      "journeys": ["DJ-26", "DJ-31"]
+    },
+
+    {
+      "id": "OHD-01",
+      "product": "openhands",
+      "evidence_grade": "A",
+      "capability": "Action Observation EventStream AgentController and State",
+      "saber_decision": "every requested effect and observed result becomes a typed causal event linked to Run State and Evidence",
+      "philosophy": ["PHL-05", "PHL-06"],
+      "segments": ["S27", "S30", "S31"],
+      "ui": ["UI-09", "UI-39"],
+      "journeys": ["DJ-27"]
+    },
+    {
+      "id": "OHD-02",
+      "product": "openhands",
+      "evidence_grade": "A",
+      "capability": "runtime client-server sandbox boundary",
+      "saber_decision": "Runtime Realm is separately supervised and receives only capability-scoped actions over authenticated transport",
+      "philosophy": ["PHL-04", "PHL-09", "PHL-12"],
+      "segments": ["S27", "S30", "S35"],
+      "ui": ["UI-13", "UI-38"],
+      "journeys": ["DJ-29"]
+    },
+    {
+      "id": "OHD-03",
+      "product": "openhands",
+      "evidence_grade": "A",
+      "capability": "UI Canvas projects Agent Server state",
+      "saber_decision": "Renderer is a disposable projection and cannot become an execution credential or sandbox authority",
+      "philosophy": ["PHL-02", "PHL-04"],
+      "segments": ["S27", "S28", "S37"],
+      "ui": ["UI-02", "UI-39"],
+      "journeys": ["DJ-27"]
+    },
+    {
+      "id": "OHD-04",
+      "product": "openhands",
+      "evidence_grade": "A",
+      "capability": "multiple Agent Server and automation backends",
+      "saber_decision": "multi-backend Runs share canonical Goal identity policy budget and evidence with explicit backend provenance",
+      "philosophy": ["PHL-02", "PHL-10"],
+      "segments": ["S27", "S32", "S35"],
+      "ui": ["UI-31", "UI-36"],
+      "journeys": ["DJ-25"]
+    },
+    {
+      "id": "OHD-05",
+      "product": "openhands",
+      "evidence_grade": "A",
+      "capability": "reproducible versioned runtime images",
+      "saber_decision": "Runtime Image locks toolchain dependencies mounts network policy and provenance and supports clean rebuild",
+      "philosophy": ["PHL-06", "PHL-09"],
+      "segments": ["S30", "S35", "S37"],
+      "ui": ["UI-38"],
+      "journeys": ["DJ-29"]
+    },
+
+    {
+      "id": "CLN-01",
+      "product": "cline",
+      "evidence_grade": "A",
+      "capability": "explicit Plan and Act effect boundary",
+      "saber_decision": "autonomy is Core capability state; transition to mutation emits a reviewed event and invalidates stale assumptions",
+      "philosophy": ["PHL-01", "PHL-12"],
+      "segments": ["S29", "S30"],
+      "ui": ["UI-07", "UI-08"],
+      "journeys": ["DJ-30"]
+    },
+    {
+      "id": "CLN-02",
+      "product": "cline",
+      "evidence_grade": "A",
+      "capability": "deep read-only planning for large changes",
+      "saber_decision": "Plan may use policy-approved observation tools but has zero mutation capability and produces Context Receipt plus risk budget",
+      "philosophy": ["PHL-05", "PHL-12"],
+      "segments": ["S29", "S30"],
+      "ui": ["UI-06", "UI-40"],
+      "journeys": ["DJ-30"]
+    },
+    {
+      "id": "CLN-03",
+      "product": "cline",
+      "evidence_grade": "A",
+      "capability": "checkpoint before effectful execution",
+      "saber_decision": "Act entry captures event cursor repository state manual drift Realm and rollback feasibility",
+      "philosophy": ["PHL-06", "PHL-11"],
+      "segments": ["S30", "S31"],
+      "ui": ["UI-10", "UI-42"],
+      "journeys": ["DJ-26"]
+    },
+
+    {
+      "id": "AID-01",
+      "product": "aider",
+      "evidence_grade": "A",
+      "capability": "token-budgeted graph-ranked Tree-sitter repository map",
+      "saber_decision": "Repository Map is revision-labelled derived context with coverage omission and rebuild evidence",
+      "philosophy": ["PHL-05", "PHL-08"],
+      "segments": ["S29", "S33"],
+      "ui": ["UI-06", "UI-41"],
+      "journeys": ["DJ-31", "DJ-32"]
+    },
+    {
+      "id": "AID-02",
+      "product": "aider",
+      "evidence_grade": "A",
+      "capability": "architect model and editor model separation",
+      "saber_decision": "Planner Producer and Verifier are explicit roles with distinct context capability and verdict authority",
+      "philosophy": ["PHL-02", "PHL-10"],
+      "segments": ["S30", "S32", "S37"],
+      "ui": ["UI-28", "UI-31", "UI-36"],
+      "journeys": ["DJ-19", "DJ-30"]
+    },
+    {
+      "id": "AID-03",
+      "product": "aider",
+      "evidence_grade": "A",
+      "capability": "Git-native undo while preserving dirty user changes",
+      "saber_decision": "Change Set records ownership and refuses rollback that would overwrite unowned manual drift",
+      "philosophy": ["PHL-01", "PHL-06"],
+      "segments": ["S31", "S32"],
+      "ui": ["UI-10", "UI-13", "UI-42"],
+      "journeys": ["DJ-26"]
+    },
+    {
+      "id": "AID-04",
+      "product": "aider",
+      "evidence_grade": "A",
+      "capability": "automatic lint and test repair loop",
+      "saber_decision": "bounded Producer-Verifier loop preserves failing evidence uses immutable acceptance and stops on budget or regression",
+      "philosophy": ["PHL-06", "PHL-07", "PHL-10"],
+      "segments": ["S30", "S31", "S37"],
+      "ui": ["UI-28", "UI-39"],
+      "journeys": ["DJ-30"]
+    }
+  ]
+}

@@ -34,6 +34,17 @@ specific findings.
 - Production review confirms that competitor-inspired convenience did not
   weaken Core authority, provenance, human sign-off, isolation or rollback.
 
+## Advanced harness and philosophy requirements
+
+- `KIR-01`: design-partner acceptance begins from a versioned Specification and
+  proves requirement → design → Task → Change Set → test/Evidence trace.
+- Scripts also cover DJ-25 through DJ-32 and PJ-01 through PJ-12: adapter
+  replacement, safe checkpoint, replay, Hook/reflex, Runtime attestation,
+  compaction, index rebuild, immune containment, evolution and forgetting.
+- Product research validates whether users understand the body/brain/Armor/
+  immune distinctions without anthropomorphic pressure or misleading claims of
+  consciousness and autonomous self-improvement.
+
 ## Work packages
 
 ### S38-WP01 — Cohort and consent

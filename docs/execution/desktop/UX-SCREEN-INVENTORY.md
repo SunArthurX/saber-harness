@@ -52,6 +52,13 @@
 | UI-33 | Remote Dispatch and Device Session | developer/admin | pairing, connected, stale, approval-needed, revoked, offline | S35 |
 | UI-34 | Memory-to-Evolution Pipeline | curator/security | observed, candidate, conflicted, evaluating, canary, promoted, rolled-back | S33/S34 |
 | UI-35 | Browser and Computer Realm | developer/security | disabled, requesting, active, injection-alert, contained, stopped | S34/S37 |
+| UI-36 | Capability and Agent Adapter Inspector | developer/admin | detecting, negotiating, ready, capability-gap, degraded, revoked | S27/S29/S34 |
+| UI-37 | Reflex and Hook Manager | developer/security | draft, simulated, enabled, blocked, circuit-broken, disabled, unloaded | S30/S34/S37 |
+| UI-38 | Runtime/Sandbox Image Inspector | developer/security | unresolved, building, attesting, ready, drifted, quarantined, unavailable | S27/S30/S35/S37 |
+| UI-39 | Causal Timeline and Trajectory Replay | developer/reviewer | live, filtered, reconstructing, gap, divergent, complete, exported | S27/S29/S30/S31 |
+| UI-40 | Specification Studio | developer/product/reviewer | requirements, design, tasking, accepted, stale, conflicted, verified | S28/S30/S31/S38 |
+| UI-41 | Repository Map and Context Budget | developer/curator | indexing, ready, partial, stale, budgeted, corrupt, rebuilding | S29/S33/S34 |
+| UI-42 | Recovery and Homeostasis Center | developer/security/support | H0-H4, containing, stabilizing, repairing, verifying, safe-mode, escalated | S31/S34/S37 |
 
 ## Competitor-derived interaction contracts
 
@@ -111,6 +118,45 @@
 - Schedule editing distinguishes an independent Automation Run from a Goal
   Heartbeat returning to existing context, including missed-run and overlap
   behavior.
+
+### Adapter, causal replay and Runtime
+
+- The Adapter Inspector names protocol, provider/configuration owner,
+  authentication boundary, trust class and supported, unsupported or degraded
+  capabilities before a Plan binds to it.
+- Switching model, Agent or harness is an identity-preserving continuity event;
+  pending assumptions and approvals are revalidated rather than copied.
+- Causal replay shows canonical events separately from provider messages,
+  summaries and UI projections. A sequence gap or projection divergence cannot
+  be hidden by a visually complete transcript.
+- Runtime Inspector binds filesystem, shell, PTY, LSP, preview/browser and test
+  observations to one Realm, image and source-revision identity.
+
+### Specification, reflex and repository attention
+
+- Specification Studio links requirement revision → design decision → Task →
+  Change Set → test/Evidence; stale evidence cannot close a changed requirement.
+- Reflex Hook preview shows trigger, read/write set, budget, blocking behavior,
+  recursion guard, owner and unload residue test. No Hook can grant itself a new
+  capability.
+- Repository Map labels revision, source coverage, ranking/selection reason,
+  omissions, token budget and freshness. It is a rebuildable projection, not
+  repository or access-control truth.
+- Context compaction exposes source-event range, omitted categories, resulting
+  budget and summary lineage before the next model call.
+
+### Recovery and homeostasis
+
+- Recovery separates repository changes, canonical events, derived context and
+  external effects; the UI never promises one-click rollback for an irreversible
+  or uncertain external action.
+- Homeostasis follows Detect → Classify → Contain → Stabilize → Diagnose →
+  Repair → Verify → Learn → Expire. Failed verification returns to containment
+  or escalation, never to a green status.
+- Manual edits and unowned changes are highlighted before checkpoint restore;
+  safe recovery preserves them or asks for an explicit resolution.
+- Safe Mode identifies the exact disabled capability set and remains controlled
+  by Core and the human/security authority, not the active model.
 
 ## Action contract
 

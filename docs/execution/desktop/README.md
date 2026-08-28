@@ -1,6 +1,6 @@
 # Saber Studio Desktop Execution Pack
 
-Version: 1.2
+Version: 1.3
 
 Status: executable planning baseline; S26 implementation has not started
 
@@ -38,6 +38,10 @@ higher authority.
 | `desktop-workbench-wbs.json` | Machine-readable Segment, task, dependency and Gate index |
 | `COMPETITIVE-CAPABILITY-RESEARCH.md` | Official-source Codex/Claude/ZCode/MiniMax findings and Saber decisions |
 | `competitive-capability-map.json` | Machine-readable competitor capability → Segment/UI/journey mapping |
+| `ADVANCED-HARNESS-RESEARCH.md` | Official Cursor/DeepSeek Harness/Zed/Kiro/OpenHands/Cline/Aider architecture and product findings |
+| `advanced-harness-capability-map.json` | Machine-readable advanced capability → philosophy/Segment/UI/journey mapping |
+| `PHILOSOPHY-TO-ARCHITECTURE.md` | Iron Man/Hulk/body/immune metaphors converted to authority, homeostasis, evolution and acceptance contracts |
+| `philosophy-architecture-map.json` | Machine-readable principle, organ, failure, autonomy and evidence map |
 | `DESKTOP-PRODUCT-OPERATING-MODEL.md` | Canonical objects, lifecycle ownership, MVP cut line and recovery semantics |
 | `desktop-product-release-trains.json` | Machine-readable RT-0 through RT-3 scope, distribution and Exit Gates |
 | `ACCEPTANCE-AND-TRACEABILITY.md` | Product journeys, evidence owners and release traceability |
@@ -106,8 +110,15 @@ A Segment is done only when all statements are true:
   runbook.
 - Scope and non-goals are unchanged or an accepted ADR records the change.
 - Every work package has an owner, reviewer, test and evidence entry.
-- Every adopted competitor capability has a `CDX`/`CLD`/`ZCD`/`MMX` evidence
-  ID, a Saber-specific decision, Segment, UI state and acceptance journey.
+- Every adopted competitor capability has a `CDX`/`CLD`/`ZCD`/`MMX` or
+  `CUR`/`DSH`/`ZED`/`KIR`/`OHD`/`CLN`/`AID` evidence ID, a Saber-specific
+  decision, Segment, UI state and acceptance journey.
+- Every system-organ metaphor maps to a concrete component, authority, health
+  signal, reflex, escalation and Evidence requirement; no metaphor can replace
+  a testable contract.
+- Armor and internal evolution remain distinct lifecycles. E6 source changes
+  require protected review; E7 Policy/encryption/updater/Recovery roots never
+  mutate autonomously.
 - Tests cover success, denial, crash/restart and at least one adversarial case.
 - macOS, Windows and Linux hosted checks are green where the runbook requires
   them.

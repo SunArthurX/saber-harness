@@ -1,6 +1,6 @@
 # S25 Handoff — Desktop Workbench Baseline
 
-Status: ready for protected review; refined execution pack passes local gates
+Status: ready for protected review; advanced research and philosophy expansion passes local gates
 Date: 2026-08-28
 Branch: `segment/S25-desktop-workbench-baseline`
 Verified content checkpoint: `60c85b59b04d55f31da429aad982b2a31c52edc9`
@@ -58,6 +58,30 @@ console is an optional supervisor surface, not the desktop implementation.
   silently lose a Segment, work package, owner, Gate or cross-cutting control.
 - Corrected ADR-028's trailing blank line after the PR merge-ref whitespace gate
   exposed it; the execution Definition of Done now checks the whole base diff.
+- Added an official-source second research layer for Cursor, DeepSeek Harness,
+  Zed, Kiro, OpenHands, Cline and Aider: 36 additional capability records map to
+  Saber-specific contracts, philosophy principles, Segments, UI and journeys.
+- Added `PHILOSOPHY-TO-ARCHITECTURE.md` and its machine-readable map: 12
+  philosophical invariants, 19 body/system organs, the authority stack, bounded
+  homeostasis, E0-E7 evolution, H0-H4 health, five data islands and 12 philosophy
+  acceptance journeys.
+- Kept DeepSeek Harness-style service seams, profiles, reconstructable events
+  and reversible effects outside the privileged immune Core; Policy, Sandbox,
+  Secret, Egress, Audit, Update and Recovery remain higher authority than the
+  model, Agent, plugin, Hook or Renderer.
+- Expanded the operating model to 23 canonical objects, adding Specification,
+  Agent Profile, Reflex Hook, Checkpoint, Runtime Image and Projection Recipe
+  with explicit lifecycle and invalidation semantics.
+- Expanded the desktop inventory from 35 to 42 screens and product journeys
+  from 24 to 32. New workbench surfaces cover adapter capability, reflex Hooks,
+  Runtime attestation, causal replay, Specification, Repository Map/context
+  budget and recovery/homeostasis; they are not a separate Web supervisor.
+- Added all advanced capability and philosophy requirements to S26-S38
+  runbooks, WBS and release trains without changing the 78-work-package
+  sequence or starting S26.
+- Expanded `verify-s25.mjs` from 1542 to 3049 checks, including bidirectional
+  capability/WBS symmetry, principle/organ schemas, product-object coverage,
+  new UI/journeys and philosophy-bearing release Gates.
 
 ## Current truth
 
@@ -84,6 +108,10 @@ console is an optional supervisor surface, not the desktop implementation.
   scratch data lives under ignored `tmp/pdfs/` and is not part of the change.
 - The two source PDFs remain outside the public commit; only independently
   written findings, mappings and official public links are tracked.
+- The original PDF files were not present at their earlier Downloads paths
+  during this refinement. Existing ignored extracted text and rendered pages
+  were used only to recheck the prior philosophy findings; no missing PDF is
+  represented as freshly re-read.
 - Branch push is verified for the content checkpoint; resolve the latest
   continuity-only head directly from Git.
 - The first Monorepo CI attempt reached the JavaScript gate on all three OSes
@@ -107,11 +135,19 @@ console is an optional supervisor surface, not the desktop implementation.
   33168573273/33168575647. Both dependency audits and all macOS, Windows and
   Linux jobs succeeded; PR #69 reports 10/10 successful checks and a clean
   merge state.
+- The advanced harness/philosophy work passes `node scripts/verify-s25.mjs`
+  with 3049 checks, `git diff --check` and `pnpm verify`. Deterministic
+  generation, format, lint, typecheck, build, 22 package tests, license, S00-S25
+  verifiers and 15 governance tests passed; one pre-existing Biome warning and
+  one pre-existing info diagnostic remain unchanged. Hosted checks are pending
+  until this checkpoint is committed and pushed.
 
 ## Remaining S25 acceptance
 
-1. Review and merge PR #69 through protected main; then update the completion
-   record and tag only if every S25 acceptance item is proved.
+1. Commit and push the advanced research/philosophy checkpoint, verify remote
+   SHA and hosted PR checks, then review and merge PR #69 through protected
+   main. Update the completion record and tag only if every S25 acceptance item
+   is proved.
 
 ## S26 start condition
 

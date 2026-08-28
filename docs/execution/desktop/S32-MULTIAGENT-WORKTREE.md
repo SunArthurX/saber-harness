@@ -32,6 +32,17 @@ failure domains.
   pull-based Knowledge Board preserve source, audience, taint and receiving
   Policy while the lead remains responsive.
 
+## Advanced harness and philosophy requirements
+
+- `CUR-04`, `ZED-03`, `ZED-04`, `ZED-06`: parallel/local/background Agents keep
+  per-Task Worktree/Realm identity, restore proof, status and governed takeover.
+- `OHD-04`, `AID-02`: heterogeneous backends and Planner/Producer/Verifier
+  roles share one Goal DAG, budget and Evidence grammar.
+- `AID-03`: integration and rollback distinguish baseline dirty state, manual
+  edits, Agent-owned edits and reviewed combined edits.
+- Prove `PHL-10`: Agent consensus and cross-Task messages cannot launder
+  capability, Policy or completion authority.
+
 ## Work packages
 
 ### S32-WP01 — Goal DAG UI

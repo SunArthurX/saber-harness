@@ -32,6 +32,18 @@ steer, cancel, resume or fork without losing causal history.
 - `CLD-04`: proposed out-of-scope work is a reviewable Task Proposal, not a
   silently spawned session.
 
+## Advanced harness and philosophy requirements
+
+- `CUR-01`, `CUR-02`, `CUR-06`: Steer and checkpoints bind the exact effect
+  boundary and preserve Agent Profile capability provenance.
+- `DSH-03`, `DSH-06`, `OHD-01`, `OHD-02`: Run state is an append-only typed
+  Action/Observation journal executed through a separately supervised Realm.
+- `ZED-03`, `KIR-01`, `KIR-02`: Task/Run scheduling follows accepted
+  Specification and Hooks act only as bounded, Core-revocable reflexes.
+- `CLN-01`, `CLN-02`, `CLN-03`, `AID-02`, `AID-04`, `OHD-05`: Plan→Act is an
+  explicit capability transition with checkpoint, reproducible Runtime and a
+  bounded Producer/Verifier repair loop.
+
 ## Work packages
 
 ### S30-WP01 — Goal and Plan authoring

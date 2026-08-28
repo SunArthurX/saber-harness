@@ -12,6 +12,8 @@
       "risk": "high",
       "depends_on": ["S25"],
       "competitive_capabilities": ["CDX-01", "CLD-01", "ZCD-01"],
+      "advanced_capabilities": [],
+      "philosophy_principles": ["PHL-02", "PHL-04"],
       "tasks": [
         { "id": "S26-WP01", "owner": "desktop-tech-lead", "output": "accepted upstream and redistribution review" },
         { "id": "S26-WP02", "owner": "build-engineer", "output": "upstream.lock.json and verified source fetch" },
@@ -34,6 +36,25 @@
       "risk": "critical",
       "depends_on": ["S26"],
       "competitive_capabilities": ["CDX-02", "CDX-05", "ZCD-09", "MMX-05"],
+      "advanced_capabilities": [
+        "CUR-06",
+        "DSH-01",
+        "DSH-02",
+        "DSH-03",
+        "DSH-04",
+        "DSH-05",
+        "DSH-06",
+        "DSH-07",
+        "ZED-01",
+        "ZED-02",
+        "ZED-06",
+        "KIR-03",
+        "OHD-01",
+        "OHD-02",
+        "OHD-03",
+        "OHD-04"
+      ],
+      "philosophy_principles": ["PHL-02", "PHL-04", "PHL-05", "PHL-12"],
       "tasks": [
         {
           "id": "S27-WP01",
@@ -64,6 +85,8 @@
       "risk": "high",
       "depends_on": ["S27"],
       "competitive_capabilities": ["CDX-01", "CDX-07", "CLD-01", "CLD-02", "ZCD-01", "ZCD-03", "ZCD-04"],
+      "advanced_capabilities": ["CUR-05", "DSH-05", "ZED-01", "ZED-03", "KIR-01", "KIR-03", "OHD-03"],
+      "philosophy_principles": ["PHL-02", "PHL-05", "PHL-09", "PHL-11"],
       "tasks": [
         { "id": "S28-WP01", "owner": "product-designer", "output": "approved desktop layout and responsive states" },
         { "id": "S28-WP02", "owner": "extension-engineer", "output": "Project Goal Task and Conversation navigation" },
@@ -90,6 +113,21 @@
       "risk": "high",
       "depends_on": ["S28"],
       "competitive_capabilities": ["CDX-03", "CDX-06", "CLD-03", "ZCD-09"],
+      "advanced_capabilities": [
+        "CUR-01",
+        "CUR-03",
+        "DSH-03",
+        "ZED-01",
+        "ZED-02",
+        "ZED-05",
+        "ZED-06",
+        "KIR-04",
+        "KIR-05",
+        "CLN-01",
+        "CLN-02",
+        "AID-01"
+      ],
+      "philosophy_principles": ["PHL-02", "PHL-05", "PHL-08", "PHL-11", "PHL-12"],
       "tasks": [
         {
           "id": "S29-WP01",
@@ -126,6 +164,25 @@
         "MMX-03",
         "MMX-05"
       ],
+      "advanced_capabilities": [
+        "CUR-01",
+        "CUR-02",
+        "CUR-06",
+        "DSH-03",
+        "DSH-06",
+        "ZED-03",
+        "KIR-01",
+        "KIR-02",
+        "OHD-01",
+        "OHD-02",
+        "OHD-05",
+        "CLN-01",
+        "CLN-02",
+        "CLN-03",
+        "AID-02",
+        "AID-04"
+      ],
+      "philosophy_principles": ["PHL-01", "PHL-04", "PHL-05", "PHL-10", "PHL-12"],
       "tasks": [
         { "id": "S30-WP01", "owner": "agent-architect", "output": "editable Goal Plan Acceptance and Run start flow" },
         {
@@ -156,6 +213,18 @@
       "risk": "critical",
       "depends_on": ["S30"],
       "competitive_capabilities": ["CDX-07", "CLD-02", "CLD-06", "ZCD-01", "ZCD-04", "MMX-07"],
+      "advanced_capabilities": [
+        "CUR-02",
+        "CUR-05",
+        "ZED-04",
+        "KIR-01",
+        "KIR-05",
+        "OHD-01",
+        "CLN-03",
+        "AID-03",
+        "AID-04"
+      ],
+      "philosophy_principles": ["PHL-01", "PHL-05", "PHL-06", "PHL-10"],
       "tasks": [
         { "id": "S31-WP01", "owner": "editor-engineer", "output": "change-set and Hunk Diff projection" },
         { "id": "S31-WP02", "owner": "frontend-engineer", "output": "review comments accept reject and revise flow" },
@@ -192,6 +261,8 @@
         "MMX-06",
         "MMX-07"
       ],
+      "advanced_capabilities": ["CUR-04", "ZED-03", "ZED-04", "ZED-06", "OHD-04", "AID-02", "AID-03"],
+      "philosophy_principles": ["PHL-01", "PHL-02", "PHL-06", "PHL-10", "PHL-11"],
       "tasks": [
         { "id": "S32-WP01", "owner": "orchestration-engineer", "output": "Goal DAG and delegation canvas" },
         { "id": "S32-WP02", "owner": "git-engineer", "output": "per-Task Worktree lifecycle and cleanup" },
@@ -224,6 +295,8 @@
         "MMX-05",
         "MMX-06"
       ],
+      "advanced_capabilities": ["CUR-03", "DSH-03", "ZED-02", "ZED-04", "ZED-05", "KIR-04", "KIR-05", "AID-01"],
+      "philosophy_principles": ["PHL-02", "PHL-07", "PHL-08", "PHL-09", "PHL-11"],
       "tasks": [
         { "id": "S33-WP01", "owner": "data-engineer", "output": "consent-aware conversation Import Wizard" },
         { "id": "S33-WP02", "owner": "data-engineer", "output": "Raw Canonical Derived and Lineage browser" },
@@ -250,6 +323,8 @@
       "risk": "critical",
       "depends_on": ["S33"],
       "competitive_capabilities": ["CDX-04", "CDX-06", "CLD-07", "ZCD-04", "ZCD-05", "ZCD-08", "MMX-04", "MMX-08"],
+      "advanced_capabilities": ["CUR-03", "CUR-05", "DSH-01", "DSH-02", "DSH-04", "DSH-07", "KIR-02", "KIR-04"],
+      "philosophy_principles": ["PHL-03", "PHL-04", "PHL-06", "PHL-07", "PHL-08"],
       "tasks": [
         { "id": "S34-WP01", "owner": "plugin-engineer", "output": "Armor Rack inventory trust and capability cards" },
         { "id": "S34-WP02", "owner": "evolution-engineer", "output": "candidate intake ranking and media selection" },
@@ -280,6 +355,8 @@
       "risk": "critical",
       "depends_on": ["S34"],
       "competitive_capabilities": ["CLD-05", "CLD-07", "ZCD-05", "ZCD-07", "MMX-08"],
+      "advanced_capabilities": ["CUR-04", "DSH-04", "DSH-05", "OHD-02", "OHD-04", "OHD-05"],
+      "philosophy_principles": ["PHL-01", "PHL-03", "PHL-04", "PHL-09", "PHL-12"],
       "tasks": [
         { "id": "S35-WP01", "owner": "identity-engineer", "output": "SSO device enrollment and SCIM mapping" },
         {
@@ -310,6 +387,8 @@
       "risk": "critical",
       "depends_on": ["S35"],
       "competitive_capabilities": ["CDX-02", "CLD-05", "ZCD-07"],
+      "advanced_capabilities": ["CUR-04", "KIR-03"],
+      "philosophy_principles": ["PHL-02", "PHL-04", "PHL-06", "PHL-09", "PHL-11"],
       "tasks": [
         { "id": "S36-WP01", "owner": "release-engineer", "output": "macOS Windows and Linux signed package pipelines" },
         {
@@ -336,6 +415,8 @@
       "risk": "critical",
       "depends_on": ["S36"],
       "competitive_capabilities": ["CLD-02", "CLD-07", "ZCD-04", "ZCD-07", "MMX-01", "MMX-02", "MMX-08"],
+      "advanced_capabilities": ["CUR-05", "DSH-06", "DSH-07", "KIR-02", "OHD-03", "OHD-05", "AID-02", "AID-04"],
+      "philosophy_principles": ["PHL-01", "PHL-04", "PHL-05", "PHL-06", "PHL-07", "PHL-12"],
       "tasks": [
         {
           "id": "S37-WP01",
@@ -384,6 +465,8 @@
         "MMX-04",
         "MMX-08"
       ],
+      "advanced_capabilities": ["KIR-01"],
+      "philosophy_principles": ["PHL-01", "PHL-05", "PHL-07", "PHL-10", "PHL-11"],
       "tasks": [
         { "id": "S38-WP01", "owner": "product-manager", "output": "design-partner cohort consent and support plan" },
         { "id": "S38-WP02", "owner": "eval-engineer", "output": "representative repository benchmark and baseline" },

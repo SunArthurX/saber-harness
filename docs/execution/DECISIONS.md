@@ -251,3 +251,34 @@ Decision:
 Reason:
 
 - Same class as DEC-0010/0011/0014/0015: traceability stays roadmap-aligned, preserving the P0 orphan-free invariant.
+
+## DEC-0017 — Keep a privileged immune Core around a modular Agent harness
+
+Status: accepted for S25 planning; implemented evidence remains future Segment work
+Date: 2026-08-28
+
+Decision:
+
+- Saber adopts explicit service/capability seams, profiles, typed durable events,
+  reversible plugin effects and reconstructable model-visible history from the
+  advanced harness research.
+- Those seams apply to model/Agent adapters, Runtime providers, Armor, Skills,
+  compaction and derived projections. Policy, Sandbox, Secret, Egress, Audit,
+  Update and Recovery remain a privileged Rust Core root and fail closed.
+- The Iron Man external-Armor path and Hulk internal-evolution path remain
+  different lifecycles. E0-E6 promotion is progressively governed; E6 is a
+  protected branch/PR and E7 trust roots never mutate autonomously.
+- Product observability is a causal event/evidence Timeline. Saber does not
+  store or expose hidden chain-of-thought as its audit mechanism.
+- The human/organization remains the source of Goal, consent and final
+  authority; anthropomorphic language cannot create system rights or pressure a
+  user into permission, retention or recovery choices.
+
+Reason:
+
+- A fully unprivileged plugin microkernel is composable but cannot prove that an
+  injected model or extension is unable to replace its own safety enforcement.
+- Separate Armor and organism lifecycles make permission, provenance,
+  evaluation, rollback and forgetting reviewable.
+- Causal events provide reconstruction and accountability without depending on
+  private model reasoning.

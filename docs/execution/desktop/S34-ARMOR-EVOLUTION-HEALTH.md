@@ -30,6 +30,19 @@ Agent brain for advice.
 - `MMX-08`, `ZCD-04`: Browser/Computer Realm is optional Armor with injection
   alerts, application/origin allowlists, action receipts and global Stop.
 
+## Advanced harness and philosophy requirements
+
+- `DSH-01`, `DSH-02`, `DSH-04`, `DSH-07`: Armor uses typed capability seams,
+  signed profiles and reversible load/unload while immune roots stay privileged.
+- `CUR-03`, `KIR-04`: Memory/Rule inputs to evolution remain distinct,
+  attributable, scoped and revocable.
+- `CUR-05`, `KIR-02`: Browser input is tainted sensory data and Hooks are
+  narrow reflexes with simulation, recursion guards, circuit breakers and
+  residue-free unload.
+- Implement the E0-E7 ladder and H0-H4 homeostasis contract from
+  `PHILOSOPHY-TO-ARCHITECTURE.md`; E6 is protected PR only and E7 never mutates
+  autonomously.
+
 ## Work packages
 
 ### S34-WP01 — Armor Rack

@@ -34,6 +34,18 @@ fixtures and a real Core binary. Agent UX and broad protocol expansion are out
 of scope; add only lifecycle methods required to connect, query health and
 replay an existing fixture Run.
 
+## Advanced harness and philosophy requirements
+
+- `CUR-06`, `ZED-01`, `ZED-02`, `ZED-06`, `KIR-03`: negotiate Agent/harness
+  capabilities and configuration ownership without changing Core Goal identity.
+- `DSH-01`, `DSH-02`, `DSH-03`, `DSH-04`, `DSH-05`, `DSH-06`, `DSH-07`: adopt
+  typed services, durable events, profile composition, reversible effects and
+  one execution-world identity outside the privileged immune Core.
+- `OHD-01`, `OHD-02`, `OHD-03`, `OHD-04`: keep Action/Observation, Runtime and
+  Renderer projection boundaries explicit across every backend.
+- Prove `PHL-02`, `PHL-04`, `PHL-05` and `PHL-12`: a model or plugin cannot
+  become its own Policy/evidence authority through protocol negotiation.
+
 ## Work packages
 
 ### S27-WP01 — Lifecycle contract

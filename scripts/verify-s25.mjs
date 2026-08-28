@@ -26,6 +26,10 @@ const requiredFiles = [
   "docs/execution/desktop/NEXT-MODEL-S26.md",
   "docs/execution/desktop/COMPETITIVE-CAPABILITY-RESEARCH.md",
   "docs/execution/desktop/competitive-capability-map.json",
+  "docs/execution/desktop/ADVANCED-HARNESS-RESEARCH.md",
+  "docs/execution/desktop/advanced-harness-capability-map.json",
+  "docs/execution/desktop/PHILOSOPHY-TO-ARCHITECTURE.md",
+  "docs/execution/desktop/philosophy-architecture-map.json",
   "docs/execution/desktop/DESKTOP-PRODUCT-OPERATING-MODEL.md",
   "docs/execution/desktop/desktop-product-release-trains.json",
 ];
@@ -84,6 +88,10 @@ check(
   "web-supervisor-boundary",
   "design desktop-first invariant",
 );
+check(design.includes("### 5.12 Advanced Agent Body Inspectors"), "advanced-desktop-inspectors", "design section 5.12");
+for (const ui of ["UI-36", "UI-37", "UI-38", "UI-39", "UI-40", "UI-41", "UI-42"]) {
+  check(design.includes(ui), "advanced-desktop-inspector-id", ui);
+}
 
 const desktopReadme = text("apps/desktop-codeoss/README.md");
 check(
@@ -121,6 +129,10 @@ for (const contract of [
   "NEXT-MODEL-S26.md",
   "COMPETITIVE-CAPABILITY-RESEARCH.md",
   "competitive-capability-map.json",
+  "ADVANCED-HARNESS-RESEARCH.md",
+  "advanced-harness-capability-map.json",
+  "PHILOSOPHY-TO-ARCHITECTURE.md",
+  "philosophy-architecture-map.json",
   "DESKTOP-PRODUCT-OPERATING-MODEL.md",
   "desktop-product-release-trains.json",
 ]) {
@@ -193,6 +205,120 @@ if (capabilityMap) {
   }
 }
 
+const advancedCapabilityMapPath = `${desktopDirectory}/advanced-harness-capability-map.json`;
+let advancedCapabilityMap;
+try {
+  advancedCapabilityMap = JSON.parse(text(advancedCapabilityMapPath));
+  check(true, "advanced-capability-json", "valid JSON");
+} catch (error) {
+  check(false, "advanced-capability-json", error.message);
+}
+
+const advancedCapabilityById = new Map();
+if (advancedCapabilityMap) {
+  check(advancedCapabilityMap.schema_version === 1, "advanced-capability-schema", "schema_version 1");
+  check(
+    advancedCapabilityMap.products.length === 7,
+    "advanced-product-count",
+    `${advancedCapabilityMap.products.length}`,
+  );
+  check(
+    advancedCapabilityMap.capabilities.length === 36,
+    "advanced-capability-count",
+    `${advancedCapabilityMap.capabilities.length}`,
+  );
+  for (const capability of advancedCapabilityMap.capabilities) {
+    check(/^(CUR|DSH|ZED|KIR|OHD|CLN|AID)-\d{2}$/.test(capability.id), "advanced-capability-id", capability.id);
+    check(!advancedCapabilityById.has(capability.id), "advanced-capability-unique", capability.id);
+    check(advancedCapabilityMap.products.includes(capability.product), "advanced-capability-product", capability.id);
+    check(["A", "B"].includes(capability.evidence_grade), "advanced-capability-grade", capability.id);
+    check(Boolean(capability.capability && capability.saber_decision), "advanced-capability-decision", capability.id);
+    check(capability.philosophy.length > 0, "advanced-capability-philosophy", capability.id);
+    check(capability.segments.length > 0, "advanced-capability-segments", capability.id);
+    check(capability.ui.length > 0, "advanced-capability-ui", capability.id);
+    check(capability.journeys.length > 0, "advanced-capability-journeys", capability.id);
+    for (const principle of capability.philosophy) {
+      check(/^PHL-(?:0[1-9]|1[0-2])$/.test(principle), "advanced-philosophy-id", `${capability.id}: ${principle}`);
+    }
+    for (const segment of capability.segments) {
+      check(/^S(?:2[7-9]|3[0-8])$/.test(segment), "advanced-capability-segment-id", `${capability.id}: ${segment}`);
+    }
+    for (const ui of capability.ui) {
+      check(/^UI-(?:0[1-9]|[1-3][0-9]|4[0-2])$/.test(ui), "advanced-capability-ui-id", `${capability.id}: ${ui}`);
+    }
+    for (const journey of capability.journeys) {
+      check(
+        /^DJ-(?:0[1-9]|[12][0-9]|3[0-2])$/.test(journey),
+        "advanced-capability-journey-id",
+        `${capability.id}: ${journey}`,
+      );
+    }
+    advancedCapabilityById.set(capability.id, capability);
+  }
+}
+
+const philosophyMapPath = `${desktopDirectory}/philosophy-architecture-map.json`;
+let philosophyMap;
+try {
+  philosophyMap = JSON.parse(text(philosophyMapPath));
+  check(true, "philosophy-map-json", "valid JSON");
+} catch (error) {
+  check(false, "philosophy-map-json", error.message);
+}
+
+if (philosophyMap) {
+  check(philosophyMap.schema_version === 1, "philosophy-map-schema", "schema_version 1");
+  check(philosophyMap.authority_order.length === 6, "philosophy-authority-order", philosophyMap.authority_order.length);
+  check(philosophyMap.principles.length === 12, "philosophy-principle-count", philosophyMap.principles.length);
+  check(philosophyMap.organs.length === 19, "philosophy-organ-count", philosophyMap.organs.length);
+  check(
+    philosophyMap.evolution_levels.length === 8,
+    "philosophy-evolution-count",
+    philosophyMap.evolution_levels.length,
+  );
+  check(
+    philosophyMap.homeostasis_states.length === 9,
+    "philosophy-homeostasis-count",
+    philosophyMap.homeostasis_states.length,
+  );
+  check(
+    philosophyMap.health_levels.join(",") === "H0,H1,H2,H3,H4",
+    "philosophy-health-levels",
+    philosophyMap.health_levels.join(","),
+  );
+  check(philosophyMap.data_islands.length === 5, "philosophy-data-islands", philosophyMap.data_islands.length);
+  const principleIds = new Set(philosophyMap.principles.map((principle) => principle.id));
+  const organIds = new Set(philosophyMap.organs.map((organ) => organ.id));
+  for (let index = 1; index <= 12; index += 1) {
+    check(
+      principleIds.has(`PHL-${String(index).padStart(2, "0")}`),
+      "philosophy-principle-id",
+      `PHL-${String(index).padStart(2, "0")}`,
+    );
+  }
+  for (let index = 1; index <= 19; index += 1) {
+    check(
+      organIds.has(`ORG-${String(index).padStart(2, "0")}`),
+      "philosophy-organ-id",
+      `ORG-${String(index).padStart(2, "0")}`,
+    );
+  }
+  for (const principle of philosophyMap.principles) {
+    check(Boolean(principle.invariant), "philosophy-invariant", principle.id);
+    check(principle.negative_tests.length > 0, "philosophy-negative-tests", principle.id);
+    for (const organ of principle.organs) {
+      check(organIds.has(organ), "philosophy-principle-organ", `${principle.id}: ${organ}`);
+    }
+  }
+  for (const organ of philosophyMap.organs) {
+    check(Boolean(organ.authority && organ.reflex), "philosophy-organ-contract", organ.id);
+    check(organ.signals.length > 0 && organ.evidence.length > 0, "philosophy-organ-observability", organ.id);
+  }
+  for (const level of philosophyMap.evolution_levels) {
+    check(level.autonomous_core_mutation === false, "philosophy-no-autonomous-core-mutation", level.id);
+  }
+}
+
 for (const [segment, file] of runbooks) {
   const path = `${desktopDirectory}/${file}`;
   check(existsSync(join(root, path)), "desktop-segment-runbook", `${segment}: ${file}`);
@@ -202,6 +328,11 @@ for (const [segment, file] of runbooks) {
     check(runbook.includes(contract), "desktop-runbook-contract", `${segment}: ${contract}`);
   }
   check(runbook.includes("## Competitive-derived requirements"), "desktop-runbook-competitive-section", segment);
+  check(
+    runbook.includes("## Advanced harness and philosophy requirements"),
+    "desktop-runbook-advanced-section",
+    segment,
+  );
   const segmentNumber = Number(segment.slice(1));
   const expectedReleaseTrain =
     segmentNumber <= 29 ? "RT-0" : segmentNumber <= 31 ? "RT-1" : segmentNumber <= 34 ? "RT-2" : "RT-3";
@@ -254,6 +385,28 @@ if (existsSync(join(root, wbsPath))) {
           `${segment.id}: ${capabilityId}`,
         );
       }
+      check(Array.isArray(segment.advanced_capabilities), "desktop-wbs-advanced-capabilities", segment.id);
+      for (const capabilityId of segment.advanced_capabilities ?? []) {
+        check(advancedCapabilityById.has(capabilityId), "desktop-wbs-advanced-id", `${segment.id}: ${capabilityId}`);
+        check(runbook.includes(capabilityId), "desktop-runbook-advanced-id", `${segment.id}: ${capabilityId}`);
+        check(
+          advancedCapabilityById.get(capabilityId)?.segments.includes(segment.id),
+          "desktop-advanced-segment-symmetry",
+          `${segment.id}: ${capabilityId}`,
+        );
+      }
+      check(
+        Array.isArray(segment.philosophy_principles) && segment.philosophy_principles.length > 0,
+        "desktop-wbs-philosophy-principles",
+        segment.id,
+      );
+      for (const principleId of segment.philosophy_principles ?? []) {
+        check(
+          philosophyMap?.principles.some((principle) => principle.id === principleId),
+          "desktop-wbs-philosophy-id",
+          `${segment.id}: ${principleId}`,
+        );
+      }
       for (const task of segment.tasks) {
         taskCount += 1;
         check(task.id.startsWith(`${segment.id}-WP`), "desktop-wbs-task-id", task.id);
@@ -271,6 +424,7 @@ const screenInventory = text(`${desktopDirectory}/UX-SCREEN-INVENTORY.md`);
 check(acceptance.includes("DJ-01"), "desktop-acceptance-first-journey", "DJ-01");
 check(acceptance.includes("DJ-13"), "desktop-acceptance-last-journey", "DJ-13");
 check(acceptance.includes("DJ-24"), "desktop-acceptance-competitive-last-journey", "DJ-24");
+check(acceptance.includes("DJ-32"), "desktop-acceptance-advanced-last-journey", "DJ-32");
 check(acceptance.includes("## DJ-03 canonical fixture"), "desktop-acceptance-canonical-fixture", "DJ-03 fixture");
 check(acceptance.includes("## Release claim gates"), "desktop-release-claim-gates", "release claims");
 
@@ -279,6 +433,9 @@ for (const contract of [
   "## Canonical product objects",
   "## Ownership and projection rules",
   "## Lifecycle contracts",
+  "### Specification and Agent Profile",
+  "### Reflex Hook, Checkpoint and Runtime Image",
+  "### Projection Recipe",
   "## Navigation and command grammar",
   "## Release cut lines",
   "### MVP cut line",
@@ -292,6 +449,7 @@ for (const contract of [
 }
 for (const object of [
   "Workspace",
+  "Repository",
   "Goal",
   "Task",
   "Conversation",
@@ -307,11 +465,18 @@ for (const object of [
   "Capability",
   "Evolution Candidate",
   "Incident",
+  "Specification",
+  "Agent Profile",
+  "Reflex Hook",
+  "Checkpoint",
+  "Runtime Image",
+  "Projection Recipe",
 ]) {
   check(operatingModel.includes(`| ${object} |`), "desktop-canonical-product-object", object);
 }
 
 const releaseTrainPath = `${desktopDirectory}/desktop-product-release-trains.json`;
+const philosophyForRelease = text(`${desktopDirectory}/PHILOSOPHY-TO-ARCHITECTURE.md`);
 let releaseTrains;
 try {
   releaseTrains = JSON.parse(text(releaseTrainPath));
@@ -332,6 +497,7 @@ if (releaseTrains) {
     check(Boolean(train.entry_gate && train.exit_gate), "desktop-release-train-gates", train.id);
     check(train.segments.length > 0, "desktop-release-train-segments", train.id);
     check(train.required_journeys.length > 0, "desktop-release-train-journeys", train.id);
+    check(Array.isArray(train.required_philosophy_journeys), "desktop-release-train-philosophy", train.id);
     check(train.required_ui.length > 0, "desktop-release-train-ui", train.id);
     check(train.non_claims.length > 0, "desktop-release-train-non-claims", train.id);
     actualSegments.push(...train.segments);
@@ -345,16 +511,23 @@ if (releaseTrains) {
     }
     for (const journey of train.required_journeys) {
       check(
-        /^DJ-(?:0[1-9]|1[0-9]|2[0-4])$/.test(journey) && acceptance.includes(journey),
+        /^DJ-(?:0[1-9]|[12][0-9]|3[0-2])$/.test(journey) && acceptance.includes(journey),
         "desktop-release-train-journey-id",
         `${train.id}: ${journey}`,
       );
     }
     for (const ui of train.required_ui) {
       check(
-        /^UI-(?:0[1-9]|[12][0-9]|3[0-5])$/.test(ui) && screenInventory.includes(ui),
+        /^UI-(?:0[1-9]|[1-3][0-9]|4[0-2])$/.test(ui) && screenInventory.includes(ui),
         "desktop-release-train-ui-id",
         `${train.id}: ${ui}`,
+      );
+    }
+    for (const journey of train.required_philosophy_journeys) {
+      check(
+        /^PJ-(?:0[1-9]|1[0-2])$/.test(journey) && philosophyForRelease.includes(`| ${journey} |`),
+        "desktop-release-train-philosophy-id",
+        `${train.id}: ${journey}`,
       );
     }
   }
@@ -368,6 +541,7 @@ if (releaseTrains) {
 check(screenInventory.includes("UI-01"), "desktop-screen-first", "UI-01");
 check(screenInventory.includes("UI-24"), "desktop-screen-last", "UI-24");
 check(screenInventory.includes("UI-35"), "desktop-screen-competitive-last", "UI-35");
+check(screenInventory.includes("UI-42"), "desktop-screen-advanced-last", "UI-42");
 for (const state of ["Empty", "Loading", "Error", "Keyboard", "Accessibility"]) {
   check(screenInventory.includes(state), "desktop-screen-state", state);
 }
@@ -394,6 +568,10 @@ for (const contract of [
   "upstream.lock.json",
   "## Mandatory handoff",
   "COMPETITIVE-CAPABILITY-RESEARCH.md",
+  "ADVANCED-HARNESS-RESEARCH.md",
+  "advanced-harness-capability-map.json",
+  "PHILOSOPHY-TO-ARCHITECTURE.md",
+  "philosophy-architecture-map.json",
   "DESKTOP-PRODUCT-OPERATING-MODEL.md",
   "desktop-product-release-trains.json",
   "engineering preview rather than the CodingAgent MVP",
@@ -428,6 +606,74 @@ for (const [capabilityId, capability] of capabilityById) {
       `${capabilityId}: ${segmentId}`,
     );
   }
+}
+
+const advancedResearch = text(`${desktopDirectory}/ADVANCED-HARNESS-RESEARCH.md`);
+for (const contract of [
+  "## Scope and method",
+  "## Cursor findings",
+  "## DeepSeek Harness findings",
+  "## Zed findings",
+  "## Kiro findings",
+  "## OpenHands findings",
+  "## Cline findings",
+  "## Aider findings",
+  "## Cross-product architecture decisions",
+  "## Anti-copy rules",
+  "https://cursor.com/docs/agent/overview",
+  "https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md",
+  "https://zed.dev/acp",
+  "https://kiro.dev/docs/hooks/",
+  "https://docs.openhands.dev/openhands/usage/architecture/runtime",
+  "https://docs.cline.bot/core-workflows/plan-and-act",
+  "https://aider.chat/docs/repomap.html",
+]) {
+  check(advancedResearch.includes(contract), "advanced-harness-research", contract);
+}
+
+const wbsForAdvanced = JSON.parse(text(wbsPath));
+for (const [capabilityId, capability] of advancedCapabilityById) {
+  check(advancedResearch.includes(capabilityId), "advanced-research-capability", capabilityId);
+  for (const principleId of capability.philosophy) {
+    check(
+      philosophyMap?.principles.some((principle) => principle.id === principleId),
+      "advanced-philosophy-symmetry",
+      `${capabilityId}: ${principleId}`,
+    );
+  }
+  for (const segmentId of capability.segments) {
+    const segment = wbsForAdvanced.segments.find((item) => item.id === segmentId);
+    check(
+      segment?.advanced_capabilities.includes(capabilityId),
+      "advanced-map-wbs-symmetry",
+      `${capabilityId}: ${segmentId}`,
+    );
+  }
+}
+
+const philosophyContract = text(`${desktopDirectory}/PHILOSOPHY-TO-ARCHITECTURE.md`);
+for (const contract of [
+  "## Twelve philosophical invariants",
+  "### PHL-01 Human sovereignty",
+  "### PHL-12 Graduated autonomy and least action",
+  "## Body and system-organ map",
+  "## Authority stack",
+  "## Homeostasis protocol",
+  "Detect → Classify → Contain → Stabilize → Diagnose → Repair → Verify → Learn → Expire",
+  "## Evolution ladder and autonomy ceiling",
+  "## Armor lifecycle",
+  "## Internal evolution lifecycle",
+  "## Data-island unification contract",
+  "## Philosophical tensions and resolution rules",
+  "## Philosophy acceptance journeys",
+  "E7",
+  "H4",
+]) {
+  check(normalized(philosophyContract).includes(contract), "philosophy-architecture-contract", contract);
+}
+for (let index = 1; index <= 12; index += 1) {
+  const id = `PJ-${String(index).padStart(2, "0")}`;
+  check(philosophyContract.includes(`| ${id} |`), "philosophy-journey", id);
 }
 
 for (const pass of passes) console.log(`PASS ${pass.name}: ${pass.detail}`);

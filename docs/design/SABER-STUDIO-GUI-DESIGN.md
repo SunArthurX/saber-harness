@@ -374,6 +374,71 @@ Candidate 类型：Memory、Rule、Workflow、Skill、Strategy、Code Capsule、
 
 管理员默认只见元数据和合规状态，不自动获得 Workspace 正文。任何 Break Glass 显示双人审批、TTL、目的、访问范围和审计回执。
 
+### 5.12 Advanced Agent Body Inspectors
+
+这组页面不是额外的 Web 监督台，而是 Desktop Agent Workbench 中按任务和边界
+打开的原生 Pane/Editor。它们把“可替换大脑、外部装甲、神经反射、身体运行环境、
+因果意识、注意力和免疫自愈”落成可操作界面。
+
+**Capability and Agent Adapter Inspector（UI-36）**
+
+- 顶部固定当前 Goal/Task、来源 Agent/Harness、协议、版本、配置与认证所有者。
+- 中间用 Capability Graph 显示 Supported / Unsupported / Degraded、Provider、
+  依赖与 Trust Class；缺口不能被 UI 统一外观隐藏。
+- 右侧显示切换影响：Plan 假设、Context 格式、待审批、Tool、成本和恢复策略。
+- `Switch` 先生成 Continuity Diff，再由 Core 记录切换；不能只换下拉框文案。
+
+**Reflex and Hook Manager（UI-37）**
+
+- Hook 列表按 Workspace / Goal / Task / global scope 分组，显示触发器、读写集、
+  是否可阻断、预算、递归保护、Owner 和最后一次触发。
+- `Simulate` 以真实事件结构运行但没有生产 Effect；结果显示会阻断、会调用什么、
+  会消耗多少以及 Policy 决定。
+- Circuit Breaker 与 Immune Override 始终可见；Unload 必须显示 listener/effect
+  residue 验证，不以“扩展已消失”代替。
+
+**Runtime/Sandbox Image Inspector（UI-38）**
+
+- 显示 Image digest、构建来源、SBOM、工具链、CPU/架构、Mount、Network、Secret、
+  资源上限、当前进程与 Attestation。
+- Filesystem、Shell、PTY、LSP、Preview/Browser、Test 都显示同一 Realm/revision；
+  不一致时整条 Evidence 标记为 Cross-Realm，需要重新验证。
+- `Rebuild clean`、`Quarantine`、`Compare drift` 和 `Export metadata` 不暴露正文。
+
+**Causal Timeline and Trajectory Replay（UI-39）**
+
+- 分轨显示 Human Intent、Goal/Plan、Context Selection、Approval、Action、Observation、
+  Change、Verification、Policy/Health；默认不展示或保存隐藏思维链。
+- 可在任意 Event Cursor 打开“Model saw”视图，列出 Projection Recipe、来源、
+  摘要、遗漏、脱敏、Token 与 Provider 格式。
+- Replay 需要同时给出 canonical hash、projection hash 和 divergence/gap；聊天看起来
+  完整但事件不完整时保持红色不确定状态。
+
+**Specification Studio（UI-40）**
+
+- 三列分别为 Requirements、Design Decisions、Tasks/Verification；每条都有 revision、
+  owner、risk、status 和双向 trace。
+- 自然语言可以生成草案，但 Accepted Requirement 必须由人或组织工作流确认。
+- 设计或验收变更时，下游 Task/Evidence 自动标 Stale；不能仅更新 Markdown 后继续。
+
+**Repository Map and Context Budget（UI-41）**
+
+- 图视图与列表视图展示 symbol/file/community、排名原因、引用边、覆盖与 source revision。
+- Context Nutrition Label 同时显示 Repo Map、Conversation、Decision、Memory、External
+  Source 的预算、实际消耗、遗漏和 taint。
+- `Drop and rebuild index` 是一等恢复旅程；Canonical code/chat/document records 不随
+  向量、FTS、symbol 或 graph projection 一同删除。
+
+**Recovery and Homeostasis Center（UI-42）**
+
+- 比 Health Center 更聚焦一次事件的处置：Detect → Classify → Contain → Stabilize →
+  Diagnose → Repair → Verify → Learn → Expire。
+- 四个恢复域分别显示 Code、Canonical Events、Derived Context、External Effects；
+  `Restore` 前展示 manual drift、不可逆动作和 uncertain 状态。
+- H0-H4 由信号和影响计算，不由模型主观决定；Verify 失败返回 Contained 或 Escalated，
+  不能显示 Recovered。
+- H3/H4 的 Safe Mode 退出只接受 Core 所需的人类/安全权限，当前 Agent 与 Hook 无权退出。
+
 ---
 
 ## 6. 标志性组件规范

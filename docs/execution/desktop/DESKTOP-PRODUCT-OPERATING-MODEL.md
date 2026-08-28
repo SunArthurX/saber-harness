@@ -1,6 +1,6 @@
 # Saber Studio Desktop Product Operating Model
 
-Version: 1.0
+Version: 1.1
 
 Status: S25 product contract; implementation starts only after protected S25
 merge.
@@ -52,6 +52,12 @@ many explicitly governed organs:
 | Capability | installable model/tool/skill/plugin/adapter contract | Capability registry | yes | Armor Rack | installed means neither trusted nor enabled |
 | Evolution Candidate | proposed Memory/Skill/Strategy/Code/Core improvement | Evolution ledger | yes | Evolution Workshop | self-edit cannot self-promote |
 | Incident | detected health, policy or integrity degradation | Health Supervisor | yes | Health Center/Vital Bar | symptom dismissal is not recovery |
+| Specification | versioned requirements, design decisions and Task/Evidence trace | Core + accepted human revision | yes | Specification Studio | prose document alone cannot prove acceptance |
+| Agent Profile | versioned model/harness/instruction/tool capability composition | Capability registry + Core policy | yes | Adapter Inspector/Armor Rack | selecting a profile grants no undeclared power |
+| Reflex Hook | narrow event-triggered pre-authorized reaction | Core Hook registry | yes | Reflex/Hook Manager | trigger cannot widen its own authority |
+| Checkpoint | recovery boundary over code, events, context and external effects | Core + Git/external reconciliation | yes | Changes/Recovery Center | snapshot cannot promise universal rollback |
+| Runtime Image | attested execution-world definition and provenance | Runtime registry + Policy | yes | Runtime/Sandbox Inspector | container label alone is not isolation proof |
+| Projection Recipe | versioned transformation from canonical records to model/UI/index view | Core/Data registry | yes | Causal Replay/Context | summary or vector index is not source truth |
 
 Identifiers survive display-name changes. Every authoritative event names the
 Workspace, Goal, Task, Run and Realm that exist for that action; absent objects
@@ -71,6 +77,9 @@ are explicit `null`, never inferred from the focused pane.
    visible source revision.
 6. External harness adapters preserve their source identity and capability
    gaps. Normalization cannot fabricate unsupported provenance or events.
+7. Specification, Agent Profile, Hook, Checkpoint, Runtime Image and Projection
+   Recipe are first-class records with revisions and lineage. Configuration
+   files are inputs or projections, not an alternative authority.
 
 ## Lifecycle contracts
 
@@ -138,6 +147,60 @@ Detected → Contained → Diagnosing → Repairing → Verifying → Recovered
   Code Capsule and Core change. Review and rollback strength increases with it.
 - Health may autonomously take pre-authorized containment and last-known-good
   recovery actions. It cannot widen authority or silently discard evidence.
+
+### Specification and Agent Profile
+
+```text
+Specification: Draft → Reviewed → Accepted → InExecution → Verifying → Satisfied
+                         ↘ Superseded / Rejected      ↘ Stale / Inconclusive
+
+Agent Profile: Discovered → Verified → Available → Selected → BoundToRun
+                         ↘ Degraded / Revoked / Incompatible
+```
+
+- Requirement, design, Task, Change Set, test and Evidence links are
+  bidirectional and revision-bound. Any upstream revision makes downstream
+  acceptance visibly stale until reconciled.
+- Agent Profile selection records source harness, configuration/auth owner,
+  supported/degraded capabilities and trust class. A switch revalidates Plan,
+  Context and pending Approval.
+
+### Reflex Hook, Checkpoint and Runtime Image
+
+```text
+Hook: Draft → Simulated → Enabled → Fired → Completed
+                      ↘ Blocked / CircuitBroken / Disabled → Unloaded
+
+Checkpoint: Capturing → Ready → RestorePreview → Restoring → Reconciled
+                   ↘ Partial / Invalid / ExternalEffectUncertain
+
+Runtime Image: Declared → Building → Attesting → Ready → InUse
+                         ↘ Drifted / Quarantined / Superseded
+```
+
+- Hook enablement freezes trigger, read/write set, budget, blocking behavior,
+  recursion guard, owner and failure policy. Unload proves listener/effect
+  removal; the immune Core can disable it without Agent cooperation.
+- Checkpoint records four dimensions separately: repository change ownership,
+  canonical event cursor, derived context recipe and external-effect status.
+  Restore previews manual drift and never rewrites an irreversible effect into
+  a false success.
+- Runtime Image binds toolchain, dependencies, mounts, egress, secrets, resource
+  ceilings, architecture and provenance. All filesystem/shell/PTY/LSP/test
+  observations identify the same Runtime Realm or an explicit reconciliation.
+
+### Projection Recipe
+
+```text
+Declared → Validating → Active → Rebuilding → Reconciled
+                    ↘ Stale / Corrupt / Incompatible / Retired
+```
+
+- Model context, provider messages, UI Timeline, summaries, repository maps,
+  FTS/vector/symbol/graph indexes and exports name a Projection Recipe version.
+- Rebuild reads authorized canonical sources, produces deterministic lineage
+  and exposes gaps or equivalence failure. It never changes the source records
+  merely to make the projection match.
 
 ## Navigation and command grammar
 

@@ -10,7 +10,8 @@
       "segments": ["S26", "S27", "S28", "S29"],
       "distribution": "internal engineers only",
       "required_journeys": ["DJ-01", "DJ-16"],
-      "required_ui": ["UI-01", "UI-02", "UI-04", "UI-05", "UI-06", "UI-25", "UI-26"],
+      "required_philosophy_journeys": [],
+      "required_ui": ["UI-01", "UI-02", "UI-04", "UI-05", "UI-06", "UI-25", "UI-26", "UI-36"],
       "entry_gate": "S25 is merged through protected main and the S26 upstream, license and reproducibility inputs are accepted",
       "exit_gate": "packaged three-platform shell opens the real workbench, projects a supervised Core and explains every outbound context fragment",
       "non_claims": [
@@ -25,8 +26,9 @@
       "label": "first desktop CodingAgent MVP",
       "segments": ["S30", "S31"],
       "distribution": "named internal alpha users",
-      "required_journeys": ["DJ-01", "DJ-02", "DJ-03", "DJ-04", "DJ-18"],
-      "required_ui": ["UI-03", "UI-07", "UI-08", "UI-09", "UI-10", "UI-11", "UI-28"],
+      "required_journeys": ["DJ-01", "DJ-02", "DJ-03", "DJ-04", "DJ-18", "DJ-25"],
+      "required_philosophy_journeys": ["PJ-01", "PJ-05", "PJ-11"],
+      "required_ui": ["UI-03", "UI-07", "UI-08", "UI-09", "UI-10", "UI-11", "UI-28", "UI-39"],
       "entry_gate": "RT-0 evidence is accepted and the real Core transport, identity and context boundaries pass adversarial review",
       "exit_gate": "a real repository Goal runs through exact approval, isolated changes, tests, Hunk review, rollback and independent Evidence after Renderer restart",
       "non_claims": [
@@ -53,8 +55,14 @@
         "DJ-20",
         "DJ-22",
         "DJ-23",
-        "DJ-24"
+        "DJ-24",
+        "DJ-26",
+        "DJ-27",
+        "DJ-28",
+        "DJ-31",
+        "DJ-32"
       ],
+      "required_philosophy_journeys": ["PJ-02", "PJ-04", "PJ-06", "PJ-07", "PJ-10"],
       "required_ui": [
         "UI-12",
         "UI-13",
@@ -70,7 +78,10 @@
         "UI-30",
         "UI-31",
         "UI-32",
-        "UI-34"
+        "UI-34",
+        "UI-37",
+        "UI-41",
+        "UI-42"
       ],
       "entry_gate": "RT-1 CodingAgent MVP is accepted without weakening Core authority, review or rollback",
       "exit_gate": "isolated Agent teams, external continuity, governed knowledge, Armor, evolution and immune recovery pass combined failure and rollback scenarios",
@@ -86,8 +97,22 @@
       "label": "production candidate",
       "segments": ["S35", "S36", "S37", "S38"],
       "distribution": "bounded enterprise rollout",
-      "required_journeys": ["DJ-10", "DJ-11", "DJ-12", "DJ-13", "DJ-17", "DJ-21"],
-      "required_ui": ["UI-22", "UI-23", "UI-24", "UI-27", "UI-33", "UI-35"],
+      "required_journeys": ["DJ-10", "DJ-11", "DJ-12", "DJ-13", "DJ-17", "DJ-21", "DJ-29", "DJ-30"],
+      "required_philosophy_journeys": [
+        "PJ-01",
+        "PJ-02",
+        "PJ-03",
+        "PJ-04",
+        "PJ-05",
+        "PJ-06",
+        "PJ-07",
+        "PJ-08",
+        "PJ-09",
+        "PJ-10",
+        "PJ-11",
+        "PJ-12"
+      ],
+      "required_ui": ["UI-22", "UI-23", "UI-24", "UI-27", "UI-33", "UI-35", "UI-38", "UI-40", "UI-42"],
       "entry_gate": "RT-2 beta evidence, rollback and incident findings are accepted for the candidate scope",
       "exit_gate": "signed artifacts on the supported platform matrix satisfy enterprise isolation, SLO, security, accessibility, recovery and fixed design-partner acceptance on one reviewed SHA",
       "non_claims": [

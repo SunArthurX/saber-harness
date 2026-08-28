@@ -34,6 +34,18 @@ Requires S34 protected merge, enterprise test tenant, non-production IdP/KMS,
 documented data regions and privacy/legal owner. Production credentials and
 real employee/customer data are prohibited in CI.
 
+## Advanced harness and philosophy requirements
+
+- `CUR-04`, `OHD-04`: remote/background Agent backends retain tenant, device,
+  Realm, budget, evidence and takeover provenance.
+- `DSH-04`: organization Agent Profiles compose only signed, allowed Armor and
+  expose unresolved or revoked dependencies.
+- `DSH-05`, `OHD-02`, `OHD-05`: Runtime images and execution-world identity are
+  attested, reproducible and constrained by mount, egress, secret and resource
+  policy.
+- Prove `PHL-09`: E2EE sync, KMS integration and device revocation preserve
+  client/tenant key authority and honest offline conflict behavior.
+
 ## Work packages
 
 ### S35-WP01 — Identity and device enrollment

@@ -27,6 +27,15 @@ disabled by Renderer, extension, Agent or remote content.
 - Platform parity gaps are explicit product states; no unsupported architecture
   is advertised because another product happens to support it.
 
+## Advanced harness and philosophy requirements
+
+- `CUR-04`: a desktop update cannot orphan or silently terminate an active
+  background Run; status, takeover and compatibility are reconciled explicitly.
+- `KIR-03`: Desktop, CLI and optional Web Supervisor use compatible Core and
+  repository configuration migrations without creating three policy truths.
+- Packaging and updater changes remain E7-governed: the active Agent cannot
+  rewrite signing, rollback, migration or Recovery trust roots.
+
 ## Work packages
 
 ### S36-WP01 — Package definitions
