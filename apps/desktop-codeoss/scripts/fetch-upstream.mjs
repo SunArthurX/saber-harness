@@ -11,7 +11,16 @@ import { createHash } from "node:crypto";
  * and non-https origins are refused before anything is fetched. No upstream
  * code is ever executed here.
  */
-import { createReadStream, createWriteStream, existsSync, readFileSync, renameSync, rmSync, statSync } from "node:fs";
+import {
+  createReadStream,
+  createWriteStream,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  renameSync,
+  rmSync,
+  statSync,
+} from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { Readable } from "node:stream";
 import { pipeline } from "node:stream/promises";
@@ -136,6 +145,7 @@ export async function ensureUpstream(lock, { cacheRoot = CACHE_ROOT, offline = f
     );
   }
   const temporary = `${target}.tmp-${process.pid}`;
+  mkdirSync(dirname(target), { recursive: true });
   rmSync(temporary, { force: true });
   try {
     await downloadTo(lock.source.archive_url, temporary);
