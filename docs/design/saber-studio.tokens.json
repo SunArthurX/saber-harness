@@ -1,0 +1,140 @@
+{
+  "$schema": "https://schemas.saber.local/design-tokens/v1.json",
+  "name": "Saber Studio Quiet Armor",
+  "version": "1.0.0",
+  "color": {
+    "dark": {
+      "surface.canvas": "#080C11",
+      "surface.nucleus": "#0C1117",
+      "surface.chrome": "#111821",
+      "surface.raised": "#141B23",
+      "surface.hover": "#18212B",
+      "text.primary": "#DCE5EE",
+      "text.secondary": "#93A4B7",
+      "text.muted": "#7F92A5",
+      "line.structure": "#25313D",
+      "line.spine": "#334252",
+      "signal.cognition": "#54B8FF",
+      "signal.knowledge": "#A78BFA",
+      "signal.verified": "#55C896",
+      "signal.approval": "#F0B35A",
+      "signal.incident": "#FF6B78",
+      "signal.offline": "#93A4B7"
+    },
+    "light": {
+      "surface.canvas": "#EEF2F6",
+      "surface.nucleus": "#F7F9FB",
+      "surface.chrome": "#FFFFFF",
+      "surface.raised": "#FFFFFF",
+      "surface.hover": "#E8EEF3",
+      "text.primary": "#17212B",
+      "text.secondary": "#526170",
+      "text.muted": "#738291",
+      "line.structure": "#DBE3EA",
+      "line.spine": "#CBD5DF",
+      "signal.cognition": "#0069A8",
+      "signal.knowledge": "#6D46C7",
+      "signal.verified": "#087A52",
+      "signal.approval": "#925500",
+      "signal.incident": "#B42334",
+      "signal.offline": "#5A6878"
+    }
+  },
+  "typography": {
+    "family.ui": "Inter, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif",
+    "family.cjk": "PingFang SC, Microsoft YaHei, Noto Sans CJK SC, sans-serif",
+    "family.mono": "IBM Plex Mono, SFMono-Regular, Consolas, monospace",
+    "size.caption": 11,
+    "size.compact": 13,
+    "size.body": 14,
+    "size.title": 18,
+    "lineHeight.body": 1.5,
+    "weight.normal": 400,
+    "weight.medium": 560,
+    "weight.semibold": 650,
+    "weight.bold": 720
+  },
+  "space": {
+    "atom": 4,
+    "xs": 4,
+    "sm": 8,
+    "md": 12,
+    "lg": 16,
+    "xl": 24,
+    "2xl": 32
+  },
+  "radius": {
+    "control": 6,
+    "pane": 8,
+    "dialog": 12,
+    "window": 14,
+    "round": 999
+  },
+  "border": {
+    "hairline": 1,
+    "focus": 2,
+    "continuity": 1,
+    "selectedSpine": 3
+  },
+  "layout": {
+    "titlebarHeight": 48,
+    "railWidth": 58,
+    "contextSidebarMin": 240,
+    "contextSidebarDefault": 288,
+    "contextSidebarMax": 360,
+    "evidenceDrawerDefault": 320,
+    "vitalBarHeight": 46,
+    "minimumDesktopWidth": 1024,
+    "compactDesktopBreakpoint": 1280,
+    "tabletBreakpoint": 900,
+    "mobileBreakpoint": 600
+  },
+  "density": {
+    "compact.rowHeight": 28,
+    "comfortable.rowHeight": 34,
+    "touch.target": 44,
+    "editor.defaultLineHeight": 20
+  },
+  "motion": {
+    "eventPulseMs": 180,
+    "paneTransitionMs": 150,
+    "drawerTransitionMs": 180,
+    "maximumNonEssentialMs": 220,
+    "reducedMotion": "disable_nonessential"
+  },
+  "elevation": {
+    "popover": "0 12px 36px rgba(4, 10, 16, 0.26)",
+    "dialog": "0 24px 80px rgba(0, 0, 0, 0.38)",
+    "window": "0 18px 60px rgba(4, 10, 16, 0.22)"
+  },
+  "state": {
+    "observable": [
+      "initial",
+      "loading",
+      "streaming",
+      "empty",
+      "partial",
+      "waiting_user",
+      "waiting_external",
+      "offline",
+      "permission_denied",
+      "policy_denied",
+      "degraded",
+      "contained",
+      "stale",
+      "conflict",
+      "completed",
+      "archived"
+    ],
+    "evidence": ["unverified", "partially_verified", "verified", "contradicted", "stale"],
+    "health": ["healthy", "watching", "degraded", "contained", "safe_mode"]
+  },
+  "accessibility": {
+    "target": "WCAG 2.2 AA",
+    "minimumTextContrast": 4.5,
+    "minimumLargeTextContrast": 3,
+    "colorOnlyStateAllowed": false,
+    "keyboardComplete": true,
+    "screenReaderLiveEvents": ["run_waiting_user", "approval_requested", "incident_contained", "run_completed"]
+  }
+}

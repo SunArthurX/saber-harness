@@ -14,7 +14,7 @@ export function createBanner(): string {
 
 /** Usage line for the shell around the trusted Rust core. */
 export function createUsage(): string {
-  return "usage: saber run <args...> | saber banner  (args pass to `saber-core run`)";
+  return "usage: saber run <args...> | saber ui [--port N] [--store DIR] | saber banner";
 }
 
 function repositoryRoot(): string {
@@ -58,7 +58,7 @@ function run(args: string[]): number {
   return result.status ?? 1;
 }
 
-function main(): number {
+function main(): number | null {
   const args = process.argv.slice(2);
   if (args.length === 0) {
     console.log(createBanner());
@@ -71,6 +71,11 @@ function main(): number {
     case "banner":
       console.log(createBanner());
       return 0;
+    case "ui": {
+      // Stay alive: the HTTP server owns the event loop from here.
+      void ui(args.slice(1));
+      return null;
+    }
     default:
       console.error(`saber: unknown command ${args[0]}`);
       console.error(createUsage());
@@ -78,6 +83,39 @@ function main(): number {
   }
 }
 
+/** Start the local web console; resolves only on shutdown. */
+async function ui(args: string[]): Promise<void> {
+  const { startUiServer } = await import("./ui.js");
+  let port = 0;
+  let store: string | null = null;
+  for (let index = 0; index < args.length; index += 2) {
+    const value = args[index + 1] ?? "";
+    if (args[index] === "--port" && value.length > 0) {
+      port = Number.parseInt(value, 10);
+    }
+    if (args[index] === "--store" && value.length > 0) {
+      store = value;
+    }
+  }
+  const core = resolveCoreBinary();
+  if (core === null) {
+    console.error("saber: trusted core binary not found");
+    console.error("build it with `cargo build -p saber-core` or set SABER_CORE_BIN");
+    process.exitCode = 64;
+    return;
+  }
+  const handle = await startUiServer(store === null ? { core, port } : { core, port, store });
+  console.log(`saber console: http://127.0.0.1:${handle.port}`);
+  console.log(`audit store: ${handle.store}`);
+  console.log("press Ctrl-C to stop");
+  process.on("SIGINT", () => {
+    handle.server.close(() => process.exit(0));
+  });
+}
+
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
-  process.exit(main());
+  const exitCode = main();
+  if (exitCode !== null) {
+    process.exit(exitCode);
+  }
 }
