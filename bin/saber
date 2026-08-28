@@ -26,8 +26,19 @@ if [ "${1:-}" = "banner" ]; then
   exec "$CORE" banner
 fi
 
+if [ "${1:-}" = "ui" ]; then
+  # The web console lives in the TS package (untrusted renderer shell).
+  CLI_JS="$repo_root/apps/cli/dist/index.js"
+  if [ ! -f "$CLI_JS" ]; then
+    echo "saber: TS console not built. Run: pnpm install --frozen-lockfile && pnpm build" >&2
+    exit 64
+  fi
+  shift
+  exec node "$CLI_JS" ui "$@"
+fi
+
 if [ "${1:-}" != "run" ]; then
-  echo "saber: usage: bin/saber run <args...> | bin/saber banner" >&2
+  echo "saber: usage: bin/saber run <args...> | bin/saber ui [--port N] [--store DIR] | bin/saber banner" >&2
   exit 64
 fi
 shift

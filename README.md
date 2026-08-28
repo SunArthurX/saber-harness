@@ -32,6 +32,38 @@ approval for this exact request), `--stdin <payload>`.
 TS entry point: `node apps/cli/dist/index.js run …` resolves the same core
 binary (override with `SABER_CORE_BIN`).
 
+## Saber Studio console (GUI)
+
+The Saber Studio local console (docs/design/SABER-STUDIO-GUI-DESIGN.md) at
+127.0.0.1 — zero runtime dependencies, untrusted renderer by design. Every
+effect goes through the governed core, so policy, sandbox and the encrypted
+audit trail are identical to the CLI; the page holds no shell, git, network
+or secret access. 中文/English switchable from the title bar.
+
+```sh
+pnpm install --frozen-lockfile && pnpm build   # once, builds the TS console
+bin/saber ui                                    # prints http://127.0.0.1:<port>
+```
+
+Ten pages (Today · Command Center, Goal & Plan, Conversation, Changes &
+Review, Runtime & Timeline, Memory & Knowledge, Armor Rack, Evolution
+Workshop, Health Center, Governance) in the Quiet Armor shell: title bar
+(workspace · branch · realm · privacy · autonomy · health), rail, context
+sidebar, canvas, evidence drawer and a live vital bar. Signature components
+are real: an unallowed run is denied by policy and turns into an Approval
+Card (exact argv, boundaries, one-shot scope, 5-minute expiry, Deny / Allow
+once / Narrow scope), Allow-once re-runs the exact quoted command, and every
+run leaves an Evidence Receipt with the core's own verdict line
+(`run_XXXXXXX … hash_chain_verified=true`) plus a browser-computed SHA-256
+output digest. Safe mode submits every run without approval so policy denies
+and records it. The page is served pre-built with gzip and ETag
+revalidation.
+
+Honest scope: this is the loopback supervisor console from the design's
+responsive tier, not the Code-OSS desktop IDE (design §12.2, §17). `--store
+DIR` selects the audit store (default `~/.saber/audit`), `--port N` fixes
+the port.
+
 ## What the plan delivered
 
 The execution plan (docs/企业级开发执行与跨模型接力计划.md) broke the product
