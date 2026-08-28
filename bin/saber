@@ -1,0 +1,34 @@
+#!/bin/bash
+# saber — user-facing launcher for the Saber trusted agent core.
+# Usage: bin/saber run <args...>   (same arguments as `saber-core run`)
+#        bin/saber banner
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "$0")/.." && pwd)"
+
+CORE=""
+if [ -n "${SABER_CORE_BIN:-}" ]; then
+  CORE="$SABER_CORE_BIN"
+else
+  for profile in release debug; do
+    candidate="$repo_root/target/$profile/saber-core"
+    [ -x "$candidate" ] && CORE="$candidate" && break
+  done
+fi
+
+if [ -z "$CORE" ]; then
+  echo "saber: trusted core binary not found." >&2
+  echo "build it once with:  cargo build --release -p saber-core" >&2
+  exit 64
+fi
+
+if [ "${1:-}" = "banner" ]; then
+  exec "$CORE" banner
+fi
+
+if [ "${1:-}" != "run" ]; then
+  echo "saber: usage: bin/saber run <args...> | bin/saber banner" >&2
+  exit 64
+fi
+shift
+exec "$CORE" run "$@"

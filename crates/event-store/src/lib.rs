@@ -1105,6 +1105,17 @@ impl EventStore {
             .connection
             .query_row("SELECT count(*) FROM events", [], |row| row.get(0))?)
     }
+
+    /// Count recorded runs across workspaces (read-only audit statistic).
+    ///
+    /// # Errors
+    ///
+    /// Returns a database error when the count query fails.
+    pub fn run_count(&self) -> Result<i64, StoreError> {
+        Ok(self
+            .connection
+            .query_row("SELECT count(*) FROM runs", [], |row| row.get(0))?)
+    }
 }
 
 impl DecisionAuditSink for EventStore {
