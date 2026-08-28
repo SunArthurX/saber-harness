@@ -165,5 +165,5 @@ decisions:
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
 blockers: []
 next_action:
-  command: open a protected-main PR for segment/S25-desktop-workbench-baseline, review and merge it, then update the S25 completion record before starting S26
-  description: desktop-primary ADR, S25-S38 plan, local full gate, Repository Verification, dependency audit and macOS/Windows/Linux Monorepo CI passed on a74d09bf05ad0b3213c5f5c377f64fc9826929d0; protected review remains pending and desktop implementation deliberately remains unclaimed
+  command: review and merge protected PR https://github.com/SunArthurX/saber-harness/pull/69, then update the S25 completion record before starting S26
+  description: PR #69 is open; desktop-primary ADR, S25-S38 plan, local full gate, Repository Verification, dependency audit and macOS/Windows/Linux Monorepo CI passed on a74d09bf05ad0b3213c5f5c377f64fc9826929d0; protected merge remains pending and desktop implementation deliberately remains unclaimed

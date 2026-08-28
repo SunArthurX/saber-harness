@@ -14,6 +14,11 @@
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
+  "pull_request": {
+    "number": 69,
+    "url": "https://github.com/SunArthurX/saber-harness/pull/69",
+    "state": "OPEN"
+  },
   "checks": [
     {
       "id": "S25-PREDECESSOR",

@@ -4,6 +4,7 @@ Status: ready for protected review; local, remote and hosted gates pass
 Date: 2026-08-28
 Branch: `segment/S25-desktop-workbench-baseline`
 Verified content checkpoint: `a74d09bf05ad0b3213c5f5c377f64fc9826929d0`
+Protected review: <https://github.com/SunArthurX/saber-harness/pull/69>
 Base main: `af85f697a47a94e667536d396066639d2d56578a`
 Predecessor: annotated `s24-complete` resolves to `502dd1db348be7e0c4ab1a6e188275b26027d5dd`
 
@@ -57,8 +58,8 @@ console is an optional supervisor surface, not the desktop implementation.
 
 ## Remaining S25 acceptance
 
-1. Open and merge through protected main review; then update the completion record and
-   tag only if every S25 acceptance item is proved.
+1. Review and merge PR #69 through protected main; then update the completion
+   record and tag only if every S25 acceptance item is proved.
 
 ## S26 start condition
 
