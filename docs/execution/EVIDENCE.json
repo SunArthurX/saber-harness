@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S26",
-  "status": "in_progress",
-  "branch": "segment/S26-codeoss-bootstrap",
+  "status": "completed",
+  "branch": "segment/S26-completion",
   "base": {
     "main_commit": "cedaee7fca4b987777218556dcffca8a63a77fa1",
     "segment": "S25",
@@ -129,9 +129,27 @@
       "command": "GitHub Desktop Build run 33207834355 at head d116132 (windows --failed rerun for an upstream copilot-SDK materialization flake)",
       "exit_code": 0,
       "result": "all three platforms succeeded end to end with patch 0002: darwin-arm64 tar.gz sha256 17f52bfb... (320025899 B), linux-x64 87b04f6e... (344200315 B), win32-x64 0bde8e33... (351999436 B); uploaded as unsigned development artifacts; full pnpm verify exits 0 on the same head"
+    },
+    {
+      "id": "S26-PROTECTED-PR-MERGE",
+      "command": "gh pr merge 71 --squash",
+      "exit_code": 0,
+      "result": "PR #71 squash-merged as 08dfd5cce865db460734e839d57eb361fec3b045 after all required checks and the three-platform Desktop Build matrix succeeded on the evidence head 99e0f20"
+    },
+    {
+      "id": "S26-MAIN-CI",
+      "command": "inspect main check runs on 08dfd5cce865db460734e839d57eb361fec3b045",
+      "exit_code": 0,
+      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on 08dfd5cce865db460734e839d57eb361fec3b045"
     }
   ],
   "known_blockers": [],
-  "pending": ["default_workbench_route_patch", "hosted_branch_ci", "protected_pr_merge"],
-  "last_verified_at": "2026-08-28T14:10:00Z"
+  "pending": [],
+  "last_verified_at": "2026-08-28T22:00:25Z",
+  "pull_request": {
+    "number": 71,
+    "url": "https://github.com/SunArthurX/saber-harness/pull/71",
+    "state": "MERGED",
+    "merge_commit": "08dfd5cce865db460734e839d57eb361fec3b045"
+  }
 }
