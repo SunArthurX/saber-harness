@@ -82,6 +82,11 @@ console is an optional supervisor surface, not the desktop implementation.
 - Expanded `verify-s25.mjs` from 1542 to 3049 checks, including bidirectional
   capability/WBS symmetry, principle/organ schemas, product-object coverage,
   new UI/journeys and philosophy-bearing release Gates.
+- Added `desktop/GLM-5.3-S26-EXECUTION-PROMPT.md`, a full Chinese handoff Prompt
+  that forces fresh Git/PR/tag calibration, enters a no-write S25 closure branch
+  while protected merge is pending, and permits only S26 Code-OSS bootstrap
+  after authoritative completion. It explicitly forbids S27 and false product
+  claims.
 
 ## Current truth
 
@@ -149,6 +154,10 @@ console is an optional supervisor surface, not the desktop implementation.
   33171209813/33171212250. Both dependency audits and all macOS, Windows and
   Linux jobs succeeded; PR #69 reports 10/10 successful checks and a clean,
   mergeable state.
+- After adding the GLM-5.3 Prompt, `verify-s25.mjs` passes 3066 checks and the
+  full `pnpm verify` gate passes locally; hosted checks for the Prompt checkpoint
+  are recorded from the final pushed SHA rather than inferred from this earlier
+  clean PR state.
 
 ## Remaining S25 acceptance
 

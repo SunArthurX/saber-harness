@@ -121,9 +121,15 @@
       "command": "GitHub Repository Verification runs 33171209822 and 33171212253 plus Monorepo CI runs 33171209813 and 33171212250 on a184108ce983260e5695abfeb84fd0d323aeccd0",
       "exit_code": 0,
       "result": "push and pull-request Repository Verification, both dependency audits, and macOS, Windows and Linux jobs all succeeded; PR #69 reports 10 successful checks, no pending or failing checks, and mergeStateStatus CLEAN"
+    },
+    {
+      "id": "S25-GLM53-HANDOFF-PROMPT-LOCAL-GATE",
+      "command": "node scripts/verify-s25.mjs && git diff --check && pnpm verify",
+      "exit_code": 0,
+      "result": "3066 focused checks plus the full repository gate passed; the GLM-5.3 handoff Prompt contains repository authority, current-state calibration, protected S25 merge/tag stop rule, bounded S26 scope, verification, Git discipline and mandatory handoff while explicitly forbidding S27"
     }
   ],
   "known_blockers": [],
   "pending": ["protected_pr_merge"],
-  "last_verified_at": "2026-08-28T12:35:23Z"
+  "last_verified_at": "2026-08-28T12:44:56Z"
 }

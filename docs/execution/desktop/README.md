@@ -50,6 +50,7 @@ higher authority.
 | `TEAM-OPERATING-MODEL.md` | RACI, ceremonies, escalation, review and evidence ownership |
 | `EVAL-AND-DESIGN-PARTNER-PLAN.md` | Real-repository evaluation and staged customer validation |
 | `NEXT-MODEL-S26.md` | Copy-ready start instructions for the model implementing S26 |
+| `GLM-5.3-S26-EXECUTION-PROMPT.md` | Full repository-calibrating Chinese prompt for handing S25 closure/S26 bootstrap to GLM-5.3 |
 | `S26-*.md` through `S38-*.md` | One bounded implementation runbook per Segment |
 
 ## Segment order

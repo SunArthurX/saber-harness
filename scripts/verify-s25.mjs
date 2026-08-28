@@ -24,6 +24,7 @@ const requiredFiles = [
   "docs/execution/desktop/TEAM-OPERATING-MODEL.md",
   "docs/execution/desktop/EVAL-AND-DESIGN-PARTNER-PLAN.md",
   "docs/execution/desktop/NEXT-MODEL-S26.md",
+  "docs/execution/desktop/GLM-5.3-S26-EXECUTION-PROMPT.md",
   "docs/execution/desktop/COMPETITIVE-CAPABILITY-RESEARCH.md",
   "docs/execution/desktop/competitive-capability-map.json",
   "docs/execution/desktop/ADVANCED-HARNESS-RESEARCH.md",
@@ -127,6 +128,7 @@ for (const contract of [
   "## Universal Definition of Done",
   "git diff --check origin/main...HEAD",
   "NEXT-MODEL-S26.md",
+  "GLM-5.3-S26-EXECUTION-PROMPT.md",
   "COMPETITIVE-CAPABILITY-RESEARCH.md",
   "competitive-capability-map.json",
   "ADVANCED-HARNESS-RESEARCH.md",
@@ -577,6 +579,27 @@ for (const contract of [
   "engineering preview rather than the CodingAgent MVP",
 ]) {
   check(nextModel.includes(contract), "desktop-next-model-contract", contract);
+}
+
+const glmPrompt = text(`${desktopDirectory}/GLM-5.3-S26-EXECUTION-PROMPT.md`);
+for (const contract of [
+  "GLM-5.3",
+  "分支 A",
+  "分支 B",
+  "protected_pr_merge",
+  "S26-CODEOSS-BOOTSTRAP.md",
+  "Desktop Agent Workbench",
+  "Web Supervisor",
+  "E0-E7",
+  "E7",
+  "node scripts/verify-s26.mjs",
+  "pnpm acceptance:new-machine",
+  "不得开始 S27",
+  "STATE.yaml",
+  "HANDOFF.md",
+  "EVIDENCE.json",
+]) {
+  check(glmPrompt.includes(contract), "desktop-glm53-prompt-contract", contract);
 }
 
 const competitiveResearch = text(`${desktopDirectory}/COMPETITIVE-CAPABILITY-RESEARCH.md`);
