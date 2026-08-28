@@ -93,7 +93,7 @@ git:
   branch: segment/S25-desktop-workbench-baseline
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: ed0ca1ab9bca7967f899066f80e937d663b35612
+  verified_segment_checkpoint: 60c85b59b04d55f31da429aad982b2a31c52edc9
   main_head: af85f697a47a94e667536d396066639d2d56578a
   verified_main_checkpoint: af85f697a47a94e667536d396066639d2d56578a
   remote_verified: true
@@ -103,7 +103,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-28T11:47:41Z"
+  last_checkpoint_at: "2026-08-28T11:52:31Z"
 acceptance:
   required:
     - s24_tagged_base
@@ -163,7 +163,7 @@ acceptance:
     - protected_pr_merge
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-28T11:47:41Z"
+  last_verified_at: "2026-08-28T11:52:31Z"
 decisions:
   - docs/adr/ADR-001-rust-trusted-core.md
   - docs/adr/ADR-004-events-transactional-projections.md
@@ -192,4 +192,4 @@ decisions:
 blockers: []
 next_action:
   command: review the S26-S38 execution pack and merge protected PR https://github.com/SunArthurX/saber-harness/pull/69, then update the S25 completion record before starting S26 from docs/execution/desktop/NEXT-MODEL-S26.md
-  description: PR #69 is open and mergeable with 10 successful hosted checks on the current pre-update checkpoint 32ce4d758988e54dbd002cf23fe2cd2bf0678600; the desktop-primary plan now includes 31 evidence-graded competitor capabilities, 13 Saber decisions, canonical product objects and lifecycles, four machine-readable release trains with RT-1 as the first honest CodingAgent MVP, 13 runbooks, 78 work packages, 35-screen UX inventory and 24 acceptance journeys; protected merge remains pending and desktop implementation deliberately remains unclaimed
+  description: PR #69 is open and mergeable with 10 successful hosted checks on 60c85b59b04d55f31da429aad982b2a31c52edc9; the desktop-primary plan now includes 31 evidence-graded competitor capabilities, 13 Saber decisions, canonical product objects and lifecycles, four machine-readable release trains with RT-1 as the first honest CodingAgent MVP, 13 runbooks, 78 work packages, 35-screen UX inventory and 24 acceptance journeys; protected merge remains pending and desktop implementation deliberately remains unclaimed

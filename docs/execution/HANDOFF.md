@@ -3,7 +3,7 @@
 Status: ready for protected review; refined execution pack passes local gates
 Date: 2026-08-28
 Branch: `segment/S25-desktop-workbench-baseline`
-Verified content checkpoint: `ed0ca1ab9bca7967f899066f80e937d663b35612`
+Verified content checkpoint: `60c85b59b04d55f31da429aad982b2a31c52edc9`
 Protected review: <https://github.com/SunArthurX/saber-harness/pull/69>
 Base main: `af85f697a47a94e667536d396066639d2d56578a`
 Predecessor: annotated `s24-complete` resolves to `502dd1db348be7e0c4ab1a6e188275b26027d5dd`
@@ -102,6 +102,11 @@ console is an optional supervisor surface, not the desktop implementation.
   33152873714/33152875817. Both dependency audits and all macOS, Windows and
   Linux jobs succeeded; PR #69 again reports 10/10 successful checks and a
   clean merge state.
+- The product-operating-model checkpoint `60c85b5` passed push and PR workflows:
+  Repository Verification runs 33168573327/33168575644 and Monorepo CI runs
+  33168573273/33168575647. Both dependency audits and all macOS, Windows and
+  Linux jobs succeeded; PR #69 reports 10/10 successful checks and a clean
+  merge state.
 
 ## Remaining S25 acceptance
 
