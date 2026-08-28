@@ -8,6 +8,9 @@
 //! its decision is durably audited, and an unavailable sandbox denies
 //! the effect rather than degrading to host execution.
 
+// The unix-domain supervision endpoint; Windows compiles the crate
+// without it and the CLI fails closed there by design.
+#[cfg(unix)]
 pub mod serve;
 
 use std::cell::RefCell;

@@ -6,7 +6,7 @@
   "$defs": {
     "ControlMethod": {
       "type": "string",
-      "enum": ["run.steer", "run.cancel", "run.retry", "run.fork", "events.subscribe"]
+      "enum": ["run.steer", "run.cancel", "run.retry", "run.fork", "events.subscribe", "core.initialize", "core.health"]
     },
     "RequestContext": {
       "type": "object",
