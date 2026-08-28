@@ -92,11 +92,11 @@ git:
   default_branch: main
   branch: segment/S25-desktop-workbench-baseline
   local_head: resolve-from-git
-  remote_head: not_pushed
-  verified_segment_checkpoint: pending
+  remote_head: 317ee1baa4d7a1f3c83ca3200c50537b40c59d03
+  verified_segment_checkpoint: 317ee1baa4d7a1f3c83ca3200c50537b40c59d03
   main_head: af85f697a47a94e667536d396066639d2d56578a
   verified_main_checkpoint: af85f697a47a94e667536d396066639d2d56578a
-  remote_verified: false
+  remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
 execution:
@@ -130,9 +130,9 @@ acceptance:
     - design_default_workbench
     - s25_verifier
     - full_local_verification
+    - verified_segment_push
   failed: []
   pending:
-    - verified_segment_push
     - hosted_branch_ci
     - protected_pr_merge
 evidence:
@@ -165,5 +165,5 @@ decisions:
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
 blockers: []
 next_action:
-  command: commit the S25 baseline, push segment/S25-desktop-workbench-baseline, verify the remote SHA and hosted branch CI, then merge through the protected-main process before starting S26
-  description: desktop-primary ADR, S25-S38 enterprise plan, desktop-first GUI design correction and focused verifier pass locally; desktop implementation deliberately remains unclaimed
+  command: wait for the two hosted push workflows on 317ee1baa4d7a1f3c83ca3200c50537b40c59d03, then open and merge a protected-main PR before starting S26
+  description: desktop-primary ADR, S25-S38 plan and focused verifier pass locally; branch push SHA is verified, hosted Monorepo CI is queued and Repository Verification is running; desktop implementation deliberately remains unclaimed

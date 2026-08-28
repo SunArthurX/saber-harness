@@ -13,7 +13,7 @@
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
-  "remote_head": "not_pushed",
+  "remote_head": "317ee1baa4d7a1f3c83ca3200c50537b40c59d03",
   "checks": [
     {
       "id": "S25-PREDECESSOR",
@@ -32,11 +32,16 @@
       "command": "pnpm verify",
       "exit_code": 0,
       "result": "deterministic generation, format, lint, typecheck, builds, 22 package tests, license gate, S00-S25 verifiers and 15 governance tests passed; two pre-existing non-blocking Biome diagnostics remain unchanged"
+    },
+    {
+      "id": "S25-VERIFIED-PUSH",
+      "command": "git push -u origin segment/S25-desktop-workbench-baseline; compare git rev-parse HEAD with git ls-remote origin refs/heads/segment/S25-desktop-workbench-baseline",
+      "exit_code": 0,
+      "result": "local and remote branch both resolve to 317ee1baa4d7a1f3c83ca3200c50537b40c59d03"
     }
   ],
   "known_blockers": [],
   "pending": [
-    "verified_segment_push",
     "hosted_branch_ci",
     "protected_pr_merge"
   ],
