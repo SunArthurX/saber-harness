@@ -16,6 +16,17 @@ resume against current repository reality and curate searchable long-term
 knowledge without source laundering, recall loops or uncontrolled cloud
 plaintext.
 
+## Competitive-derived requirements
+
+- `CDX-03`, `ZCD-03`, `ZCD-09`: ship versioned adapters and fixtures for supported
+  Codex/Claude/ZCode/MiniMax exports; unsupported fields remain visible.
+- `CDX-02`, `MMX-05`: Handoff and resume use a signed Resumption Capsule plus
+  repository, toolchain, policy, Realm and artifact drift report.
+- `CDX-06`, `ZCD-08`, `MMX-04`: Memory is separate from versioned rules and is browsable,
+  attributable, conflict-aware, expiring, revocable and forgettable.
+- `MMX-06`: Knowledge Board entries are typed references pulled on demand,
+  never an unbounded shared prompt copied to every Agent.
+
 ## Work packages
 
 ### S33-WP01 — Import Wizard and consent

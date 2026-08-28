@@ -17,6 +17,15 @@ macOS, Windows and Linux. The application opens the Desktop Agent Workbench by
 default with native Explorer, Editor, SCM and Terminal present. It does not yet
 connect to the real Core and makes no claim of Agent execution.
 
+## Competitive-derived requirements
+
+- `CDX-01`, `CLD-01`, `ZCD-01`: bootstrap must preserve a full desktop
+  workbench and extension/pane contribution path, not a single chat Webview.
+- Branding and startup tests must leave room for the future Project/Task tree,
+  Pane Layout Manager and native Editor/SCM/Terminal surfaces.
+- These references guide shell capability only; no competitor UI, assets or
+  proprietary behavior is copied.
+
 ## Preconditions
 
 - S25 is merged and tagged; `origin/main` contains ADR-028 and this runbook.

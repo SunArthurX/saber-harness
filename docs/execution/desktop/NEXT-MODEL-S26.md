@@ -2,6 +2,11 @@
 
 Use this file as the first prompt/checklist for the model implementing S26.
 
+Before implementation, also read `COMPETITIVE-CAPABILITY-RESEARCH.md` and
+`competitive-capability-map.json`. They constrain the shell extension points
+and future UX, but they do not authorize implementing later-Segment behavior in
+S26.
+
 ## Authority and stop rule
 
 Repository state outranks this file. Read `AGENTS.md`, `STATE.yaml`, `HANDOFF.md`
@@ -41,6 +46,8 @@ Before modifying the product shell, produce and review:
 5. Code-OSS-required Node/npm/toolchain versions.
 6. Platform build matrix and estimated cache/time budget.
 7. Exact S26 smoke journey and negative tests.
+8. A shell capability map proving future Pane Layout, Preview, Adapter and Task
+   surfaces can be contributed without forking Core authority.
 
 Do not invent a production signing identity, update URL, telemetry endpoint,
 extension marketplace entitlement or Saber legal entity.

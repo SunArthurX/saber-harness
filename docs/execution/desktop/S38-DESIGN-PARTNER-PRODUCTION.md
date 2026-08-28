@@ -17,6 +17,21 @@ thresholds and has operational support, incident and rollback readiness. A
 signed production decision either approves a bounded rollout or blocks it with
 specific findings.
 
+## Competitive-derived requirements
+
+- Final validation traces `CDX-03`, `CDX-04`, `CLD-02`, `CLD-04`, `CLD-06`,
+  `ZCD-02`, `ZCD-04`, `ZCD-07`, `ZCD-09`, `MMX-01`, `MMX-02`, `MMX-04` and
+  `MMX-08` to observed user outcomes and retained Evidence.
+- Design-partner scripts cover DJ-14 through DJ-24: import/resume, Handoff,
+  Side Inquiry, Preview, Goal rounds, dynamic team, harness adapters, remote,
+  automation, evolution and Cross-Task messages.
+- Evaluate discoverability and trust against users' current Codex, Claude Code,
+  ZCode or MiniMax workflow without asking them to reproduce private data.
+- Record capability parity, deliberate deviation and unresolved gap separately;
+  a familiar-looking UI is not evidence of task success.
+- Production review confirms that competitor-inspired convenience did not
+  weaken Core authority, provenance, human sign-off, isolation or rollback.
+
 ## Work packages
 
 ### S38-WP01 — Cohort and consent

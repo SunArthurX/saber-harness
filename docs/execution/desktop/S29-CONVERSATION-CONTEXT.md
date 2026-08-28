@@ -16,6 +16,15 @@ exactly which files, symbols, artifacts, prior conversations, skills and
 attachments will be sent to which model and why. Exclude and revoke actions are
 effective Core intents, not visual decorations.
 
+## Competitive-derived requirements
+
+- `CLD-03`: Side Inquiry is a read-only fork pinned to an Event Cursor; adding
+  its result to the main conversation requires an explicit provenance preview.
+- `CDX-03`, `ZCD-09`: composer/import entry points detect external Agent state,
+  display adapter gaps and never inherit instructions, plugins or authority.
+- `CDX-06`: each conversation independently controls whether generated Memory
+  may be read or proposed, with the effective policy visible before send.
+
 ## Work packages
 
 ### S29-WP01 — Message model and rendering

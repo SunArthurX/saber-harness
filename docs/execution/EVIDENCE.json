@@ -73,9 +73,21 @@
       "command": "GitHub Repository Verification runs 33150529040 and 33150531933 plus Monorepo CI runs 33150528988 and 33150531890 on ea3b97140b62ab74840a7d520bb086e5bae327cb",
       "exit_code": 0,
       "result": "push and pull-request Repository Verification, dependency audit, macOS, Windows and Linux jobs all succeeded; PR #69 reports 10 successful checks, no pending or failing checks, and mergeStateStatus CLEAN"
+    },
+    {
+      "id": "S25-COMPETITIVE-RESEARCH-GATE",
+      "command": "node scripts/verify-s25.mjs",
+      "exit_code": 0,
+      "result": "1386 checks passed: 31 evidence-graded Codex, Claude Code, ZCode and MiniMax capabilities map bidirectionally to 13 Saber decisions, S26-S38 WBS Segments and runbooks, 35 desktop surfaces and 24 acceptance journeys; no S26 implementation was started"
+    },
+    {
+      "id": "S25-COMPETITIVE-RESEARCH-FULL-LOCAL",
+      "command": "git diff origin/main --check && pnpm verify",
+      "exit_code": 0,
+      "result": "the full base diff is whitespace-clean; deterministic generation, format, lint, typecheck, builds, 22 package tests, license gate, S00-S25 verifiers and 15 governance tests passed; one pre-existing Biome warning and one pre-existing info diagnostic remain unchanged"
     }
   ],
   "known_blockers": [],
   "pending": ["protected_pr_merge"],
-  "last_verified_at": "2026-08-28T07:15:22Z"
+  "last_verified_at": "2026-08-28T07:45:48Z"
 }

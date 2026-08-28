@@ -41,6 +41,65 @@
 | UI-22 | Enterprise Admin | admin | unenrolled, loading, ready, permission denied, offline | S35 |
 | UI-23 | Update Center | developer/admin | check, download, verify, install, rollback, blocked | S36 |
 | UI-24 | Diagnostics/Support Bundle | support/user | collecting, redacting, review, export, failed | S34/S38 |
+| UI-25 | Pane Layout Manager | developer | default, custom, compact, restored, incompatible, reset | S28 |
+| UI-26 | Side Inquiry | developer/reviewer | cursor-pinned, asking, answered, stale, promote-preview, closed | S29 |
+| UI-27 | Live Preview and Auto-Verify | developer/SDET | configuring, starting, interactive, verifying, failed, stopped | S28/S31/S37 |
+| UI-28 | Goal Iteration Inspector | developer/lead | active round, verifying, continuing, paused, budget-exhausted, complete | S30 |
+| UI-29 | Cross-Task Message and Task Proposal | developer/lead | proposed, attributed, accepted, refused, tainted, archived | S30/S32 |
+| UI-30 | Harness Adapter and Import | developer/admin | detected, mapping, capability-gap, consent, connected, degraded | S29/S33 |
+| UI-31 | Agent Team Runtime | lead/reviewer | solo-advised, team-proposed, producing, verifying, revising, escalated | S32 |
+| UI-32 | Automation Inbox and Schedule Editor | developer/lead | draft, active, missed, waiting-approval, failed, paused, complete | S30/S34 |
+| UI-33 | Remote Dispatch and Device Session | developer/admin | pairing, connected, stale, approval-needed, revoked, offline | S35 |
+| UI-34 | Memory-to-Evolution Pipeline | curator/security | observed, candidate, conflicted, evaluating, canary, promoted, rolled-back | S33/S34 |
+| UI-35 | Browser and Computer Realm | developer/security | disabled, requesting, active, injection-alert, contained, stopped | S34/S37 |
+
+## Competitor-derived interaction contracts
+
+### Pane lattice
+
+- Each Pane carries Workspace, Task, Run, Worktree/Realm and source-revision
+  identity; hiding the header cannot hide a mismatch warning.
+- Layout presets are `Focus`, `Build`, `Review`, `Team` and user-defined. A
+  preset changes presentation only, never execution or permission state.
+- Drag, keyboard move, split, close, restore and reset are equivalent actions
+  with accessible announcements and deterministic persistence.
+
+### Side Inquiry
+
+- A Side Inquiry reads the main Conversation only through its pinned Event
+  Cursor and cannot edit Plan, Memory, files or Goal state.
+- `Promote` opens a preview showing the exact answer fragment, destination,
+  reason, taint and resulting context budget before writing a new main-thread
+  event.
+- Closing or discarding the inquiry leaves no hidden context contribution.
+
+### Preview and Auto-Verify
+
+- The Preview header shows command, directory, port, origin, process owner,
+  cookie profile, Realm and current revision.
+- Agent actions appear as an ordered visible trace with selector/semantic target,
+  screenshot/DOM reference, result and policy decision.
+- Auto-Verify may produce `passed`, `failed` or `inconclusive`; only Evidence
+  reconciliation can influence Goal completion.
+
+### Goal and Agent Team
+
+- The Goal Inspector separates producer output from verifier verdict and shows
+  the unchanged Acceptance revision used for each round.
+- Team proposal explains why solo or team was selected, role/task topology,
+  expected time/token cost, parallelism, retry cap and human checkpoints.
+- The lead remains responsive while workers run; its messages are control-plane
+  events and do not mutate worker context unless an explicit Steer is accepted.
+
+### Import, remote and automation
+
+- Import presents source, detected item type, trust class, conflicts, redaction,
+  destination and whether continuous synchronization is requested.
+- Remote UI always names the executing device and Realm; disconnect never
+  implies that execution stopped, and global Stop reports its actual reach.
+- Schedule editing distinguishes an independent Automation Run from a Goal
+  Heartbeat returning to existing context, including missed-run and overlap
+  behavior.
 
 ## Action contract
 

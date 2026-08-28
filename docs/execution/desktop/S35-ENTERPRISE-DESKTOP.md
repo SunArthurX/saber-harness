@@ -16,6 +16,16 @@ policy, control model/plugin/data access, rotate keys, export separated audit
 evidence and enforce retention without giving the cloud control plane access to
 unauthorized source or conversation plaintext.
 
+## Competitive-derived requirements
+
+- `CLD-05`, `ZCD-07`, `MMX-08`: Remote Dispatch authenticates user, device,
+  desktop instance and executing Realm; the phone is a control surface and
+  cannot enlarge authority.
+- `ZCD-05`, `CLD-07`: organization policy controls Capability sources,
+  signatures, connector scopes, computer-use availability and revocation.
+- Multi-repository Goals use separate repository trust cells, secrets, policy,
+  Worktrees and integration approval even when presented in one workspace.
+
 ## Preconditions
 
 Requires S34 protected merge, enterprise test tenant, non-production IdP/KMS,

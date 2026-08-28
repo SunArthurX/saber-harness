@@ -1,6 +1,6 @@
 # Saber Studio Desktop Execution Pack
 
-Version: 1.0
+Version: 1.1
 
 Status: executable planning baseline; S26 implementation has not started
 
@@ -36,6 +36,8 @@ higher authority.
 |---|---|
 | `SEGMENT-RUNBOOK-TEMPLATE.md` | Mandatory structure for every future runbook |
 | `desktop-workbench-wbs.json` | Machine-readable Segment, task, dependency and Gate index |
+| `COMPETITIVE-CAPABILITY-RESEARCH.md` | Official-source Codex/Claude/ZCode/MiniMax findings and Saber decisions |
+| `competitive-capability-map.json` | Machine-readable competitor capability → Segment/UI/journey mapping |
 | `ACCEPTANCE-AND-TRACEABILITY.md` | Product journeys, evidence owners and release traceability |
 | `UX-SCREEN-INVENTORY.md` | Every desktop screen, state, action and accessibility obligation |
 | `PLATFORM-AND-RELEASE-MATRIX.md` | OS, architecture, packaging, signing, update and recovery matrix |
@@ -102,6 +104,8 @@ A Segment is done only when all statements are true:
   runbook.
 - Scope and non-goals are unchanged or an accepted ADR records the change.
 - Every work package has an owner, reviewer, test and evidence entry.
+- Every adopted competitor capability has a `CDX`/`CLD`/`ZCD`/`MMX` evidence
+  ID, a Saber-specific decision, Segment, UI state and acceptance journey.
 - Tests cover success, denial, crash/restart and at least one adversarial case.
 - macOS, Windows and Linux hosted checks are green where the runbook requires
   them.

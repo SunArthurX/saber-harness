@@ -10,6 +10,7 @@
       "duration_days": [10, 15],
       "risk": "high",
       "depends_on": ["S25"],
+      "competitive_capabilities": ["CDX-01", "CLD-01", "ZCD-01"],
       "tasks": [
         { "id": "S26-WP01", "owner": "desktop-tech-lead", "output": "accepted upstream and redistribution review" },
         { "id": "S26-WP02", "owner": "build-engineer", "output": "upstream.lock.json and verified source fetch" },
@@ -30,6 +31,7 @@
       "duration_days": [8, 12],
       "risk": "critical",
       "depends_on": ["S26"],
+      "competitive_capabilities": ["CDX-02", "CDX-05", "ZCD-09", "MMX-05"],
       "tasks": [
         {
           "id": "S27-WP01",
@@ -58,6 +60,7 @@
       "duration_days": [10, 15],
       "risk": "high",
       "depends_on": ["S27"],
+      "competitive_capabilities": ["CDX-01", "CDX-07", "CLD-01", "CLD-02", "ZCD-01", "ZCD-03", "ZCD-04"],
       "tasks": [
         { "id": "S28-WP01", "owner": "product-designer", "output": "approved desktop layout and responsive states" },
         { "id": "S28-WP02", "owner": "extension-engineer", "output": "Project Goal Task and Conversation navigation" },
@@ -82,6 +85,7 @@
       "duration_days": [10, 15],
       "risk": "high",
       "depends_on": ["S28"],
+      "competitive_capabilities": ["CDX-03", "CDX-06", "CLD-03", "ZCD-09"],
       "tasks": [
         {
           "id": "S29-WP01",
@@ -106,6 +110,17 @@
       "duration_days": [10, 15],
       "risk": "critical",
       "depends_on": ["S29"],
+      "competitive_capabilities": [
+        "CDX-01",
+        "CDX-04",
+        "CDX-05",
+        "CLD-04",
+        "ZCD-01",
+        "ZCD-02",
+        "MMX-02",
+        "MMX-03",
+        "MMX-05"
+      ],
       "tasks": [
         { "id": "S30-WP01", "owner": "agent-architect", "output": "editable Goal Plan Acceptance and Run start flow" },
         {
@@ -134,6 +149,7 @@
       "duration_days": [10, 15],
       "risk": "critical",
       "depends_on": ["S30"],
+      "competitive_capabilities": ["CDX-07", "CLD-02", "CLD-06", "ZCD-01", "ZCD-04", "MMX-07"],
       "tasks": [
         { "id": "S31-WP01", "owner": "editor-engineer", "output": "change-set and Hunk Diff projection" },
         { "id": "S31-WP02", "owner": "frontend-engineer", "output": "review comments accept reject and revise flow" },
@@ -158,6 +174,17 @@
       "duration_days": [10, 15],
       "risk": "critical",
       "depends_on": ["S31"],
+      "competitive_capabilities": [
+        "CDX-02",
+        "CLD-04",
+        "CLD-05",
+        "ZCD-06",
+        "MMX-01",
+        "MMX-02",
+        "MMX-03",
+        "MMX-06",
+        "MMX-07"
+      ],
       "tasks": [
         { "id": "S32-WP01", "owner": "orchestration-engineer", "output": "Goal DAG and delegation canvas" },
         { "id": "S32-WP02", "owner": "git-engineer", "output": "per-Task Worktree lifecycle and cleanup" },
@@ -178,6 +205,17 @@
       "duration_days": [12, 15],
       "risk": "critical",
       "depends_on": ["S32"],
+      "competitive_capabilities": [
+        "CDX-02",
+        "CDX-03",
+        "CDX-06",
+        "ZCD-03",
+        "ZCD-08",
+        "ZCD-09",
+        "MMX-04",
+        "MMX-05",
+        "MMX-06"
+      ],
       "tasks": [
         { "id": "S33-WP01", "owner": "data-engineer", "output": "consent-aware conversation Import Wizard" },
         { "id": "S33-WP02", "owner": "data-engineer", "output": "Raw Canonical Derived and Lineage browser" },
@@ -202,6 +240,7 @@
       "duration_days": [12, 15],
       "risk": "critical",
       "depends_on": ["S33"],
+      "competitive_capabilities": ["CDX-04", "CDX-06", "CLD-07", "ZCD-04", "ZCD-05", "ZCD-08", "MMX-04", "MMX-08"],
       "tasks": [
         { "id": "S34-WP01", "owner": "plugin-engineer", "output": "Armor Rack inventory trust and capability cards" },
         { "id": "S34-WP02", "owner": "evolution-engineer", "output": "candidate intake ranking and media selection" },
@@ -230,6 +269,7 @@
       "duration_days": [12, 15],
       "risk": "critical",
       "depends_on": ["S34"],
+      "competitive_capabilities": ["CLD-05", "CLD-07", "ZCD-05", "ZCD-07", "MMX-08"],
       "tasks": [
         { "id": "S35-WP01", "owner": "identity-engineer", "output": "SSO device enrollment and SCIM mapping" },
         {
@@ -258,6 +298,7 @@
       "duration_days": [10, 15],
       "risk": "critical",
       "depends_on": ["S35"],
+      "competitive_capabilities": ["CDX-02", "CLD-05", "ZCD-07"],
       "tasks": [
         { "id": "S36-WP01", "owner": "release-engineer", "output": "macOS Windows and Linux signed package pipelines" },
         {
@@ -282,6 +323,7 @@
       "duration_days": [12, 15],
       "risk": "critical",
       "depends_on": ["S36"],
+      "competitive_capabilities": ["CLD-02", "CLD-07", "ZCD-04", "ZCD-07", "MMX-01", "MMX-02", "MMX-08"],
       "tasks": [
         {
           "id": "S37-WP01",
@@ -314,6 +356,21 @@
       "duration_days": [20, 30],
       "risk": "critical",
       "depends_on": ["S37"],
+      "competitive_capabilities": [
+        "CDX-03",
+        "CDX-04",
+        "CLD-02",
+        "CLD-04",
+        "CLD-06",
+        "ZCD-02",
+        "ZCD-04",
+        "ZCD-07",
+        "ZCD-09",
+        "MMX-01",
+        "MMX-02",
+        "MMX-04",
+        "MMX-08"
+      ],
       "tasks": [
         { "id": "S38-WP01", "owner": "product-manager", "output": "design-partner cohort consent and support plan" },
         { "id": "S38-WP02", "owner": "eval-engineer", "output": "representative repository benchmark and baseline" },

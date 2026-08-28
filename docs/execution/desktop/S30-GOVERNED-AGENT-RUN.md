@@ -15,6 +15,21 @@ A user turns a conversation into an editable Goal and Plan, starts a real Agent
 Run, observes durable Tool events, grants only exact approvals and can pause,
 steer, cancel, resume or fork without losing causal history.
 
+## Competitive-derived requirements
+
+- `CDX-01`, `ZCD-01`: the project command center exposes Goals, Tasks and Run
+  state without collapsing them into one chat transcript.
+- `CDX-05`, `ZCD-02`, `MMX-02`, `MMX-05`: Core Goal Supervisor evaluates
+  frozen Acceptance after
+  every round through an independent Verifier and records continue, revise,
+  pause, escalate, budget-exhausted or complete.
+- `MMX-03`: the lead conversation remains responsive while work runs; control
+  messages become explicit Steer events rather than contaminating worker input.
+- `CDX-04`: distinguish an independent Automation Run from a Goal Heartbeat
+  that returns to existing context, with overlap, missed-run and stop rules.
+- `CLD-04`: proposed out-of-scope work is a reviewable Task Proposal, not a
+  silently spawned session.
+
 ## Work packages
 
 ### S30-WP01 — Goal and Plan authoring

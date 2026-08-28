@@ -16,6 +16,15 @@ Saber Core, authenticates over the local versioned protocol, subscribes from a
 durable cursor and recovers safely from Renderer, extension-host or Core
 failure. The shell still has no authoritative effect path.
 
+## Competitive-derived requirements
+
+- `CDX-05`: model the client as initialize → subscribe → Task/Run/Event stream
+  → steer/interrupt → terminal status with explicit capability negotiation.
+- `CDX-02`, `MMX-05`: reconnect and Handoff use durable state outside model
+  context; Renderer or provider loss cannot erase Goal truth.
+- `ZCD-09`: define an `AgentHarnessAdapter` capability handshake and degraded
+  mode without allowing an adapter to bypass Core Policy or effect mediation.
+
 ## Preconditions and non-goals
 
 Requires S26 packages, ADR-001/002/013, generated Rust/TypeScript protocol

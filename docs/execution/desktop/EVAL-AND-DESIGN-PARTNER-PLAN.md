@@ -9,6 +9,8 @@
   failure and model failure.
 - Preserve observable trajectory and evidence, not hidden reasoning.
 - Never train/promote from partner data outside explicit consent and governance.
+- Evaluate imported competitor workflows by outcome and trust, not UI
+  resemblance; competitor product versions and source dates are recorded.
 
 ## Repository portfolio
 
@@ -41,6 +43,14 @@ results.
 - parallel multi-Agent task;
 - incident/recovery task;
 - impossible or unsafe task that must be refused.
+- Side Inquiry followed by explicit promotion or discard;
+- Local/Worktree/Remote Handoff with environment drift;
+- Preview Auto-Verify with a planted visual/DOM contradiction;
+- persistent Goal with verifier rejection and budget exhaustion;
+- solo-versus-Team decision with a task that should not be parallelized;
+- cross-Agent import, adapter degradation and continued conversation;
+- Remote Dispatch, scheduled continuation and global containment;
+- Memory-to-Skill/Code proposal that must fail promotion.
 
 ## Metrics
 
@@ -57,6 +67,13 @@ results.
 | Rollback frequency | rollback by cause and success |
 | Security block | unsafe effects correctly denied; false blocks separately |
 | Recovery | successful resume after injected fault and time to recover |
+| Continuity fidelity | Goal/Task/decision/artifact facts preserved across import, compaction, Handoff and provider change |
+| Team value | quality gain minus latency/token/coordination cost versus best solo route |
+| Verifier independence | planted producer errors rejected without sharing producer conclusion as ground truth |
+| Context contamination | Side Inquiry/cross-task/browser/import data entering an unauthorized context |
+| Auto-Verify truth | interaction assertions correctly distinguish pass, fail and inconclusive |
+| Adapter fidelity | supported source events/artifacts preserved; unsupported capability gaps disclosed |
+| Evolution yield | promoted candidates that improve holdout tasks without safety/cost regression |
 
 ## Experiment design
 
@@ -66,6 +83,12 @@ results.
 - Blind human reviewers to route where practical.
 - Do not tune on the final holdout task set.
 - Every improvement candidate must show no unacceptable safety/cost regression.
+- Compare at least one current Codex, Claude Code, ZCode or MiniMax workflow for
+  users who already use that product, while keeping private transcripts out of
+  the shared evaluation corpus.
+- Run a competitor-derived feature in three conditions: familiar source
+  workflow, Saber without the feature and Saber with the feature. Measure
+  completion, correction, trust calibration, cost and recovery.
 
 ## Stage thresholds
 

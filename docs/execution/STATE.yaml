@@ -5,7 +5,7 @@ current_segment:
   id: S25
   name: desktop-workbench-baseline
   status: in_progress
-  objective: freeze Saber Studio Desktop as the primary product, select the Code-OSS/Electron production shell with a separately supervised Rust Core, demote the Web supervisor to an optional companion, and publish a handoff-safe S26-S38 execution pack with machine-readable work packages, detailed Segment runbooks, UX, platform, team, evaluation and release controls without claiming the desktop implementation exists
+  objective: freeze Saber Studio Desktop as the primary product, select the Code-OSS/Electron production shell with a separately supervised Rust Core, demote the Web supervisor to an optional companion, and publish a handoff-safe S26-S38 execution pack calibrated against official Codex, Claude Code, ZCode and MiniMax evidence with machine-readable capability, work-package, UX, platform, team, evaluation and release controls without claiming the desktop implementation exists
 predecessor:
   segment: S24
   status: completed
@@ -103,7 +103,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-28T07:15:22Z"
+  last_checkpoint_at: "2026-08-28T07:45:48Z"
 acceptance:
   required:
     - s24_tagged_base
@@ -119,6 +119,11 @@ acceptance:
     - cross_cutting_desktop_playbooks
     - next_model_s26_handoff
     - design_default_workbench
+    - official_competitive_research
+    - competitive_capability_map
+    - competitor_derived_ux_journeys
+    - competitor_requirements_in_all_runbooks
+    - competitive_research_verifier
     - s25_verifier
     - full_local_verification
     - verified_segment_push
@@ -138,6 +143,11 @@ acceptance:
     - cross_cutting_desktop_playbooks
     - next_model_s26_handoff
     - design_default_workbench
+    - official_competitive_research
+    - competitive_capability_map
+    - competitor_derived_ux_journeys
+    - competitor_requirements_in_all_runbooks
+    - competitive_research_verifier
     - s25_verifier
     - full_local_verification
     - verified_segment_push
@@ -147,7 +157,7 @@ acceptance:
     - protected_pr_merge
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-28T07:15:22Z"
+  last_verified_at: "2026-08-28T07:45:48Z"
 decisions:
   - docs/adr/ADR-001-rust-trusted-core.md
   - docs/adr/ADR-004-events-transactional-projections.md
@@ -176,4 +186,4 @@ decisions:
 blockers: []
 next_action:
   command: review the S26-S38 execution pack and merge protected PR https://github.com/SunArthurX/saber-harness/pull/69, then update the S25 completion record before starting S26 from docs/execution/desktop/NEXT-MODEL-S26.md
-  description: PR #69 is open and mergeable with 10 successful hosted checks on ea3b97140b62ab74840a7d520bb086e5bae327cb; the desktop-primary ADR and plan include 13 runbooks, 78 machine-readable work packages, 24-screen UX inventory, 13 acceptance journeys, platform/release, RACI, evaluation and copy-ready S26 handoff controls; protected merge remains pending and desktop implementation deliberately remains unclaimed
+  description: PR #69 is open and mergeable with 10 successful hosted checks on 33dc031cd109f7bca683ee533fc4b34e3cceaad7 before the current research update; the desktop-primary ADR and plan now include 31 evidence-graded competitor capabilities, 13 Saber decisions, 13 runbooks, 78 machine-readable work packages, 35-screen UX inventory, 24 acceptance journeys, platform/release, RACI, evaluation and copy-ready S26 handoff controls; protected merge remains pending and desktop implementation deliberately remains unclaimed

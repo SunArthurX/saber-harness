@@ -1,6 +1,6 @@
 # Saber Studio 桌面 CodingAgent 工作台企业级实施计划
 
-版本：2.0
+版本：2.1
 
 日期：2026-08-28
 
@@ -48,9 +48,30 @@ CodingAgent 工作台。它不是 Web 监督台套壳，也不是“聊天框加
 - 跨平台安装更新矩阵、团队 RACI、真实仓库评测与设计伙伴放量计划；
 - [`NEXT-MODEL-S26.md`](desktop/NEXT-MODEL-S26.md) 作为完成 S25 后可直接交给
   下一模型的启动说明。
+- [`COMPETITIVE-CAPABILITY-RESEARCH.md`](desktop/COMPETITIVE-CAPABILITY-RESEARCH.md)
+  和 [`competitive-capability-map.json`](desktop/competitive-capability-map.json)
+  将 Codex、Claude Code、ZCode、MiniMax Code 的官方能力证据映射到 Saber 的
+  差异化决策、Segment、GUI 与端到端验收。
 
 S25 只交付可验证的桌面产品基线与执行计划，不交付或声称交付 S26 代码。
 S26 必须在 S25 受保护合并后单独开段实施。
+
+### 1.2 竞品能力校准后的产品原则
+
+Saber 不以“把四个产品的按钮放进同一窗口”为集成。它吸收四种不同优势：
+
+1. Codex 的项目/长期任务、Local–Worktree–Cloud、Handoff、跨 Agent 导入和
+   定时续接，转化为可恢复的 Continuity Spine；
+2. Claude Code Desktop 的可组合 Pane、Side Inquiry、Live Preview、自动交互
+   验证和跨会话协作，转化为带 Task 身份与 Evidence 的工作台；
+3. ZCode 的 Agentic Development Environment、持久 Goal、逐轮验收、浏览器
+   闭环、远程控制和能力包，转化为 Core 管理的 Goal Supervisor 与 Armor；
+4. MiniMax Code 的动态 Agent Team、Leader–Worker–Verifier、异步响应和
+   Memory→Skill，转化为有 Realm、预算、独立验收、灰度与回滚的团队运行时。
+
+最终差异化不是“功能更多”，而是 **一个受治理的身体、可替换的大脑、可审计
+的外部装甲、可验证的内生进化和先隔离后修复的免疫系统**。模型、外部 Agent、
+Skill、Plugin 与 Code Capsule 都不能绕过 Rust Core 成为第二权威。
 
 ## 2. 当前事实与缺口审计
 

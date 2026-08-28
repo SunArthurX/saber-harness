@@ -16,6 +16,18 @@ every candidate's evidence and permission delta, canary or reject it and recover
 to a last-known-good state. Health mechanisms contain faults before asking the
 Agent brain for advice.
 
+## Competitive-derived requirements
+
+- `ZCD-05`, `CLD-07`: one signed Capability Manifest can describe Skill,
+  command, Agent, MCP, hook or browser/computer adapter, but each component has
+  separate permissions, isolation, health and revocation.
+- `MMX-04`, `CDX-06`, `ZCD-08`: experience may propose Memory, Skill, workflow
+  or Code Capsule through the Evolution Ladder; it never self-installs.
+- `CDX-04`: Automation Inbox exposes independent Runs and Goal Heartbeats with
+  schedule, overlap, missed-run, approval, budget and cleanup receipts.
+- `MMX-08`, `ZCD-04`: Browser/Computer Realm is optional Armor with injection
+  alerts, application/origin allowlists, action receipts and global Stop.
+
 ## Work packages
 
 ### S34-WP01 — Armor Rack

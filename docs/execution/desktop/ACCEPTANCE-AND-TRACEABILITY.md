@@ -23,6 +23,17 @@ Core prove product behavior.
 | DJ-11 | Signed upgrade, migration and rollback | S36 | kill-point matrix on every supported platform | Release/Data |
 | DJ-12 | Accessible localized daily use | S28-S37 | keyboard/AT/zoom/locale production audit | Accessibility/UX |
 | DJ-13 | Design-partner production task | S38 | frozen acceptance and signed release packet | Product/Release |
+| DJ-14 | Import Codex/Claude/ZCode/MiniMax conversation and resume safely | S29/S33 | source-specific fixtures normalize to recomputable lineage | Import/Privacy |
+| DJ-15 | Hand off a live Task across Local/Worktree/approved Remote Realm | S27/S32/S33 | identical Goal state plus explicit environment drift receipt | Runtime/Git |
+| DJ-16 | Ask a Side Inquiry without contaminating the main conversation | S29 | cursor-pinned fork is read-only until explicit promotion | Agent UX/Context |
+| DJ-17 | Preview and auto-verify a changed application | S28/S31/S37 | server, DOM/a11y, action, screenshot and test receipts reconcile | Preview/SDET |
+| DJ-18 | Persist a Goal across multiple verified rounds and restart | S30 | independent verifier continues/pauses/completes from frozen Acceptance | Agent Runtime |
+| DJ-19 | Dynamically choose solo/team and run Leader/Worker/Verifier | S32 | bounded team produces isolated, independently verified integration | Orchestration/Eval |
+| DJ-20 | Select or migrate between supported Agent harnesses | S27/S29/S33 | capability gaps visible; normalized events preserve provenance | Adapter/Runtime |
+| DJ-21 | Dispatch remotely and operate an approved browser/computer Realm | S34/S35/S37 | device-bound intent, allowlist, action receipts and global stop | Remote/Security |
+| DJ-22 | Schedule independent Automation Run or contextual Goal Heartbeat | S30/S34 | missed-run, budget, approval, isolation and stop behavior proven | Automation/SDET |
+| DJ-23 | Promote experience from Memory to Skill or Code safely | S33/S34 | lineage, eval, review, canary, last-known-good and rollback | Evolution/Security |
+| DJ-24 | Send an attributed message or proposed Task across sessions | S30/S32 | receiving Policy applies and no message inherits authority | Orchestration/Security |
 
 ## DJ-03 canonical fixture
 
@@ -71,6 +82,17 @@ identical Run projection after restart and complete Evidence Receipt.
 | Immune control outranks Agent | S34 | containment authority test | game day | yes |
 | Tenant/device/role isolation | S35 | adversarial enterprise suite | admin audit | yes |
 | Update is signed and rollback-safe | S36 | tamper/kill/migration matrix | clean machine | yes |
+| Handoff preserves truth across Realms | S27/S32/S33 | cursor/capsule/drift matrix | Local↔Worktree↔Remote walkthrough | yes |
+| Imported agent state cannot import authority | S29/S33 | hostile transcript/plugin/hook fixtures | consent and mapping review | yes |
+| Side Inquiry cannot mutate main context | S29 | read-only fork and explicit promotion tests | context provenance inspection | yes |
+| Auto-Verify is evidence, not self-assertion | S31/S37 | DOM/a11y/action/test reconciliation | preview review | yes |
+| Goal loop uses independent verification | S30 | forged completion and budget exhaustion tests | iteration inspector review | yes |
+| Team formation is explainable and bounded | S32 | solo/team classifier and budget tests | Team Value Decision review | yes |
+| Cross-Task messages retain provenance | S30/S32 | inbound deny/taint/replay suite | message origin inspection | yes |
+| Harness adapters expose capability gaps | S27/S33 | contract and degraded-mode fixtures | adapter capability review | yes |
+| Automation distinguishes Run and Heartbeat | S30/S34 | schedule/restart/missed-run tests | inbox review | yes |
+| Memory-to-capability promotion is reversible | S33/S34 | lineage/eval/canary/rollback suite | evolution review | yes |
+| Remote/computer effects are device-bound | S34/S35/S37 | forged-device/injection/global-stop suite | remote session review | yes |
 
 ## Non-functional gates
 

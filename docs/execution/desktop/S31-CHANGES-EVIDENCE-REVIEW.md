@@ -15,6 +15,18 @@ Agent changes become an independently reviewable Change Set. Users inspect file
 and Hunk Diffs, test evidence and boundary impact; they can comment, request a
 revision, accept, reject, apply, roll back, commit or create a PR through Core.
 
+## Competitive-derived requirements
+
+- `CDX-07`, `ZCD-01`: review stays attached to the persistent Task and exposes
+  its terminal/test provenance after restart.
+- `CLD-02`, `ZCD-04`: Preview Auto-Verify records server identity, DOM/a11y
+  assertions, ordered actions, screenshots and test results; inconclusive is a
+  valid outcome and screenshots alone cannot pass.
+- `CLD-06`: inline review comments are durable Task inputs and PR/CI monitoring
+  is a Core projection with candidate auto-fix, never implicit auto-merge.
+- `MMX-07`: Developer, Tester and Reviewer evidence is attributable; a producer
+  cannot be the sole signer of completion.
+
 ## Work packages
 
 ### S31-WP01 — Change Set projection

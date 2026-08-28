@@ -16,6 +16,18 @@ accessibility, privacy, recovery, supply-chain and threat-model gates produce a
 deterministic readiness report. Feature work stops unless required to close a
 Gate finding.
 
+## Competitive-derived requirements
+
+- `CLD-02`, `ZCD-04`: red-team Preview/Browser against prompt injection,
+  hostile DOM, origin changes, cookie leakage, false screenshot success and
+  action/evidence mismatch.
+- `CLD-07`, `ZCD-07`, `MMX-08`: forge remote device intent, replay approvals,
+  disconnect the UI and prove global Stop/containment reach.
+- `MMX-01`, `MMX-02`: measure solo-versus-team quality, latency, token cost,
+  retry amplification and verifier independence on fixed repositories.
+- Test every `CDX`/`CLD`/`ZCD`/`MMX` adoption as a Saber contract rather than a
+  claim of competitor parity.
+
 ## Work packages
 
 ### S37-WP01 — Performance and resource SLO

@@ -15,6 +15,16 @@ Reproducible, signed Saber Studio packages install, upgrade, migrate, recover,
 roll back and uninstall across supported platforms. Update trust cannot be
 disabled by Renderer, extension, Agent or remote content.
 
+## Competitive-derived requirements
+
+- `CDX-02`, `CLD-05`, `ZCD-07`: packages preserve Local/Worktree/Remote
+  capability semantics across supported platforms and upgrades.
+- Update migration covers pane layouts, adapter registrations, schedules,
+  Memory/evolution lineage and Remote device grants without silently expanding
+  permissions.
+- Platform parity gaps are explicit product states; no unsupported architecture
+  is advertised because another product happens to support it.
+
 ## Work packages
 
 ### S36-WP01 — Package definitions

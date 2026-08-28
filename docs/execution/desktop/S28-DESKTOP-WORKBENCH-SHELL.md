@@ -16,6 +16,17 @@ Workbench: persistent project/task navigation, central Agent workspace and
 native Code-OSS editor surfaces. Layout, focus and accessible identity survive
 restart. No Agent execution is required yet.
 
+## Competitive-derived requirements
+
+- `CDX-01`, `CLD-01`, `ZCD-01`: implement a persistent project/task command
+  center and composable, keyboard-operable Pane lattice with named
+  Focus/Build/Review/Team presets and a Workspace/Task/Realm Layout Receipt.
+- `CDX-07`, `CLD-02`, `ZCD-04`: reserve first-class terminal and Preview
+  Session panes beside native
+  editor and terminal surfaces; preview is not a generic privileged Webview.
+- `ZCD-03`: Task navigation supports saved group/workspace/timeline views,
+  search, pin and archive; generated Repository Map shows source revision.
+
 ## Work packages
 
 ### S28-WP01 — Information architecture and layout tokens

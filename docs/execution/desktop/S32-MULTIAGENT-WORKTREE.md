@@ -16,6 +16,20 @@ Worktree, Realm, model, budget and capability set; users can follow, steer,
 pause, take over and review deterministic integration without collapsing
 failure domains.
 
+## Competitive-derived requirements
+
+- `CDX-02`, `CLD-05`: Local/Worktree/SSH/Cloud handoff and multi-repository
+  selection are explicit Realm transitions with drift and trust receipts.
+- `MMX-01`: a Team Value Decision explains solo/team choice from dependency
+  width, risk, uncertainty, domain diversity, verification cost and budget.
+- `MMX-02`, `MMX-07`: implement Leader/Worker/Verifier as runtime states with
+  independent verification, bounded repair loops and human escalation.
+- `ZCD-06`: every role declares model, reasoning level, tools, maximum turns,
+  Realm, Worktree and budget; foreground/background changes scheduling only.
+- `CLD-04`, `MMX-03`, `MMX-06`: Cross-Task Messages, Task Proposals and the
+  pull-based Knowledge Board preserve source, audience, taint and receiving
+  Policy while the lead remains responsive.
+
 ## Work packages
 
 ### S32-WP01 — Goal DAG UI
