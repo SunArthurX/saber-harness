@@ -3,7 +3,7 @@
 Status: ready for protected review; advanced research and philosophy expansion passes local gates
 Date: 2026-08-28
 Branch: `segment/S25-desktop-workbench-baseline`
-Verified content checkpoint: `60c85b59b04d55f31da429aad982b2a31c52edc9`
+Verified content checkpoint: `a0eea3ecfbd63ffb6002cf4214ad7b7e4cdc44fb`
 Protected review: <https://github.com/SunArthurX/saber-harness/pull/69>
 Base main: `af85f697a47a94e667536d396066639d2d56578a`
 Predecessor: annotated `s24-complete` resolves to `502dd1db348be7e0c4ab1a6e188275b26027d5dd`
@@ -140,7 +140,10 @@ console is an optional supervisor surface, not the desktop implementation.
   generation, format, lint, typecheck, build, 22 package tests, license, S00-S25
   verifiers and 15 governance tests passed; one pre-existing Biome warning and
   one pre-existing info diagnostic remain unchanged. Hosted checks are pending
-  until this checkpoint is committed and pushed.
+  until the content plus this continuity record are pushed.
+- The advanced research/philosophy content checkpoint is
+  `a0eea3ecfbd63ffb6002cf4214ad7b7e4cdc44fb`; this continuity-only update records
+  it before branch push and hosted verification.
 
 ## Remaining S25 acceptance
 

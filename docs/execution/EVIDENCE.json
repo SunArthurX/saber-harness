@@ -109,9 +109,15 @@
       "command": "node scripts/verify-s25.mjs && git diff --check && pnpm verify",
       "exit_code": 0,
       "result": "3049 focused checks plus the full repository gate passed: 36 official-source Cursor, DeepSeek Harness, Zed, Kiro, OpenHands, Cline and Aider capabilities map to 12 philosophy invariants, 19 system organs, 13 Segment runbooks, 42 UI surfaces, 32 product journeys and 12 philosophy journeys; the operating model contains 23 canonical objects and the E0-E7/H0-H4 authority and recovery contracts; one pre-existing Biome warning and one pre-existing info diagnostic remain unchanged; S26 implementation remains unstarted"
+    },
+    {
+      "id": "S25-ADVANCED-HARNESS-PHILOSOPHY-CHECKPOINT",
+      "command": "git rev-parse a0eea3ecfbd63ffb6002cf4214ad7b7e4cdc44fb",
+      "exit_code": 0,
+      "result": "the locally verified advanced research, philosophy, GUI and execution-plan content checkpoint resolves to a0eea3ecfbd63ffb6002cf4214ad7b7e4cdc44fb; hosted verification remains pending until push"
     }
   ],
   "known_blockers": [],
   "pending": ["protected_pr_merge"],
-  "last_verified_at": "2026-08-28T12:25:40Z"
+  "last_verified_at": "2026-08-28T12:27:33Z"
 }
