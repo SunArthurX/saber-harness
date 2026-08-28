@@ -103,10 +103,15 @@ async function main() {
     const command = process.platform === "linux" ? "xvfb-run" : launcher;
     const args = process.platform === "linux" ? ["-a", launcher, "--version"] : ["--version"];
     console.log(`build: runtime launch smoke → ${command} ${args.join(" ")}`);
+    // Ubuntu 24.04 restricts unprivileged user namespaces, so the Chromium
+    // OS sandbox of the development Electron build cannot initialize on the
+    // runner (SIGTRAP/133). This dev-CI flag is about Chromium's own sandbox,
+    // never about Saber's policy/sandbox authority in the Rust Core.
+    const smokeEnv = process.platform === "linux" ? { ...toolchain.env, ELECTRON_DISABLE_SANDBOX: "1" } : toolchain.env;
     const smoke = spawnSync(command, args, {
       cwd: worktree,
       encoding: "utf8",
-      env: toolchain.env,
+      env: smokeEnv,
       shell: process.platform === "win32",
     });
     const output = `${smoke.stdout ?? ""}${smoke.stderr ?? ""}`.trim();
