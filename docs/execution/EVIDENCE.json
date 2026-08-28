@@ -93,6 +93,18 @@
       "command": "biome check --write apps/desktop-codeoss (before fix) then with biome.json exclusion",
       "exit_code": 0,
       "result": "biome had descended into the ignored .cache worktree and reformatted upstream product.json (tabs to spaces), breaking patch reversibility; apps/desktop-codeoss/.cache is now excluded in biome.json, the worktree was regenerated from the verified archive, reverse-apply re-passed and a full-repo biome write no longer touches the cache"
+    },
+    {
+      "id": "S26-LOCAL-NPM-INSTALL-BLOCKED",
+      "command": "PATH=<pinned node>/bin npm install --no-fund --no-audit in the patched worktree (Node 24.18.0, npm 11.16.0)",
+      "exit_code": 1,
+      "result": "native module native-keymap 3.3.9 fails to compile: fatal error 'source_location' file not found from the Node 24 V8 headers — the local Xcode 14.3.1 / Apple clang 14 toolchain predates the libc++ this requires. The full local Electron build is therefore blocked on this machine; per the engineering discipline the three-platform evidence moves to the hosted build matrix (GitHub macOS runners carry Xcode 15+), and a local Xcode upgrade would need explicit user authorization. No partial install is counted as success."
+    },
+    {
+      "id": "S26-BRANCH-PUSHED",
+      "command": "git push -u origin segment/S26-codeoss-bootstrap",
+      "exit_code": 0,
+      "result": "branch pushed; PR #71 hosted checks: repository-verification, monorepo ubuntu/macos/windows and dependency-audit all succeeded on the latest head after the whitespace-contract carve-out for embedded upstream patch bytes"
     }
   ],
   "known_blockers": [],

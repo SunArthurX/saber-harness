@@ -92,26 +92,36 @@ disposable and was regenerated from the digest-verified archive.
 
 ## What is NOT done (honest pending)
 
-- `pnpm desktop:build --full`: the real upstream Electron compile and
-  packaging (30-60+ min per platform) has not run.
+- `pnpm desktop:build --full`: **attempted and blocked locally**. The pinned
+  toolchain (Node 24.18.0 / npm 11.16.0) ran `npm install` inside the
+  patched worktree; native module `native-keymap` 3.3.9 fails with
+  `fatal error: 'source_location' file not found` — this machine's Xcode
+  14.3.1 / Apple clang 14 predates the libc++ that Node 24's V8 headers
+  require. Upgrading local Xcode needs explicit user authorization
+  (large system change); per the engineering discipline the build evidence
+  moves to the hosted matrix (GitHub macOS runners ship Xcode 15+).
+- The upstream `npm install` did not complete; no partial install is
+  counted as success and the disposable worktree can be re-extracted.
 - Three-platform development artifacts (macOS arm64/x64, Windows x64,
   Linux x64) and their digests/license notice output do not exist yet.
-- Runtime launch smoke on packaged builds (process start/exit, window and
-  repository open, Explorer/Editor/SCM/Terminal registered, Saber view
-  default, no Web Supervisor, no production endpoint) has not run.
+- Runtime launch smoke on packaged builds has not run.
 - Patch 0002 (Desktop Agent Workbench as the default startup view) is
   designed, deliberately unwritten until the build baseline exists.
-- Hosted branch CI, protected merge and the `s26-complete` tag are pending.
+- Hosted build matrix wiring, protected merge and the `s26-complete` tag
+  are pending. PR #71 stays open as the living S26 review (S25 pattern).
 
 ## Next exact commands
 
 ```sh
-# 1. real compile with the pinned toolchain already in the cache
+# 0. PR #71 remains the open S26 review branch — continue pushing to it
+# 1. preferred: wire the hosted three-platform build matrix (GitHub macOS
+#    runners carry Xcode 15+; verify Windows VS Build Tools and Ubuntu
+#    toolchains there), producing dev artifacts + digests + license output
+# 2. alternative with explicit user authorization: upgrade local Xcode to
+#    15+ and retry the local build:
 SABER_DESKTOP_NODE=$PWD/apps/desktop-codeoss/.cache/node/node-v24.18.0-darwin-arm64/bin/node \
   pnpm desktop:build --full
-# 2. regenerate + smoke after any patch change
-pnpm desktop:patches && pnpm desktop:smoke
-# 3. then wire the hosted three-platform matrix and runtime smoke (WP05/WP06)
+# 3. then runtime launch smoke and patch 0002 (default workbench view)
 ```
 
 ## Stop rule
