@@ -20,17 +20,20 @@ import { UI_STRINGS } from "./ui-i18n.js";
 import { createUiPage, type StudioBootState } from "./ui-page.js";
 
 /**
- * Split a command line the way a POSIX shell would: single quotes are
- * literal, double quotes allow `\"` and `\\` escapes, and a backslash
- * escapes the next character outside quotes. This makes `splitArgs` a
- * left-inverse of `joinArgs`, so an approved re-run executes exactly the
- * argv the policy decision was made about.
+ * Split a command line the way a POSIX shell would, except that a
+ * backslash stays literal unless it escapes a shell metacharacter
+ * (`'`, `"`, `\`, space, tab, newline) — Windows paths must survive
+ * verbatim. Single quotes are literal, double quotes allow `\"` and
+ * `\\` escapes. This makes `splitArgs` a left-inverse of `joinArgs`,
+ * so an approved re-run executes exactly the argv the policy decision
+ * was made about.
  */
 export function splitArgs(input: string): string[] {
   const parts: string[] = [];
   let current = "";
   let quote: "'" | '"' | null = null;
   let index = 0;
+  const metaCharacters = "'\"\\ \t\n";
   while (index < input.length) {
     const character = input[index] ?? "";
     if (quote === "'") {
@@ -56,7 +59,11 @@ export function splitArgs(input: string): string[] {
       index += 1;
       continue;
     }
-    if (character === "\\" && index + 1 < input.length) {
+    if (
+      character === "\\" &&
+      index + 1 < input.length &&
+      metaCharacters.includes(input[index + 1] ?? "")
+    ) {
       current += input[index + 1] ?? "";
       index += 2;
       continue;

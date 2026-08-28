@@ -16,6 +16,17 @@ test("splitArgs is quote-aware", () => {
   assert.deepEqual(splitArgs("/bin/sh -c 'echo hello world'"), ["/bin/sh", "-c", "echo hello world"]);
   assert.deepEqual(splitArgs('  a\tb  "c d"  '), ["a", "b", "c d"]);
   assert.deepEqual(splitArgs(""), []);
+  // Backslashes are path separators unless escaping a shell metacharacter
+  // (a bare escape-anywhere rule eats Windows paths and breaks the core).
+  assert.deepEqual(splitArgs("D:\\repo\\target\\debug\\saber-core.exe -c run"), [
+    "D:\\repo\\target\\debug\\saber-core.exe",
+    "-c",
+    "run",
+  ]);
+  assert.deepEqual(splitArgs('C:\\tools\\run.exe "say \\"hi\\""'), [
+    "C:\\tools\\run.exe",
+    'say "hi"',
+  ]);
 });
 
 test("joinArgs round-trips splitArgs for the approval flow", async () => {
