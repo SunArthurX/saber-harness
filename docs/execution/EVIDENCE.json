@@ -1,77 +1,44 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S24",
-  "status": "completed",
-  "branch": "segment/S24-completion",
+  "segment": "S25",
+  "status": "in_progress",
+  "branch": "segment/S25-desktop-workbench-baseline",
   "base": {
-    "segment": "S23",
-    "tag": "s23-complete",
-    "commit": "47e1f94a8529d103e1c2a884ed954f9fe89ad326"
+    "main_commit": "af85f697a47a94e667536d396066639d2d56578a",
+    "segment": "S24",
+    "tag": "s24-complete",
+    "commit": "502dd1db348be7e0c4ab1a6e188275b26027d5dd"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
-  "remote_head": "resolve-from-git",
-  "main_head": "bcb7b94bf55bde8de172d1e55e33373b628830ba",
-  "verified_main_checkpoint": "bcb7b94bf55bde8de172d1e55e33373b628830ba",
+  "remote_head": "not_pushed",
   "checks": [
     {
-      "id": "S24-INHERITED-BOUNDARY",
-      "command": "git cat-file -t s23-complete && git rev-parse 's23-complete^{}' origin/main && node scripts/verify-remote-s23.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
+      "id": "S25-PREDECESSOR",
+      "command": "git rev-parse 's24-complete^{}' && git rev-parse main",
       "exit_code": 0,
-      "result": "annotated s23-complete resolves to 47e1f94a8529d103e1c2a884ed954f9fe89ad326 equal to origin/main with all six check contexts successful; strict remote S23 verification and new-machine acceptance passed before the first S24 commit"
+      "result": "annotated s24-complete resolves to 502dd1db348be7e0c4ab1a6e188275b26027d5dd; S25 branches from main af85f697a47a94e667536d396066639d2d56578a"
     },
     {
-      "id": "S24-FULL-LOCAL-GATE",
-      "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
+      "id": "S25-FOCUSED-GATE",
+      "command": "node scripts/verify-s25.mjs",
       "exit_code": 0,
-      "result": "format, strict clippy, 49 Rust test suites (246 tests including 9 production-gate adversarial tests), TypeScript gates, deterministic generation, licenses, S00-S24 verifiers and governance tests passed"
+      "result": "41 checks passed: desktop-primary ADR, honest implementation status, S25-S38 enterprise plan, default Desktop Agent Workbench, secondary Web supervisor boundary and local/hosted gate wiring"
     },
     {
-      "id": "S24-VERIFY-GATE",
-      "command": "node scripts/verify-s24.mjs",
+      "id": "S25-FULL-LOCAL-GATE",
+      "command": "pnpm verify",
       "exit_code": 0,
-      "result": "934 checks passed: gate contracts, nine adversarial tests, workspace member, gate wiring, ADR-026 accepted, TM-01..TM-16 register and baseline mapping, and a zero-occurrence forbidden-autonomy-marker scan across the tracked source surface"
-    },
-    {
-      "id": "S24-ACCEPTANCE",
-      "command": "pnpm acceptance:new-machine",
-      "exit_code": 0,
-      "result": "new-machine acceptance passed in 41 seconds"
-    },
-    {
-      "id": "S24-VERIFY-BRANCH-CI",
-      "command": "inspect push runs on segment/S24-production-gate",
-      "exit_code": 0,
-      "result": "repository verification, dependency audit and the three-platform monorepo CI passed for implementation SHA 7e25f841583c002cbfe62205555e6bbce6d07d24 on the first push"
-    },
-    {
-      "id": "S24-VERIFY-PROTECTED-INTEGRATION",
-      "command": "inspect protected PR #59",
-      "exit_code": 0,
-      "result": "PR #59 squash-merged after all five required checks passed as bcb7b94bf55bde8de172d1e55e33373b628830ba"
-    },
-    {
-      "id": "S24-VERIFY-MAIN-CI",
-      "command": "inspect main check runs on bcb7b94bf55bde8de172d1e55e33373b628830ba",
-      "exit_code": 0,
-      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on bcb7b94bf55bde8de172d1e55e33373b628830ba"
-    },
-    {
-      "id": "S24-VERIFY-CLEAN-CLONE",
-      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
-      "exit_code": 0,
-      "result": "clone resolved bcb7b94bf55bde8de172d1e55e33373b628830ba and passed all gates in 92 seconds"
-    },
-    {
-      "id": "S24-VERIFY-REMOTE-MAIN",
-      "command": "node scripts/verify-remote-s24.mjs --repository SunArthurX/saber-harness --branch main",
-      "exit_code": 0,
-      "result": "production gate contracts, zero forbidden-autonomy-marker surface, public settings, hosted security controls and same-SHA successful workflows passed"
+      "result": "deterministic generation, format, lint, typecheck, builds, 22 package tests, license gate, S00-S25 verifiers and 15 governance tests passed; two pre-existing non-blocking Biome diagnostics remain unchanged"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-30T17:30:00Z",
-  "verified_segment_checkpoint": "7e25f841583c002cbfe62205555e6bbce6d07d24"
+  "pending": [
+    "verified_segment_push",
+    "hosted_branch_ci",
+    "protected_pr_merge"
+  ],
+  "last_verified_at": "2026-08-28T16:30:00Z"
 }

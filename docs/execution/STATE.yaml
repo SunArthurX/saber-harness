@@ -1,16 +1,16 @@
 project: saber
-roadmap_version: "1.0"
-architecture_version: "2.0"
+roadmap_version: "2.0"
+architecture_version: "2.1"
 current_segment:
-  id: S24
-  name: production-gate
-  status: completed
-  objective: deliver an auditable deterministic production readiness gate certifying every S00-S23 invariant on main, the proposal-only E6 boundary with no autonomous E6/E7 path, and TM-01..TM-16 threat-register coverage, closing the 25-segment roadmap with the annotated s24-complete tag
+  id: S25
+  name: desktop-workbench-baseline
+  status: in_progress
+  objective: freeze Saber Studio Desktop as the primary product, select the Code-OSS/Electron production shell with a separately supervised Rust Core, demote the Web supervisor to an optional companion, and publish the verifiable S25-S38 enterprise desktop roadmap without claiming the desktop implementation exists
 predecessor:
-  segment: S23
+  segment: S24
   status: completed
-  tag: s23-complete
-  commit: 47e1f94a8529d103e1c2a884ed954f9fe89ad326
+  tag: s24-complete
+  commit: 502dd1db348be7e0c4ab1a6e188275b26027d5dd
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -90,62 +90,54 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S24-completion
+  branch: segment/S25-desktop-workbench-baseline
   local_head: resolve-from-git
-  remote_head: resolve-from-git
-  verified_segment_checkpoint: 7e25f841583c002cbfe62205555e6bbce6d07d24
-  main_head: bcb7b94bf55bde8de172d1e55e33373b628830ba
-  verified_main_checkpoint: bcb7b94bf55bde8de172d1e55e33373b628830ba
-  remote_verified: true
+  remote_head: not_pushed
+  verified_segment_checkpoint: pending
+  main_head: af85f697a47a94e667536d396066639d2d56578a
+  verified_main_checkpoint: af85f697a47a94e667536d396066639d2d56578a
+  remote_verified: false
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-30T17:30:00Z"
+  last_checkpoint_at: "2026-08-28T16:30:00Z"
 acceptance:
   required:
-    - s23_tagged_base
+    - s24_tagged_base
     - configured_remote
-    - invariant_checklist_gate
-    - readiness_report_metadata_only
-    - negative_fixture_missing_contract_fails
-    - gate_determinism
-    - e6_proposal_only_boundary
-    - no_autonomous_e6_e7
-    - threat_register_coverage
-    - report_secret_canary
-    - s24_verifier
-    - local_verification
+    - desktop_primary_product_contract
+    - codeoss_shell_decision
+    - web_supervisor_secondary_boundary
+    - current_truth_gap_audit
+    - s25_s38_enterprise_roadmap
+    - design_default_workbench
+    - s25_verifier
+    - full_local_verification
     - verified_segment_push
-    - required_ci
+    - hosted_branch_ci
     - protected_pr_merge
-    - clean_clone_gate
-    - completion_record_merged
   passed:
-    - s23_tagged_base
+    - s24_tagged_base
     - configured_remote
-    - invariant_checklist_gate
-    - readiness_report_metadata_only
-    - negative_fixture_missing_contract_fails
-    - gate_determinism
-    - e6_proposal_only_boundary
-    - no_autonomous_e6_e7
-    - threat_register_coverage
-    - report_secret_canary
-    - s24_verifier
-    - local_verification
-    - verified_segment_push
-    - required_ci
-    - protected_pr_merge
-    - clean_clone_gate
-    - completion_record_merged
+    - desktop_primary_product_contract
+    - codeoss_shell_decision
+    - web_supervisor_secondary_boundary
+    - current_truth_gap_audit
+    - s25_s38_enterprise_roadmap
+    - design_default_workbench
+    - s25_verifier
+    - full_local_verification
   failed: []
-  pending: []
+  pending:
+    - verified_segment_push
+    - hosted_branch_ci
+    - protected_pr_merge
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-26T11:30:15Z"
+  last_verified_at: "2026-08-28T16:30:00Z"
 decisions:
   - docs/adr/ADR-001-rust-trusted-core.md
   - docs/adr/ADR-004-events-transactional-projections.md
@@ -170,7 +162,8 @@ decisions:
   - docs/adr/ADR-025-beta-slo-and-feedback.md
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
+  - docs/adr/ADR-028-codeoss-desktop-primary-product.md
 blockers: []
 next_action:
-  command: after this atomic completion record merges and final main workflows pass, create annotated s24-complete on the record merge commit; the 25-segment roadmap is then complete
-  description: all S24 acceptance items except the final tag passed; strict remote S24 verification green at bcb7b94bf55bde8de172d1e55e33373b628830ba
+  command: commit the S25 baseline, push segment/S25-desktop-workbench-baseline, verify the remote SHA and hosted branch CI, then merge through the protected-main process before starting S26
+  description: desktop-primary ADR, S25-S38 enterprise plan, desktop-first GUI design correction and focused verifier pass locally; desktop implementation deliberately remains unclaimed
