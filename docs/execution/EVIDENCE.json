@@ -50,6 +50,12 @@
       "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets && cargo test --workspace --locked && pnpm verify && git diff --check origin/main...HEAD",
       "exit_code": 0,
       "result": "workspace fmt clean, clippy clean, 54 Rust test suites ok including the three new endpoint-hardening tests, full pnpm verify green (contracts, format, lint, typecheck, builds, package tests incl. transport and crash matrix, licenses, S00-S27 verifiers, governance tests) and the whitespace contract holds"
+    },
+    {
+      "id": "S27-BRANCH-PUSHED-HOSTED-GREEN",
+      "command": "git push origin segment/S27-core-supervision-transport; PR #73 hosted checks",
+      "exit_code": 0,
+      "result": "branch pushed (remote SHA equals local HEAD at each push); after fixing a warm-cache clippy miss, a schema-enum reversion that made CI regeneration stale, missing unix gating for the Windows leg and a Windows ESM path issue, PR #73 reports repository-verification, monorepo ubuntu/macos/windows and dependency-audit all green with mergeStateStatus CLEAN at head 9f0bcd2"
     }
   ],
   "known_blockers": [],
@@ -59,8 +65,6 @@
     "handshake_failure_audit_events",
     "safe_mode_and_support_bundle_ux",
     "slow_consumer_and_cursor_gap_adversarial_cases",
-    "verified_segment_push",
-    "hosted_branch_ci",
     "protected_pr_merge"
   ],
   "last_verified_at": "2026-08-29T00:00:00Z"
