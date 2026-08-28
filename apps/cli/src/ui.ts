@@ -59,11 +59,7 @@ export function splitArgs(input: string): string[] {
       index += 1;
       continue;
     }
-    if (
-      character === "\\" &&
-      index + 1 < input.length &&
-      metaCharacters.includes(input[index + 1] ?? "")
-    ) {
+    if (character === "\\" && index + 1 < input.length && metaCharacters.includes(input[index + 1] ?? "")) {
       current += input[index + 1] ?? "";
       index += 2;
       continue;

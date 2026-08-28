@@ -23,10 +23,7 @@ test("splitArgs is quote-aware", () => {
     "-c",
     "run",
   ]);
-  assert.deepEqual(splitArgs('C:\\tools\\run.exe "say \\"hi\\""'), [
-    "C:\\tools\\run.exe",
-    'say "hi"',
-  ]);
+  assert.deepEqual(splitArgs('C:\\tools\\run.exe "say \\"hi\\""'), ["C:\\tools\\run.exe", 'say "hi"']);
 });
 
 test("joinArgs round-trips splitArgs for the approval flow", async () => {
