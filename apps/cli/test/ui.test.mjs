@@ -153,7 +153,10 @@ test("ui server serves the studio console and runs the governed core", async () 
     const denied = await fetch(`http://127.0.0.1:${port}/api/run`, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ command: core, allow: [], approve: true }),
+      // Requesting the core binary itself with arguments, without --allow:
+      // the deterministic default-deny policy refuses on every platform
+      // (a bare path exits 64 on Windows before policy evaluation).
+      body: JSON.stringify({ command: `${core} -c must-not-run`, allow: [], approve: true }),
     });
     const denial = await denied.json();
     assert.equal(denial.exitCode, 2);
