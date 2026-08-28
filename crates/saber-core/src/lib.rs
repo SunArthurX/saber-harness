@@ -375,7 +375,7 @@ fn open_run_store(
         &provider,
     )?;
     let store = Rc::new(RefCell::new(store));
-    let sequence = u64::try_from(store.borrow().event_count()?)
+    let sequence = u64::try_from(store.borrow().run_count()?)
         .unwrap_or(0)
         .saturating_add(1);
     let run_id = format!("run_{sequence:04}");
