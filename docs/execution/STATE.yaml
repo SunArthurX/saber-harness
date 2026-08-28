@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "2.0"
 architecture_version: "2.1"
 current_segment:
-  id: S25
-  name: desktop-workbench-baseline
-  status: completed
-  objective: freeze Saber Studio Desktop as the primary product, select the Code-OSS/Electron production shell with a separately supervised Rust Core, demote the Web supervisor to an optional companion, and publish a handoff-safe S26-S38 execution pack calibrated against official Codex, Claude Code, ZCode, MiniMax, Cursor, DeepSeek Harness, Zed, Kiro, OpenHands, Cline and Aider evidence with canonical product objects, lifecycle ownership, a philosophy-to-architecture contract, an honest CodingAgent MVP cut line, machine-readable release trains, capability, work-package, UX, platform, team, evaluation and release controls without claiming the desktop implementation exists
+  id: S26
+  name: codeoss-bootstrap
+  status: in_progress
+  objective: deliver a reproducible, minimally branded Code-OSS/Electron development desktop shell pinned to upstream commit 08d4889f9ec4a1685d257b9b95de036c8e1e5 (release 1.135.0) with an atomic digest-verified source cache, a reversible single-purpose patch series, a built-in saber-agent extension skeleton limited to native contribution points, a deterministic static smoke and focused verification — an RT-0 engineering preview that opens toward the Desktop Agent Workbench and claims no Core IPC, Agent execution, production signing or packaged release
 predecessor:
-  segment: S24
+  segment: S25
   status: completed
-  tag: s24-complete
-  commit: 502dd1db348be7e0c4ab1a6e188275b26027d5dd
+  tag: s25-complete
+  commit: cedaee7fca4b987777218556dcffca8a63a77fa1
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -84,96 +84,71 @@ completed_segments:
   - segment: S23
     tag: s23-complete
     commit: 47e1f94a8529d103e1c2a884ed954f9fe89ad326
+  - segment: S25
+    tag: s25-complete
+    commit: cedaee7fca4b987777218556dcffca8a63a77fa1
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S25-completion
+  branch: segment/S26-codeoss-bootstrap
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: 09f48fd2f704730d22442d59228524e1cbc4ca73
-  main_head: 648d0482d4bd2884783e9d834860074c7558c94a
-  verified_main_checkpoint: 648d0482d4bd2884783e9d834860074c7558c94a
-  remote_verified: true
+  verified_segment_checkpoint: resolve-from-git
+  main_head: cedaee7fca4b987777218556dcffca8a63a77fa1
+  verified_main_checkpoint: cedaee7fca4b987777218556dcffca8a63a77fa1
+  remote_verified: resolve-from-git
   protected_main_verified: true
   clean: resolve-from-git
 execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-28T13:06:27Z"
+  last_checkpoint_at: "2026-08-28T14:10:00Z"
 acceptance:
   required:
-    - s24_tagged_base
-    - configured_remote
-    - desktop_primary_product_contract
-    - codeoss_shell_decision
-    - web_supervisor_secondary_boundary
-    - current_truth_gap_audit
-    - s25_s38_enterprise_roadmap
-    - desktop_execution_pack
-    - segment_runbooks_s26_s38
-    - machine_readable_desktop_wbs
-    - cross_cutting_desktop_playbooks
-    - next_model_s26_handoff
-    - design_default_workbench
-    - official_competitive_research
-    - competitive_capability_map
-    - competitor_derived_ux_journeys
-    - competitor_requirements_in_all_runbooks
-    - competitive_research_verifier
-    - desktop_product_operating_model
-    - machine_readable_release_trains
-    - evidence_bearing_release_claims
-    - advanced_harness_official_research
-    - philosophy_to_architecture_contract
-    - machine_readable_philosophy_map
-    - advanced_capability_segment_traceability
-    - advanced_gui_acceptance
-    - s25_verifier
+    - s25_tagged_base
+    - upstream_pinned_and_verified
+    - license_and_exclusion_checklist
+    - atomic_source_cache
+    - offline_cache_verification
+    - reversible_patch_series
+    - builtin_extension_skeleton
+    - static_smoke
+    - negative_supplychain_tests
+    - toolchain_fail_closed
+    - s26_verifier
     - full_local_verification
     - verified_segment_push
     - hosted_branch_ci
+    - three_platform_dev_packages
+    - runtime_platform_smoke
     - protected_pr_merge
   passed:
-    - s24_tagged_base
-    - configured_remote
-    - desktop_primary_product_contract
-    - codeoss_shell_decision
-    - web_supervisor_secondary_boundary
-    - current_truth_gap_audit
-    - s25_s38_enterprise_roadmap
-    - desktop_execution_pack
-    - segment_runbooks_s26_s38
-    - machine_readable_desktop_wbs
-    - cross_cutting_desktop_playbooks
-    - next_model_s26_handoff
-    - design_default_workbench
-    - official_competitive_research
-    - competitive_capability_map
-    - competitor_derived_ux_journeys
-    - competitor_requirements_in_all_runbooks
-    - competitive_research_verifier
-    - desktop_product_operating_model
-    - machine_readable_release_trains
-    - evidence_bearing_release_claims
-    - advanced_harness_official_research
-    - philosophy_to_architecture_contract
-    - machine_readable_philosophy_map
-    - advanced_capability_segment_traceability
-    - advanced_gui_acceptance
-    - s25_verifier
+    - s25_tagged_base
+    - upstream_pinned_and_verified
+    - license_and_exclusion_checklist
+    - atomic_source_cache
+    - offline_cache_verification
+    - reversible_patch_series
+    - builtin_extension_skeleton
+    - static_smoke
+    - negative_supplychain_tests
+    - toolchain_fail_closed
+    - s26_verifier
+  failed: []
+  pending:
     - full_local_verification
     - verified_segment_push
     - hosted_branch_ci
+    - three_platform_dev_packages
+    - runtime_platform_smoke
     - protected_pr_merge
-  failed: []
-  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-28T13:06:27Z"
+  last_verified_at: "2026-08-28T14:10:00Z"
 decisions:
   - docs/adr/ADR-001-rust-trusted-core.md
   - docs/adr/ADR-004-events-transactional-projections.md
@@ -201,5 +176,5 @@ decisions:
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
 blockers: []
 next_action:
-  command: after this completion record merges, create annotated s25-complete on the record merge commit and verify its peeled SHA equals that main commit; S26 then starts only from docs/execution/desktop/NEXT-MODEL-S26.md
-  description: PR #69 squash-merged as 648d0482d4bd2884783e9d834860074c7558c94a after 10/10 hosted checks and explicit user merge authorization; all six main contexts (repository verification, three-platform monorepo CI, dependency audit, main provenance) succeeded on the merge commit; the completion record flips S25 to completed with no pending acceptance items; desktop implementation deliberately remains unclaimed
+  command: run the real upstream compile with the pinned toolchain (SABER_DESKTOP_NODE=<cache>/node-v24.18.0-darwin-arm64/bin/node pnpm desktop:build --full), then wire the three-platform hosted build matrix and runtime launch smoke, then push and merge through protected review
+  description: S26 in progress. Proven locally: pinned upstream 1.135.0 at 08d4889f with archive sha256 f5a0bd67 verified online and offline, atomic commit-addressed cache, reversible single-purpose patch 0001-product-identity (13 identity fields, no Microsoft marks, no service endpoints), built-in saber-agent extension skeleton (native contributions only, no webview, zh/en strings), 14-check static smoke on the real patched tree, 6/6 negative supply-chain tests, fail-closed toolchain preflight (exit 64 on mismatch, pass on the pinned Node 24.18.0), verify-s26 55 checks chained into local and hosted gates, full pnpm verify green. Pending honestly: the Electron compile/packages on three platforms, runtime launch smoke, hosted matrix and protected merge; nothing packaged is claimed and S27 is not started

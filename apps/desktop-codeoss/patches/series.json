@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "notes": "Ordered Saber patch series over the locked Code-OSS commit. Every patch must be single-purpose, listed in upstream.lock.json with owner, rationale, touched files and security impact, apply without fuzz, and reverse cleanly. The generated worktree is disposable; never hand-edit the cache to make a patch fit. Patch 0002 (Desktop Agent Workbench as the default startup view) is designed but deliberately not written yet — S26-WP03 continues it after the three-platform build baseline exists.",
+  "patches": [
+    {
+      "id": "0001-product-identity",
+      "file": "0001-product-identity.patch",
+      "status": "active"
+    }
+  ],
+  "builtin_extensions": ["extensions/saber-agent"]
+}

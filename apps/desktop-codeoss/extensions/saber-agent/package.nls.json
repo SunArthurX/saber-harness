@@ -1,0 +1,10 @@
+{
+  "displayName": "Saber Agent Workbench",
+  "description": "Saber Studio desktop agent workbench projection (engineering preview; the governed Rust Core is not connected in S26).",
+  "category": "Saber",
+  "viewContainer.title": "Saber Agent Workbench",
+  "view.goals.name": "Goals",
+  "viewWelcome.goals.contents": "No Saber Core connection in this engineering preview.\nGoal, Task and Run identities live in the trusted Rust Core and are only projected here.\nS27 connects the real Core supervision transport.",
+  "command.workbench.open.title": "Open Desktop Agent Workbench",
+  "command.workbench.status.title": "Show Workbench Connection Status"
+}

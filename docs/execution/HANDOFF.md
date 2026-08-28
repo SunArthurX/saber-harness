@@ -1,191 +1,129 @@
-# S25 Handoff — Desktop Workbench Baseline
+# S26 Handoff — Code-OSS Bootstrap (RT-0 Engineering Preview)
 
-Status: completed atomically when this completion record merges through protected main
+Status: in progress — reproducible bootstrap proven locally; Electron
+compile, three-platform packages and runtime smoke not run; nothing
+packaged is claimed
 Date: 2026-08-28
-Branch: `segment/S25-completion`
-Implementation branch: `segment/S25-desktop-workbench-baseline` @ `09f48fd2f704730d22442d59228524e1cbc4ca73`
-Merged main: PR #69 squash-merged as `648d0482d4bd2884783e9d834860074c7558c94a`
-Base main at implementation start: `af85f697a47a94e667536d396066639d2d56578a`
-Predecessor: annotated `s24-complete` resolves to `502dd1db348be7e0c4ab1a6e188275b26027d5dd`
+Branch: `segment/S26-codeoss-bootstrap`
+Base main: `cedaee7fca4b987777218556dcffca8a63a77fa1` (`s25-complete`)
+Runbook: `docs/execution/desktop/S26-CODEOSS-BOOTSTRAP.md`
 
 ## Objective
 
-Correct the product center of gravity: Saber Studio Desktop is the primary
-product and must default to a complete CodingAgent workbench. The loopback Web
-console is an optional supervisor surface, not the desktop implementation.
+A reproducible, minimally branded Code-OSS/Electron development shell that
+opens toward the Desktop Agent Workbench with a built-in `saber-agent`
+extension skeleton — an RT-0 engineering preview with no Core IPC, no Agent
+execution, no production signing and no packaged-release claim.
 
-## What changed locally
+## What shipped on this branch
 
-- Added ADR-028 selecting a Code-OSS/Electron production shell with a
-  separately supervised Rust Core and no parallel Tauri product line.
-- Added `docs/execution/DESKTOP-WORKBENCH-ENTERPRISE-PLAN.md`: current-state
-  audit, target workbench, architecture, S25-S38 plan, 30-40 week schedule,
-  staffing, quality gates, KPI, risks and budget assumptions.
-- Corrected the GUI design so `Desktop Agent Workbench` is section 5.1 and the
-  default route; Command Center is secondary.
-- Updated the desktop placeholder README to state that the production shell has
-  not landed.
-- Added `scripts/verify-s25.mjs` and wired it into local and hosted repository
-  verification.
-- Added `docs/execution/desktop/README.md` and 13 S26-S38 Segment runbooks. They
-  define 78 owned work packages with prerequisites, non-goals, failure states,
-  platform cases, verification, Exit Gates, evidence and handoff requirements.
-- Added a machine-readable WBS, 24-screen UX inventory, 13 acceptance journeys,
-  platform/release matrix, team RACI, real-repository evaluation plan and a
-  copy-ready S26 next-model instruction file.
-- Added an official-source, evidence-graded comparison of Codex Desktop,
-  Claude Code Desktop, ZCode and MiniMax Code: 31 capability records resolve to
-  13 Saber-specific product decisions rather than superficial feature parity.
-- Added a machine-readable capability map and made every capability trace to
-  its implementing Segment, desktop surface and acceptance journey.
-- Expanded the inventory from 24 to 35 desktop surfaces and from 13 to 24
-  end-to-end journeys, including Handoff, Side Inquiry, Preview Auto-Verify,
-  persistent Goals, dynamic Leader/Worker/Verifier teams, harness adapters,
-  automations, remote Realms and governed Memory-to-Code evolution.
-- Added competitor-derived requirements to every S26-S38 runbook and WBS
-  Segment while keeping future implementation outside S25 scope.
-- Added `DESKTOP-PRODUCT-OPERATING-MODEL.md` to freeze 16 canonical product
-  objects, Core/projection ownership, Goal/Task/Run/Approval/Evidence/knowledge/
-  health lifecycles, navigation identity, recovery and telemetry semantics.
-- Added four machine-readable release trains and mirrored them into every WBS
-  Segment and runbook: RT-0 is explicitly an engineering preview, RT-1 after
-  S31 is the first real CodingAgent MVP, RT-2 is local-first continuity/team
-  Beta and RT-3 is the enterprise production candidate.
-- Added evidence-bearing release claim Gates so a shell, screenshot, Web
-  Supervisor, transcript or mixed-SHA result cannot be renamed into a higher
-  product milestone.
-- Expanded the S25 verifier from 41 to 1542 checks so the execution pack cannot
-  silently lose a Segment, work package, owner, Gate or cross-cutting control.
-- Corrected ADR-028's trailing blank line after the PR merge-ref whitespace gate
-  exposed it; the execution Definition of Done now checks the whole base diff.
-- Added an official-source second research layer for Cursor, DeepSeek Harness,
-  Zed, Kiro, OpenHands, Cline and Aider: 36 additional capability records map to
-  Saber-specific contracts, philosophy principles, Segments, UI and journeys.
-- Added `PHILOSOPHY-TO-ARCHITECTURE.md` and its machine-readable map: 12
-  philosophical invariants, 19 body/system organs, the authority stack, bounded
-  homeostasis, E0-E7 evolution, H0-H4 health, five data islands and 12 philosophy
-  acceptance journeys.
-- Kept DeepSeek Harness-style service seams, profiles, reconstructable events
-  and reversible effects outside the privileged immune Core; Policy, Sandbox,
-  Secret, Egress, Audit, Update and Recovery remain higher authority than the
-  model, Agent, plugin, Hook or Renderer.
-- Expanded the operating model to 23 canonical objects, adding Specification,
-  Agent Profile, Reflex Hook, Checkpoint, Runtime Image and Projection Recipe
-  with explicit lifecycle and invalidation semantics.
-- Expanded the desktop inventory from 35 to 42 screens and product journeys
-  from 24 to 32. New workbench surfaces cover adapter capability, reflex Hooks,
-  Runtime attestation, causal replay, Specification, Repository Map/context
-  budget and recovery/homeostasis; they are not a separate Web supervisor.
-- Added all advanced capability and philosophy requirements to S26-S38
-  runbooks, WBS and release trains without changing the 78-work-package
-  sequence or starting S26.
-- Expanded `verify-s25.mjs` from 1542 to 3049 checks, including bidirectional
-  capability/WBS symmetry, principle/organ schemas, product-object coverage,
-  new UI/journeys and philosophy-bearing release Gates.
-- Added `desktop/GLM-5.3-S26-EXECUTION-PROMPT.md`, a full Chinese handoff Prompt
-  that forces fresh Git/PR/tag calibration, enters a no-write S25 closure branch
-  while protected merge is pending, and permits only S26 Code-OSS bootstrap
-  after authoritative completion. It explicitly forbids S27 and false product
-  claims.
+- **Upstream lock (WP01)**: `apps/desktop-codeoss/upstream.lock.json` pins
+  microsoft/vscode release `1.135.0` → commit
+  `08d4889f9ec4a1685d257b9b95de036c8e1ce1e5` (2026-08-25), codeload archive
+  52,159,992 bytes, sha-256
+  `f5a0bd67cf04080b59e316cc4e39e0fa2aedf16da15be955c85141fe9febe525`,
+  MIT, upstream Node 24.18.0 from `.nvmrc`, patch provenance, service
+  exclusions and the atomic cache policy.
+- **Supply-chain record**: `apps/desktop-codeoss/UPSTREAM-AND-SUPPLY-CHAIN.md`
+  carries the ten required reviewable outputs (selection rationale, license
+  and Microsoft-service exclusion checklist, lock schema, cache/offline
+  policy, patch strategy, toolchain matrix, packaging/smoke plan, workbench
+  projection note, risk register, explicit TBD-BY-SEGMENT blockers).
+- **Atomic source cache (WP02)**: `scripts/fetch-upstream.mjs` refuses
+  symbolic refs, short shas, non-https and non-commit-addressed URLs;
+  downloads to a pid-suffixed temporary, verifies sha-256 and promotes by
+  atomic rename; `--offline` re-verifies the cache with zero network;
+  nothing from the archive is ever executed by Saber tooling.
+- **Patch series (WP03)**: `patches/series.json` + patch
+  `0001-product-identity` — 13 identity fields in upstream `product.json`
+  (Saber Studio names, `.saber-studio` data directory, `saber://` protocol,
+  Microsoft marks removed from win32/darwin identity). Generated from the
+  real pinned tree; `apply-patches.mjs` applies with `git apply` (fuzz
+  fails), proves reversibility, is idempotent, copies built-in extensions
+  and discards the worktree on any failure.
+- **Built-in extension skeleton (WP04)**:
+  `extensions/saber-agent` — native contributions only: activity-bar
+  container `saber-workbench`, native tree view with welcome, `saber.*`
+  commands, read-only placeholder document provider; no webview, no node
+  builtins beyond the `vscode` API, honest not-connected copy, en/zh
+  `package.nls` parity.
+- **Deterministic static smoke (WP06, static half)**:
+  `scripts/smoke.mjs` — 14 checks over the real patched tree (branding,
+  data isolation, no Microsoft marks, no gallery endpoint, extension
+  contracts, honest copy).
+- **Fail-closed build entry (WP05, preflight)**: `scripts/build.mjs`
+  verifies the exact locked Node (exit 64 on mismatch), prepares the
+  worktree, and gates the full Electron compile behind `--full` on a
+  verified toolchain.
+- **Focused verifier + negative tests**: `scripts/verify-s26.mjs` (55
+  checks) chained into `pnpm verify:repo` and the hosted
+  repository-verification workflow; `scripts/tests/s26-desktop-bootstrap.test.mjs`
+  (6 tests) covers symbolic-ref/short-sha/http/URL-ref rejection, offline
+  fail-closed, corrupt-cache rejection, never-promote-on-mismatch, patch
+  conflict failure, idempotency and manifest requirements.
 
-## Current truth
+## Verified evidence (all commands actually run)
 
-- `bin/saber ui` is a working loopback Web supervisor.
-- `packages/ide-client` contains protocol and replayable headless ViewModels.
-- `apps/desktop-codeoss` is still a placeholder. No packaged desktop app,
-  Code-OSS fork or real desktop vertical slice exists yet.
-- No S26 implementation was started while refining this plan.
-- The competitor research is a dated design input, not a claim that Saber has
-  already implemented those capabilities.
-- The S00-S24 Core, security and governance evidence remains authoritative for
-  those contracts. It is not proof of desktop GUI completion.
+- `pnpm desktop:upstream:fetch` (first download) and
+  `pnpm desktop:upstream:verify --offline` — digest matches the lock.
+- `node apps/desktop-codeoss/scripts/apply-patches.mjs` — extract, apply,
+  reverse-verify, extension copy; repeated run is idempotent.
+- `node apps/desktop-codeoss/scripts/smoke.mjs` — 14/14 PASS on the real
+  patched worktree.
+- `node apps/desktop-codeoss/scripts/build.mjs` — exit 64 with the
+  monorepo Node 24.15.0 (fail closed); preflight PASS with the pinned
+  Node 24.18.0 cached under `.cache/node/` (sha-256 of the toolchain
+  tarball recorded in the session log:
+  `e1a97e14c99c803e96c7339403282ea05a499c32f8d83defe9ef5ec66f979ed1`).
+- `node --test scripts/tests/s26-desktop-bootstrap.test.mjs` — 6/6 PASS.
+- `node scripts/verify-s26.mjs` — 55 checks PASS; `node scripts/verify-s25.mjs`
+  — 3066 checks PASS; full `pnpm verify` — exit 0;
+  `git diff --check origin/main...HEAD` clean.
 
-## Local evidence
+## Known issue found and fixed during S26
 
-- `node scripts/verify-s25.mjs`: 1542 checks passed for the product baseline,
-  detailed execution pack, 31-item competitive capability map and bidirectional
-  capability/Segment/runbook plus release-train/WBS traceability.
-- `pnpm verify`: passed after correcting only new-file formatting; existing
-  non-blocking Biome warnings remain unchanged.
-- TypeScript build/typecheck, 22 package tests, license gate, S00-S25 verifiers
-  and 15 governance tests passed inside the full command.
-- The two user PDFs were read as research inputs only. Extracted and rendered
-  scratch data lives under ignored `tmp/pdfs/` and is not part of the change.
-- The two source PDFs remain outside the public commit; only independently
-  written findings, mappings and official public links are tracked.
-- The original PDF files were not present at their earlier Downloads paths
-  during this refinement. Existing ignored extracted text and rendered pages
-  were used only to recheck the prior philosophy findings; no missing PDF is
-  represented as freshly re-read.
-- Branch push is verified for the content checkpoint; resolve the latest
-  continuity-only head directly from Git.
-- The first Monorepo CI attempt reached the JavaScript gate on all three OSes
-  after Rust checks passed, then rejected non-canonical Biome formatting in the
-  newly updated `EVIDENCE.json`. Repository Verification passed. The formatting
-  correction was committed and locally reverified.
-- The corrected checkpoint `a74d09b` passed Repository Verification run
-  33148770142 and Monorepo CI run 33148770147: dependency audit plus macOS,
-  Windows and Linux jobs all succeeded.
-- The refined execution-pack checkpoint `ea3b971` passed push and PR workflows:
-  Repository Verification runs 33150529040/33150531933 and Monorepo CI runs
-  33150528988/33150531890. All 10 PR checks succeeded and GitHub reports the
-  PR merge state as clean.
-- The competitive-research checkpoint `ed0ca1a` passed push and PR workflows:
-  Repository Verification runs 33152873608/33152875838 and Monorepo CI runs
-  33152873714/33152875817. Both dependency audits and all macOS, Windows and
-  Linux jobs succeeded; PR #69 again reports 10/10 successful checks and a
-  clean merge state.
-- The product-operating-model checkpoint `60c85b5` passed push and PR workflows:
-  Repository Verification runs 33168573327/33168575644 and Monorepo CI runs
-  33168573273/33168575647. Both dependency audits and all macOS, Windows and
-  Linux jobs succeeded; PR #69 reports 10/10 successful checks and a clean
-  merge state.
-- The advanced harness/philosophy work passes `node scripts/verify-s25.mjs`
-  with 3049 checks, `git diff --check` and `pnpm verify`. Deterministic
-  generation, format, lint, typecheck, build, 22 package tests, license, S00-S25
-  verifiers and 15 governance tests passed; one pre-existing Biome warning and
-  one pre-existing info diagnostic remain unchanged. Hosted checks are pending
-  until the content plus this continuity record are pushed.
-- The advanced research/philosophy content checkpoint is
-  `a0eea3ecfbd63ffb6002cf4214ad7b7e4cdc44fb`; this continuity-only update records
-  it before branch push and hosted verification.
-- The evidence checkpoint `a184108` passed push and PR workflows: Repository
-  Verification runs 33171209822/33171212253 and Monorepo CI runs
-  33171209813/33171212250. Both dependency audits and all macOS, Windows and
-  Linux jobs succeeded; PR #69 reports 10/10 successful checks and a clean,
-  mergeable state.
-- After adding the GLM-5.3 Prompt, `verify-s25.mjs` passes 3066 checks and the
-  full `pnpm verify` gate passes locally; hosted checks for the Prompt checkpoint
-  are recorded from the final pushed SHA rather than inferred from this earlier
-  clean PR state.
-- The final implementation head `09f48fd` passed the PR #69 hosted checks: all
-  10 check runs (repository verification, monorepo macOS/Windows/Linux,
-  dependency audit across the push and PR workflows) succeeded and GitHub
-  reported mergeStateStatus CLEAN.
-- Following explicit user merge authorization, PR #69 was squash-merged as
-  `648d0482d4bd2884783e9d834860074c7558c94a`. All six main contexts —
-  repository-verification, monorepo ubuntu/macos/windows, dependency-audit and
-  main-provenance — concluded successfully on that merge commit.
+Running `biome check --write` over `apps/desktop-codeoss` descended into
+the ignored `.cache/worktrees` tree and reformatted the upstream
+`product.json` (tabs → spaces), breaking patch reversibility. Fixed by
+excluding `apps/desktop-codeoss/.cache` in `biome.json` `files.includes`;
+verified by re-extracting the worktree, re-passing reverse-apply, and
+re-running a full-repo `biome check --write` without damage. The cache is
+disposable and was regenerated from the digest-verified archive.
 
-## Remaining S25 acceptance
+## What is NOT done (honest pending)
 
-None. All 31 acceptance items including `protected_pr_merge` are proved; this
-completion record is the final S25 artifact. Create annotated `s25-complete`
-on the record merge commit after it merges.
+- `pnpm desktop:build --full`: the real upstream Electron compile and
+  packaging (30-60+ min per platform) has not run.
+- Three-platform development artifacts (macOS arm64/x64, Windows x64,
+  Linux x64) and their digests/license notice output do not exist yet.
+- Runtime launch smoke on packaged builds (process start/exit, window and
+  repository open, Explorer/Editor/SCM/Terminal registered, Saber view
+  default, no Web Supervisor, no production endpoint) has not run.
+- Patch 0002 (Desktop Agent Workbench as the default startup view) is
+  designed, deliberately unwritten until the build baseline exists.
+- Hosted branch CI, protected merge and the `s26-complete` tag are pending.
 
-## S26 start condition
+## Next exact commands
 
-Do not start Code-OSS bootstrap until S25 is merged. When it starts, first pin
-an upstream Code-OSS commit, record license and patch provenance, and produce a
-three-platform reproducible shell build. S26 must open the Desktop Agent
-Workbench by default and must not depend on `bin/saber ui` for the primary
-experience.
+```sh
+# 1. real compile with the pinned toolchain already in the cache
+SABER_DESKTOP_NODE=$PWD/apps/desktop-codeoss/.cache/node/node-v24.18.0-darwin-arm64/bin/node \
+  pnpm desktop:build --full
+# 2. regenerate + smoke after any patch change
+pnpm desktop:patches && pnpm desktop:smoke
+# 3. then wire the hosted three-platform matrix and runtime smoke (WP05/WP06)
+```
+
+## Stop rule
+
+Do not start S27 (Core supervision transport). S26 stays `in_progress`
+until the three-platform builds, runtime smoke, hosted checks and protected
+merge are real; only then record completion and tag `s26-complete`.
 
 ## Non-negotiable review points
 
-- Desktop is primary; Command Center and Web Supervisor are secondary.
-- Code-OSS/Electron is a low-trust UI shell; Rust Core remains authoritative.
-- No screenshot, static HTML, Storybook, fake Core or Web supervisor can prove
-  desktop completion.
-- Every future Segment keeps Policy, Sandbox, Secret, Egress, Audit, Update and
-  Recovery boundaries at least as strong as S00-S24.
+- Renderer/extension/webview paths hold no file, shell, secret, network or
+  policy authority; the skeleton requires nothing beyond the `vscode` API.
+- No screenshot, static HTML or Web Supervisor claims desktop completion.
+- The upstream lock, digests and patch provenance are the reproducibility
+  root; never hand-edit the cache to make a patch fit.

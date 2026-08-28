@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "source": {
+    "repository": "https://github.com/microsoft/vscode",
+    "ref": "1.135.0",
+    "commit": "08d4889f9ec4a1685d257b9b95de036c8e1ce1e5",
+    "commit_date": "2026-08-25T14:26:52Z",
+    "release_published_at": "2026-08-26T16:52:46Z",
+    "archive_url": "https://codeload.github.com/microsoft/vscode/tar.gz/08d4889f9ec4a1685d257b9b95de036c8e1ce1e5",
+    "archive_sha256": "f5a0bd67cf04080b59e316cc4e39e0fa2aedf16da15be955c85141fe9febe525",
+    "archive_bytes": 52159992,
+    "license": "MIT",
+    "license_path": "LICENSE.txt",
+    "selection_rationale": "Newest monthly stable release of microsoft/vscode at S26 start (published 2026-08-26, two days before lock); stable monthly releases carry the accumulated security fixes and match the Electron/Node toolchain documented in the release notes, while insider/main branches move and cannot be pinned reproducibly. The tag resolves directly to a commit object, so the archive address is the immutable full SHA."
+  },
+  "toolchain": {
+    "node": "24.18.0",
+    "node_source": ".nvmrc at the pinned commit",
+    "npm": "bundled with the pinned Node",
+    "python": "3.9+ for node-gyp native modules (system provided)",
+    "rust": "not required by upstream; the Saber trusted Core builds independently from the repository workspace",
+    "notes": "The Saber monorepo pins Node 24.15.0 for its own gates; desktop builds must use the upstream-pinned 24.18.0. build.mjs fails closed until the exact version is present (SABER_DESKTOP_NODE may point at a cached toolchain)."
+  },
+  "patches": [
+    {
+      "id": "0001-product-identity",
+      "file": "patches/0001-product-identity.patch",
+      "owner": "S26",
+      "rationale": "Brand the distribution as Saber Studio and isolate its user data without touching any Microsoft mark, service endpoint or build logic",
+      "upstream_files": ["product.json"],
+      "security_impact": "identity-only: no protocol, telemetry, update or extension-gallery behavior changes; the OSS product.json already ships without extensionsGallery",
+      "expected_base_commit": "08d4889f9ec4a1685d257b9b95de036c8e1ce1e5"
+    }
+  ],
+  "exclusions": {
+    "extensions_gallery": "Absent from the Code-OSS source product.json by design; Saber does not add Microsoft Visual Studio Marketplace endpoints. A governed marketplace choice (Open VSX or private registry) is a later-segment decision after legal review.",
+    "telemetry": "Code-OSS OSS builds key telemetry to a development endpoint and quality is unset; S26 does not enable any telemetry endpoint and no production telemetry is claimed.",
+    "update": "No auto-update endpoint is configured; update, signing and notarization are S36 scope (TBD-BY-SEGMENT).",
+    "trademark": "Patch 0001 removes Microsoft/Visual Studio marks from the shipped identity fields (win32DirName, win32AppUserModelId, darwinBundleIdentifier, shell names). Microsoft trademarks are not redistributed as product branding."
+  },
+  "cache": {
+    "root": "apps/desktop-codeoss/.cache",
+    "upstream_dir": "upstream",
+    "worktree_dir": "worktrees",
+    "policy": "Commit-addressed archives only; downloads land in a .tmp sibling and are promoted by atomic rename only after the SHA-256 matches this lock. Interrupted or mismatched fetches are deleted and never become build inputs. Upstream post-install scripts are never executed by Saber tooling; they only run later inside the reviewed upstream build step itself."
+  }
+}
