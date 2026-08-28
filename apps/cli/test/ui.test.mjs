@@ -159,10 +159,11 @@ test("ui server serves the studio console and runs the governed core", async () 
     const denied = await fetch(`http://127.0.0.1:${port}/api/run`, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      // Requesting the core binary itself with arguments, without --allow:
-      // the deterministic default-deny policy refuses on every platform
-      // (a bare path exits 64 on Windows before policy evaluation).
-      body: JSON.stringify({ command: `${core} -c must-not-run`, allow: [], approve: true }),
+      // Same shape as the CLI bridge test: request the core binary with
+      // arguments, no permit and no approval claim, so the deterministic
+      // default-deny refusal (exit 2) fires before any platform-specific
+      // sandbox path on every OS.
+      body: JSON.stringify({ command: `${core} -c must-not-run`, allow: [], approve: false }),
     });
     const denial = await denied.json();
     assert.equal(denial.exitCode, 2);
