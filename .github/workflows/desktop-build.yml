@@ -57,6 +57,14 @@ jobs:
           if (-not $vs) { throw "no Visual Studio with C++ workload found" }
           Write-Host "VS toolchain: $vs"
           "vs2022_install=$vs" >> $env:GITHUB_ENV
+          # The upstream win32 packaging runs signtool.exe (verify/remove of
+          # Electron's pre-shipped Authenticode signature); the Windows SDK
+          # has it, just not on PATH.
+          $signtool = Get-ChildItem "${env:ProgramFiles(x86)}\Windows Kits\10\bin\*\x64\signtool.exe" |
+            Sort-Object FullName -Descending | Select-Object -First 1
+          if (-not $signtool) { throw "signtool.exe not found in the Windows SDK" }
+          Write-Host "signtool: $($signtool.FullName)"
+          Add-Content $env:GITHUB_PATH $signtool.DirectoryName
 
       - name: Record the active toolchain
         run: |
@@ -91,8 +99,16 @@ jobs:
         run: |
           set -euo pipefail
           shopt -s nullglob
+          cd apps/desktop-codeoss/.cache/worktrees
+          # The upstream gulp task leaves a VSCode-<platform> directory (the
+          # branded application); wrap it into one deterministic dev archive.
+          for directory in VSCode-*/; do
+            name="saber-studio-dev-${{ matrix.gulp }}.tar.gz"
+            tar -czf "$name" "$directory"
+            echo "packaged $directory -> $name"
+          done
           found=0
-          for artifact in apps/desktop-codeoss/.cache/worktrees/*.zip apps/desktop-codeoss/.cache/worktrees/*.tar.gz; do
+          for artifact in saber-studio-dev-*.tar.gz *.zip; do
             found=1
             if command -v sha256sum >/dev/null 2>&1; then
               sha256sum "$artifact"
@@ -101,7 +117,7 @@ jobs:
             fi
           done | tee -a "$GITHUB_STEP_SUMMARY"
           if [ "$found" -ne 1 ]; then
-            echo "no packaged artifact found in apps/desktop-codeoss/.cache/worktrees" >&2
+            echo "no packaged development artifact found" >&2
             exit 1
           fi
 
@@ -110,7 +126,7 @@ jobs:
         with:
           name: saber-studio-dev-${{ matrix.gulp }}
           path: |
+            apps/desktop-codeoss/.cache/worktrees/saber-studio-dev-*.tar.gz
             apps/desktop-codeoss/.cache/worktrees/*.zip
-            apps/desktop-codeoss/.cache/worktrees/*.tar.gz
           if-no-files-found: error
           retention-days: 14

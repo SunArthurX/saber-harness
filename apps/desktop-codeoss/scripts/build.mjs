@@ -60,9 +60,15 @@ function resolveToolchain(lock) {
   };
 }
 
-function stage(env, command, args, cwd, label, shell = false) {
+function stage(env, command, args, cwd, label, shell = false, timeoutMilliseconds) {
   console.log(`build: ${label} → ${command} ${args.join(" ")}`);
-  const result = spawnSync(command, args, { cwd, env, stdio: "inherit", shell });
+  const result = spawnSync(command, args, {
+    cwd,
+    env,
+    stdio: "inherit",
+    shell,
+    ...(timeoutMilliseconds === undefined ? {} : { timeout: timeoutMilliseconds, killSignal: "SIGKILL" }),
+  });
   if (result.status !== 0) {
     console.error(`build: ${label} failed with exit ${result.status}`);
     process.exit(1);
@@ -104,7 +110,7 @@ async function main() {
     // the process boots, stays alive and healthy for 45 seconds, and then
     // terminates on the operator's signal — "starts and exits cleanly"
     // with the exit initiated by the smoke itself.
-    stage(toolchain.env, "node", ["build/lib/electron.ts"], worktree, "fetch electron binary");
+    stage(toolchain.env, "node", ["build/lib/electron.ts"], worktree, "fetch electron binary", false, 600_000);
 
     const launcher = join("scripts", process.platform === "win32" ? "code.bat" : "code.sh");
     // Headless Linux runners have no X server (xvfb) and restrict unprivileged
