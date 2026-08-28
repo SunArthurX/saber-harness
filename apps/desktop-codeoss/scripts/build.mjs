@@ -169,6 +169,7 @@ async function main() {
       env: smokeEnv,
       shell: process.platform === "win32",
       stdio: ["ignore", "pipe", "pipe"],
+      detached: process.platform !== "win32",
     });
     let output = "";
     child.stdout?.on("data", (chunk) => {
@@ -177,6 +178,20 @@ async function main() {
     child.stderr?.on("data", (chunk) => {
       output += chunk.toString("utf8");
     });
+    // Orphaned grandchildren (the Electron app under xvfb-run) hold the
+    // stdout pipe open and would keep this process alive forever; always
+    // tear the whole process group down and destroy the pipes.
+    const stopChild = (signal) => {
+      if (process.platform === "win32") {
+        spawnSync("taskkill", ["/pid", String(child.pid), "/T", "/F"]);
+      } else {
+        try {
+          process.kill(-child.pid, signal);
+        } catch {
+          child.kill(signal);
+        }
+      }
+    };
     const alive = await new Promise((resolve) => {
       const timer = setTimeout(() => resolve(child.exitCode === null), 45_000);
       child.on("exit", () => {
@@ -185,15 +200,14 @@ async function main() {
       });
     });
     if (!alive) {
+      stopChild("SIGKILL");
+      child.stdout?.destroy();
+      child.stderr?.destroy();
       console.error(output.slice(-4000));
       console.error(`build: launch smoke failed — the process exited early with code ${child.exitCode}`);
       process.exit(1);
     }
-    if (process.platform === "win32") {
-      spawnSync("taskkill", ["/pid", String(child.pid), "/T", "/F"]);
-    } else {
-      child.kill("SIGTERM");
-    }
+    stopChild("SIGTERM");
     const stopped = await new Promise((resolve) => {
       const timer = setTimeout(() => resolve(false), 30_000);
       child.on("exit", () => {
@@ -202,10 +216,12 @@ async function main() {
       });
     });
     if (!stopped) {
-      child.kill("SIGKILL");
+      stopChild("SIGKILL");
       console.error("build: launch smoke failed — the process did not terminate on the smoke signal");
       process.exit(1);
     }
+    child.stdout?.destroy();
+    child.stderr?.destroy();
     console.log(output.slice(-2000));
     console.log("build: launch smoke passed (booted, stayed healthy 45s, terminated on the smoke signal)");
   }
