@@ -184,12 +184,19 @@ async function main() {
     const stopChild = (signal) => {
       if (process.platform === "win32") {
         spawnSync("taskkill", ["/pid", String(child.pid), "/T", "/F"]);
-      } else {
-        try {
-          process.kill(-child.pid, signal);
-        } catch {
-          child.kill(signal);
-        }
+        return;
+      }
+      // Kill the direct child first (its exit is what we await) and then the
+      // whole group so orphaned grandchildren cannot hold the pipes open.
+      try {
+        child.kill(signal);
+      } catch {
+        /* already gone */
+      }
+      try {
+        process.kill(-child.pid, signal);
+      } catch {
+        /* group already gone */
       }
     };
     const alive = await new Promise((resolve) => {
