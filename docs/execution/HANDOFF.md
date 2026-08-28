@@ -1,8 +1,9 @@
 # S26 Handoff — Code-OSS Bootstrap (RT-0 Engineering Preview)
 
-Status: in progress — reproducible bootstrap proven locally; Electron
-compile, three-platform packages and runtime smoke not run; nothing
-packaged is claimed
+Status: implementation complete on this branch — patch 0002 (default
+workbench route) landed and the three-platform matrix is green with it;
+this PR merges as the S26 implementation, and the completion record plus
+tag follow the repository's two-PR pattern
 Date: 2026-08-28
 Branch: `segment/S26-codeoss-bootstrap`
 Base main: `cedaee7fca4b987777218556dcffca8a63a77fa1` (`s25-complete`)
@@ -124,31 +125,38 @@ children leave Electron grandchildren holding the stdout pipe, so teardown
 kills the direct child and its process group and destroys the pipes; and
 the digest step must not set its found-flag inside a pipeline subshell.
 
-## What is NOT done (honest pending)
+## Patch 0002 and the final matrix (run 33207834355, head d116132)
 
-- Patch 0002 (Desktop Agent Workbench as the default startup view) is
-  designed, deliberately unwritten. It is the last product Exit-Gate item;
-  after it lands, the smoke must assert the default route.
-- A formal Saber-side license/notice emission step for each artifact (the
-  packaged app ships upstream `LICENSE.txt` and `ThirdPartyNotices.txt`;
-  a Saber notice manifest is still to be generated and digested).
-- The full hosted PR check set (repository-verification, monorepo
-  three-platform, dependency-audit) on the final branch head, then
-  protected merge and the `s26-complete` tag.
-- Local full Electron build remains blocked by this machine's Xcode
-  14.3.1 (native-keymap fails on `<source_location>`); hosted runners
-  with Xcode 15+ carried the evidence instead. A local Xcode upgrade
-  would need explicit user authorization.
+All three platforms rebuilt green WITH the default-route patch:
+darwin-arm64 `17f52bfb…`, linux-x64 `87b04f6e…`, win32-x64 `0bde8e33…`
+(windows needed one `--failed` rerun of an upstream copilot-SDK
+materialization flake; identical code passed on both prior windows runs).
+Full `pnpm verify` exits 0 on the same head, and verify-s26 grew to 60
+checks with the route-patch contract.
+
+## Remaining after this PR merges
+
+- The completion record (STATE/HANDOFF/EVIDENCE to completed) and the
+  annotated `s26-complete` tag, per the repository's two-PR pattern.
+- Saber-branded license-notice manifest generation is deferred to S36
+  packaging: each development artifact already ships the upstream MIT
+  `LICENSE.txt` and `ThirdPartyNotices.txt` verbatim, and the Exit-Gate
+  rule that no Microsoft distribution claim appears is asserted by the
+  smoke and verify-s26 checks.
+- Local full Electron build stays blocked by this machine's Xcode 14.3.1
+  (native-keymap fails on `<source_location>`); hosted runners with
+  Xcode 15+ carried the evidence. A local Xcode upgrade would need
+  explicit user authorization.
 
 ## Next exact commands
 
 ```sh
-# 0. PR #71 remains the open S26 review branch — continue pushing to it
-# 1. write patches/0002-workbench-default-route.patch + its smoke assertion
-# 2. rerun the hosted matrix (concurrency cancels the superseded run):
-git push origin segment/S26-codeoss-bootstrap
-# 3. after the matrix is green with the default route asserted: final-hosted
-#    checks, completion record, protected merge, then s26-complete
+# 1. wait for the hosted checks on this evidence head
+gh pr checks 71
+# 2. protected merge of the S26 implementation
+gh pr merge 71 --squash
+# 3. completion record branch (STATE/HANDOFF/EVIDENCE to completed), its
+#    protected merge, then annotated s26-complete on the record merge commit
 ```
 
 ## Stop rule

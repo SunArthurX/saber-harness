@@ -117,6 +117,18 @@
       "command": "digest + upload of the packaged development artifacts",
       "exit_code": 0,
       "result": "saber-studio-dev-vscode-darwin-arm64.tar.gz sha256 f454906bf43cd9ee40787d369f858f30e3a5214cedbb27491641ceec60976759 (320053204 B); saber-studio-dev-vscode-linux-x64.tar.gz sha256 9e0ff2f83e2b0d7da069d5866b60c942aedb4b91560f831eeecc05c3d8796831 (344138889 B); saber-studio-dev-vscode-win32-x64.tar.gz sha256 e74eb94e0882962af6eb9911e07c7a3114dac2782710baeadd86b17b5638707f (352020709 B); uploaded as workflow artifacts of run 33201038521, unsigned development builds only"
+    },
+    {
+      "id": "S26-DEFAULT-WORKBENCH-ROUTE",
+      "command": "patches/0002-workbench-default-route.patch + smoke assertion + verify-s26 contract",
+      "exit_code": 0,
+      "result": "layout.ts now prefers the saber-workbench container when no sidebar container is stored (upstream fallback preserved); patch applies and reverses on both the applied and a pristine extract; static smoke and verify-s26 (60 checks) assert it"
+    },
+    {
+      "id": "S26-HOSTED-THREE-PLATFORM-WITH-DEFAULT-ROUTE",
+      "command": "GitHub Desktop Build run 33207834355 at head d116132 (windows --failed rerun for an upstream copilot-SDK materialization flake)",
+      "exit_code": 0,
+      "result": "all three platforms succeeded end to end with patch 0002: darwin-arm64 tar.gz sha256 17f52bfb... (320025899 B), linux-x64 87b04f6e... (344200315 B), win32-x64 0bde8e33... (351999436 B); uploaded as unsigned development artifacts; full pnpm verify exits 0 on the same head"
     }
   ],
   "known_blockers": [],
