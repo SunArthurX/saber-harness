@@ -1,11 +1,11 @@
 # S25 Handoff — Desktop Workbench Baseline
 
-Status: ready for protected review; advanced research and philosophy expansion passes local gates
+Status: completed atomically when this completion record merges through protected main
 Date: 2026-08-28
-Branch: `segment/S25-desktop-workbench-baseline`
-Verified content checkpoint: `a0eea3ecfbd63ffb6002cf4214ad7b7e4cdc44fb`
-Protected review: <https://github.com/SunArthurX/saber-harness/pull/69>
-Base main: `af85f697a47a94e667536d396066639d2d56578a`
+Branch: `segment/S25-completion`
+Implementation branch: `segment/S25-desktop-workbench-baseline` @ `09f48fd2f704730d22442d59228524e1cbc4ca73`
+Merged main: PR #69 squash-merged as `648d0482d4bd2884783e9d834860074c7558c94a`
+Base main at implementation start: `af85f697a47a94e667536d396066639d2d56578a`
 Predecessor: annotated `s24-complete` resolves to `502dd1db348be7e0c4ab1a6e188275b26027d5dd`
 
 ## Objective
@@ -158,11 +158,20 @@ console is an optional supervisor surface, not the desktop implementation.
   full `pnpm verify` gate passes locally; hosted checks for the Prompt checkpoint
   are recorded from the final pushed SHA rather than inferred from this earlier
   clean PR state.
+- The final implementation head `09f48fd` passed the PR #69 hosted checks: all
+  10 check runs (repository verification, monorepo macOS/Windows/Linux,
+  dependency audit across the push and PR workflows) succeeded and GitHub
+  reported mergeStateStatus CLEAN.
+- Following explicit user merge authorization, PR #69 was squash-merged as
+  `648d0482d4bd2884783e9d834860074c7558c94a`. All six main contexts —
+  repository-verification, monorepo ubuntu/macos/windows, dependency-audit and
+  main-provenance — concluded successfully on that merge commit.
 
 ## Remaining S25 acceptance
 
-1. Review and merge PR #69 through protected main. Update the completion record
-   and tag only if every S25 acceptance item is proved.
+None. All 31 acceptance items including `protected_pr_merge` are proved; this
+completion record is the final S25 artifact. Create annotated `s25-complete`
+on the record merge commit after it merges.
 
 ## S26 start condition
 

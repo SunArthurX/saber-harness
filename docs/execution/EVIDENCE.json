@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S25",
-  "status": "in_progress",
-  "branch": "segment/S25-desktop-workbench-baseline",
+  "status": "completed",
+  "branch": "segment/S25-completion",
   "base": {
     "main_commit": "af85f697a47a94e667536d396066639d2d56578a",
     "segment": "S24",
@@ -17,7 +17,8 @@
   "pull_request": {
     "number": 69,
     "url": "https://github.com/SunArthurX/saber-harness/pull/69",
-    "state": "OPEN"
+    "state": "MERGED",
+    "merge_commit": "648d0482d4bd2884783e9d834860074c7558c94a"
   },
   "checks": [
     {
@@ -127,9 +128,21 @@
       "command": "node scripts/verify-s25.mjs && git diff --check && pnpm verify",
       "exit_code": 0,
       "result": "3066 focused checks plus the full repository gate passed; the GLM-5.3 handoff Prompt contains repository authority, current-state calibration, protected S25 merge/tag stop rule, bounded S26 scope, verification, Git discipline and mandatory handoff while explicitly forbidding S27"
+    },
+    {
+      "id": "S25-PROTECTED-PR-MERGE",
+      "command": "gh pr merge 69 --squash (after explicit user authorization)",
+      "exit_code": 0,
+      "result": "PR #69 squash-merged as 648d0482d4bd2884783e9d834860074c7558c94a after all 10 hosted checks succeeded and mergeStateStatus was CLEAN"
+    },
+    {
+      "id": "S25-MAIN-CI",
+      "command": "inspect main check runs on 648d0482d4bd2884783e9d834860074c7558c94a",
+      "exit_code": 0,
+      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on 648d0482d4bd2884783e9d834860074c7558c94a"
     }
   ],
   "known_blockers": [],
-  "pending": ["protected_pr_merge"],
-  "last_verified_at": "2026-08-28T12:44:56Z"
+  "pending": [],
+  "last_verified_at": "2026-08-28T13:06:27Z"
 }

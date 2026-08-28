@@ -4,7 +4,7 @@ architecture_version: "2.1"
 current_segment:
   id: S25
   name: desktop-workbench-baseline
-  status: in_progress
+  status: completed
   objective: freeze Saber Studio Desktop as the primary product, select the Code-OSS/Electron production shell with a separately supervised Rust Core, demote the Web supervisor to an optional companion, and publish a handoff-safe S26-S38 execution pack calibrated against official Codex, Claude Code, ZCode, MiniMax, Cursor, DeepSeek Harness, Zed, Kiro, OpenHands, Cline and Aider evidence with canonical product objects, lifecycle ownership, a philosophy-to-architecture contract, an honest CodingAgent MVP cut line, machine-readable release trains, capability, work-package, UX, platform, team, evaluation and release controls without claiming the desktop implementation exists
 predecessor:
   segment: S24
@@ -90,12 +90,12 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S25-desktop-workbench-baseline
+  branch: segment/S25-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: a0eea3ecfbd63ffb6002cf4214ad7b7e4cdc44fb
-  main_head: af85f697a47a94e667536d396066639d2d56578a
-  verified_main_checkpoint: af85f697a47a94e667536d396066639d2d56578a
+  verified_segment_checkpoint: 09f48fd2f704730d22442d59228524e1cbc4ca73
+  main_head: 648d0482d4bd2884783e9d834860074c7558c94a
+  verified_main_checkpoint: 648d0482d4bd2884783e9d834860074c7558c94a
   remote_verified: true
   protected_main_verified: true
   clean: resolve-from-git
@@ -103,7 +103,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-28T12:44:56Z"
+  last_checkpoint_at: "2026-08-28T13:06:27Z"
 acceptance:
   required:
     - s24_tagged_base
@@ -168,12 +168,12 @@ acceptance:
     - full_local_verification
     - verified_segment_push
     - hosted_branch_ci
-  failed: []
-  pending:
     - protected_pr_merge
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-28T12:44:56Z"
+  last_verified_at: "2026-08-28T13:06:27Z"
 decisions:
   - docs/adr/ADR-001-rust-trusted-core.md
   - docs/adr/ADR-004-events-transactional-projections.md
@@ -201,5 +201,5 @@ decisions:
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
 blockers: []
 next_action:
-  command: review the S26-S38 execution pack and merge protected PR https://github.com/SunArthurX/saber-harness/pull/69, then update the S25 completion record before starting S26 from docs/execution/desktop/NEXT-MODEL-S26.md
-  description: PR #69 is the protected review path; the execution pack includes 31 first-layer and 36 advanced evidence-graded capabilities, 12 philosophy invariants, 19 system organs, E0-E7 evolution, H0-H4 health, 23 canonical product objects, four release trains, 13 runbooks, 78 work packages, 42 UI surfaces, 32 product journeys and 12 philosophy journeys; a repository-calibrating GLM-5.3 prompt now enforces S25 merge/tag gating before S26 and forbids starting S27; focused verification increased to 3066 checks and full local verification passes; protected merge remains pending and desktop implementation deliberately remains unclaimed
+  command: after this completion record merges, create annotated s25-complete on the record merge commit and verify its peeled SHA equals that main commit; S26 then starts only from docs/execution/desktop/NEXT-MODEL-S26.md
+  description: PR #69 squash-merged as 648d0482d4bd2884783e9d834860074c7558c94a after 10/10 hosted checks and explicit user merge authorization; all six main contexts (repository verification, three-platform monorepo CI, dependency audit, main provenance) succeeded on the merge commit; the completion record flips S25 to completed with no pending acceptance items; desktop implementation deliberately remains unclaimed
