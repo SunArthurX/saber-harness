@@ -3,7 +3,7 @@
 Status: in progress; local gates and remote SHA pass, hosted CI running
 Date: 2026-08-28
 Branch: `segment/S25-desktop-workbench-baseline`
-Remote checkpoint: `317ee1baa4d7a1f3c83ca3200c50537b40c59d03`
+Verified content checkpoint: `317ee1baa4d7a1f3c83ca3200c50537b40c59d03`
 Base main: `af85f697a47a94e667536d396066639d2d56578a`
 Predecessor: annotated `s24-complete` resolves to `502dd1db348be7e0c4ab1a6e188275b26027d5dd`
 
@@ -46,7 +46,8 @@ console is an optional supervisor surface, not the desktop implementation.
 - The two user PDFs were read as research inputs only. Extracted and rendered
   scratch data lives under ignored `tmp/pdfs/` and is not part of the change.
 - Branch push is verified: local and remote both resolve to
-  `317ee1baa4d7a1f3c83ca3200c50537b40c59d03`.
+  `317ee1baa4d7a1f3c83ca3200c50537b40c59d03` for the content checkpoint;
+  resolve the latest continuity-only head directly from Git.
 - GitHub push workflows were queued/running at the checkpoint; they are not yet
   completion evidence.
 

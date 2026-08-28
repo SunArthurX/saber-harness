@@ -92,7 +92,7 @@ git:
   default_branch: main
   branch: segment/S25-desktop-workbench-baseline
   local_head: resolve-from-git
-  remote_head: 317ee1baa4d7a1f3c83ca3200c50537b40c59d03
+  remote_head: resolve-from-git
   verified_segment_checkpoint: 317ee1baa4d7a1f3c83ca3200c50537b40c59d03
   main_head: af85f697a47a94e667536d396066639d2d56578a
   verified_main_checkpoint: af85f697a47a94e667536d396066639d2d56578a

@@ -13,7 +13,7 @@
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
-  "remote_head": "317ee1baa4d7a1f3c83ca3200c50537b40c59d03",
+  "remote_head": "resolve-from-git",
   "checks": [
     {
       "id": "S25-PREDECESSOR",
