@@ -85,4 +85,7 @@ jobs:
       - name: Test repository governance policy
         run: node --test scripts/tests/*.test.mjs
       - name: Verify Git whitespace contract
-        run: git diff --check HEAD^
+        # apps/desktop-codeoss/patches embeds upstream bytes verbatim
+        # (tab-indented JSON context lines); it is the one place where
+        # reformatting would break `git apply` fidelity.
+        run: git diff --check HEAD^ -- . ':(exclude)apps/desktop-codeoss/patches'
