@@ -93,7 +93,7 @@ git:
   branch: segment/S25-desktop-workbench-baseline
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: 317ee1baa4d7a1f3c83ca3200c50537b40c59d03
+  verified_segment_checkpoint: a74d09bf05ad0b3213c5f5c377f64fc9826929d0
   main_head: af85f697a47a94e667536d396066639d2d56578a
   verified_main_checkpoint: af85f697a47a94e667536d396066639d2d56578a
   remote_verified: true
@@ -131,9 +131,9 @@ acceptance:
     - s25_verifier
     - full_local_verification
     - verified_segment_push
+    - hosted_branch_ci
   failed: []
   pending:
-    - hosted_branch_ci
     - protected_pr_merge
 evidence:
   file: docs/execution/EVIDENCE.json
@@ -165,5 +165,5 @@ decisions:
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
 blockers: []
 next_action:
-  command: wait for the two hosted push workflows on 317ee1baa4d7a1f3c83ca3200c50537b40c59d03, then open and merge a protected-main PR before starting S26
-  description: desktop-primary ADR, S25-S38 plan and focused verifier pass locally; branch push is verified; Repository Verification passed, while the first Monorepo CI attempt rejected non-canonical EVIDENCE.json formatting and requires a corrected retry; desktop implementation deliberately remains unclaimed
+  command: open a protected-main PR for segment/S25-desktop-workbench-baseline, review and merge it, then update the S25 completion record before starting S26
+  description: desktop-primary ADR, S25-S38 plan, local full gate, Repository Verification, dependency audit and macOS/Windows/Linux Monorepo CI passed on a74d09bf05ad0b3213c5f5c377f64fc9826929d0; protected review remains pending and desktop implementation deliberately remains unclaimed

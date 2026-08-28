@@ -1,9 +1,9 @@
 # S25 Handoff — Desktop Workbench Baseline
 
-Status: in progress; local gates and remote SHA pass, hosted CI running
+Status: ready for protected review; local, remote and hosted gates pass
 Date: 2026-08-28
 Branch: `segment/S25-desktop-workbench-baseline`
-Verified content checkpoint: `317ee1baa4d7a1f3c83ca3200c50537b40c59d03`
+Verified content checkpoint: `a74d09bf05ad0b3213c5f5c377f64fc9826929d0`
 Base main: `af85f697a47a94e667536d396066639d2d56578a`
 Predecessor: annotated `s24-complete` resolves to `502dd1db348be7e0c4ab1a6e188275b26027d5dd`
 
@@ -45,20 +45,19 @@ console is an optional supervisor surface, not the desktop implementation.
   and 15 governance tests passed inside the full command.
 - The two user PDFs were read as research inputs only. Extracted and rendered
   scratch data lives under ignored `tmp/pdfs/` and is not part of the change.
-- Branch push is verified: local and remote both resolve to
-  `317ee1baa4d7a1f3c83ca3200c50537b40c59d03` for the content checkpoint;
-  resolve the latest continuity-only head directly from Git.
-- GitHub push workflows were queued/running at the checkpoint; they are not yet
-  completion evidence.
+- Branch push is verified for the content checkpoint; resolve the latest
+  continuity-only head directly from Git.
 - The first Monorepo CI attempt reached the JavaScript gate on all three OSes
   after Rust checks passed, then rejected non-canonical Biome formatting in the
   newly updated `EVIDENCE.json`. Repository Verification passed. The formatting
-  correction requires a new hosted run before `hosted_branch_ci` can pass.
+  correction was committed and locally reverified.
+- The corrected checkpoint `a74d09b` passed Repository Verification run
+  33148770142 and Monorepo CI run 33148770147: dependency audit plus macOS,
+  Windows and Linux jobs all succeeded.
 
 ## Remaining S25 acceptance
 
-1. Wait for hosted branch CI on the verified checkpoint.
-2. Merge through protected main review; then update the completion record and
+1. Open and merge through protected main review; then update the completion record and
    tag only if every S25 acceptance item is proved.
 
 ## S26 start condition
