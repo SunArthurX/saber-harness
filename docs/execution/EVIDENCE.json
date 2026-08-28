@@ -1,77 +1,135 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S24",
-  "status": "completed",
-  "branch": "segment/S24-completion",
+  "segment": "S25",
+  "status": "in_progress",
+  "branch": "segment/S25-desktop-workbench-baseline",
   "base": {
-    "segment": "S23",
-    "tag": "s23-complete",
-    "commit": "47e1f94a8529d103e1c2a884ed954f9fe89ad326"
+    "main_commit": "af85f697a47a94e667536d396066639d2d56578a",
+    "segment": "S24",
+    "tag": "s24-complete",
+    "commit": "502dd1db348be7e0c4ab1a6e188275b26027d5dd"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
   "visibility": "PUBLIC",
   "remote_head": "resolve-from-git",
-  "main_head": "bcb7b94bf55bde8de172d1e55e33373b628830ba",
-  "verified_main_checkpoint": "bcb7b94bf55bde8de172d1e55e33373b628830ba",
+  "pull_request": {
+    "number": 69,
+    "url": "https://github.com/SunArthurX/saber-harness/pull/69",
+    "state": "OPEN"
+  },
   "checks": [
     {
-      "id": "S24-INHERITED-BOUNDARY",
-      "command": "git cat-file -t s23-complete && git rev-parse 's23-complete^{}' origin/main && node scripts/verify-remote-s23.mjs --repository SunArthurX/saber-harness --branch main && pnpm acceptance:new-machine",
+      "id": "S25-PREDECESSOR",
+      "command": "git rev-parse 's24-complete^{}' && git rev-parse main",
       "exit_code": 0,
-      "result": "annotated s23-complete resolves to 47e1f94a8529d103e1c2a884ed954f9fe89ad326 equal to origin/main with all six check contexts successful; strict remote S23 verification and new-machine acceptance passed before the first S24 commit"
+      "result": "annotated s24-complete resolves to 502dd1db348be7e0c4ab1a6e188275b26027d5dd; S25 branches from main af85f697a47a94e667536d396066639d2d56578a"
     },
     {
-      "id": "S24-FULL-LOCAL-GATE",
-      "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets --all-features --locked -- -D warnings && cargo test --workspace --locked && pnpm verify",
+      "id": "S25-FOCUSED-GATE",
+      "command": "node scripts/verify-s25.mjs",
       "exit_code": 0,
-      "result": "format, strict clippy, 49 Rust test suites (246 tests including 9 production-gate adversarial tests), TypeScript gates, deterministic generation, licenses, S00-S24 verifiers and governance tests passed"
+      "result": "41 checks passed: desktop-primary ADR, honest implementation status, S25-S38 enterprise plan, default Desktop Agent Workbench, secondary Web supervisor boundary and local/hosted gate wiring"
     },
     {
-      "id": "S24-VERIFY-GATE",
-      "command": "node scripts/verify-s24.mjs",
+      "id": "S25-FULL-LOCAL-GATE",
+      "command": "pnpm verify",
       "exit_code": 0,
-      "result": "934 checks passed: gate contracts, nine adversarial tests, workspace member, gate wiring, ADR-026 accepted, TM-01..TM-16 register and baseline mapping, and a zero-occurrence forbidden-autonomy-marker scan across the tracked source surface"
+      "result": "deterministic generation, format, lint, typecheck, builds, 22 package tests, license gate, S00-S25 verifiers and 15 governance tests passed; two pre-existing non-blocking Biome diagnostics remain unchanged"
     },
     {
-      "id": "S24-ACCEPTANCE",
-      "command": "pnpm acceptance:new-machine",
+      "id": "S25-VERIFIED-PUSH",
+      "command": "git push -u origin segment/S25-desktop-workbench-baseline; compare git rev-parse HEAD with git ls-remote origin refs/heads/segment/S25-desktop-workbench-baseline",
       "exit_code": 0,
-      "result": "new-machine acceptance passed in 41 seconds"
+      "result": "local and remote branch both resolve to 317ee1baa4d7a1f3c83ca3200c50537b40c59d03"
     },
     {
-      "id": "S24-VERIFY-BRANCH-CI",
-      "command": "inspect push runs on segment/S24-production-gate",
-      "exit_code": 0,
-      "result": "repository verification, dependency audit and the three-platform monorepo CI passed for implementation SHA 7e25f841583c002cbfe62205555e6bbce6d07d24 on the first push"
+      "id": "S25-HOSTED-CI-ATTEMPT-1",
+      "command": "GitHub Monorepo CI run 33148506205 on 578440f02bd592eb801b5f4107024da24a345b37",
+      "exit_code": 1,
+      "result": "Repository Verification succeeded; macOS, Windows and Linux reached the JavaScript gate after Rust checks passed, then consistently rejected the newly updated EVIDENCE.json because its two-item pending array was not in Biome canonical format; no product or platform test failed"
     },
     {
-      "id": "S24-VERIFY-PROTECTED-INTEGRATION",
-      "command": "inspect protected PR #59",
+      "id": "S25-HOSTED-CI-RERUN",
+      "command": "GitHub Repository Verification run 33148770142 and Monorepo CI run 33148770147 on a74d09bf05ad0b3213c5f5c377f64fc9826929d0",
       "exit_code": 0,
-      "result": "PR #59 squash-merged after all five required checks passed as bcb7b94bf55bde8de172d1e55e33373b628830ba"
+      "result": "repository S00-S25 verification, governance and whitespace passed; dependency audit and macOS, Windows and Linux format, lint, tests, safety scan and JavaScript/repository gates all succeeded"
     },
     {
-      "id": "S24-VERIFY-MAIN-CI",
-      "command": "inspect main check runs on bcb7b94bf55bde8de172d1e55e33373b628830ba",
+      "id": "S25-DESKTOP-EXECUTION-PACK",
+      "command": "node scripts/verify-s25.mjs",
       "exit_code": 0,
-      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on bcb7b94bf55bde8de172d1e55e33373b628830ba"
+      "result": "521 checks passed: 13 S26-S38 runbooks, 78 unique machine-readable work packages, 24-screen UX inventory, 13 acceptance journeys, three-platform release matrix, team RACI, real-repository evaluation plan and copy-ready S26 handoff are present and internally consistent; S26 implementation remains unstarted"
     },
     {
-      "id": "S24-VERIFY-CLEAN-CLONE",
-      "command": "standard unauthenticated public HTTPS clone; pnpm acceptance:new-machine",
+      "id": "S25-PR-WHITESPACE-CORRECTION",
+      "command": "git diff origin/main --check",
       "exit_code": 0,
-      "result": "clone resolved bcb7b94bf55bde8de172d1e55e33373b628830ba and passed all gates in 92 seconds"
+      "result": "the ADR-028 trailing blank line reported by the PR merge-ref Repository Verification job was removed and the complete worktree diff against origin/main is clean"
     },
     {
-      "id": "S24-VERIFY-REMOTE-MAIN",
-      "command": "node scripts/verify-remote-s24.mjs --repository SunArthurX/saber-harness --branch main",
+      "id": "S25-EXECUTION-PACK-HOSTED-CI",
+      "command": "GitHub Repository Verification runs 33150529040 and 33150531933 plus Monorepo CI runs 33150528988 and 33150531890 on ea3b97140b62ab74840a7d520bb086e5bae327cb",
       "exit_code": 0,
-      "result": "production gate contracts, zero forbidden-autonomy-marker surface, public settings, hosted security controls and same-SHA successful workflows passed"
+      "result": "push and pull-request Repository Verification, dependency audit, macOS, Windows and Linux jobs all succeeded; PR #69 reports 10 successful checks, no pending or failing checks, and mergeStateStatus CLEAN"
+    },
+    {
+      "id": "S25-COMPETITIVE-RESEARCH-GATE",
+      "command": "node scripts/verify-s25.mjs",
+      "exit_code": 0,
+      "result": "1386 checks passed: 31 evidence-graded Codex, Claude Code, ZCode and MiniMax capabilities map bidirectionally to 13 Saber decisions, S26-S38 WBS Segments and runbooks, 35 desktop surfaces and 24 acceptance journeys; no S26 implementation was started"
+    },
+    {
+      "id": "S25-COMPETITIVE-RESEARCH-FULL-LOCAL",
+      "command": "git diff origin/main --check && pnpm verify",
+      "exit_code": 0,
+      "result": "the full base diff is whitespace-clean; deterministic generation, format, lint, typecheck, builds, 22 package tests, license gate, S00-S25 verifiers and 15 governance tests passed; one pre-existing Biome warning and one pre-existing info diagnostic remain unchanged"
+    },
+    {
+      "id": "S25-COMPETITIVE-RESEARCH-HOSTED-CI",
+      "command": "GitHub Repository Verification runs 33152873608 and 33152875838 plus Monorepo CI runs 33152873714 and 33152875817 on ed0ca1ab9bca7967f899066f80e937d663b35612",
+      "exit_code": 0,
+      "result": "push and pull-request Repository Verification, both dependency audits, and macOS, Windows and Linux jobs all succeeded; PR #69 reports 10 successful checks, no pending or failing checks, and mergeStateStatus CLEAN"
+    },
+    {
+      "id": "S25-PRODUCT-OPERATING-MODEL-GATE",
+      "command": "node scripts/verify-s25.mjs && pnpm verify",
+      "exit_code": 0,
+      "result": "1542 focused checks plus the full repository gate passed: the canonical product objects and lifecycle contracts, RT-0 through RT-3 release cut lines, RT-1 MVP definition, WBS/runbook release symmetry and evidence-bearing release claims are present and internally consistent; S26 implementation remains unstarted"
+    },
+    {
+      "id": "S25-PRODUCT-OPERATING-MODEL-HOSTED-CI",
+      "command": "GitHub Repository Verification runs 33168573327 and 33168575644 plus Monorepo CI runs 33168573273 and 33168575647 on 60c85b59b04d55f31da429aad982b2a31c52edc9",
+      "exit_code": 0,
+      "result": "push and pull-request Repository Verification, both dependency audits, and macOS, Windows and Linux jobs all succeeded; PR #69 reports 10 successful checks, no pending or failing checks, and mergeStateStatus CLEAN"
+    },
+    {
+      "id": "S25-ADVANCED-HARNESS-PHILOSOPHY-LOCAL-GATE",
+      "command": "node scripts/verify-s25.mjs && git diff --check && pnpm verify",
+      "exit_code": 0,
+      "result": "3049 focused checks plus the full repository gate passed: 36 official-source Cursor, DeepSeek Harness, Zed, Kiro, OpenHands, Cline and Aider capabilities map to 12 philosophy invariants, 19 system organs, 13 Segment runbooks, 42 UI surfaces, 32 product journeys and 12 philosophy journeys; the operating model contains 23 canonical objects and the E0-E7/H0-H4 authority and recovery contracts; one pre-existing Biome warning and one pre-existing info diagnostic remain unchanged; S26 implementation remains unstarted"
+    },
+    {
+      "id": "S25-ADVANCED-HARNESS-PHILOSOPHY-CHECKPOINT",
+      "command": "git rev-parse a0eea3ecfbd63ffb6002cf4214ad7b7e4cdc44fb",
+      "exit_code": 0,
+      "result": "the locally verified advanced research, philosophy, GUI and execution-plan content checkpoint resolves to a0eea3ecfbd63ffb6002cf4214ad7b7e4cdc44fb and is included in the subsequently hosted-verified evidence checkpoint"
+    },
+    {
+      "id": "S25-ADVANCED-HARNESS-PHILOSOPHY-HOSTED-CI",
+      "command": "GitHub Repository Verification runs 33171209822 and 33171212253 plus Monorepo CI runs 33171209813 and 33171212250 on a184108ce983260e5695abfeb84fd0d323aeccd0",
+      "exit_code": 0,
+      "result": "push and pull-request Repository Verification, both dependency audits, and macOS, Windows and Linux jobs all succeeded; PR #69 reports 10 successful checks, no pending or failing checks, and mergeStateStatus CLEAN"
+    },
+    {
+      "id": "S25-GLM53-HANDOFF-PROMPT-LOCAL-GATE",
+      "command": "node scripts/verify-s25.mjs && git diff --check && pnpm verify",
+      "exit_code": 0,
+      "result": "3066 focused checks plus the full repository gate passed; the GLM-5.3 handoff Prompt contains repository authority, current-state calibration, protected S25 merge/tag stop rule, bounded S26 scope, verification, Git discipline and mandatory handoff while explicitly forbidding S27"
     }
   ],
   "known_blockers": [],
-  "last_verified_at": "2026-08-30T17:30:00Z",
-  "verified_segment_checkpoint": "7e25f841583c002cbfe62205555e6bbce6d07d24"
+  "pending": ["protected_pr_merge"],
+  "last_verified_at": "2026-08-28T12:44:56Z"
 }

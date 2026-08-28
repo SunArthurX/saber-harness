@@ -1,0 +1,318 @@
+{
+  "schema_version": 1,
+  "research_date": "2026-08-28",
+  "status": "planning-only; S26 implementation not started",
+  "products": ["codex-desktop", "claude-code-desktop", "zcode-desktop", "minimax-code-desktop"],
+  "capabilities": [
+    {
+      "id": "CDX-01",
+      "product": "codex-desktop",
+      "evidence_grade": "A",
+      "capability": "project and long-running chat command center",
+      "saber_decision": "Project Goal Task Conversation tree with artifact viewers",
+      "segments": ["S26", "S28", "S30"],
+      "ui": ["UI-03"],
+      "journeys": ["DJ-02"]
+    },
+    {
+      "id": "CDX-02",
+      "product": "codex-desktop",
+      "evidence_grade": "A",
+      "capability": "Local Worktree Cloud and Handoff",
+      "saber_decision": "environment-aware Conversation with Resumption Capsule and drift proof",
+      "segments": ["S27", "S32", "S33", "S36"],
+      "ui": ["UI-13", "UI-16", "UI-25"],
+      "journeys": ["DJ-05", "DJ-15"]
+    },
+    {
+      "id": "CDX-03",
+      "product": "codex-desktop",
+      "evidence_grade": "A",
+      "capability": "selective import from other coding agents",
+      "saber_decision": "consent-aware import with raw canonical derived lineage",
+      "segments": ["S29", "S33", "S38"],
+      "ui": ["UI-14", "UI-30"],
+      "journeys": ["DJ-06", "DJ-14"]
+    },
+    {
+      "id": "CDX-04",
+      "product": "codex-desktop",
+      "evidence_grade": "A",
+      "capability": "project or chat scheduled tasks with Worktree isolation",
+      "saber_decision": "Automation Run and Goal Heartbeat with explicit budget and stop policy",
+      "segments": ["S30", "S34", "S38"],
+      "ui": ["UI-32"],
+      "journeys": ["DJ-22"]
+    },
+    {
+      "id": "CDX-05",
+      "product": "codex-desktop",
+      "evidence_grade": "A",
+      "capability": "thread turn item streaming App Server protocol",
+      "saber_decision": "Core-owned Goal Task Run Event protocol with cursor and client capabilities",
+      "segments": ["S27", "S30"],
+      "ui": ["UI-09"],
+      "journeys": ["DJ-03"]
+    },
+    {
+      "id": "CDX-06",
+      "product": "codex-desktop",
+      "evidence_grade": "A",
+      "capability": "local generated Memory with chat eligibility controls",
+      "saber_decision": "inspectable Memory Ledger with source confidence expiry and revocation",
+      "segments": ["S29", "S33", "S34"],
+      "ui": ["UI-17", "UI-34"],
+      "journeys": ["DJ-07", "DJ-23"]
+    },
+    {
+      "id": "CDX-07",
+      "product": "codex-desktop",
+      "evidence_grade": "A",
+      "capability": "integrated terminal artifact and code review workflow",
+      "saber_decision": "native Code-OSS surfaces bound to Core Evidence",
+      "segments": ["S28", "S31"],
+      "ui": ["UI-10", "UI-11"],
+      "journeys": ["DJ-04"]
+    },
+    {
+      "id": "CLD-01",
+      "product": "claude-code-desktop",
+      "evidence_grade": "A",
+      "capability": "composable pane lattice",
+      "saber_decision": "keyboard-accessible named panes with Layout Receipt",
+      "segments": ["S26", "S28"],
+      "ui": ["UI-02", "UI-25"],
+      "journeys": ["DJ-12", "DJ-18"]
+    },
+    {
+      "id": "CLD-02",
+      "product": "claude-code-desktop",
+      "evidence_grade": "A",
+      "capability": "live preview with automated interaction verification",
+      "saber_decision": "Preview Session with DOM accessibility action and screenshot evidence",
+      "segments": ["S28", "S31", "S37", "S38"],
+      "ui": ["UI-27", "UI-35"],
+      "journeys": ["DJ-17"]
+    },
+    {
+      "id": "CLD-03",
+      "product": "claude-code-desktop",
+      "evidence_grade": "A",
+      "capability": "side chat isolated from main conversation",
+      "saber_decision": "read-only Side Inquiry pinned to an Event Cursor",
+      "segments": ["S29"],
+      "ui": ["UI-26"],
+      "journeys": ["DJ-16"]
+    },
+    {
+      "id": "CLD-04",
+      "product": "claude-code-desktop",
+      "evidence_grade": "A",
+      "capability": "attributed cross-session messages and suggested tasks",
+      "saber_decision": "policy-checked Cross-Task Message and Propose Task objects",
+      "segments": ["S30", "S32", "S38"],
+      "ui": ["UI-29"],
+      "journeys": ["DJ-20", "DJ-24"]
+    },
+    {
+      "id": "CLD-05",
+      "product": "claude-code-desktop",
+      "evidence_grade": "A",
+      "capability": "Local SSH Cloud and multi-repository remote sessions",
+      "saber_decision": "per-repository trust cells inside a multi-repository Goal",
+      "segments": ["S32", "S35", "S36"],
+      "ui": ["UI-13", "UI-33"],
+      "journeys": ["DJ-15", "DJ-21"]
+    },
+    {
+      "id": "CLD-06",
+      "product": "claude-code-desktop",
+      "evidence_grade": "A",
+      "capability": "inline Diff comments and PR monitoring",
+      "saber_decision": "durable review comments and evidence-bound PR lifecycle",
+      "segments": ["S31", "S38"],
+      "ui": ["UI-10", "UI-11"],
+      "journeys": ["DJ-04", "DJ-13"]
+    },
+    {
+      "id": "CLD-07",
+      "product": "claude-code-desktop",
+      "evidence_grade": "A",
+      "capability": "connectors plugins and computer use",
+      "saber_decision": "governed Armor and Computer Realm with action receipts",
+      "segments": ["S34", "S35", "S37"],
+      "ui": ["UI-18", "UI-35"],
+      "journeys": ["DJ-08", "DJ-21"]
+    },
+    {
+      "id": "ZCD-01",
+      "product": "zcode-desktop",
+      "evidence_grade": "A",
+      "capability": "Agent-centered ADE continuous workflow",
+      "saber_decision": "Agent-first workbench retaining mature manual IDE surfaces",
+      "segments": ["S26", "S28", "S30", "S31"],
+      "ui": ["UI-02"],
+      "journeys": ["DJ-03", "DJ-04"]
+    },
+    {
+      "id": "ZCD-02",
+      "product": "zcode-desktop",
+      "evidence_grade": "A",
+      "capability": "persistent Goal with verification after every round",
+      "saber_decision": "Core Goal Supervisor with independent verifier and budget stop",
+      "segments": ["S30", "S38"],
+      "ui": ["UI-07", "UI-28"],
+      "journeys": ["DJ-18"]
+    },
+    {
+      "id": "ZCD-03",
+      "product": "zcode-desktop",
+      "evidence_grade": "A",
+      "capability": "task views search archive and repository wiki",
+      "saber_decision": "saved Task views and revision-labelled Repository Map",
+      "segments": ["S28", "S33"],
+      "ui": ["UI-03", "UI-15"],
+      "journeys": ["DJ-02"]
+    },
+    {
+      "id": "ZCD-04",
+      "product": "zcode-desktop",
+      "evidence_grade": "A",
+      "capability": "browser automation against actual page state",
+      "saber_decision": "Browser Realm with injection boundary and action evidence",
+      "segments": ["S28", "S31", "S34", "S37", "S38"],
+      "ui": ["UI-27", "UI-35"],
+      "journeys": ["DJ-17", "DJ-21"]
+    },
+    {
+      "id": "ZCD-05",
+      "product": "zcode-desktop",
+      "evidence_grade": "A",
+      "capability": "plugin bundle and custom marketplace",
+      "saber_decision": "signed Capability Manifest and governed Armor Rack",
+      "segments": ["S34", "S35"],
+      "ui": ["UI-18"],
+      "journeys": ["DJ-08"]
+    },
+    {
+      "id": "ZCD-06",
+      "product": "zcode-desktop",
+      "evidence_grade": "A",
+      "capability": "configurable foreground and background subagents",
+      "saber_decision": "Task-bound Agent roles with model tools budget Realm and max turns",
+      "segments": ["S32"],
+      "ui": ["UI-12", "UI-31"],
+      "journeys": ["DJ-19"]
+    },
+    {
+      "id": "ZCD-07",
+      "product": "zcode-desktop",
+      "evidence_grade": "A",
+      "capability": "remote development and phone control",
+      "saber_decision": "device-bound Remote Dispatch without moving repository authority",
+      "segments": ["S35", "S36", "S37", "S38"],
+      "ui": ["UI-33"],
+      "journeys": ["DJ-21"]
+    },
+    {
+      "id": "ZCD-08",
+      "product": "zcode-desktop",
+      "evidence_grade": "A",
+      "capability": "generated project Memory separated from AGENTS.md",
+      "saber_decision": "versioned rules plus inspectable and revocable Memory",
+      "segments": ["S33", "S34"],
+      "ui": ["UI-17", "UI-34"],
+      "journeys": ["DJ-07", "DJ-23"]
+    },
+    {
+      "id": "ZCD-09",
+      "product": "zcode-desktop",
+      "evidence_grade": "B",
+      "capability": "multiple coding harnesses in one desktop",
+      "saber_decision": "provider-neutral AgentHarnessAdapter with visible capability gaps",
+      "segments": ["S27", "S29", "S33", "S38"],
+      "ui": ["UI-30"],
+      "journeys": ["DJ-14", "DJ-20"]
+    },
+    {
+      "id": "MMX-01",
+      "product": "minimax-code-desktop",
+      "evidence_grade": "B",
+      "capability": "complexity-aware solo or team execution",
+      "saber_decision": "explainable Team Value Decision with user override and budget",
+      "segments": ["S32", "S37", "S38"],
+      "ui": ["UI-31"],
+      "journeys": ["DJ-19"]
+    },
+    {
+      "id": "MMX-02",
+      "product": "minimax-code-desktop",
+      "evidence_grade": "A",
+      "capability": "Leader Worker Verifier adversarial loop",
+      "saber_decision": "runtime state machine with verifier independence retries and escalation",
+      "segments": ["S30", "S32", "S37", "S38"],
+      "ui": ["UI-28", "UI-31"],
+      "journeys": ["DJ-18", "DJ-19"]
+    },
+    {
+      "id": "MMX-03",
+      "product": "minimax-code-desktop",
+      "evidence_grade": "A",
+      "capability": "responsive lead during asynchronous work",
+      "saber_decision": "Conversation Control Plane separated from worker contexts",
+      "segments": ["S30", "S32"],
+      "ui": ["UI-09", "UI-31"],
+      "journeys": ["DJ-19", "DJ-24"]
+    },
+    {
+      "id": "MMX-04",
+      "product": "minimax-code-desktop",
+      "evidence_grade": "B",
+      "capability": "Memory and generated Skills as evolution",
+      "saber_decision": "governed evolution ladder through Memory Skill Code Capsule and Core PR",
+      "segments": ["S33", "S34", "S38"],
+      "ui": ["UI-19", "UI-34"],
+      "journeys": ["DJ-23"]
+    },
+    {
+      "id": "MMX-05",
+      "product": "minimax-code-desktop",
+      "evidence_grade": "A",
+      "capability": "long-running state persisted outside model context",
+      "saber_decision": "Continuity Spine for task state events artifacts and decisions",
+      "segments": ["S27", "S30", "S33"],
+      "ui": ["UI-09", "UI-16"],
+      "journeys": ["DJ-15", "DJ-18"]
+    },
+    {
+      "id": "MMX-06",
+      "product": "minimax-code-desktop",
+      "evidence_grade": "A",
+      "capability": "context-efficient team communication",
+      "saber_decision": "typed handoff artifacts direct messages and pull-based Knowledge Board",
+      "segments": ["S32", "S33"],
+      "ui": ["UI-29", "UI-31"],
+      "journeys": ["DJ-19", "DJ-24"]
+    },
+    {
+      "id": "MMX-07",
+      "product": "minimax-code-desktop",
+      "evidence_grade": "A",
+      "capability": "Developer Tester Reviewer roles with external evidence",
+      "saber_decision": "producer cannot solely sign completion and verification runs in recorded Realm",
+      "segments": ["S31", "S32"],
+      "ui": ["UI-11", "UI-31"],
+      "journeys": ["DJ-04", "DJ-19"]
+    },
+    {
+      "id": "MMX-08",
+      "product": "minimax-code-desktop",
+      "evidence_grade": "B",
+      "capability": "cross-device and cross-application execution",
+      "saber_decision": "optional Remote Dispatch and Computer Realm with emergency containment",
+      "segments": ["S34", "S35", "S37", "S38"],
+      "ui": ["UI-33", "UI-35"],
+      "journeys": ["DJ-21"]
+    }
+  ]
+}

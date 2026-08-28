@@ -1,0 +1,358 @@
+{
+  "schema_version": 1,
+  "status": "planning-only; future Segments must supply implementation evidence",
+  "authority_order": [
+    "human_or_organization",
+    "trusted_core_boundaries",
+    "accepted_goal_approval_budget",
+    "goal_supervisor_effect_broker",
+    "agent_model_verifier_proposals",
+    "renderer_plugin_imported_content"
+  ],
+  "principles": [
+    {
+      "id": "PHL-01",
+      "name": "human sovereignty",
+      "invariant": "Silence and expired approval never become consent.",
+      "organs": ["ORG-02", "ORG-11", "ORG-13"],
+      "segments": ["S30", "S34", "S35"],
+      "journeys": ["PJ-08", "PJ-12"],
+      "negative_tests": ["agent cannot self-approve", "revoked approval cannot be replayed"]
+    },
+    {
+      "id": "PHL-02",
+      "name": "stable body replaceable brain",
+      "invariant": "Provider state cannot own Goal identity, Policy or Evidence.",
+      "organs": ["ORG-01", "ORG-08", "ORG-10"],
+      "segments": ["S27", "S29", "S33"],
+      "journeys": ["PJ-01", "PJ-02", "PJ-11"],
+      "negative_tests": [
+        "provider switch cannot erase event lineage",
+        "unsupported capability cannot be emulated as success"
+      ]
+    },
+    {
+      "id": "PHL-03",
+      "name": "armor organism separation",
+      "invariant": "External capability and internal evolution use separate authority and rollback paths.",
+      "organs": ["ORG-18", "ORG-19"],
+      "segments": ["S33", "S34", "S37"],
+      "journeys": ["PJ-04", "PJ-07"],
+      "negative_tests": ["plugin install cannot write Memory silently", "Skill promotion cannot grant egress"]
+    },
+    {
+      "id": "PHL-04",
+      "name": "immune authority",
+      "invariant": "Policy Sandbox Secret Egress Audit Update and Recovery outrank every model and plugin.",
+      "organs": ["ORG-11", "ORG-12", "ORG-13"],
+      "segments": ["S27", "S34", "S37"],
+      "journeys": ["PJ-03", "PJ-04", "PJ-08"],
+      "negative_tests": ["model cannot disable containment", "renderer cannot forge policy verdict"]
+    },
+    {
+      "id": "PHL-05",
+      "name": "causal observability",
+      "invariant": "Auditability comes from causal events and evidence, not hidden chain-of-thought.",
+      "organs": ["ORG-02", "ORG-07", "ORG-08", "ORG-17"],
+      "segments": ["S30", "S31", "S37"],
+      "journeys": ["PJ-01", "PJ-05", "PJ-10"],
+      "negative_tests": ["completion cannot rely on unrecorded rationale", "audit export excludes hidden reasoning"]
+    },
+    {
+      "id": "PHL-06",
+      "name": "bounded homeostasis",
+      "invariant": "Healing restores a declared healthy state without widening authority or erasing evidence.",
+      "organs": ["ORG-12", "ORG-13", "ORG-14", "ORG-16"],
+      "segments": ["S31", "S34", "S37"],
+      "journeys": ["PJ-04", "PJ-05", "PJ-06"],
+      "negative_tests": [
+        "failed verification cannot be labeled healed",
+        "retry cannot duplicate uncertain external effect"
+      ]
+    },
+    {
+      "id": "PHL-07",
+      "name": "governed evolution",
+      "invariant": "Promotion requires lineage, frozen evaluation, independent verdict, canary and rollback.",
+      "organs": ["ORG-17", "ORG-19"],
+      "segments": ["S33", "S34", "S37"],
+      "journeys": ["PJ-07"],
+      "negative_tests": [
+        "candidate cannot score its own verdict",
+        "E6 cannot bypass protected review",
+        "E7 autonomous mutation is forbidden"
+      ]
+    },
+    {
+      "id": "PHL-08",
+      "name": "reconstructable forgettable memory",
+      "invariant": "Structured source records are authoritative and derived indexes can be rebuilt or invalidated.",
+      "organs": ["ORG-03", "ORG-04", "ORG-15", "ORG-16"],
+      "segments": ["S29", "S33", "S34"],
+      "journeys": ["PJ-06", "PJ-07", "PJ-12"],
+      "negative_tests": ["vector hit cannot outrank source ACL", "forgotten content cannot remain in derived index"]
+    },
+    {
+      "id": "PHL-09",
+      "name": "local-first embodiment",
+      "invariant": "Remote storage and execution are explicit Realms and do not acquire key or repository authority.",
+      "organs": ["ORG-08", "ORG-11", "ORG-15"],
+      "segments": ["S33", "S35", "S36"],
+      "journeys": ["PJ-09", "PJ-12"],
+      "negative_tests": ["server cannot decrypt client-key payload", "offline work cannot be silently discarded"]
+    },
+    {
+      "id": "PHL-10",
+      "name": "plural brains one body",
+      "invariant": "Agents share one Policy budget event and evidence authority without majority-vote bypass.",
+      "organs": ["ORG-01", "ORG-02", "ORG-08", "ORG-09"],
+      "segments": ["S30", "S32", "S37"],
+      "journeys": ["PJ-08", "PJ-10"],
+      "negative_tests": ["agent quorum cannot override security gate", "cross-task message inherits no capability"]
+    },
+    {
+      "id": "PHL-11",
+      "name": "continuity with honest drift",
+      "invariant": "Resume binds identity and displays code Realm Policy adapter and knowledge drift before effects.",
+      "organs": ["ORG-03", "ORG-08", "ORG-10", "ORG-15"],
+      "segments": ["S29", "S33", "S36"],
+      "journeys": ["PJ-01", "PJ-11"],
+      "negative_tests": ["stale approval cannot survive drift", "missing Realm cannot be inherited from UI focus"]
+    },
+    {
+      "id": "PHL-12",
+      "name": "graduated autonomy least action",
+      "invariant": "Observation-to-mutation and local-to-external transitions are explicit Core events.",
+      "organs": ["ORG-06", "ORG-07", "ORG-09", "ORG-11"],
+      "segments": ["S30", "S34", "S35"],
+      "journeys": ["PJ-02", "PJ-03", "PJ-08"],
+      "negative_tests": ["UI mode cannot widen capability", "read-only hook cannot execute a write"]
+    }
+  ],
+  "organs": [
+    {
+      "id": "ORG-01",
+      "name": "brain",
+      "components": ["model-router", "model-adapter", "agent-strategy"],
+      "authority": "proposal",
+      "signals": ["provider-outage", "malformed-output", "loop"],
+      "reflex": "bounded fallback or pause",
+      "evidence": ["provider", "capabilities", "cost", "outcome"]
+    },
+    {
+      "id": "ORG-02",
+      "name": "executive-cortex",
+      "components": ["goal-supervisor", "planner", "task-dag"],
+      "authority": "accepted-goal bounded",
+      "signals": ["replan-loop", "dependency-block", "verifier-disagreement"],
+      "reflex": "pause task and re-evaluate",
+      "evidence": ["goal-revision", "plan-diff", "verdict"]
+    },
+    {
+      "id": "ORG-03",
+      "name": "senses",
+      "components": ["lsp", "tree-sitter", "file-watcher", "browser", "terminal", "logs"],
+      "authority": "read capability",
+      "signals": ["stale-index", "watcher-loss", "injection"],
+      "reflex": "label stale rebuild or isolate",
+      "evidence": ["source-revision", "taint", "freshness"]
+    },
+    {
+      "id": "ORG-04",
+      "name": "attention",
+      "components": ["context-engine", "retrieval", "budget-allocator"],
+      "authority": "context selection",
+      "signals": ["overflow", "omission", "retrieval-drift", "secret-hit"],
+      "reflex": "compact exclude redact",
+      "evidence": ["context-receipt", "budget", "selection-reason"]
+    },
+    {
+      "id": "ORG-05",
+      "name": "mouth",
+      "components": ["user-output", "cross-agent-message", "connector-egress"],
+      "authority": "policy-filtered communication",
+      "signals": ["dlp-hit", "destination-mismatch"],
+      "reflex": "block redact or retain draft",
+      "evidence": ["destination", "policy-verdict", "content-hash"]
+    },
+    {
+      "id": "ORG-06",
+      "name": "hands",
+      "components": ["shell", "git", "editor", "mcp", "plugin"],
+      "authority": "effect broker only",
+      "signals": ["denial", "unexpected-diff", "protected-path"],
+      "reflex": "stop quarantine preserve user edits",
+      "evidence": ["action", "scope", "diff", "approval"]
+    },
+    {
+      "id": "ORG-07",
+      "name": "motor-nerves",
+      "components": ["tool-protocol", "cancellation", "idempotency"],
+      "authority": "run-bound invocation",
+      "signals": ["lost-cancel", "duplicate-effect", "late-result"],
+      "reflex": "cancel reconcile mark uncertain",
+      "evidence": ["correlation-id", "ack", "final-state"]
+    },
+    {
+      "id": "ORG-08",
+      "name": "blood-vessels",
+      "components": ["event-bus", "context-pipeline", "encrypted-sync"],
+      "authority": "transport and ordering",
+      "signals": ["sequence-gap", "queue-growth", "sync-conflict"],
+      "reflex": "halt projection replay or isolate",
+      "evidence": ["cursor", "hashes", "replay-result"]
+    },
+    {
+      "id": "ORG-09",
+      "name": "endocrine",
+      "components": ["budget-ledger", "rate-limit", "scheduler"],
+      "authority": "core ceilings",
+      "signals": ["budget-exhaustion", "resource-pressure"],
+      "reflex": "throttle pause or safe degrade",
+      "evidence": ["budget-revision", "consumption", "trigger"]
+    },
+    {
+      "id": "ORG-10",
+      "name": "skeleton-dna",
+      "components": ["schemas", "contracts", "git", "signed-manifests"],
+      "authority": "versioned compatibility",
+      "signals": ["schema-mismatch", "unsigned-capability", "migration-failure"],
+      "reflex": "reject fallback or rollback",
+      "evidence": ["version", "signature", "migration-test"]
+    },
+    {
+      "id": "ORG-11",
+      "name": "skin",
+      "components": ["workspace-trust-cell", "realm-boundary", "egress-boundary"],
+      "authority": "default deny",
+      "signals": ["boundary-crossing", "unknown-destination", "mount-drift"],
+      "reflex": "deny and contain",
+      "evidence": ["resource", "realm", "policy-decision"]
+    },
+    {
+      "id": "ORG-12",
+      "name": "immune-system",
+      "components": ["policy", "sandbox", "secret", "egress", "audit", "update", "recovery"],
+      "authority": "higher than agent",
+      "signals": ["escape", "tamper", "anomalous-egress"],
+      "reflex": "contain revoke safe-mode",
+      "evidence": ["incident-timeline", "affected-assets", "verdict"]
+    },
+    {
+      "id": "ORG-13",
+      "name": "white-blood-cells",
+      "components": ["quarantine-worker", "incident-responder"],
+      "authority": "containment only",
+      "signals": ["localized-unhealthy-component"],
+      "reflex": "isolate rotate ephemeral token",
+      "evidence": ["quarantine", "health-comparison", "cleanup"]
+    },
+    {
+      "id": "ORG-14",
+      "name": "platelets",
+      "components": ["transaction-abort", "checkpoint", "write-barrier"],
+      "authority": "loss containment",
+      "signals": ["partial-write", "effect-crash", "projection-inconsistency"],
+      "reflex": "close gate checkpoint rollback or uncertain",
+      "evidence": ["before-after-revision", "journal", "rollback"]
+    },
+    {
+      "id": "ORG-15",
+      "name": "liver-kidneys",
+      "components": ["redaction", "retention", "compaction", "garbage-collection"],
+      "authority": "retention policy",
+      "signals": ["sensitive-residue", "expired-data", "orphan-derivative"],
+      "reflex": "redact expire rebuild",
+      "evidence": ["deletion-receipt", "invalidation", "rebuild"]
+    },
+    {
+      "id": "ORG-16",
+      "name": "pain-inflammation",
+      "components": ["vital-bar", "alerting", "incident-severity"],
+      "authority": "inform and escalate",
+      "signals": ["H0", "H1", "H2", "H3", "H4"],
+      "reflex": "surface scope containment and choice",
+      "evidence": ["severity-basis", "symptom", "action"]
+    },
+    {
+      "id": "ORG-17",
+      "name": "sleep-scars",
+      "components": ["offline-eval", "maintenance", "incident-receipt"],
+      "authority": "scheduled bounded maintenance",
+      "signals": ["quality-drift", "fragmentation", "recurrence"],
+      "reflex": "checkpoint evaluate rebuild learn",
+      "evidence": ["dataset-revision", "before-after-metrics", "root-cause"]
+    },
+    {
+      "id": "ORG-18",
+      "name": "prosthetics-armor",
+      "components": ["models", "agents", "mcp", "plugins", "browser", "remote", "saas"],
+      "authority": "attested scoped removable",
+      "signals": ["capability-drift", "crash-loop", "revocation"],
+      "reflex": "disable pin quarantine remove",
+      "evidence": ["manifest", "origin", "permission-diff", "removal"]
+    },
+    {
+      "id": "ORG-19",
+      "name": "internal-evolution",
+      "components": ["memory", "rules", "skills", "tools", "strategies", "source-candidate"],
+      "authority": "E0-E7 governance",
+      "signals": ["regression", "poisoning", "canary-failure"],
+      "reflex": "stop promotion rollback known-good",
+      "evidence": ["lineage", "frozen-eval", "independent-verdict", "rollback"]
+    }
+  ],
+  "evolution_levels": [
+    { "id": "E0", "artifact": "temporary-context", "promotion": "context-policy", "autonomous_core_mutation": false },
+    {
+      "id": "E1",
+      "artifact": "memory",
+      "promotion": "user-curator-or-scoped-policy",
+      "autonomous_core_mutation": false
+    },
+    {
+      "id": "E2",
+      "artifact": "rule-prompt-steering",
+      "promotion": "user-or-maintainer",
+      "autonomous_core_mutation": false
+    },
+    { "id": "E3", "artifact": "skill", "promotion": "maintainer-and-risk-owner", "autonomous_core_mutation": false },
+    {
+      "id": "E4",
+      "artifact": "tool-plugin-armor",
+      "promotion": "admin-and-security",
+      "autonomous_core_mutation": false
+    },
+    {
+      "id": "E5",
+      "artifact": "agent-team-strategy",
+      "promotion": "product-owner-or-maintainer",
+      "autonomous_core_mutation": false
+    },
+    {
+      "id": "E6",
+      "artifact": "saber-source-change",
+      "promotion": "protected-human-review-and-merge",
+      "autonomous_core_mutation": false
+    },
+    {
+      "id": "E7",
+      "artifact": "trust-policy-encryption-update-recovery-root",
+      "promotion": "explicit-security-governance-only",
+      "autonomous_core_mutation": false
+    }
+  ],
+  "homeostasis_states": [
+    "detect",
+    "classify",
+    "contain",
+    "stabilize",
+    "diagnose",
+    "repair",
+    "verify",
+    "learn",
+    "expire"
+  ],
+  "health_levels": ["H0", "H1", "H2", "H3", "H4"],
+  "data_islands": ["code", "conversations", "documents", "tools-saas", "devices-realms"]
+}

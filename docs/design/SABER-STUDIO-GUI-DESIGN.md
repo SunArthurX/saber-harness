@@ -32,6 +32,8 @@ GUI 必须同时服务五件事：
 Saber Studio：Goal → Context → Plan → Governed Run → Evidence → Review → Knowledge → Evolution
 ```
 
+**桌面优先不变量**：Saber Studio Desktop 是主产品，启动或恢复工作区时默认进入完整的 Desktop Agent Workbench。Today / Command Center 是二级监督页面；`bin/saber ui` 是可选 Web Supervisor。两者都不得作为桌面 IDE 完成度的替代证据。
+
 ### 0.2 核心界面原则
 
 - **Goal 不是聊天标题**：Goal 有验收、预算、依赖、负责人、状态和完成证据。
@@ -151,13 +153,14 @@ flowchart LR
 
 ```text
 Saber Studio
-├── Today / Command Center
-├── Workspaces
-│   ├── Goal & Plan
-│   ├── Conversation
-│   ├── Changes & Review
-│   ├── Runtime & Timeline
-│   └── Memory & Knowledge
+├── Desktop Agent Workbench（默认）
+│   ├── Projects / Goals / Tasks / Conversations
+│   ├── Agent Conversation & Plan
+│   ├── Explorer / Editor / Diff / SCM
+│   ├── Terminal / Tests / Problems / Preview
+│   └── Evidence Drawer / Vital Bar
+├── Today / Command Center（二级监督页）
+├── Memory & Knowledge
 ├── Armor Rack
 ├── Evolution Workshop
 ├── Health Center
@@ -166,7 +169,7 @@ Saber Studio
 └── Governance / Settings
 ```
 
-五个 Workspace 工作面始终可通过 `⌘/Ctrl+1..5` 切换；Armor、Evolution、Health 属于跨 Workspace 的能力与治理面。
+Workbench 内的 Conversation、Plan、Editor、Changes 和 Runtime 是可组合 Pane，不是互相割裂的产品首页；Armor、Evolution、Health 属于跨 Workspace 的能力与治理面。
 
 ### 4.2 桌面壳区域
 
@@ -198,7 +201,21 @@ Saber Studio
 
 ## 5. 导航与核心页面设计
 
-### 5.1 Today / Command Center
+### 5.1 Desktop Agent Workbench（默认）
+
+**目的**：在一个桌面窗口内完成真实 CodingAgent 主循环，而不是先进入运维仪表盘。
+
+默认布局：
+
+- 左侧：Projects、Goals、Tasks、历史 Conversation、后台 Runs、PR、Automations 与 Plugins。
+- 中央：Agent Conversation、可编辑 Plan、Tool/Approval/Event 摘要和支持 `@/#//$` 的 Composer。
+- 右侧：Code-OSS Explorer、Editor、Diff、SCM、Preview、Browser 等可组合 Pane。
+- 底部：Terminal、Tests、Problems、Output；始终绑定当前 Task、Run、Worktree 和 Realm。
+- 辅助层：Evidence Drawer 按需展开；Vital Bar 安静显示 Policy、Sandbox、Network、Cost、Health 和 Sync。
+
+首次启动进入“打开/克隆仓库并创建 Goal”；再次启动恢复上次 Workbench。只有用户主动选择或角色策略明确配置时才进入 Command Center。
+
+### 5.2 Today / Command Center
 
 **目的**：10 秒内回答“什么在运行、什么需要我、什么失败、下一步是什么”。
 
@@ -213,7 +230,7 @@ Saber Studio
 
 核心操作：Open、Steer、Pause、Stop、Review、Take Over、Move Realm、Fork、Archive。
 
-### 5.2 Goal & Plan
+### 5.3 Goal & Plan
 
 **目的**：让长期任务有可验证结构，而不是无限聊天。
 
@@ -231,7 +248,7 @@ Saber Studio
 - Plan 变化以 Diff 展示：新增/删除 Task、依赖、权限、预算和验收变化。
 - Agent 可提出 Replan，但不能静默改写用户验收标准。
 
-### 5.3 Conversation
+### 5.4 Conversation
 
 **目的**：保留自然协作体验，同时把上下文和动作从聊天中解耦。
 
@@ -255,7 +272,7 @@ Composer 支持：
 - 运行中消息可 Queue；开启 Steer 后在安全事件边界插入。
 - 任何 Agent 结论旁可打开 Knowledge Receipt 和 Evidence Receipt。
 
-### 5.4 Changes & Review
+### 5.5 Changes & Review
 
 **目的**：把“Agent 说完成了”变成可独立审查的变更集。
 
@@ -275,7 +292,7 @@ Composer 支持：
 - 变更若超出 Goal scope、触碰 Trust Boundary 或增加 Capability，自动出现“Boundary Diff”。
 - Review 完成必须绑定测试/证据；“看起来没问题”不能成为绿色状态。
 
-### 5.5 Runtime & Timeline
+### 5.6 Runtime & Timeline
 
 **目的**：让长任务和多 Agent 可监督、可中断、可追责。
 
@@ -288,7 +305,7 @@ Composer 支持：
 
 实时操作：Steer、Pause、Cancel、Fork、Quarantine Agent、Open Terminal、Take Over。所有操作进入 Event Store。
 
-### 5.6 Memory & Knowledge
+### 5.7 Memory & Knowledge
 
 **目的**：打破知识孤岛，但不给自动记忆无限权力。
 
@@ -303,7 +320,7 @@ Composer 支持：
 
 操作：Inspect Source、Compare Conflict、Accept、Edit then Accept、Reject、Revoke、Exclude from Context、Export、Delete。
 
-### 5.7 Armor Rack
+### 5.8 Armor Rack
 
 **目的**：统一管理外部装甲，而不是散落在多个设置页。
 
@@ -319,7 +336,7 @@ Composer 支持：
 
 用“装甲轮廓 + 模块插槽”的轻量视觉表达外部增强，但操作区保持企业软件语义。
 
-### 5.8 Evolution Workshop
+### 5.9 Evolution Workshop
 
 **目的**：像 Code Review 一样审查系统“想学什么”。
 
@@ -335,7 +352,7 @@ Candidate 类型：Memory、Rule、Workflow、Skill、Strategy、Code Capsule、
 
 禁止：运行中 Agent 自批 E6、获取签名权、修改 E7 Trust Root、把一次对话直接升级为组织规则。
 
-### 5.9 Health Center
+### 5.10 Health Center
 
 **目的**：把自愈系统做成可操作的临床面板，而不是红色告警墙。
 
@@ -351,11 +368,76 @@ Candidate 类型：Memory、Rule、Workflow、Skill、Strategy、Code Capsule、
 
 设计要求：先说明影响和已采取的止损，再提供诊断细节；H3/H4 不用 Toast 一闪而过。
 
-### 5.10 Governance / Enterprise Admin
+### 5.11 Governance / Enterprise Admin
 
 模块：Tenant、SSO/SCIM、Role/Attribute Policy、Signed Policy Bundle、Model Allowlist、Data Residency、Retention、Plugin Registry、Device Trust、KMS、Audit/SIEM、Break Glass。
 
 管理员默认只见元数据和合规状态，不自动获得 Workspace 正文。任何 Break Glass 显示双人审批、TTL、目的、访问范围和审计回执。
+
+### 5.12 Advanced Agent Body Inspectors
+
+这组页面不是额外的 Web 监督台，而是 Desktop Agent Workbench 中按任务和边界
+打开的原生 Pane/Editor。它们把“可替换大脑、外部装甲、神经反射、身体运行环境、
+因果意识、注意力和免疫自愈”落成可操作界面。
+
+**Capability and Agent Adapter Inspector（UI-36）**
+
+- 顶部固定当前 Goal/Task、来源 Agent/Harness、协议、版本、配置与认证所有者。
+- 中间用 Capability Graph 显示 Supported / Unsupported / Degraded、Provider、
+  依赖与 Trust Class；缺口不能被 UI 统一外观隐藏。
+- 右侧显示切换影响：Plan 假设、Context 格式、待审批、Tool、成本和恢复策略。
+- `Switch` 先生成 Continuity Diff，再由 Core 记录切换；不能只换下拉框文案。
+
+**Reflex and Hook Manager（UI-37）**
+
+- Hook 列表按 Workspace / Goal / Task / global scope 分组，显示触发器、读写集、
+  是否可阻断、预算、递归保护、Owner 和最后一次触发。
+- `Simulate` 以真实事件结构运行但没有生产 Effect；结果显示会阻断、会调用什么、
+  会消耗多少以及 Policy 决定。
+- Circuit Breaker 与 Immune Override 始终可见；Unload 必须显示 listener/effect
+  residue 验证，不以“扩展已消失”代替。
+
+**Runtime/Sandbox Image Inspector（UI-38）**
+
+- 显示 Image digest、构建来源、SBOM、工具链、CPU/架构、Mount、Network、Secret、
+  资源上限、当前进程与 Attestation。
+- Filesystem、Shell、PTY、LSP、Preview/Browser、Test 都显示同一 Realm/revision；
+  不一致时整条 Evidence 标记为 Cross-Realm，需要重新验证。
+- `Rebuild clean`、`Quarantine`、`Compare drift` 和 `Export metadata` 不暴露正文。
+
+**Causal Timeline and Trajectory Replay（UI-39）**
+
+- 分轨显示 Human Intent、Goal/Plan、Context Selection、Approval、Action、Observation、
+  Change、Verification、Policy/Health；默认不展示或保存隐藏思维链。
+- 可在任意 Event Cursor 打开“Model saw”视图，列出 Projection Recipe、来源、
+  摘要、遗漏、脱敏、Token 与 Provider 格式。
+- Replay 需要同时给出 canonical hash、projection hash 和 divergence/gap；聊天看起来
+  完整但事件不完整时保持红色不确定状态。
+
+**Specification Studio（UI-40）**
+
+- 三列分别为 Requirements、Design Decisions、Tasks/Verification；每条都有 revision、
+  owner、risk、status 和双向 trace。
+- 自然语言可以生成草案，但 Accepted Requirement 必须由人或组织工作流确认。
+- 设计或验收变更时，下游 Task/Evidence 自动标 Stale；不能仅更新 Markdown 后继续。
+
+**Repository Map and Context Budget（UI-41）**
+
+- 图视图与列表视图展示 symbol/file/community、排名原因、引用边、覆盖与 source revision。
+- Context Nutrition Label 同时显示 Repo Map、Conversation、Decision、Memory、External
+  Source 的预算、实际消耗、遗漏和 taint。
+- `Drop and rebuild index` 是一等恢复旅程；Canonical code/chat/document records 不随
+  向量、FTS、symbol 或 graph projection 一同删除。
+
+**Recovery and Homeostasis Center（UI-42）**
+
+- 比 Health Center 更聚焦一次事件的处置：Detect → Classify → Contain → Stabilize →
+  Diagnose → Repair → Verify → Learn → Expire。
+- 四个恢复域分别显示 Code、Canonical Events、Derived Context、External Effects；
+  `Restore` 前展示 manual drift、不可逆动作和 uncertain 状态。
+- H0-H4 由信号和影响计算，不由模型主观决定；Verify 失败返回 Contained 或 Escalated，
+  不能显示 Recovered。
+- H3/H4 的 Safe Mode 退出只接受 Core 所需的人类/安全权限，当前 Agent 与 Hook 无权退出。
 
 ---
 
@@ -706,9 +788,9 @@ Evidence Drawer 覆盖打开；Context Sidebar 可收起；最多 2 个主 Pane�
 - Workspace、File、Editor、Terminal、SCM 保持 Code-OSS 能力。
 - Run View 重连/replay；UI crash 不杀 Run。
 
-### Phase GUI-2：Agent Command Center（3–4 周）
+### Phase GUI-2：Desktop Agent Loop（3–4 周）
 
-- Today、Goal/Plan、Conversation、Multi-Agent、Worktree/Realm。
+- Desktop Agent Workbench 默认入口、Goal/Plan、Conversation、Worktree/Realm。
 - Composer 的 `@/#//$`、Context Preview、Steer、Pause/Cancel/Fork。
 - Approval Queue 和 Vital Bar。
 
@@ -724,6 +806,7 @@ Evidence Drawer 覆盖打开；Context Sidebar 可收起；最多 2 个主 Pane�
 
 ### Phase GUI-5：Health 与 Enterprise（2–3 周）
 
+- Today / Command Center 多 Agent 监督页。
 - Health Center、Safe Mode、Incident、Support Bundle。
 - SSO/SCIM、Policy、Registry、Device、Audit、KMS 管理面。
 
