@@ -16,6 +16,10 @@ const METHODS = new Set<ControlMethod>([
   "approval.resolve",
   "goal.create",
   "plan.freeze",
+  "changeset.prepare",
+  "changeset.apply",
+  "changeset.rollback",
+  "changeset.commit",
 ]);
 const MUTATIONS = new Set<ControlMethod>([
   "run.steer",
@@ -28,6 +32,10 @@ const MUTATIONS = new Set<ControlMethod>([
   "approval.resolve",
   "goal.create",
   "plan.freeze",
+  "changeset.prepare",
+  "changeset.apply",
+  "changeset.rollback",
+  "changeset.commit",
 ]);
 
 export class ProtocolViolation extends Error {
