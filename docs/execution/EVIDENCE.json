@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S33",
-  "status": "in_progress",
-  "branch": "segment/S33-continuity-knowledge",
+  "status": "completed",
+  "branch": "segment/S33-completion",
   "base": {
     "main_commit": "d91b192180a1794bf79c52c6dd24a9067966ba32",
     "segment": "S32",
@@ -55,17 +55,30 @@
       "id": "S33-FULL-GATES",
       "command": "pnpm verify",
       "exit_code": 0,
-      "result": "full pnpm verify green \u2014 S00-S33 verifiers (verify-s33 passes 72 checks) and 165 governance tests"
+      "result": "full pnpm verify green — S00-S33 verifiers (verify-s33 passes 72 checks) and 165 governance tests"
+    },
+    {
+      "id": "S33-PROTECTED-PR-MERGE",
+      "command": "gh pr merge 85 --squash",
+      "exit_code": 0,
+      "result": "PR #85 squash-merged as c46240b98e2f22ed45f8573d27c593d640281fa5 after all five required checks passed and mergeStateStatus was CLEAN"
+    },
+    {
+      "id": "S33-MAIN-CI",
+      "command": "inspect main check runs on c46240b98e2f22ed45f8573d27c593d640281fa5",
+      "exit_code": 0,
+      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit; main-provenance initially hit the known merge-indexing race (same as S31), the association was confirmed indexed via the API and one rerun made it green"
     }
   ],
   "known_blockers": [
     "adapters cover the two fixture formats; production live-API connectors arrive with enterprise integration"
   ],
-  "pending": [
-    "push segment/S33-continuity-knowledge and open the protected PR",
-    "five required checks green plus mergeStateStatus CLEAN",
-    "squash-merge, completion record, annotated s33-complete with peeled-SHA verification"
-  ],
-  "last_verified_at": "2026-08-29T08:10:10Z",
-  "pull_request": null
+  "pending": [],
+  "last_verified_at": "2026-08-29T09:20:00Z",
+  "pull_request": {
+    "number": 85,
+    "url": "https://github.com/SunArthurX/saber-harness/pull/85",
+    "state": "MERGED",
+    "merge_commit": "c46240b98e2f22ed45f8573d27c593d640281fa5"
+  }
 }

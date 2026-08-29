@@ -1,11 +1,12 @@
 # S33 Handoff — Continuity and Knowledge
 
-Status: in progress — the complete continuity/knowledge contract is
-implemented and tested (22 pure tests + the fixed-set evaluation); the
-protected PR, hosted checks, completion record and s33-complete tag
-remain
+Status: completed — PR #85 merged (c46240b) with all five
+required checks green and all six main contexts green on the merge
+commit; this record closes S33. The annotated s33-complete tag follows
+this record's merge; S34 starts from its runbook in a new execution
+round
 Date: 2026-08-29
-Branch: `segment/S33-continuity-knowledge`
+Branch: `segment/S33-completion`
 Base main: `d91b192180a1794bf79c52c6dd24a9067966ba32` (`s32-complete`)
 Runbook: `docs/execution/desktop/S33-CONTINUITY-KNOWLEDGE.md`
 
@@ -36,7 +37,8 @@ connectors arrive with enterprise integration.
 
 ## Next actions
 
-1. Push, open the protected PR, wait for the five checks.
-2. Squash-merge; completion record; annotated `s33-complete`.
-3. S34 starts only from
-   `docs/execution/desktop/S34-ARMOR-EVOLUTION-HEALTH.md`.
+1. Create annotated `s33-complete` on this record's merge commit;
+   verify the peeled SHA equals that main commit locally and remotely.
+2. S34 (armor/evolution/health) starts only from
+   `docs/execution/desktop/S34-ARMOR-EVOLUTION-HEALTH.md` in a new
+   execution round.
