@@ -319,7 +319,7 @@ test("S28 manifest contributes the native shell without any webview", () => {
     manifest.contributes.views["saber-secondary"].map((view) => view.id),
     ["saber.commandCenter"],
   );
-  assert.equal(manifest.contributes.viewsContainers.auxiliary[0].id, "saber-secondary");
+  assert.equal(manifest.contributes.viewsContainers.secondarySidebar[0].id, "saber-secondary");
   assert.ok(!JSON.stringify(manifest).includes('"webview"'), "native contributions only");
   for (const command of manifest.contributes.commands) {
     assert.ok(command.command.startsWith("saber."), `command namespace: ${command.command}`);

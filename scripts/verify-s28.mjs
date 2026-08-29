@@ -151,10 +151,10 @@ for (const contract of [
 check(
   manifest.contributes.views["saber-secondary"].some((view) => view.id === "saber.commandCenter"),
   "s28-workspace-contract",
-  "command center in auxiliary sidebar",
+  "command center in secondary sidebar",
 );
 check(
-  manifest.contributes.viewsContainers.auxiliary.length === 1 &&
+  manifest.contributes.viewsContainers.secondarySidebar.length === 1 &&
     !manifest.contributes.viewsContainers.activitybar.some((container) => container.id === "saber.commandCenter"),
   "s28-workspace-contract",
   "command center absent from the activity bar (secondary by construction)",
