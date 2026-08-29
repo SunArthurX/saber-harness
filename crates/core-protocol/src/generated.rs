@@ -228,20 +228,32 @@ pub struct EventEnvelope {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ControlMethod {
-    #[serde(rename = "run.steer")]
-    RunSteer,
-    #[serde(rename = "run.cancel")]
-    RunCancel,
-    #[serde(rename = "run.retry")]
-    RunRetry,
-    #[serde(rename = "run.fork")]
-    RunFork,
-    #[serde(rename = "events.subscribe")]
-    EventsSubscribe,
-    #[serde(rename = "core.initialize")]
-    CoreInitialize,
+    #[serde(rename = "approval.resolve")]
+    ApprovalResolve,
     #[serde(rename = "core.health")]
     CoreHealth,
+    #[serde(rename = "core.initialize")]
+    CoreInitialize,
+    #[serde(rename = "events.subscribe")]
+    EventsSubscribe,
+    #[serde(rename = "goal.create")]
+    GoalCreate,
+    #[serde(rename = "plan.freeze")]
+    PlanFreeze,
+    #[serde(rename = "run.cancel")]
+    RunCancel,
+    #[serde(rename = "run.fork")]
+    RunFork,
+    #[serde(rename = "run.pause")]
+    RunPause,
+    #[serde(rename = "run.resume")]
+    RunResume,
+    #[serde(rename = "run.retry")]
+    RunRetry,
+    #[serde(rename = "run.start")]
+    RunStart,
+    #[serde(rename = "run.steer")]
+    RunSteer,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]

@@ -6,19 +6,46 @@
   "$defs": {
     "ControlMethod": {
       "type": "string",
-      "enum": ["run.steer", "run.cancel", "run.retry", "run.fork", "events.subscribe", "core.initialize", "core.health"]
+      "enum": [
+        "approval.resolve",
+        "core.health",
+        "core.initialize",
+        "events.subscribe",
+        "goal.create",
+        "plan.freeze",
+        "run.cancel",
+        "run.fork",
+        "run.pause",
+        "run.resume",
+        "run.retry",
+        "run.start",
+        "run.steer"
+      ]
     },
     "RequestContext": {
       "type": "object",
       "additionalProperties": false,
       "required": ["request_id", "actor_id", "workspace_id", "deadline_unix_ms"],
       "properties": {
-        "request_id": { "type": "string" },
-        "actor_id": { "type": "string" },
-        "workspace_id": { "type": "string" },
-        "causation_id": { "type": ["string", "null"] },
-        "deadline_unix_ms": { "type": "integer", "minimum": 0 },
-        "idempotency_key": { "type": ["string", "null"] }
+        "request_id": {
+          "type": "string"
+        },
+        "actor_id": {
+          "type": "string"
+        },
+        "workspace_id": {
+          "type": "string"
+        },
+        "causation_id": {
+          "type": ["string", "null"]
+        },
+        "deadline_unix_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "idempotency_key": {
+          "type": ["string", "null"]
+        }
       }
     },
     "ControlRequest": {
@@ -26,11 +53,23 @@
       "additionalProperties": false,
       "required": ["jsonrpc", "protocol_version", "method", "context", "params"],
       "properties": {
-        "jsonrpc": { "type": "string", "const": "2.0" },
-        "protocol_version": { "type": "string", "enum": ["1.0.0", "0.1.0"] },
-        "method": { "$ref": "#/$defs/ControlMethod" },
-        "context": { "$ref": "#/$defs/RequestContext" },
-        "params": { "type": "object" }
+        "jsonrpc": {
+          "type": "string",
+          "const": "2.0"
+        },
+        "protocol_version": {
+          "type": "string",
+          "enum": ["1.0.0", "0.1.0"]
+        },
+        "method": {
+          "$ref": "#/$defs/ControlMethod"
+        },
+        "context": {
+          "$ref": "#/$defs/RequestContext"
+        },
+        "params": {
+          "type": "object"
+        }
       }
     },
     "ControlError": {
@@ -38,9 +77,15 @@
       "additionalProperties": false,
       "required": ["code", "message"],
       "properties": {
-        "code": { "type": "integer" },
-        "message": { "type": "string" },
-        "request_id": { "type": ["string", "null"] }
+        "code": {
+          "type": "integer"
+        },
+        "message": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": ["string", "null"]
+        }
       }
     }
   }

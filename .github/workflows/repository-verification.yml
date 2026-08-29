@@ -88,6 +88,8 @@ jobs:
         run: node scripts/verify-s28.mjs
       - name: Verify S29 conversation and context
         run: node scripts/verify-s29.mjs
+      - name: Verify S30 governed agent run
+        run: node scripts/verify-s30.mjs
       - name: Test repository governance policy
         run: node --test scripts/tests/*.test.mjs
       - name: Verify Git whitespace contract

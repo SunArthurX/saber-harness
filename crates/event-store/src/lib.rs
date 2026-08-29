@@ -783,6 +783,59 @@ impl EventStore {
     /// payload must never contain the presented token material.
     ///
     /// # Errors
+    /// Append a Core-authoritative governed-run event with idempotent replay.
+    ///
+    /// The governed run engine (S30) owns Goal, Plan, approval-card and
+    /// run-journal facts as append-only events in the same encrypted,
+    /// hash-chained store; this is the single generic append the engine
+    /// uses so every mutation keeps the store's transactional and
+    /// idempotency guarantees.
+    ///
+    /// # Errors
+    ///
+    /// Rejects unknown workspaces, payload serialization failures,
+    /// conflicting idempotency keys and database errors.
+    pub fn append_core_event(
+        &mut self,
+        event_id: &str,
+        workspace_id: &str,
+        event_type: &str,
+        occurred_at_ms: u64,
+        payload: &Value,
+        idempotency_key: &str,
+    ) -> Result<CommitOutcome, StoreError> {
+        self.ensure_workspace(workspace_id)?;
+        let payload_json = serde_json::to_string(payload)?;
+        let request_hash = digest(&[
+            b"core-event",
+            event_type.as_bytes(),
+            payload_json.as_bytes(),
+        ]);
+        let transaction = self.connection.transaction()?;
+        if let Some(outcome) = replay(&transaction, idempotency_key, &request_hash)? {
+            return Ok(outcome);
+        }
+        append_event(
+            &transaction,
+            event_id,
+            workspace_id,
+            event_type,
+            occurred_at_ms,
+            payload,
+        )?;
+        record_idempotency(&transaction, idempotency_key, &request_hash, event_id)?;
+        transaction.commit()?;
+        Ok(CommitOutcome::Committed {
+            event_id: event_id.to_owned(),
+        })
+    }
+
+    /// Persist a rejected supervision handshake as an auditable event.
+    ///
+    /// The presented token material is never recorded; only the reason,
+    /// actor and transport land in the encrypted store.
+    ///
+    /// # Errors
     ///
     /// Returns a database error when the append fails.
     pub fn record_handshake_failure(

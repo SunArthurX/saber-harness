@@ -12,7 +12,13 @@
  */
 import { connect, type Socket } from "node:net";
 
-import { CURRENT_PROTOCOL_VERSION, encodeRequest, type IdeActor, PREVIOUS_PROTOCOL_VERSION } from "./protocol.js";
+import {
+  CURRENT_PROTOCOL_VERSION,
+  encodeRequest,
+  type IdeActor,
+  type IdeMethod,
+  PREVIOUS_PROTOCOL_VERSION,
+} from "./protocol.js";
 
 /** Desktop supervision lifecycle states (S27-WP01). */
 export type SupervisionState =
@@ -136,6 +142,7 @@ export class SupervisionClient {
     timer: ReturnType<typeof setTimeout>;
   } | null = null;
   #closed = false;
+  #initialized = false;
 
   constructor(options: SupervisionOptions, socket?: Socket) {
     this.#options = options;
@@ -235,10 +242,7 @@ export class SupervisionClient {
     pending.reject(error);
   }
 
-  #request(
-    method: "core.initialize" | "core.health" | "events.subscribe",
-    params: Record<string, unknown>,
-  ): Promise<ResponseFrame> {
+  #request(method: IdeMethod, params: Record<string, unknown>): Promise<ResponseFrame> {
     if (this.#closed) {
       return Promise.reject(new SupervisionError("client_closed"));
     }
@@ -251,6 +255,8 @@ export class SupervisionClient {
       params,
       now,
       now + this.#timeoutMs,
+      CURRENT_PROTOCOL_VERSION,
+      typeof params.idempotency_key === "string" ? params.idempotency_key : undefined,
     );
     return new Promise<ResponseFrame>((resolve, reject) => {
       const timer = setTimeout(() => {
@@ -280,11 +286,32 @@ export class SupervisionClient {
     if (typeof result.core_build !== "string" || !Array.isArray(result.capabilities)) {
       throw new SupervisionError("invalid_response");
     }
+    this.#initialized = true;
     return {
       protocol_version: version,
       core_build: result.core_build,
       capabilities: result.capabilities.filter((value): value is string => typeof value === "string"),
     };
+  }
+
+  /**
+   * One governed-run mutation (goal.create, plan.freeze, run.*, approval
+   * resolution...). The frame validation, deadline and handshake order
+   * are identical to every other request; the Core re-validates and
+   * owns the outcome — this side only observes the result or error.
+   */
+  async request(method: IdeMethod, params: Record<string, unknown>): Promise<unknown> {
+    if (method === "core.initialize") {
+      throw new SupervisionError("use_initialize_for_handshake");
+    }
+    if (!this.#initialized) {
+      throw new SupervisionError("not_initialized");
+    }
+    const response = await this.#request(method, params);
+    if (response.error) {
+      throw new SupervisionError(response.error.message);
+    }
+    return response.result ?? {};
   }
 
   /** Current Core health snapshot. */

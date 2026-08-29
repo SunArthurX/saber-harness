@@ -68,7 +68,15 @@ pub fn serve(store_dir: &Path, workspace_id: &str) -> Result<(), String> {
 
     // One thread per connection: the desktop keeps several long-lived
     // connections open at once, so a serial accept loop would starve every
-    // peer after the first.
+    // peer after the first. The governed run engine is a disposable
+    // projection rebuilt from the store's durable events; handlers always
+    // lock engine-then-store.
+    let engine = {
+        let guard = store.lock().map_err(|_| "store poisoned".to_string())?;
+        crate::run_engine::RunEngine::rebuild(&guard)
+            .map_err(|error| format!("run engine rebuild failed: {error}"))?
+    };
+    let engine = Arc::new(Mutex::new(engine));
     let token_spent = Arc::new(AtomicBool::new(false));
     for stream in listener.incoming() {
         let stream = match stream {
@@ -76,10 +84,11 @@ pub fn serve(store_dir: &Path, workspace_id: &str) -> Result<(), String> {
             Err(error) => return Err(format!("accept failed: {error}")),
         };
         let store = Arc::clone(&store);
+        let engine = Arc::clone(&engine);
         let token = token.clone();
         let token_spent = Arc::clone(&token_spent);
         std::thread::spawn(move || {
-            if let Err(error) = handle_connection(stream, &store, &token, &token_spent) {
+            if let Err(error) = handle_connection(stream, &store, &engine, &token, &token_spent) {
                 eprintln!("saber-core serve: connection error: {error}");
             }
         });
@@ -90,6 +99,7 @@ pub fn serve(store_dir: &Path, workspace_id: &str) -> Result<(), String> {
 fn handle_connection(
     stream: LocalStream,
     store: &Arc<Mutex<EventStore>>,
+    engine: &Arc<Mutex<crate::run_engine::RunEngine>>,
     token: &str,
     token_spent: &Arc<AtomicBool>,
 ) -> Result<(), String> {
@@ -157,11 +167,31 @@ fn handle_connection(
                 )?;
             }
             other => {
-                let _ = other;
-                write_line(
-                    reader.get_mut(),
-                    &error_frame(Some(&request_id), "method_not_served"),
-                )?;
+                // Governed run methods share one dispatch across both
+                // platform transports; everything else fails closed.
+                let mut engine = engine.lock().map_err(|_| "engine poisoned".to_string())?;
+                let mut store = store.lock().map_err(|_| "store poisoned".to_string())?;
+                match crate::run_dispatch::dispatch_run_method(
+                    &other,
+                    &request.params,
+                    &mut store,
+                    &mut engine,
+                    request.context.workspace_id.as_str(),
+                    now,
+                ) {
+                    Some(Ok(result)) => {
+                        write_line(reader.get_mut(), &result_frame(&request_id, &result))?;
+                    }
+                    Some(Err(code)) => {
+                        write_line(reader.get_mut(), &error_frame(Some(&request_id), &code))?;
+                    }
+                    None => {
+                        write_line(
+                            reader.get_mut(),
+                            &error_frame(Some(&request_id), "method_not_served"),
+                        )?;
+                    }
+                }
             }
         }
     }
@@ -236,7 +266,20 @@ fn initialize_result(request: &saber_core_protocol::ControlRequest) -> serde_jso
         "protocol_version": PROTOCOL_VERSION,
         "core_build": env!("CARGO_PKG_VERSION"),
         "workspace_id": request.context.workspace_id,
-        "capabilities": ["core.health", "events.subscribe"],
+        "capabilities": [
+            "core.health",
+            "events.subscribe",
+            "goal.create",
+            "plan.freeze",
+            "run.start",
+            "run.pause",
+            "run.resume",
+            "run.steer",
+            "run.cancel",
+            "run.fork",
+            "run.retry",
+            "approval.resolve",
+        ],
     })
 }
 

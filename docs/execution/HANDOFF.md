@@ -1,64 +1,76 @@
-# S29 Handoff — Conversation and Context
+# S30 Handoff — Governed Agent Run (RT-1 MVP)
 
-Status: completed — PR #77 merged (dd1b43f) with all five required checks green and all six main contexts green on the merge commit; this record closes S29. The annotated s29-complete tag follows this record's merge; S30 (governed agent run) starts from its runbook in a new execution round
+Status: in progress — the complete governed-run vertical is implemented
+and verified against the REAL Core (27/27 e2e checks), with the Rust
+engine, protocol surface, projections, suites and gates all green; the
+protected PR, hosted checks (monorepo legs run the e2e), completion
+record and s30-complete tag remain
 Date: 2026-08-29
-Branch: `segment/S29-conversation-context`
-Base main: `e33f70bd699313c8c9b9b6980af0a7ef74f9a8ee` (`s28-complete`)
-Runbook: `docs/execution/desktop/S29-CONVERSATION-CONTEXT.md`
+Branch: `segment/S30-governed-agent-run`
+Base main: `f169e57498cc35bd5f479302eb345a075339ea31` (`s29-complete`)
+Runbook: `docs/execution/desktop/S30-GOVERNED-AGENT-RUN.md`
 
 ## Objective
 
-Users can hold a streaming, resumable desktop Agent conversation and
-know exactly which files, symbols, artifacts, prior conversations,
-skills and attachments will be sent to which model and why. Exclude and
-revoke are effective operations with evidence, not visual decorations.
+A user turns a conversation into an editable Goal and Plan, starts a
+real Agent Run, observes durable Tool events, grants only exact
+approvals, and can pause, steer, cancel, resume or fork without losing
+causal history.
 
 ## What landed
 
-- **WP01 message model** (`conversationModel.js`): ten distinctly
-  rendered message kinds; append-only stream with reconnect
-  deduplication by event ID; hidden chain-of-thought counted but never
-  exposed; retry appends a new causal event (`retryOf`) — history is
-  never rewritten; copy output carries redaction markers; tool detail
-  collapses by default while Evidence navigation survives.
-- **WP02 composer** (`composerState.js`): ten-state machine with a
-  closed transition table; `@` `#` `/` `$` resolve their documented
-  domains; `+` attachments gated on media/size/malware/sensitivity;
-  queue and steer are separate explicit operations with visible
-  insertion boundaries (steer requires an event cursor); every failure
-  retains the draft and explains recovery.
-- **WP03 context preview and receipt** (`contextReceipt.js`): ten-field
-  fragment provenance contract; secret-sensitivity fragments refused;
-  preview totals reconcile with sent receipts (divergences listed);
-  exclusion removes before dispatch and records evidence; keyboard
-  chips.
-- **WP04 selectors** (`selectorPolicy.js`): provider/model/deployment/
-  context-limit/price/eligibility display; realm boundaries with data
-  egress; closed capability set where `governed-full` is clamped by
-  Core policy (dropped capabilities surfaced); token/money/wall-time/
-  tool-call budgets clamped to hard and policy ceilings.
-- **WP05 privacy** (`privacyControls.js`): canary scans prove secret
-  and sensitive-data canaries never reach provider fixtures; revoke
-  blocks future retrieval and names already-contacted providers
-  honestly; drafts only in approved encrypted crash-excluded storage.
-- **WP06 a11y** (`s29-a11y-conversation.test.mjs` + journey runner
-  `scripts/run-a11y.mjs`): rate-limited summarized announcements,
-  keyboard-operable chips, failures retain drafts and explain recovery.
-- **Wiring**: native conversation commands (focus — keybound —, retry,
-  previewContext, excludeFragment) with en/zh strings; four suites
-  (conversation 12, context-receipts 9, redaction-canary 6,
-  conversation a11y 4); `verify-s29` (119 checks) chained into
-  `verify:repo` and hosted verification.
+- **Core engine** (`crates/saber-core/src/run_engine.rs`): goals with
+  frozen acceptance; immutable plan versions; run start bound to plan
+  version, model route, Realm, worktree, policy snapshot and
+  idempotency key; a deterministic fixture executor (file read/edit,
+  node-only exact-argv commands inside the canonicalized worktree);
+  network effects denied by policy BEFORE any attempt; exact one-shot
+  approval cards (digest, expiry, plan version, scope narrowing,
+  changed-resource) with every adversarial path failing closed; the
+  independent verifier evaluating frozen acceptance with bound
+  evidence; pause at safe boundaries; resume with policy-snapshot
+  revalidation; steer as causal control events; cancel with
+  compensation; fork/retry as explicit lineage. The engine index is a
+  disposable projection rebuilt by replay.
+- **Store**: exactly one additive `append_core_event` — transactional,
+  idempotent, hash-chained like every other append.
+- **Transport**: both the unix socket and the Windows named pipe server
+  dispatch run methods through the shared `run_dispatch` module and
+  advertise the capabilities in `core.initialize`.
+- **Protocol**: six new methods (`goal.create`, `plan.freeze`,
+  `run.start`, `run.pause`, `run.resume`, `approval.resolve`) in the
+  schema, generated Rust/TS, agent-runtime and ide-client registries;
+  mutations carry context idempotency keys (validated after the
+  frame-size contract to preserve earlier ordering).
+- **Projections**: `goalPlan.js` (immutable versions with diff facets,
+  acceptance changes always visible, binding tuple),
+  `runTimeline.js` (eleven UX states, cursor dedup, stale events
+  cannot regress terminals, exact tool summaries, no invented
+  progress), `approvalGate.js` (complete cards, deny always,
+  narrowing cannot broaden, every adversarial preflight),
+  `runControls.js` (pause/steer/cancel/resume/fork semantics, one
+  projection for every surface, truthful quit options).
+- **Evidence**: `desktop:test:goal-plan` (5), approval-adversarial (5),
+  run-controls (9); `desktop:e2e:governed-run` — 27/27 against the
+  real Core over the real socket through `fixtures/repos/basic`
+  including a Core restart that preserves the whole journal;
+  `verify-s30` (106 checks). The monorepo CI matrix now builds the
+  Core and runs the e2e on every leg.
 
-## Evidence
+## Honest limits
 
-`docs/execution/EVIDENCE.json` (S29 in_progress) — every work package
-has a focused check with real local results; full `pnpm verify` green.
+- The model route is the deterministic fixture executor; provider-backed
+  runs arrive in later segments.
+- The e2e drives the Core binary directly; the packaged-desktop journey
+  stays hosted desktop:build evidence.
+- Sandbox realm integration (the S24 registry) is not yet wired into
+  the run engine; commands run node-only exact argv inside the
+  canonicalized worktree as an intermediate, policy-checked boundary.
 
 ## Next actions
 
-1. Create annotated `s29-complete` on this record's merge commit;
-   verify the peeled SHA equals that main commit locally and remotely.
-2. S30 (governed agent run, RT-1 MVP) starts only from
-   `docs/execution/desktop/S30-GOVERNED-AGENT-RUN.md` in a new
-   execution round.
+1. Push, open the protected PR, wait for the five checks (monorepo legs
+   run the real-Core e2e; the Windows leg must compile the engine).
+2. Squash-merge; completion record; annotated `s30-complete` with
+   peeled-SHA verification.
+3. S31 starts only from `docs/execution/desktop/S31-CHANGE-EVIDENCE-REVIEW.md`.

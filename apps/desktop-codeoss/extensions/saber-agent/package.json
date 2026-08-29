@@ -245,6 +245,11 @@
         "command": "saber.conversation.excludeFragment",
         "title": "%command.conversation.excludeFragment.title%",
         "category": "%category%"
+      },
+      {
+        "command": "saber.run.openTimeline",
+        "title": "%command.run.openTimeline.title%",
+        "category": "%category%"
       }
     ],
     "keybindings": [
