@@ -50,7 +50,7 @@ fn classify_effect(kind: &str) -> PolicyDecision {
     }
 }
 
-fn hex_digest(parts: &[&[u8]]) -> String {
+pub(crate) fn hex_digest(parts: &[&[u8]]) -> String {
     let mut hasher = Sha256::new();
     for part in parts {
         hasher.update((part.len() as u64).to_be_bytes());
@@ -95,6 +95,7 @@ struct RunRecord {
 /// The governed run engine index over the encrypted event store.
 #[derive(Default)]
 pub struct RunEngine {
+    store_dir: std::path::PathBuf,
     workspace_hint: Option<String>,
     event_counter: u64,
     goals: HashMap<String, Value>,
@@ -109,8 +110,11 @@ impl RunEngine {
     /// # Errors
     ///
     /// Returns a store error string when replay fails.
-    pub fn rebuild(store: &EventStore) -> Result<Self, String> {
-        let mut engine = RunEngine::default();
+    pub fn rebuild(store_dir: &std::path::Path, store: &EventStore) -> Result<Self, String> {
+        let mut engine = RunEngine {
+            store_dir: store_dir.to_path_buf(),
+            ..RunEngine::default()
+        };
         let total = store.event_count().map_err(|e| e.to_string())?;
         let mut cursor = 0_i64;
         while cursor < total {
@@ -126,6 +130,11 @@ impl RunEngine {
             cursor = next;
         }
         Ok(engine)
+    }
+
+    /// Store directory backing baseline snapshots (S31).
+    pub(crate) fn store_dir(&self) -> &std::path::Path {
+        &self.store_dir
     }
 
     fn note_workspace(&mut self, workspace: &str) {
@@ -403,6 +412,23 @@ impl RunEngine {
             )
             .map_err(map_store_error)?;
         self.apply_event("run.binding_recorded", &binding.to_string());
+        // S31: snapshot the baseline inventory so the change set can be
+        // reviewed, applied, rolled back and proven by hashes.
+        let baseline = crate::change_set::ChangeSetEngine::snapshot_baseline(
+            &self.store_dir,
+            &run_id,
+            &worktree,
+        )?;
+        store
+            .append_core_event(
+                &format!("baseline_{run_id}"),
+                workspace,
+                "run.baseline_snapshot",
+                now_ms,
+                &baseline,
+                &format!("{idempotency}-baseline"),
+            )
+            .map_err(map_store_error)?;
         if binding
             .get("parent_run_id")
             .and_then(Value::as_str)
@@ -1413,7 +1439,7 @@ mod tests {
         std::fs::create_dir_all(&worktree).ok_ctx("mkdir");
         std::fs::write(worktree.join("README.md"), "fixture").ok_ctx("write");
         let mut store = open_store(tmp.path());
-        let mut engine = RunEngine::rebuild(&store).ok_ctx("engine");
+        let mut engine = RunEngine::rebuild(tmp.path(), &store).ok_ctx("engine");
 
         let goal = engine
             .create_goal(&mut store, "ws-test", &json!({
@@ -1499,7 +1525,7 @@ mod tests {
         std::fs::create_dir_all(&worktree).ok_ctx("mkdir");
         std::fs::write(worktree.join("README.md"), "fixture").ok_ctx("write");
         let mut store = open_store(tmp.path());
-        let mut engine = RunEngine::rebuild(&store).ok_ctx("engine");
+        let mut engine = RunEngine::rebuild(tmp.path(), &store).ok_ctx("engine");
         engine
             .create_goal(&mut store, "ws-test", &json!({
                 "objective": "o", "acceptance": [{ "check_id": "c", "kind": "file_contains", "path": "README.md", "needle": "fixture" }],
@@ -1573,7 +1599,7 @@ mod tests {
         std::fs::create_dir_all(&worktree).ok_ctx("mkdir");
         std::fs::write(worktree.join("README.md"), "fixture").ok_ctx("write");
         let mut store = open_store(tmp.path());
-        let mut engine = RunEngine::rebuild(&store).ok_ctx("engine");
+        let mut engine = RunEngine::rebuild(tmp.path(), &store).ok_ctx("engine");
         engine
             .create_goal(&mut store, "ws-test", &json!({
                 "objective": "rebuild", "acceptance": [{ "check_id": "c", "kind": "file_contains", "path": "README.md", "needle": "fixture" }],
@@ -1601,7 +1627,7 @@ mod tests {
         assert_eq!(started["state"], "succeeded");
 
         // A rebuilt engine (fresh process equivalent) sees the same truth.
-        let rebuilt = RunEngine::rebuild(&store).ok_ctx("rebuild");
+        let rebuilt = RunEngine::rebuild(tmp.path(), &store).ok_ctx("rebuild");
         assert!(rebuilt.goals.contains_key(&goal_id));
         assert_eq!(rebuilt.runs.len(), 1);
     }

@@ -8,6 +8,10 @@
       "type": "string",
       "enum": [
         "approval.resolve",
+        "changeset.apply",
+        "changeset.commit",
+        "changeset.prepare",
+        "changeset.rollback",
         "core.health",
         "core.initialize",
         "events.subscribe",

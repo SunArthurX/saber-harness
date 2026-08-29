@@ -25,6 +25,10 @@ const MUTATION_METHODS = new Set<IdeMethod>([
   "approval.resolve",
   "goal.create",
   "plan.freeze",
+  "changeset.prepare",
+  "changeset.apply",
+  "changeset.rollback",
+  "changeset.commit",
   "context.exclude",
   "context.revoke",
 ]);
@@ -42,6 +46,10 @@ export type IdeMethod =
   | "approval.resolve"
   | "goal.create"
   | "plan.freeze"
+  | "changeset.prepare"
+  | "changeset.apply"
+  | "changeset.rollback"
+  | "changeset.commit"
   | "context.exclude"
   | "context.revoke"
   | "core.initialize"
@@ -59,6 +67,10 @@ const METHODS = new Set<IdeMethod>([
   "approval.resolve",
   "goal.create",
   "plan.freeze",
+  "changeset.prepare",
+  "changeset.apply",
+  "changeset.rollback",
+  "changeset.commit",
   "context.exclude",
   "context.revoke",
   "core.initialize",

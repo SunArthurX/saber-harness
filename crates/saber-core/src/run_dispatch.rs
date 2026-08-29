@@ -42,6 +42,26 @@ pub fn dispatch_run_method(
         ControlMethod::ApprovalResolve => {
             Some(engine.resolve_approval(store, workspace, params, now_ms))
         }
+        ControlMethod::ChangesetPrepare => Some(crate::change_set::ChangeSetEngine::prepare(
+            store,
+            engine.store_dir(),
+            workspace,
+            params,
+            now_ms,
+        )),
+        ControlMethod::ChangesetApply => Some(crate::change_set::ChangeSetEngine::apply(
+            store, workspace, params, now_ms,
+        )),
+        ControlMethod::ChangesetRollback => Some(crate::change_set::ChangeSetEngine::rollback(
+            store,
+            engine.store_dir(),
+            workspace,
+            params,
+            now_ms,
+        )),
+        ControlMethod::ChangesetCommit => Some(crate::change_set::ChangeSetEngine::commit(
+            store, workspace, params, now_ms,
+        )),
         ControlMethod::CoreInitialize
         | ControlMethod::CoreHealth
         | ControlMethod::EventsSubscribe => None,

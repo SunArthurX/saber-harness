@@ -230,6 +230,14 @@ pub struct EventEnvelope {
 pub enum ControlMethod {
     #[serde(rename = "approval.resolve")]
     ApprovalResolve,
+    #[serde(rename = "changeset.apply")]
+    ChangesetApply,
+    #[serde(rename = "changeset.commit")]
+    ChangesetCommit,
+    #[serde(rename = "changeset.prepare")]
+    ChangesetPrepare,
+    #[serde(rename = "changeset.rollback")]
+    ChangesetRollback,
     #[serde(rename = "core.health")]
     CoreHealth,
     #[serde(rename = "core.initialize")]
