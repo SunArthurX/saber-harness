@@ -4,7 +4,7 @@ architecture_version: "2.1"
 current_segment:
   id: S34
   name: armor-evolution-health
-  status: in_progress
+  status: completed
   objective: distinguish external Armor from internal capability growth through signed capability manifests with per-component permissions, isolation, health and revocation; route every evolution candidate through the E0-E7 ladder with evidence, permission deltas, isolated evaluation, explicit canaries and last-known-good rollback; contain faults through H0-H4 vital signals, immune supervisor controls that outrank the agent brain, redaction-first support bundles; and prove bounded containment and recovery in a six-scenario game day
 predecessor:
   segment: S33
@@ -120,7 +120,7 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S34-armor-evolution-health
+  branch: segment/S34-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 1633d17
@@ -133,7 +133,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T10:05:00Z"
+  last_checkpoint_at: "2026-08-29T11:00:00Z"
 acceptance:
   required:
     - s33_tagged_base
@@ -178,9 +178,9 @@ acceptance:
     - game_day_six_scenarios_recover
     - s34_verifier
     - full_local_verification
-  failed: []
-  pending:
     - verified_segment_push
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -209,8 +209,7 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers:
-  - S34 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows and dependency-audit before protected merge
+blockers: []
 next_action:
-  command: push segment/S34-armor-evolution-health, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s34-complete on the record merge commit with peeled-SHA verification; S35 starts only from docs/execution/desktop/S35-ENTERPRISE-MULTITENANT.md
-  description: S34 armor, evolution and health implemented on segment/S34-armor-evolution-health — four pure modules (armorRack: signed capability manifests failing closed on unknown kinds, untrusted signers, missing digests, unsigned or tampered payloads, full rack cards with publisher/signer/version/runtime/scope/capabilities/secrets/egress/health/cost/uninstall impact, install grants that never exceed the reviewed manifest, reversible load/unload with privileged immune roots, revocation that immediately removes authorization and marks dependents; evolutionWorkshop: the E0-E7 ladder with E6 protected-PR-only and E7 forbidden, intake blocking duplicates, conflicting effects and poisoned sources, candidate reviews that never self-install, frozen baselines with last-known-good, isolated secret-free evaluation with regression honesty, canary plans failing closed without cohort/duration/stop-thresholds/owner, and rollback from UI or Core even after a candidate crash; healthMonitor: eleven vital signals classified H0-H4, incident lifecycles with detect/contain/repair/verify/escalate phases, quiet low severity versus visible high severity, redaction-first user-reviewed support bundles, supervisor immune controls that need no model approval, agent attempts to suppress health events, edit audit history or exit Safe Mode all failing closed, safe-mode exits requiring external human/admin/vendor authority, and bounded-retry circuit breakers; gameDay: six injected scenarios proving bounded containment, last-known-good or Safe Mode recovery, preserved append-only evidence and correct escalation with containment outranking the agent brain), 26 pure tests across four suites and verify-s34 (76 checks) chained into local and hosted gates; full pnpm verify green (191 governance tests)
+  command: after this completion record merges, create annotated s34-complete on the record merge commit and verify its peeled SHA equals that main commit; S35 (enterprise/multitenant) then starts only from docs/execution/desktop/S35-ENTERPRISE-MULTITENANT.md
+  description: PR #87 squash-merged as 9ff1e6fb09788281098a4428b505901ceebff5af after repository-verification, monorepo ubuntu/macos/windows and dependency-audit passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit. The record closes S34: armor, evolution and health (fail-closed signed capability manifests with rack cards, manifest-bounded install grants, reversible load/unload and dependent-marking revocation; the E0-E7 evolution ladder with E6 protected-PR-only and E7 forbidden, blocking intake for duplicates/conflicts/poisoned sources, frozen baselines, isolated secret-free evaluation, fail-closed canaries and crash-proof rollback; eleven vital signals across H0-H4 with quiet/visible UX, redaction-first user-reviewed support bundles, supervisor immune controls outranking the agent, fail-closed agent suppression/audit-edit/safe-mode-exit and bounded circuit breakers; six game-day scenarios proving bounded containment, recovery, append-only evidence and correct escalation), 26 pure tests across four suites and verify-s34 (76 checks). S35 is not started

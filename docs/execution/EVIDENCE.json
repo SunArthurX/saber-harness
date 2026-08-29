@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S34",
-  "status": "in_progress",
-  "branch": "segment/S34-armor-evolution-health",
+  "status": "completed",
+  "branch": "segment/S34-completion",
   "base": {
     "main_commit": "f7f837e35fb3a1f7fe59c202ad463764416bf93a",
     "segment": "S33",
@@ -50,16 +50,29 @@
       "command": "pnpm verify",
       "exit_code": 0,
       "result": "full pnpm verify green — S00-S34 verifiers (verify-s34 passes 76 checks) and 191 governance tests"
+    },
+    {
+      "id": "S34-PROTECTED-PR-MERGE",
+      "command": "gh pr merge 87 --squash",
+      "exit_code": 0,
+      "result": "PR #87 squash-merged as 9ff1e6fb09788281098a4428b505901ceebff5af after all five required checks passed and mergeStateStatus was CLEAN"
+    },
+    {
+      "id": "S34-MAIN-CI",
+      "command": "inspect main check runs on 9ff1e6fb09788281098a4428b505901ceebff5af",
+      "exit_code": 0,
+      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
     }
   ],
   "known_blockers": [
     "armor manifests use deterministic fixture signatures; production code-signing integration arrives with the release train packaging segment"
   ],
-  "pending": [
-    "push segment/S34-armor-evolution-health and open the protected PR",
-    "five required checks green plus mergeStateStatus CLEAN",
-    "squash-merge, completion record, annotated s34-complete with peeled-SHA verification"
-  ],
-  "last_verified_at": "2026-08-29T10:05:00Z",
-  "pull_request": null
+  "pending": [],
+  "last_verified_at": "2026-08-29T11:00:00Z",
+  "pull_request": {
+    "number": 87,
+    "url": "https://github.com/SunArthurX/saber-harness/pull/87",
+    "state": "MERGED",
+    "merge_commit": "9ff1e6fb09788281098a4428b505901ceebff5af"
+  }
 }

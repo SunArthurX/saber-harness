@@ -1,10 +1,12 @@
 # S34 Handoff — Armor, Evolution and Health
 
-Status: in progress — the complete armor/evolution/health contract is
-implemented and tested (26 pure tests); the protected PR, hosted
-checks, completion record and s34-complete tag remain
+Status: completed — PR #87 merged (9ff1e6f) with all five
+required checks green and all six main contexts green on the merge
+commit; this record closes S34. The annotated s34-complete tag follows
+this record's merge; S35 starts from its runbook in a new execution
+round
 Date: 2026-08-29
-Branch: `segment/S34-armor-evolution-health`
+Branch: `segment/S34-completion`
 Base main: `f7f837e35fb3a1f7fe59c202ad463764416bf93a` (`s33-complete`)
 Runbook: `docs/execution/desktop/S34-ARMOR-EVOLUTION-HEALTH.md`
 
@@ -39,7 +41,8 @@ segment.
 
 ## Next actions
 
-1. Push, open the protected PR, wait for the five checks.
-2. Squash-merge; completion record; annotated `s34-complete`.
-3. S35 starts only from
-   `docs/execution/desktop/S35-ENTERPRISE-MULTITENANT.md`.
+1. Create annotated `s34-complete` on this record's merge commit;
+   verify the peeled SHA equals that main commit locally and remotely.
+2. S35 (enterprise/multitenant) starts only from
+   `docs/execution/desktop/S35-ENTERPRISE-MULTITENANT.md` in a new
+   execution round.
