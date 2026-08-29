@@ -120,7 +120,7 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S38-completion
+  branch: segment/S38-app-test-evidence
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 1633d17
@@ -133,7 +133,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T19:30:00Z"
+  last_checkpoint_at: "2026-08-29T21:45:00Z"
 acceptance:
   required:
     - s37_tagged_base
