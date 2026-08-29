@@ -1,10 +1,6 @@
 # S30 Handoff — Governed Agent Run (RT-1 MVP)
 
-Status: in progress — the complete governed-run vertical is implemented
-and verified against the REAL Core (27/27 e2e checks), with the Rust
-engine, protocol surface, projections, suites and gates all green; the
-protected PR, hosted checks (monorepo legs run the e2e), completion
-record and s30-complete tag remain
+Status: completed — PR #79 merged (5c85980) with all five required checks green (monorepo legs ran the real-Core e2e) and all six main contexts green; this record closes S30 and the RT-1 MVP vertical. The annotated s30-complete tag follows this record's merge; S31 starts from its runbook in a new execution round
 Date: 2026-08-29
 Branch: `segment/S30-governed-agent-run`
 Base main: `f169e57498cc35bd5f479302eb345a075339ea31` (`s29-complete`)
@@ -69,8 +65,8 @@ causal history.
 
 ## Next actions
 
-1. Push, open the protected PR, wait for the five checks (monorepo legs
-   run the real-Core e2e; the Windows leg must compile the engine).
-2. Squash-merge; completion record; annotated `s30-complete` with
-   peeled-SHA verification.
-3. S31 starts only from `docs/execution/desktop/S31-CHANGE-EVIDENCE-REVIEW.md`.
+1. Create annotated `s30-complete` on this record's merge commit;
+   verify the peeled SHA equals that main commit locally and remotely.
+2. S31 (change evidence review) starts only from
+   `docs/execution/desktop/S31-CHANGE-EVIDENCE-REVIEW.md` in a new
+   execution round.

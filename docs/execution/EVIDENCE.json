@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S30",
-  "status": "in_progress",
-  "branch": "segment/S30-governed-agent-run",
+  "status": "completed",
+  "branch": "segment/S30-completion",
   "base": {
     "main_commit": "f169e57498cc35bd5f479302eb345a075339ea31",
     "segment": "S29",
@@ -56,17 +56,30 @@
       "command": "pnpm verify && cargo fmt --all -- --check && cargo clippy --workspace --all-targets --locked -- -D warnings && git diff --check origin/main",
       "exit_code": 0,
       "result": "full pnpm verify green (generation parity, format, lint, typecheck, builds, package tests, licenses, S00-S30 verifiers — verify-s30 passes 106 checks — and 100 governance tests); Rust fmt and workspace clippy clean under -D warnings; whitespace contract holds"
+    },
+    {
+      "id": "S30-PROTECTED-PR-MERGE",
+      "command": "gh pr merge 79 --squash",
+      "exit_code": 0,
+      "result": "PR #79 squash-merged as 5c8598063f8a2eb5ce8484ccb0a6338fb2c83a77 after all five required checks passed (including the monorepo legs running the real-Core e2e and the Windows leg compiling the engine) and mergeStateStatus was CLEAN"
+    },
+    {
+      "id": "S30-MAIN-CI",
+      "command": "inspect main check runs on 5c8598063f8a2eb5ce8484ccb0a6338fb2c83a77",
+      "exit_code": 0,
+      "result": "repository verification, three-platform monorepo CI (with the governed-run e2e), dependency audit and main provenance all concluded successfully on the merge commit"
     }
   ],
   "known_blockers": [
     "the packaged-desktop journey (desktop:build matrix) remains hosted evidence; the local e2e drives the real Core binary directly rather than a packaged app",
     "the deterministic fixture model route is the only executor: real provider-backed runs arrive with later segments"
   ],
-  "pending": [
-    "push segment/S30-governed-agent-run and open the protected PR",
-    "five required checks green (monorepo legs now also run the real-Core e2e) plus mergeStateStatus CLEAN",
-    "squash-merge, completion record, annotated s30-complete with peeled-SHA verification"
-  ],
-  "last_verified_at": "2026-08-29T05:44:52Z",
-  "pull_request": null
+  "pending": [],
+  "last_verified_at": "2026-08-29T06:10:28Z",
+  "pull_request": {
+    "number": 79,
+    "url": "https://github.com/SunArthurX/saber-harness/pull/79",
+    "state": "MERGED",
+    "merge_commit": "5c8598063f8a2eb5ce8484ccb0a6338fb2c83a77"
+  }
 }
