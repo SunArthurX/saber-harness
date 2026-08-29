@@ -1,56 +1,39 @@
-# S31 Handoff — Changes and Evidence Review
+# S32 Handoff — Multi-Agent and Worktree
 
-Status: completed — PR #81 merged (1bfd793) with all five required checks green and all six main contexts green on the merge commit; this record closes S31. The annotated s31-complete tag follows this record's merge; S32 starts from its runbook in a new execution round
+Status: in progress — the complete multi-agent vertical is implemented
+and verified against the REAL Core (19/19 e2e checks); the protected
+PR, hosted checks (three e2es per leg), completion record and
+s32-complete tag remain
 Date: 2026-08-29
-Branch: `segment/S31-changes-evidence-review`
-Base main: `7f0567b1c81ababf5ea7d99ab4b74b126322e4a7` (`s30-complete`)
-Runbook: `docs/execution/desktop/S31-CHANGES-EVIDENCE-REVIEW.md`
-
-## Objective
-
-Agent changes become an independently reviewable Change Set. Users
-inspect file and hunk diffs, test evidence and boundary impact; they
-can comment, request a revision, accept, reject, apply, roll back,
-commit or create a PR through the Core.
+Branch: `segment/S32-multiagent-worktree`
+Base main: `d45ba7404aa75e1f0813f5911ca9e956b202df54` (`s31-complete`)
+Runbook: `docs/execution/desktop/S32-MULTIAGENT-WORKTREE.md`
 
 ## What landed
 
-- **Core authority** (`change_set.rs`): baseline snapshot at run start;
-  change-set prepare with classification (added/modified/deleted,
-  binary, generated) and external-edit detection; apply requiring the
-  EXACT expected tree digest (stale applies blocked); rollback that
-  restores and PROVES restoration by hashes; commit that durably
-  records message/authorship disclosure/signing BEFORE running real
-  git in the worktree. Four new protocol methods through the shared
-  dispatch on both transports.
-- **Projections**: `changeSetProjection.js` (classification, stale
-  preflight, rollback proof, binary metadata presentation),
-  `reviewComments.js` (fingerprint-bound durable comments, stale
-  marking, non-mutating hunk intents, keyboard navigation),
-  `verificationEvidence.js` (seven evidence states, tree-change
-  invalidation, separate security ownership, preview auto-verify with
-  inconclusive outcomes, completion gate requiring an independent
-  signer — a model message alone never completes),
-  `boundaryDiff.js` (nine boundary categories demanding explicit
-  acknowledgment).
-- **Evidence**: 30 pure tests across three suites (including the
-  adversarial completion suite: forged success, stale evidence,
-  changed-after-approval, binary omission, partial apply crash,
-  rollback failure, conflict, restart determinism); the 22-check
-  review-commit e2e over the real Core; `verify-s31` (72 checks);
-  the monorepo CI matrix runs the e2e on every leg.
+- **Core** (`multi_agent.rs`): journal-first `worktree.create`
+  (deterministic seeds → idempotent replay; collision-safe, owner-
+  tagged git worktrees with dirty-base detection), `task.delegate`
+  (child scope can never widen across capabilities/secrets/network/
+  dataClass/realms; budgets clamp to the parent),
+  `worktree.integrate` (review worktree with overlap detection) and
+  quarantine-default cleanup. Three new protocol methods on both
+  transports.
+- **Projections**: `goalDag` (pre-dispatch validation, waiting
+  reasons, critical path), `worktreeLifecycle` (anomalies,
+  quarantine, take-over, realm moves, follow), `delegationPolicy`
+  (scope subsets, budgets, team decisions, conflicts, containment).
+- **Evidence**: 21 pure tests across three suites; the 19-check
+  parallel-integration e2e over the real Core; verify-s32 (63 checks);
+  monorepo CI runs the e2e on every leg.
 
 ## Honest limits
 
-- PR creation is a separately approved network capability; the fixture
-  journey stops at the local git commit and no egress was attempted.
-- Hunk-level (vs file-level) apply granularity is projection-side;
-  the Core applies whole change sets against the proven digest.
+Child runs share one Core process (store-mutex serialization); true
+process-level parallelism arrives with sandbox realm integration.
 
 ## Next actions
 
-1. Create annotated `s31-complete` on this record's merge commit;
-   verify the peeled SHA equals that main commit locally and remotely.
-2. S32 (multi-agent worktrees) starts only from
-   `docs/execution/desktop/S32-MULTI-AGENT-WORKTREES.md` in a new
-   execution round.
+1. Push, open the protected PR, wait for the five checks.
+2. Squash-merge; completion record; annotated `s32-complete`.
+3. S33 starts only from `docs/execution/desktop/S33-CONTINUITY-KNOWLEDGE.md`.

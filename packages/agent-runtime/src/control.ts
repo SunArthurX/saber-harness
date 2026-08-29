@@ -20,6 +20,9 @@ const METHODS = new Set<ControlMethod>([
   "changeset.apply",
   "changeset.rollback",
   "changeset.commit",
+  "task.delegate",
+  "worktree.create",
+  "worktree.integrate",
 ]);
 const MUTATIONS = new Set<ControlMethod>([
   "run.steer",
@@ -36,6 +39,9 @@ const MUTATIONS = new Set<ControlMethod>([
   "changeset.apply",
   "changeset.rollback",
   "changeset.commit",
+  "task.delegate",
+  "worktree.create",
+  "worktree.integrate",
 ]);
 
 export class ProtocolViolation extends Error {

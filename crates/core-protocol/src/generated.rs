@@ -262,6 +262,12 @@ pub enum ControlMethod {
     RunStart,
     #[serde(rename = "run.steer")]
     RunSteer,
+    #[serde(rename = "task.delegate")]
+    TaskDelegate,
+    #[serde(rename = "worktree.create")]
+    WorktreeCreate,
+    #[serde(rename = "worktree.integrate")]
+    WorktreeIntegrate,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]

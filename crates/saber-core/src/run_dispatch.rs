@@ -62,6 +62,15 @@ pub fn dispatch_run_method(
         ControlMethod::ChangesetCommit => Some(crate::change_set::ChangeSetEngine::commit(
             store, workspace, params, now_ms,
         )),
+        ControlMethod::TaskDelegate => Some(crate::multi_agent::MultiAgentEngine::delegate_task(
+            store, workspace, params, now_ms,
+        )),
+        ControlMethod::WorktreeCreate => Some(
+            crate::multi_agent::MultiAgentEngine::create_worktree(store, workspace, params, now_ms),
+        ),
+        ControlMethod::WorktreeIntegrate => Some(crate::multi_agent::MultiAgentEngine::integrate(
+            store, workspace, params, now_ms,
+        )),
         ControlMethod::CoreInitialize
         | ControlMethod::CoreHealth
         | ControlMethod::EventsSubscribe => None,
