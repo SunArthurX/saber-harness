@@ -121,7 +121,7 @@ fn handle_connection(
         };
         let request_id = request.context.request_id.clone();
         if !initialized {
-            initialized = handshake(reader.get_mut(), &request, token, &token_spent, &store)?;
+            initialized = handshake(reader.get_mut(), &request, token, token_spent, store)?;
             continue;
         }
         match request.method {
