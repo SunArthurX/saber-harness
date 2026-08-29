@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S27",
-  "status": "in_progress",
-  "branch": "segment/S27-core-supervision-transport",
+  "status": "completed",
+  "branch": "segment/S27-completion",
   "base": {
     "main_commit": "f4693d16ae7ca19de5fd16fa70fbd86b0ac7fe87",
     "segment": "S26",
@@ -74,9 +74,27 @@
       "command": "node --test packages/ide-client/test/adversarial.test.mjs",
       "exit_code": 0,
       "result": "3/3: slow consumer cannot starve its own connection (per-connection threads); out-of-range cursors return an honest empty page with no invented events and replay is monotonic and deterministic; forged-token and pre-handshake rejections are persisted as supervision.handshake_rejected events in the encrypted store (never containing the presented token) and are visible to a legitimate reader"
+    },
+    {
+      "id": "S27-PROTECTED-PR-MERGE",
+      "command": "gh pr merge 73 --squash",
+      "exit_code": 0,
+      "result": "PR #73 squash-merged as f0db0fd63aff9cea4f4efc0411f61731132435ac after all five required checks passed (windows compiles the interprocess named-pipe transport in safe Rust) and mergeStateStatus was CLEAN"
+    },
+    {
+      "id": "S27-MAIN-CI",
+      "command": "inspect main check runs on f0db0fd63aff9cea4f4efc0411f61731132435ac",
+      "exit_code": 0,
+      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
     }
   ],
   "known_blockers": [],
-  "pending": ["safe_mode_and_support_bundle_ux", "verified_segment_push", "hosted_branch_ci", "protected_pr_merge"],
-  "last_verified_at": "2026-08-29T00:00:00Z"
+  "pending": [],
+  "last_verified_at": "2026-08-29T03:35:14Z",
+  "pull_request": {
+    "number": 73,
+    "url": "https://github.com/SunArthurX/saber-harness/pull/73",
+    "state": "MERGED",
+    "merge_commit": "f0db0fd63aff9cea4f4efc0411f61731132435ac"
+  }
 }

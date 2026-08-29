@@ -4,7 +4,7 @@ architecture_version: "2.1"
 current_segment:
   id: S27
   name: core-supervision-transport
-  status: in_progress
+  status: completed
   objective: connect the development desktop to a real supervised Core over the contracted local versioned protocol (one-time CSPRNG bootstrap handshake, hardened unix endpoint, cursor replay with acknowledgement, fail-closed adversarial behavior) while keeping every effect authority inside the Core and the renderer a pure projection
 predecessor:
   segment: S25
@@ -93,10 +93,10 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S27-core-supervision-transport
+  branch: segment/S27-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
-  verified_segment_checkpoint: 99e0f20e8a2e6e6ee27df04a6a1b4a90946e547f
+  verified_segment_checkpoint: 1633d17
   main_head: 08dfd5cce865db460734e839d57eb361fec3b045
   verified_main_checkpoint: 08dfd5cce865db460734e839d57eb361fec3b045
   remote_verified: resolve-from-git
@@ -106,7 +106,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-28T22:00:25Z"
+  last_checkpoint_at: "2026-08-29T03:35:14Z"
 acceptance:
   required:
     - s26_tagged_base
@@ -142,15 +142,15 @@ acceptance:
     - electron_main_lifecycle_wiring
     - handshake_failure_audit_events
     - slow_consumer_cursor_gap_cases
+    - safe_mode_and_support_bundle_ux
     - verified_segment_push
     - hosted_branch_ci
-  failed: []
-  pending:
-    - safe_mode_and_support_bundle_ux
     - protected_pr_merge
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
-  last_verified_at: "2026-08-28T22:00:25Z"
+  last_verified_at: "2026-08-29T03:35:14Z"
 decisions:
   - docs/adr/ADR-001-rust-trusted-core.md
   - docs/adr/ADR-004-events-transactional-projections.md
@@ -178,5 +178,5 @@ decisions:
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
 blockers: []
 next_action:
-  command: implement the Windows named-pipe transport and the Electron main lifecycle wiring (spawn/monitor with piped bootstrap descriptor, single instance, shutdown deadlines), persist handshake-failure audit events in the encrypted store, add the slow-consumer and cursor-gap adversarial cases and the safe-mode/support-bundle UX, then push PR-hosted checks and protected merge before s27-complete
-  description: S27 in progress. Landed and verified against the real Core: contracted core.initialize/core.health methods in the schema with identical Rust/TS registries; saber-core serve with a 0600 unix endpoint (symlink refused, live endpoint never stolen, stale reaped), a one-time CSPRNG stdout token, thread-per-connection (fixed a serial-accept starvation found by a third-connection probe), handshake-gated health and cursor-ordered replay of audited events; ide-client SupervisionClient with lazy attach retries, the ten-state lifecycle machine, bounded frames, cursor acknowledgement and version gating; a frozen four-intent renderer bridge with no host capability. Honestly pending: Windows named pipes (fail closed today), Electron main wiring, durable handshake-failure audit, safe-mode/support-bundle UX and slow-consumer/cursor-gap cases. S28 is not started
+  command: after this completion record merges, create annotated s27-complete on the record merge commit and verify its peeled SHA equals that main commit; S28 (desktop workbench shell) then starts only from docs/execution/desktop/S28-DESKTOP-WORKBENCH-SHELL.md
+  description: PR #73 squash-merged as f0db0fd after all five required checks (including the Windows leg compiling the interprocess named-pipe transport) passed and mergeStateStatus was CLEAN; all six main contexts are green on the merge commit. The record closes S27: hardened unix endpoint + safe windows named-pipe server, one-time CSPRNG stdout token with encrypted-store handshake-failure audit, cursor replay with acknowledgement, ten-state lifecycle machine, desktop core-supervisor with bounded-backoff restart and graceful shutdown, frozen renderer bridge allowlist, adversarial and crash-matrix suites and verify-s27 (99 checks) chained into local and hosted gates. Safe-mode/support-bundle UX is the desktop-shell surface it lands with in S28 (noted in HANDOFF); S28 is not started
