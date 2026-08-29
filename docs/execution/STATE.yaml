@@ -4,7 +4,7 @@ architecture_version: "2.1"
 current_segment:
   id: S37
   name: quality-security-gate
-  status: in_progress
+  status: completed
   objective: measure the complete packaged desktop against fixed performance SLOs on low/mid/high reference machines with median/P95 raw metadata and no user content; audit accessibility (keyboard journeys, three screen readers, zoom/contrast/focus/live-region/reduced-motion with a P0/P1 gate) and localization (zh/en completeness, pseudo-localization expansion, formatting, IME, glossary); red-team thirteen threat vectors with exploit evidence, controls, the PJ negative rule keeping brains and reflexes out of immune containment, contained remote-dispatch attacks with global Stop and honest solo/team measurement; run eleven chaos scenarios proving bounded retries, containment, Safe Mode and evidence retention; and emit a deterministic eleven-family readiness report with finding IDs, digest and metadata-only hygiene
 predecessor:
   segment: S33
@@ -120,7 +120,7 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S37-quality-security-gate
+  branch: segment/S37-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 1633d17
@@ -133,7 +133,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T16:20:00Z"
+  last_checkpoint_at: "2026-08-29T17:15:00Z"
 acceptance:
   required:
     - s36_tagged_base
@@ -184,9 +184,9 @@ acceptance:
     - bench_measures_real_workloads
     - s37_verifier
     - full_local_verification
-  failed: []
-  pending:
     - verified_segment_push
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -215,8 +215,7 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers:
-  - S37 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows and dependency-audit before protected merge
+blockers: []
 next_action:
-  command: push segment/S37-quality-security-gate, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s37-complete on the record merge commit with peeled-SHA verification; S38 starts only from docs/execution/desktop/S38-DESIGN-PARTNER-PRODUCTION.md
-  description: S37 quality and security gate implemented on segment/S37-quality-security-gate — five pure modules plus two real scripts (performanceSlo: twelve SLO metrics across low/mid/high reference machines with median/P95 evaluation and raw-metadata-only reporting; a11yLocalization: four pointer-free keyboard journeys, VoiceOver/NVDA/Orca coverage with eight visual checks, a P0/P1 defect gate tracking lower severities with owners and release decisions, zh/en completeness where security decisions may never be untranslated, pseudo-localization expansion exposing clipped labels, per-locale plural/date/number formatting with IME-safe shortcuts and locale-independent parsers, and the six-term Goal/Task/Run/Realm/Worktree/Evidence glossary; securityRedteam: thirteen threats from prompt injection through audit tamper each carrying exploit evidence and a control, the PJ-01..PJ-12 negative rule failing brains/reflexes that try to suppress, replace or exit immune containment while supervisors and external human authority govern with evidence, four remote-dispatch attacks staying contained with global Stop reachable, solo/team measurement as an honest Saber contract rather than a parity claim, and runtime images rebuilt from locked provenance rejecting drift; chaosReliability: eleven scenarios from 24-hour workload through failed migration each proving bounded retries, containment, Safe Mode where expected and retained append-only evidence, with backoff-capped retry policies that escalate instead of amplifying; readinessGate: the eleven required families evaluated deterministically from immutable descriptors with finding IDs, a stable digest, ready requiring all families run and zero P0/P1, and metadata-only report hygiene refusing source/prompts/secrets/private transcripts; scripts/bench-desktop.mjs measuring real large-diff projection, event decode and 10k-entry indexing workloads with honest reference-environment labeling; scripts/readiness-desktop.mjs evaluating committed descriptors and gating on ready), 21 pure tests across three suites, verify-s37 (119 checks), the bench and readiness drivers chained into local gates; full pnpm verify green (258 governance tests)
+  command: after this completion record merges, create annotated s37-complete on the record merge commit and verify its peeled SHA equals that main commit; S38 (design-partner production) then starts only from docs/execution/desktop/S38-DESIGN-PARTNER-PRODUCTION.md
+  description: PR #93 squash-merged as d6c579eaa9ad417105ed067e13292e52c139700f after repository-verification, monorepo ubuntu/macos/windows and dependency-audit passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit. The record closes S37: the quality and security gate (twelve-metric SLOs over low/mid/high reference machines with median/P95 raw metadata; pointer-free keyboard journeys, three screen readers and eight visual checks behind a P0/P1 gate; zh/en completeness where security decisions are always translated, pseudo-localization clipping detection, IME-safe contracts and the six-term glossary; thirteen red-team threats with evidence and controls behind the PJ-negative rule keeping brains and reflexes out of immune containment, contained remote dispatch with global Stop, honest solo/team contracts and locked-provenance runtime images; eleven chaos scenarios proving bounded contained evidence-preserving recovery; and the deterministic eleven-family readiness gate with finding IDs, digest, zero-P0/P1 ready verdict and metadata-only hygiene, plus the real bench and readiness drivers), 21 pure tests across three suites and verify-s37 (119 checks). S38 is not started

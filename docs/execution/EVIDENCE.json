@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S37",
-  "status": "in_progress",
-  "branch": "segment/S37-quality-security-gate",
+  "status": "completed",
+  "branch": "segment/S37-completion",
   "base": {
     "main_commit": "92b05d5f6bb3da7ea6f8f49b9b24abdf8b981348",
     "segment": "S36",
@@ -56,16 +56,29 @@
       "command": "pnpm verify",
       "exit_code": 0,
       "result": "full pnpm verify green — S00-S37 verifiers (verify-s37 passes 119 checks) and 258 governance tests"
+    },
+    {
+      "id": "S37-PROTECTED-PR-MERGE",
+      "command": "gh pr merge 93 --squash",
+      "exit_code": 0,
+      "result": "PR #93 squash-merged as d6c579eaa9ad417105ed067e13292e52c139700f after all five required checks passed and mergeStateStatus was CLEAN"
+    },
+    {
+      "id": "S37-MAIN-CI",
+      "command": "inspect main check runs on d6c579eaa9ad417105ed067e13292e52c139700f",
+      "exit_code": 0,
+      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
     }
   ],
   "known_blockers": [
     "reference-machine SLO evaluation and full-screen-reader manual passes run in the hosted release environment; this repo carries the contracts, the honest bench and the deterministic gate"
   ],
-  "pending": [
-    "push segment/S37-quality-security-gate and open the protected PR",
-    "five required checks green plus mergeStateStatus CLEAN",
-    "squash-merge, completion record, annotated s37-complete with peeled-SHA verification"
-  ],
-  "last_verified_at": "2026-08-29T16:20:00Z",
-  "pull_request": null
+  "pending": [],
+  "last_verified_at": "2026-08-29T17:15:00Z",
+  "pull_request": {
+    "number": 93,
+    "url": "https://github.com/SunArthurX/saber-harness/pull/93",
+    "state": "MERGED",
+    "merge_commit": "d6c579eaa9ad417105ed067e13292e52c139700f"
+  }
 }
