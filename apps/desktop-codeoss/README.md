@@ -24,6 +24,10 @@ pnpm desktop:upstream:verify --offline # re-verify the cache with zero network
 node apps/desktop-codeoss/scripts/apply-patches.mjs   # extract, patch, copy extension
 node apps/desktop-codeoss/scripts/smoke.mjs           # deterministic static smoke
 node apps/desktop-codeoss/scripts/build.mjs           # toolchain preflight (fails closed)
+pnpm desktop:dev [-- <args>]            # one command to a launched dev session:
+                                       # preflight → install/compile/electron (skipped when
+                                       # cached) → scripts/code.sh with your args; needs
+                                       # SABER_DESKTOP_NODE at the pinned Node
 ```
 
 The shell must call the separately supervised Rust Core only through the

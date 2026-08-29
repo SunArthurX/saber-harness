@@ -72,6 +72,7 @@
     "desktop:test:redteam": "node --test scripts/tests/s37-redteam.test.mjs",
     "desktop:test:chaos": "node --test scripts/tests/s37-chaos.test.mjs",
     "desktop:readiness": "node scripts/readiness-desktop.mjs",
+    "desktop:dev": "node scripts/dev-desktop.mjs",
     "desktop:acceptance:design-partner": "node scripts/acceptance-design-partner.mjs",
     "desktop:verify:release-candidate": "node scripts/package-desktop.mjs && node scripts/verify-release-candidate.mjs",
     "desktop:test:cohort-benchmark": "node --test scripts/tests/s38-cohort-benchmark.test.mjs",
