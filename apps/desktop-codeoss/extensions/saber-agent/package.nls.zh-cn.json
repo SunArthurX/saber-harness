@@ -42,5 +42,9 @@
   "command.workbench.archiveTask.title": "归档",
   "command.workbench.restoreTask.title": "恢复",
   "command.workbench.retry.title": "重试",
-  "command.workbench.reconnect.title": "重连投影"
+  "command.workbench.reconnect.title": "重连投影",
+  "command.conversation.focus.title": "聚焦会话",
+  "command.conversation.retry.title": "重试上一条消息（新事件）",
+  "command.conversation.previewContext.title": "发送前预览上下文",
+  "command.conversation.excludeFragment.title": "排除上下文片段"
 }

@@ -225,6 +225,26 @@
         "command": "saber.workbench.reconnect",
         "title": "%command.workbench.reconnect.title%",
         "category": "%category%"
+      },
+      {
+        "command": "saber.conversation.focus",
+        "title": "%command.conversation.focus.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.conversation.retry",
+        "title": "%command.conversation.retry.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.conversation.previewContext",
+        "title": "%command.conversation.previewContext.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.conversation.excludeFragment",
+        "title": "%command.conversation.excludeFragment.title%",
+        "category": "%category%"
       }
     ],
     "keybindings": [
@@ -316,6 +336,11 @@
           "pane": "bottom-panel",
           "delta": -16
         }
+      },
+      {
+        "command": "saber.conversation.focus",
+        "key": "ctrl+alt+shift+c",
+        "mac": "cmd+alt+shift+c"
       }
     ],
     "menus": {

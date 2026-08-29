@@ -1,87 +1,75 @@
-# S28 Handoff — Desktop Workbench Shell
+# S29 Handoff — Conversation and Context
 
-Status: completed — PR #75 merged (4aceea5) with all five required
-checks green and all six main contexts green on the merge commit; this
-record closes S28. The annotated s28-complete tag follows this record's
-merge, then S29 starts from its runbook in a new execution round
+Status: in progress — the complete conversation/context contract is
+implemented, tested locally (31 tests across four suites) and chained
+into every gate; the protected PR, hosted checks, completion record and
+s29-complete tag remain
 Date: 2026-08-29
-Branch: `segment/S28-workbench-shell`
-Base main: `5f63b248e6396acd977e45245aaedb4167e94969` (`s27-complete`)
-Runbook: `docs/execution/desktop/S28-DESKTOP-WORKBENCH-SHELL.md`
+Branch: `segment/S29-conversation-context`
+Base main: `e33f70bd699313c8c9b9b6980af0a7ef74f9a8ee` (`s28-complete`)
+Runbook: `docs/execution/desktop/S29-CONVERSATION-CONTEXT.md`
 
 ## Objective
 
-A developer opens a real repository into the default three-zone Desktop
-Agent Workbench — persistent project/task navigation, a central agent
-pane and native Code-OSS editor surfaces — with a keyboard-operable pane
-lattice, named presets, versioned layout persistence that survives
-restart and recovers from corruption, fail-closed agent-identity gating
-and an audited accessibility contract. No agent execution is required
-yet, and the Core authority boundary stays untouched.
+Users can hold a streaming, resumable desktop Agent conversation and
+know exactly which files, symbols, artifacts, prior conversations,
+skills and attachments will be sent to which model and why. Exclude and
+revoke are effective operations with evidence, not visual decorations.
 
 ## What landed
 
-- **WP01 layout tokens**: `workbenchLayout.js` — safe states at
-  1280/900/narrow, per-pane min/max ownership across the six regions,
-  keyboard splitter steps (small 16px / large 64px) clamped to bounds,
-  default reset, the four named Focus/Build/Review/Team presets, the
-  Workspace/Task/Realm Layout Receipt (revision-bound), and theme tokens
-  with light/dark/high-contrast values plus a reduced-motion contract.
-- **WP02 navigation projections**: `navigationProjection.js` — a pure
-  replayable store over Projects/Goals/Tasks/Conversations/Runs with
-  stable IDs, incremental deltas, the nine view states, saved
-  group/workspace/timeline views, search/pin/archive ordering and a
-  TRANSITIONS matrix that context menus must match (verified against the
-  shipped `when` clauses). Selection is local intent only.
-- **WP03 identity context**: `identityContext.js` — Task/Run/Worktree/
-  Realm headers; `assertDestructiveAllowed` fails closed on manual
-  identity, missing fields and unknown actions; `revisionBinding`
-  surfaces mismatches. Manual edits coexist with agent worktrees but
-  never authorize agent effects.
-- **WP04 agent workspace placeholders**: `agentWorkspace.js` — fixture
-  ViewModels (frozen provenance, `authoritative: false`) for
-  Conversation, Plan, Evidence (S27 replay event shape) and the Vital
-  Bar; Command Center is a secondary-sidebar view with
-  `defaultStartupRoute: false`; the first-run walkthrough is local-only
-  with no remote content; the Specification Studio route is reserved,
-  not executing (KIR-01).
-- **WP05 persistence**: `layoutPersistence.js` — versioned layout
-  records under dedicated storage keys; restore clamps, replaces
-  unavailable panes with explainable placeholders, falls back to the
-  default lattice on corruption/unsupported versions without deleting
-  run data, and refuses silent Worktree/Realm switches.
-- **WP06 accessibility**: `a11yAudit.js` — the seven-step keyboard
-  path, landmark roles for every region, polite state-changes-only live
-  regions (no streaming noise), WCAG contrast audits on the theme tokens
-  across all three themes, 200% zoom reflow, zh/en parity audit,
-  middle truncation for long paths, 24px pointer targets, focus-ring
-  token and reduced motion.
-- **Extension wiring**: native contributions only — five navigation
-  views in the default workbench container, the Evidence drawer in the
-  bottom panel, Command Center in the auxiliary sidebar, a Vital Bar
-  status item, an identity status item, 13 keybindings (path + splitter
-  movement with pane args), context menus gated on viewItem states, and
-  welcome content with command links. No webview anywhere (asserted).
-- **Smoke**: `desktop:smoke --workspace fixtures/repos/basic` validates
-  the real-workspace fixture and asserts the S28 contribution surface
-  statically; runtime three-OS launch remains hosted evidence.
-- **Verification**: `scripts/verify-s28.mjs` (142 checks),
-  `desktop:test:workbench` (17 tests), `desktop:test:a11y` (8 tests),
-  chained into `verify:repo` and the hosted repository-verification
-  workflow. `verify-s26`'s extension boundary evolved honestly: sibling
-  src/ modules are allowed (each verified to resolve inside the
-  extension) while Node built-ins and npm packages stay forbidden.
+- **WP01 message model** (`conversationModel.js`): ten distinctly
+  rendered message kinds; append-only stream with reconnect
+  deduplication by event ID; hidden chain-of-thought counted but never
+  exposed; retry appends a new causal event (`retryOf`) — history is
+  never rewritten; copy output carries redaction markers; tool detail
+  collapses by default while Evidence navigation survives.
+- **WP02 composer** (`composerState.js`): ten-state machine with a
+  closed transition table; `@` `#` `/` `$` resolve their documented
+  domains; `+` attachments gated on media/size/malware/sensitivity;
+  queue and steer are separate explicit operations with visible
+  insertion boundaries (steer requires an event cursor); every failure
+  retains the draft and explains recovery.
+- **WP03 context preview and receipt** (`contextReceipt.js`): ten-field
+  fragment provenance contract; secret-sensitivity fragments refused;
+  preview totals reconcile with sent receipts (divergences listed);
+  exclusion removes before dispatch and records evidence; keyboard
+  chips.
+- **WP04 selectors** (`selectorPolicy.js`): provider/model/deployment/
+  context-limit/price/eligibility display; realm boundaries with data
+  egress; closed capability set where `governed-full` is clamped by
+  Core policy (dropped capabilities surfaced); token/money/wall-time/
+  tool-call budgets clamped to hard and policy ceilings.
+- **WP05 privacy** (`privacyControls.js`): canary scans prove secret
+  and sensitive-data canaries never reach provider fixtures; revoke
+  blocks future retrieval and names already-contacted providers
+  honestly; drafts only in approved encrypted crash-excluded storage.
+- **WP06 a11y** (`s29-a11y-conversation.test.mjs` + journey runner
+  `scripts/run-a11y.mjs`): rate-limited summarized announcements,
+  keyboard-operable chips, failures retain drafts and explain recovery.
+- **Wiring**: native conversation commands (focus — keybound —, retry,
+  previewContext, excludeFragment) with en/zh strings; four suites
+  (conversation 12, context-receipts 9, redaction-canary 6,
+  conversation a11y 4); `verify-s29` (119 checks) chained into
+  `verify:repo` and hosted verification.
 
 ## Evidence
 
-See `docs/execution/EVIDENCE.json` (S28 in_progress): every work
-package has a focused check with real local results; the full
-`pnpm verify` gate is green on the branch.
+`docs/execution/EVIDENCE.json` (S29 in_progress) — every work package
+has a focused check with real local results; full `pnpm verify` green.
 
 ## Next actions
 
-1. Create annotated `s28-complete` on this record's merge commit and
-   verify the peeled SHA equals that main commit locally and remotely.
-2. S29 (conversation/context) starts only from
-   `docs/execution/desktop/S29-CONVERSATION-CONTEXT.md` in a new
-   execution round.
+1. Push `segment/S29-conversation-context`, open the protected PR.
+2. Five required checks green + mergeStateStatus CLEAN; squash-merge.
+3. Completion record; annotated `s29-complete` on the record merge
+   commit with peeled-SHA verification local and remote.
+4. Do not start S30 before `s29-complete`; S30 (governed agent run,
+   RT-1 MVP) starts from its runbook in a new execution round.
+
+## Honest limits
+
+- No provider is contacted: all conversation data is labeled fixture
+  data; live streaming lands with governed runs in S30.
+- No authority: exclude/revoke are projection-level operations with
+  evidence; Core-side enforcement arrives with governed runs.

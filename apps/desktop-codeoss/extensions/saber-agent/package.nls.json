@@ -42,5 +42,9 @@
   "command.workbench.archiveTask.title": "Archive",
   "command.workbench.restoreTask.title": "Restore",
   "command.workbench.retry.title": "Retry",
-  "command.workbench.reconnect.title": "Reconnect Projection"
+  "command.workbench.reconnect.title": "Reconnect Projection",
+  "command.conversation.focus.title": "Focus Conversation",
+  "command.conversation.retry.title": "Retry Last Message (New Event)",
+  "command.conversation.previewContext.title": "Preview Context Before Send",
+  "command.conversation.excludeFragment.title": "Exclude Context Fragment"
 }
