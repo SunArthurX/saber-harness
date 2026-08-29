@@ -171,9 +171,10 @@ for (const contract of [
 }
 const pipe = text("crates/saber-core/src/serve_windows.rs");
 for (const contract of [
-  "CreateNamedPipeW",
-  "PIPE_REJECT_REMOTE_CLIENTS",
-  "FILE_FLAG_FIRST_PIPE_INSTANCE",
+  "interprocess",
+  "ListenerOptions",
+  "create_sync",
+  "an existing Core may own the endpoint",
   "bootstrap-token",
   "record_handshake_failure",
 ]) {
