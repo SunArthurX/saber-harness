@@ -76,9 +76,7 @@
       "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
     }
   ],
-  "known_blockers": [
-    "live provider streaming remains governed-run evidence for S30 and is not claimed"
-  ],
+  "known_blockers": ["live provider streaming remains governed-run evidence for S30 and is not claimed"],
   "pending": [],
   "last_verified_at": "2026-08-29T04:48:35Z",
   "pull_request": {
