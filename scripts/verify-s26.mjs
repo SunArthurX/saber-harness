@@ -206,6 +206,8 @@ check(gitignore.includes("apps/desktop-codeoss/.cache/"), "s26-cache-ignored", "
 const packageJson = text("package.json");
 check(packageJson.includes("desktop:upstream:fetch"), "s26-wiring-scripts", "desktop scripts wired");
 check(packageJson.includes("verify-s26.mjs"), "s26-wiring-verify", "verify-s26 chained into the repository gate");
+check(existsSync(join(root, "scripts/dev-desktop.mjs")), "s26-wiring-dev", "one-command dev entry point exists");
+check(packageJson.includes("desktop:dev"), "s26-wiring-dev-script", "pnpm desktop:dev wired");
 const workflow = text(".github/workflows/repository-verification.yml");
 check(
   workflow.includes("node scripts/verify-s26.mjs"),
