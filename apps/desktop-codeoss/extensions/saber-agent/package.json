@@ -30,7 +30,7 @@
           "icon": "media/saber.svg"
         }
       ],
-      "auxiliary": [
+      "secondarySidebar": [
         {
           "id": "saber-secondary",
           "title": "%viewContainer.secondary.title%",

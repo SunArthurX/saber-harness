@@ -69,7 +69,7 @@ async function main() {
     "S28 evidence drawer lives in the bottom panel",
   );
   check(
-    Array.isArray(extension.contributes.viewsContainers.auxiliary) &&
+    Array.isArray(extension.contributes.viewsContainers.secondarySidebar) &&
       extension.contributes.views["saber-secondary"].some((view) => view.id === "saber.commandCenter"),
     "S28 command center is a secondary-sidebar view",
   );
