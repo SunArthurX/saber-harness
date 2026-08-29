@@ -49,3 +49,21 @@ the hosted program.
    `sXX-complete` tag whose peeled SHA equals its record merge
    commit, protected main carries all work, and the full gate
    (`pnpm verify`, 277 governance tests) is green.
+
+## Post-plan dev-app test (2026-08-29)
+
+The real dev launch ran on darwin-arm64: pinned Node 24.18.0,
+vscode 1.135.0 worktree installed + compiled (0 errors), Electron
+42.8.1 fetched with a checksum-exact zip, bounded launch smoke
+passed, and two persistent launches opened real workbench windows
+over `fixtures/repos/basic` with the saber container active by
+default, zero saber warnings and zero non-token errors. One real
+defect was found and fixed (PR #97, 22e1dbd): the saber-agent
+manifest used a non-existent `viewsContainers.auxiliary` key
+(upstream: `secondarySidebar`), which dropped the command-center
+view into Explorer. Machine note: compiles ran through PATH-first
+gcc/g++ shims pinning CLT clang 17 + the MacOSX15.4 SDK libc++
+(this Mac's selected Xcode 14 lacks the needed C++20 headers); the
+shims live outside the repository. Screen Recording was not granted,
+so verification used window titles, process state and app logs
+rather than screenshots.

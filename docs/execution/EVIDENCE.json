@@ -3,7 +3,7 @@
   "project": "saber",
   "segment": "S38",
   "status": "completed",
-  "branch": "segment/S38-completion",
+  "branch": "segment/S38-app-test-evidence",
   "base": {
     "main_commit": "3bedc66b39548d6185df0080789e5b96f35a8682",
     "segment": "S37",
@@ -68,13 +68,25 @@
       "command": "inspect main check runs on 99049079db898ac6949d0a27a63c1ebd29743568",
       "exit_code": 0,
       "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
+    },
+    {
+      "id": "S38-DEV-APP-TEST",
+      "command": "build.mjs --install --compile --launch-smoke + persistent dev launches (scripts/code.sh)",
+      "exit_code": 0,
+      "result": "real dev-app launch completed on darwin-arm64: pinned Node 24.18.0 + vscode 1.135.0 worktree installed, compiled with 0 errors, Electron 42.8.1 fetched (zip sha256 matched build/checksums/electron.txt exactly; pre-seeded from a byte-identical mirror after the 10-minute GitHub fetch bound timed out), bounded launch smoke passed (boot, 45s healthy, clean terminate), then two persistent launches with the fixtures/repos/basic workspace opened real windows ('Agents, Welcome — basic'), the saber workbench container active by default, zero saber warnings and zero non-token errors in renderer/main/exthost logs, and clean second-launch handoff through the single-instance lock. One real defect was found and fixed through PR #97: the saber-agent manifest declared the secondary container under a non-existent 'auxiliary' key (upstream accepts 'secondarySidebar'), which dropped saber.commandCenter into Explorer with a renderer warning; manifest, smoke and both S28 gates corrected and re-verified green. Machine-specific note: this Mac's selected Xcode 14 toolchain lacks the C++20 libc++ headers Node 24 needs, so compiles ran through PATH-first gcc/g++ shims pinned to the CLT 17 clang with the MacOSX15.4 SDK libc++ as one consistent pair; the shims live outside the repository and change no product code. Honest limits: Screen Recording permission was not granted to the terminal host, so verification used window titles, process state and the app's own logs rather than screenshots; the built-in saber-agent extension is an engineering-preview projection by design and connects to no Core in this launch"
+    },
+    {
+      "id": "S38-FIX-PR-MERGE",
+      "command": "gh pr merge 97 --squash",
+      "exit_code": 0,
+      "result": "PR #97 (secondarySidebar key fix found in the dev-app test) squash-merged as 22e1dbd after all five required checks passed with mergeStateStatus CLEAN; all main contexts green on the merge commit"
     }
   ],
   "known_blockers": [
     "the design-partner cohort KPIs and ring execution recorded here run against committed frozen fixtures; live partner cohorts execute the same contracts in the hosted program"
   ],
   "pending": [],
-  "last_verified_at": "2026-08-29T19:30:00Z",
+  "last_verified_at": "2026-08-29T21:45:00Z",
   "pull_request": {
     "number": 95,
     "url": "https://github.com/SunArthurX/saber-harness/pull/95",
