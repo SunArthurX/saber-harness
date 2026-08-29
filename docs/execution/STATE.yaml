@@ -113,7 +113,22 @@ completed_segments:
     commit: d91b192180a1794bf79c52c6dd24a9067966ba32
   - segment: S33
     tag: s33-complete
-    commit: c46240b98e2f22ed45f8573d27c593d640281fa5
+    commit: f7f837e35fb3a1f7fe59c202ad463764416bf93a
+  - segment: S34
+    tag: s34-complete
+    commit: da9499edaaa9a4d61056dad99722809f7c01bf8e
+  - segment: S35
+    tag: s35-complete
+    commit: 066c7324fd64c25ad0af9c76403f494f906cd3d5
+  - segment: S36
+    tag: s36-complete
+    commit: 92b05d5f6bb3da7ea6f8f49b9b24abdf8b981348
+  - segment: S37
+    tag: s37-complete
+    commit: 3bedc66b39548d6185df0080789e5b96f35a8682
+  - segment: S38
+    tag: s38-complete
+    commit: efbbe421d863db5eb450ed8a5160c5edf57c5b16
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git

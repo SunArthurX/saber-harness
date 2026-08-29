@@ -176,9 +176,11 @@ check(
 // Honest status and Web-supervisor boundary.
 const readme = text("apps/desktop-codeoss/README.md");
 check(
-  readme.includes("production Code-OSS/Electron shell has not landed yet"),
+  readme.includes("the desktop plan (S00-S38) is complete") &&
+    readme.includes("remain hosted release-pipeline evidence") &&
+    readme.includes("bounded launch smoke"),
   "s26-honest-status",
-  "landing claim withheld",
+  "darwin dev-launch truth recorded; packaged three-platform claim still withheld",
 );
 check(readme.includes("engineering preview"), "s26-honest-preview", "RT-0 engineering preview language");
 check(

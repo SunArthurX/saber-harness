@@ -96,9 +96,10 @@ for (const ui of ["UI-36", "UI-37", "UI-38", "UI-39", "UI-40", "UI-41", "UI-42"]
 
 const desktopReadme = text("apps/desktop-codeoss/README.md");
 check(
-  desktopReadme.includes("production Code-OSS/Electron shell has not landed yet"),
+  desktopReadme.includes("the desktop plan (S00-S38) is complete") &&
+    desktopReadme.includes("remain hosted release-pipeline evidence"),
   "honest-desktop-status",
-  "placeholder is explicit",
+  "status is explicit: dev launch real, packaged claim withheld",
 );
 check(
   normalized(desktopReadme).includes("primary product surface selected by ADR-028"),
