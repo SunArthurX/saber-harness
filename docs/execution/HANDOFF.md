@@ -1,9 +1,6 @@
 # S31 Handoff — Changes and Evidence Review
 
-Status: in progress — the complete review vertical is implemented and
-verified against the REAL Core (22/22 e2e checks including a real git
-commit and a hash-proven rollback); the protected PR, hosted checks,
-completion record and s31-complete tag remain
+Status: completed — PR #81 merged (1bfd793) with all five required checks green and all six main contexts green on the merge commit; this record closes S31. The annotated s31-complete tag follows this record's merge; S32 starts from its runbook in a new execution round
 Date: 2026-08-29
 Branch: `segment/S31-changes-evidence-review`
 Base main: `7f0567b1c81ababf5ea7d99ab4b74b126322e4a7` (`s30-complete`)
@@ -52,7 +49,8 @@ commit or create a PR through the Core.
 
 ## Next actions
 
-1. Push, open the protected PR, wait for the five checks.
-2. Squash-merge; completion record; annotated `s31-complete`.
-3. S32 starts only from
-   `docs/execution/desktop/S32-MULTI-AGENT-WORKTREES.md`.
+1. Create annotated `s31-complete` on this record's merge commit;
+   verify the peeled SHA equals that main commit locally and remotely.
+2. S32 (multi-agent worktrees) starts only from
+   `docs/execution/desktop/S32-MULTI-AGENT-WORKTREES.md` in a new
+   execution round.

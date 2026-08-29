@@ -4,7 +4,7 @@ architecture_version: "2.1"
 current_segment:
   id: S31
   name: changes-evidence-review
-  status: in_progress
+  status: completed
   objective: turn agent worktree changes into an independently reviewable Change Set — baseline-bound classification (added/modified/deleted, binary, generated), stale-apply blocking on external edits, durable fingerprint-bound review comments, verification evidence with independent completion signing, explicit boundary diff review, hash-proven rollback and disclosure-preceded real git commit through the Core
 predecessor:
   segment: S29
@@ -105,6 +105,9 @@ completed_segments:
   - segment: S30
     tag: s30-complete
     commit: 7f0567b1c81ababf5ea7d99ab4b74b126322e4a7
+  - segment: S31
+    tag: s31-complete
+    commit: 1bfd7935fb20d456aaefccdcd6d035b9b454b85c
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
@@ -124,7 +127,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T06:34:52Z"
+  last_checkpoint_at: "2026-08-29T07:04:38Z"
 acceptance:
   required:
     - s30_tagged_base
@@ -163,9 +166,9 @@ acceptance:
     - core_restart_preserves_review_journal
     - s31_verifier
     - full_local_verification
-  failed: []
-  pending:
     - verified_segment_push
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -194,8 +197,7 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers:
-  - S31 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows (the legs run both real-Core e2es) and dependency-audit before protected merge
+blockers: []
 next_action:
-  command: push segment/S31-changes-evidence-review, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s31-complete on the record merge commit with peeled-SHA verification; S32 starts only from docs/execution/desktop/S32-MULTI-AGENT-WORKTREES.md
-  description: S31 changes and evidence review implemented on segment/S31-changes-evidence-review — Core side: change_set.rs (baseline snapshot of every worktree file at run start recorded as run.baseline_snapshot with manifest+tree digest; changeset.prepare diffs current vs baseline with added/modified/deleted classification, binary sniff, generated hints, external-edit detection via the approval journal, deterministic tree digest; changeset.apply requires the EXACT expected tree digest — wrong digests and external edits block with stale_apply_blocked; changeset.rollback restores baseline content and PROVES restoration by comparing every hash, failing with rollback_proof_failed otherwise; changeset.commit records message/authorship disclosure/signing durably BEFORE running real git in the worktree and returns the real commit sha) wired through the shared dispatch on both transports with four new protocol methods (changeset.prepare/apply/rollback/commit) regenerated through schema→Rust/TS→registries — projections: changeSetProjection (classification, stale apply preflight, rollback proof, metadata-and-approved-preview for binaries), reviewComments (fingerprint-bound durable comments, stale marking not relocation, hunk intents that never mutate, keyboard navigation contract), verificationEvidence (seven evidence states with full metadata, tree-change invalidation, separate security ownership, preview auto-verify with inconclusive outcome and screenshots-never-suffice, completion gate requiring an independent signer — a model message alone never completes), boundaryDiff (nine boundary categories with explicit acknowledgment) — evidence: 30 pure tests across three suites (change-set 6, review-a11y 14, apply-rollback 8 including forged success, stale evidence, changed-after-approval, binary omission, partial apply crash, rollback failure, conflict and restart determinism), the 22-check review-commit e2e over the REAL Core (prepare → wrong-digest block → exact apply → external-edit block → real git commit → hash-proven rollback → journal ordering with disclosure before commit → Core restart preserving 23 events), verify-s31 (72 checks) chained into local and hosted gates, and the monorepo CI matrix running the review-commit e2e on every leg; full pnpm verify green (122 governance tests); cargo fmt/clippy -D warnings clean
+  command: after this completion record merges, create annotated s31-complete on the record merge commit and verify its peeled SHA equals that main commit; S32 (multi-agent worktrees) then starts only from docs/execution/desktop/S32-MULTI-AGENT-WORKTREES.md
+  description: PR #81 squash-merged as 1bfd7935fb20d456aaefccdcd6d035b9b454b85c after repository-verification, monorepo ubuntu/macos/windows (both real-Core e2es green on every leg) and dependency-audit passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit (a merge-indexing race on main-provenance cleared on rerun). The record closes S31: change-set authority with baseline snapshots, classification, stale-apply blocking, hash-proven rollback and disclosure-preceded real git commit; four projection modules with independent-signer completion gating; 30 pure tests, the 22-check review-commit e2e and verify-s31 (72 checks) in local and hosted gates. S32 is not started
