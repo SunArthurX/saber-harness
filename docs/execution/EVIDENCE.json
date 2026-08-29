@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S29",
-  "status": "in_progress",
-  "branch": "segment/S29-conversation-context",
+  "status": "completed",
+  "branch": "segment/S29-completion",
   "base": {
     "main_commit": "e33f70bd699313c8c9b9b6980af0a7ef74f9a8ee",
     "segment": "S28",
@@ -62,16 +62,27 @@
       "command": "pnpm verify && git diff --check origin/main",
       "exit_code": 0,
       "result": "full pnpm verify green on the branch (format, lint, typecheck, builds, package tests, licenses, S00-S29 verifiers — verify-s28 grew to 146 checks over the larger manifest — and 81 governance tests); whitespace contract holds"
+    },
+    {
+      "id": "S29-PROTECTED-PR-MERGE",
+      "command": "gh pr merge 77 --squash",
+      "exit_code": 0,
+      "result": "PR #77 squash-merged as dd1b43f37de5a4a4c7b7bd8864e162fe92712588 after all five required checks passed and mergeStateStatus was CLEAN"
+    },
+    {
+      "id": "S29-MAIN-CI",
+      "command": "inspect main check runs on dd1b43f37de5a4a4c7b7bd8864e162fe92712588",
+      "exit_code": 0,
+      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
     }
   ],
-  "known_blockers": [
-    "live streaming against a real provider is governed-run evidence (S30+) and is not claimed here; all conversation data in the shell is labeled fixture data"
-  ],
-  "pending": [
-    "push segment/S29-conversation-context and open the protected PR",
-    "five required checks green plus mergeStateStatus CLEAN",
-    "squash-merge, completion record, annotated s29-complete with peeled-SHA verification"
-  ],
-  "last_verified_at": "2026-08-29T04:35:59Z",
-  "pull_request": null
+  "known_blockers": ["live provider streaming remains governed-run evidence for S30 and is not claimed"],
+  "pending": [],
+  "last_verified_at": "2026-08-29T04:48:35Z",
+  "pull_request": {
+    "number": 77,
+    "url": "https://github.com/SunArthurX/saber-harness/pull/77",
+    "state": "MERGED",
+    "merge_commit": "dd1b43f37de5a4a4c7b7bd8864e162fe92712588"
+  }
 }
