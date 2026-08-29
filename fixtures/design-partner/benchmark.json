@@ -1,0 +1,258 @@
+{
+  "version": 1,
+  "frozen": true,
+  "tasks": [
+    {
+      "id": "DJ-14",
+      "category": "understand",
+      "acceptance": {
+        "kind": "file_contains",
+        "target": "fixtures/design-partner/out/understand.txt"
+      },
+      "startingCommit": "frozen-at-selection",
+      "outcome": {
+        "completed": true,
+        "acceptanceMet": true,
+        "humanCorrections": 0,
+        "regression": false,
+        "latencyMs": 4250,
+        "costUsd": 0.45,
+        "approvalInterruptions": 0,
+        "memoryPrecision": 0.9,
+        "rolledBack": false,
+        "route": "route-a"
+      }
+    },
+    {
+      "id": "DJ-15",
+      "category": "fix",
+      "acceptance": {
+        "kind": "file_contains",
+        "target": "fixtures/design-partner/out/fix.txt"
+      },
+      "startingCommit": "frozen-at-selection",
+      "outcome": {
+        "completed": true,
+        "acceptanceMet": true,
+        "humanCorrections": 0,
+        "regression": false,
+        "latencyMs": 4500,
+        "costUsd": 0.5,
+        "approvalInterruptions": 1,
+        "memoryPrecision": 0.9,
+        "rolledBack": false,
+        "route": "route-b"
+      }
+    },
+    {
+      "id": "DJ-16",
+      "category": "refactor",
+      "acceptance": {
+        "kind": "file_contains",
+        "target": "fixtures/design-partner/out/refactor.txt"
+      },
+      "startingCommit": "frozen-at-selection",
+      "outcome": {
+        "completed": true,
+        "acceptanceMet": true,
+        "humanCorrections": 1,
+        "regression": false,
+        "latencyMs": 4750,
+        "costUsd": 0.55,
+        "approvalInterruptions": 0,
+        "memoryPrecision": 0.9,
+        "rolledBack": false,
+        "route": "route-a"
+      }
+    },
+    {
+      "id": "DJ-17",
+      "category": "test",
+      "acceptance": {
+        "kind": "file_contains",
+        "target": "fixtures/design-partner/out/test.txt"
+      },
+      "startingCommit": "frozen-at-selection",
+      "outcome": {
+        "completed": true,
+        "acceptanceMet": true,
+        "humanCorrections": 0,
+        "regression": false,
+        "latencyMs": 5000,
+        "costUsd": 0.6000000000000001,
+        "approvalInterruptions": 0,
+        "memoryPrecision": 0.85,
+        "rolledBack": false,
+        "route": "route-b"
+      }
+    },
+    {
+      "id": "DJ-18",
+      "category": "dependency",
+      "acceptance": {
+        "kind": "file_contains",
+        "target": "fixtures/design-partner/out/dependency.txt"
+      },
+      "startingCommit": "frozen-at-selection",
+      "outcome": {
+        "completed": true,
+        "acceptanceMet": true,
+        "humanCorrections": 0,
+        "regression": false,
+        "latencyMs": 5250,
+        "costUsd": 0.65,
+        "approvalInterruptions": 1,
+        "memoryPrecision": 0.9,
+        "rolledBack": false,
+        "route": "route-a"
+      }
+    },
+    {
+      "id": "DJ-19",
+      "category": "documentation",
+      "acceptance": {
+        "kind": "file_contains",
+        "target": "fixtures/design-partner/out/documentation.txt"
+      },
+      "startingCommit": "frozen-at-selection",
+      "outcome": {
+        "completed": true,
+        "acceptanceMet": true,
+        "humanCorrections": 1,
+        "regression": false,
+        "latencyMs": 5500,
+        "costUsd": 0.7000000000000001,
+        "approvalInterruptions": 0,
+        "memoryPrecision": 0.9,
+        "rolledBack": false,
+        "route": "route-b"
+      }
+    },
+    {
+      "id": "DJ-20",
+      "category": "multi-file",
+      "acceptance": {
+        "kind": "file_contains",
+        "target": "fixtures/design-partner/out/multi-file.txt"
+      },
+      "startingCommit": "frozen-at-selection",
+      "outcome": {
+        "completed": true,
+        "acceptanceMet": true,
+        "humanCorrections": 0,
+        "regression": false,
+        "latencyMs": 5750,
+        "costUsd": 0.75,
+        "approvalInterruptions": 1,
+        "memoryPrecision": 0.9,
+        "rolledBack": false,
+        "route": "route-a"
+      }
+    },
+    {
+      "id": "DJ-21",
+      "category": "long-running",
+      "acceptance": {
+        "kind": "file_contains",
+        "target": "fixtures/design-partner/out/long-running.txt"
+      },
+      "startingCommit": "frozen-at-selection",
+      "outcome": {
+        "completed": true,
+        "acceptanceMet": true,
+        "humanCorrections": 0,
+        "regression": false,
+        "latencyMs": 6000,
+        "costUsd": 0.8,
+        "approvalInterruptions": 0,
+        "memoryPrecision": 0.85,
+        "rolledBack": false,
+        "route": "route-b"
+      }
+    },
+    {
+      "id": "DJ-22",
+      "category": "multi-agent",
+      "acceptance": {
+        "kind": "file_contains",
+        "target": "fixtures/design-partner/out/multi-agent.txt"
+      },
+      "startingCommit": "frozen-at-selection",
+      "outcome": {
+        "completed": true,
+        "acceptanceMet": true,
+        "humanCorrections": 1,
+        "regression": false,
+        "latencyMs": 6250,
+        "costUsd": 0.8500000000000001,
+        "approvalInterruptions": 0,
+        "memoryPrecision": 0.9,
+        "rolledBack": false,
+        "route": "route-a"
+      }
+    },
+    {
+      "id": "DJ-23",
+      "category": "resume",
+      "acceptance": {
+        "kind": "file_contains",
+        "target": "fixtures/design-partner/out/resume.txt"
+      },
+      "startingCommit": "frozen-at-selection",
+      "outcome": {
+        "completed": true,
+        "acceptanceMet": true,
+        "humanCorrections": 0,
+        "regression": false,
+        "latencyMs": 6500,
+        "costUsd": 0.9,
+        "approvalInterruptions": 0,
+        "memoryPrecision": 0.9,
+        "rolledBack": false,
+        "route": "route-b"
+      }
+    },
+    {
+      "id": "DJ-24",
+      "category": "recovery",
+      "acceptance": {
+        "kind": "file_contains",
+        "target": "fixtures/design-partner/out/recovery.txt"
+      },
+      "startingCommit": "frozen-at-selection",
+      "outcome": {
+        "completed": true,
+        "acceptanceMet": true,
+        "humanCorrections": 0,
+        "regression": false,
+        "latencyMs": 6750,
+        "costUsd": 0.9500000000000001,
+        "approvalInterruptions": 0,
+        "memoryPrecision": 0.9,
+        "rolledBack": false,
+        "route": "route-a"
+      }
+    },
+    {
+      "id": "DJ-25",
+      "category": "denial",
+      "acceptance": {
+        "kind": "command_succeeds",
+        "target": "fixtures/design-partner/out/denial.txt"
+      },
+      "startingCommit": "frozen-at-selection",
+      "outcome": {
+        "completed": true,
+        "acceptanceMet": true,
+        "humanCorrections": 1,
+        "regression": false,
+        "latencyMs": 7000,
+        "costUsd": 1.0,
+        "approvalInterruptions": 0,
+        "memoryPrecision": 0.85,
+        "rolledBack": false,
+        "route": "route-b"
+      }
+    }
+  ]
+}

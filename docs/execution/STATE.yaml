@@ -2,10 +2,10 @@ project: saber
 roadmap_version: "2.0"
 architecture_version: "2.1"
 current_segment:
-  id: S37
-  name: quality-security-gate
-  status: completed
-  objective: measure the complete packaged desktop against fixed performance SLOs on low/mid/high reference machines with median/P95 raw metadata and no user content; audit accessibility (keyboard journeys, three screen readers, zoom/contrast/focus/live-region/reduced-motion with a P0/P1 gate) and localization (zh/en completeness, pseudo-localization expansion, formatting, IME, glossary); red-team thirteen threat vectors with exploit evidence, controls, the PJ negative rule keeping brains and reflexes out of immune containment, contained remote-dispatch attacks with global Stop and honest solo/team measurement; run eleven chaos scenarios proving bounded retries, containment, Safe Mode and evidence retention; and emit a deterministic eleven-family readiness report with finding IDs, digest and metadata-only hygiene
+  id: S38
+  name: design-partner-production
+  status: in_progress
+  objective: run an authorized design-partner cohort with complete written consent, isolated tenant keys and diversity that rejects cherry-picking; execute the frozen twelve-category fixed benchmark recording completion, corrections, regressions, latency, cost, approval interruptions, memory precision and rollback while treating models as replaceable routes; advance internal-alpha/private-beta/RC rings with explicit thresholds, owners and rollback; prove support and incident readiness across five playbooks and five rehearsals where support can never request raw secrets or unrestricted repositories; close privacy and governance with independent owners; and emit a deterministic release packet whose bounded-rollout approval keeps monitoring and rollback with dual control on critical security exceptions. Completing S38 completes the desktop execution plan
 predecessor:
   segment: S33
   status: completed
@@ -120,7 +120,7 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S37-completion
+  branch: segment/S38-design-partner-production
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 1633d17
@@ -133,60 +133,58 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T17:15:00Z"
+  last_checkpoint_at: "2026-08-29T18:30:00Z"
 acceptance:
   required:
-    - s36_tagged_base
-    - twelve_slo_metrics_three_machines
-    - median_p95_raw_metadata_only
-    - four_keyboard_journeys_pointer_free
-    - three_screen_readers_eight_checks
-    - p0_p1_block_lower_owner_tracked
-    - zh_en_complete_security_translated
-    - pseudo_expansion_clipping_detected
-    - ime_shortcuts_parser_locale_independent
-    - thirteen_threats_evidence_control
-    - pj_negative_brain_reflex_fail_closed
-    - remote_dispatch_contained_global_stop
-    - solo_team_contract_not_parity
-    - runtime_images_locked_provenance
-    - eleven_chaos_scenarios_bounded
-    - retries_backoff_ceiling_escalate
-    - chaos_evidence_retained
-    - eleven_families_zero_p0_p1
-    - gate_deterministic_digest
-    - report_metadata_only
-    - bench_measures_real_workloads
-    - s37_verifier
+    - s37_tagged_base
+    - consent_eight_clauses_no_defaults
+    - cohort_diversity_rejects_cherry_picking
+    - partner_workspaces_isolated_named_owner
+    - research_never_requests_private_data
+    - twelve_categories_frozen_acceptance_commit
+    - production_thresholds_evaluated_honestly
+    - routes_replaceable_not_identities
+    - dj14_through_dj32_catalog_covered
+    - rings_ordered_with_thresholds_owner_rollback
+    - rc_production_signed_update_channel
+    - five_playbooks_five_rehearsals
+    - support_no_raw_secrets_no_unrestricted_repos
+    - privacy_closeout_eight_checks
+    - governance_independent_owners
+    - packet_seven_contents_p0_p1_block
+    - bounded_rollout_keeps_monitoring_rollback
+    - critical_exception_dual_approval
+    - acceptance_driver_thresholds_met
+    - rc_verifier_bounded_rollout
+    - s38_verifier
     - full_local_verification
     - verified_segment_push
   passed:
-    - s36_tagged_base
-    - twelve_slo_metrics_three_machines
-    - median_p95_raw_metadata_only
-    - four_keyboard_journeys_pointer_free
-    - three_screen_readers_eight_checks
-    - p0_p1_block_lower_owner_tracked
-    - zh_en_complete_security_translated
-    - pseudo_expansion_clipping_detected
-    - ime_shortcuts_parser_locale_independent
-    - thirteen_threats_evidence_control
-    - pj_negative_brain_reflex_fail_closed
-    - remote_dispatch_contained_global_stop
-    - solo_team_contract_not_parity
-    - runtime_images_locked_provenance
-    - eleven_chaos_scenarios_bounded
-    - retries_backoff_ceiling_escalate
-    - chaos_evidence_retained
-    - eleven_families_zero_p0_p1
-    - gate_deterministic_digest
-    - report_metadata_only
-    - bench_measures_real_workloads
-    - s37_verifier
+    - s37_tagged_base
+    - consent_eight_clauses_no_defaults
+    - cohort_diversity_rejects_cherry_picking
+    - partner_workspaces_isolated_named_owner
+    - research_never_requests_private_data
+    - twelve_categories_frozen_acceptance_commit
+    - production_thresholds_evaluated_honestly
+    - routes_replaceable_not_identities
+    - dj14_through_dj32_catalog_covered
+    - rings_ordered_with_thresholds_owner_rollback
+    - rc_production_signed_update_channel
+    - five_playbooks_five_rehearsals
+    - support_no_raw_secrets_no_unrestricted_repos
+    - privacy_closeout_eight_checks
+    - governance_independent_owners
+    - packet_seven_contents_p0_p1_block
+    - bounded_rollout_keeps_monitoring_rollback
+    - critical_exception_dual_approval
+    - acceptance_driver_thresholds_met
+    - rc_verifier_bounded_rollout
+    - s38_verifier
     - full_local_verification
-    - verified_segment_push
   failed: []
-  pending: []
+  pending:
+    - verified_segment_push
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -215,7 +213,8 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers: []
+blockers:
+  - S38 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows and dependency-audit before protected merge
 next_action:
-  command: after this completion record merges, create annotated s37-complete on the record merge commit and verify its peeled SHA equals that main commit; S38 (design-partner production) then starts only from docs/execution/desktop/S38-DESIGN-PARTNER-PRODUCTION.md
-  description: PR #93 squash-merged as d6c579eaa9ad417105ed067e13292e52c139700f after repository-verification, monorepo ubuntu/macos/windows and dependency-audit passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit. The record closes S37: the quality and security gate (twelve-metric SLOs over low/mid/high reference machines with median/P95 raw metadata; pointer-free keyboard journeys, three screen readers and eight visual checks behind a P0/P1 gate; zh/en completeness where security decisions are always translated, pseudo-localization clipping detection, IME-safe contracts and the six-term glossary; thirteen red-team threats with evidence and controls behind the PJ-negative rule keeping brains and reflexes out of immune containment, contained remote dispatch with global Stop, honest solo/team contracts and locked-provenance runtime images; eleven chaos scenarios proving bounded contained evidence-preserving recovery; and the deterministic eleven-family readiness gate with finding IDs, digest, zero-P0/P1 ready verdict and metadata-only hygiene, plus the real bench and readiness drivers), 21 pure tests across three suites and verify-s37 (119 checks). S38 is not started
+  command: push segment/S38-design-partner-production, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s38-complete on the record merge commit with peeled-SHA verification; completing S38 completes the desktop execution plan end to end
+  description: S38 design partner and production implemented on segment/S38-design-partner-production — four pure modules plus two real drivers (partnerCohort: eight-clause opt-in written consent with no defaults, cohort selection across languages/sizes/OSes/privacy/team types rejecting cherry-picked cohorts under five members, isolated tenant/workspace keys with named partner owners, and research protocols that never request private data or private-repo reproduction; taskBenchmark: twelve frozen task categories each requiring acceptance and starting commit before execution, the full measurement surface including human corrections, regressions, latency, cost, approval interruptions and memory precision, published production thresholds evaluated honestly with named findings, and route comparison treating models as replaceable routes rather than product identities; releaseRings: internal-alpha/private-beta/release-candidate plans failing closed without start/stop thresholds, cohort, duration, owner and rollback, ordered progression, RC pinned to production-signed artifacts and the update channel, five playbooks and five rehearsals for support readiness, and support requests that can never ask for raw secrets or unrestricted private repositories; productionDecision: eight privacy closeout checks, governance review requiring independent owners, the seven-content release packet where unresolved P0/P1 findings block the decision, deterministic packet digests, bounded-rollout approvals that keep monitoring and rollback, dual approval for critical security exceptions and approval boundaries; scripts/acceptance-design-partner.mjs evaluating the committed frozen benchmark across all twelve categories plus the DJ-14..DJ-32 journey catalog; scripts/verify-release-candidate.mjs chaining the package metadata, the S37 readiness digest and design-partner KPIs into a verified bounded-rollout packet), 19 pure tests across three suites, verify-s38 (105 checks), the acceptance and RC drivers chained into local gates; full pnpm verify green (277 governance tests)

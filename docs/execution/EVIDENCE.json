@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S37",
-  "status": "completed",
-  "branch": "segment/S37-completion",
+  "segment": "S38",
+  "status": "in_progress",
+  "branch": "segment/S38-design-partner-production",
   "base": {
-    "main_commit": "92b05d5f6bb3da7ea6f8f49b9b24abdf8b981348",
-    "segment": "S36",
-    "tag": "s36-complete",
-    "commit": "92b05d5f6bb3da7ea6f8f49b9b24abdf8b981348"
+    "main_commit": "3bedc66b39548d6185df0080789e5b96f35a8682",
+    "segment": "S37",
+    "tag": "s37-complete",
+    "commit": "3bedc66b39548d6185df0080789e5b96f35a8682"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
@@ -16,69 +16,56 @@
   "remote_head": "resolve-from-git",
   "checks": [
     {
-      "id": "S37-PREDECESSOR",
-      "command": "git rev-parse 's36-complete^{}'",
+      "id": "S38-PREDECESSOR",
+      "command": "git rev-parse 's37-complete^{}'",
       "exit_code": 0,
-      "result": "s36-complete resolves to 92b05d5f6bb3da7ea6f8f49b9b24abdf8b981348 which equals origin/main; S37 branches from it"
+      "result": "s37-complete resolves to 3bedc66b39548d6185df0080789e5b96f35a8682 which equals origin/main; S38 branches from it"
     },
     {
-      "id": "S37-A11Y-ALL",
-      "command": "pnpm desktop:test:a11y:all",
+      "id": "S38-COHORT-BENCHMARK",
+      "command": "pnpm desktop:test:cohort-benchmark",
       "exit_code": 0,
-      "result": "7/7: four keyboard journeys pointer-free; three screen readers with eight visual checks; P0/P1 block while P2/P3 carry owners and release decisions; zh/en completeness with security decisions always translated; pseudo-localization exposes clipping; formatting/IME/shortcut contracts per locale; the six-term glossary fixes core meanings"
+      "result": "8/8: eight-clause consent without defaults; diverse cohorts accepted and cherry-picked ones rejected; isolated partner workspaces with named owners; research never requests private data; tasks freeze acceptance and starting commit; twelve categories required; thresholds evaluated honestly with named findings; routes stay replaceable"
     },
     {
-      "id": "S37-REDTEAM",
-      "command": "pnpm desktop:test:redteam",
+      "id": "S38-RINGS-SUPPORT",
+      "command": "pnpm desktop:test:rings-support",
       "exit_code": 0,
-      "result": "6/6: thirteen threats each carry id, exploit evidence and control; the campaign contains everything; PJ-negative rule fails brains/reflexes touching immune containment while supervisor and external authority may govern; remote dispatch attacks stay contained with global Stop; solo/team is a measured contract, not a parity claim; runtime images reject drift and unlocked provenance"
+      "result": "4/4: ring plans fail closed without thresholds/cohort/duration/owner/rollback; rings advance in order with RC production-signed on the update channel; five playbooks and five rehearsals required; support can never request raw secrets or unrestricted private repositories"
     },
     {
-      "id": "S37-CHAOS",
-      "command": "pnpm desktop:test:chaos",
+      "id": "S38-RELEASE-DECISION",
+      "command": "pnpm desktop:test:release-decision",
       "exit_code": 0,
-      "result": "8/8: eleven chaos scenarios prove bounded contained evidence-preserving recovery with Safe Mode where expected; backoff-capped retries escalate at the ceiling; chaos evidence is retained append-only; the deterministic gate requires all eleven families with zero P0/P1 for ready; report hygiene refuses source/prompts/secrets/private transcripts"
+      "result": "7/7: eight privacy checks; governance needs independent owners; seven packet contents; unresolved P0/P1 block; bounded rollout keeps monitoring and rollback with deterministic digests; critical exceptions need dual approval; approval boundaries enforced"
     },
     {
-      "id": "S37-BENCH",
-      "command": "pnpm desktop:bench",
+      "id": "S38-DESIGN-PARTNER-ACCEPTANCE",
+      "command": "pnpm desktop:acceptance:design-partner",
       "exit_code": 0,
-      "result": "real measurements of large-diff projection, event decode and 10k-entry indexing recorded as median/P95 raw metadata; SLO evaluation honestly labeled and gated to reference environments (REFERENCE_MACHINE_CLASS)"
+      "result": "frozen benchmark evaluated: all twelve categories covered, thresholds met (completion 1.000, acceptance 1.000, regression 0.000), and the DJ-14..DJ-32 journey catalog complete"
     },
     {
-      "id": "S37-READINESS",
-      "command": "pnpm desktop:readiness",
+      "id": "S38-RELEASE-CANDIDATE",
+      "command": "pnpm desktop:verify:release-candidate",
       "exit_code": 0,
-      "result": "deterministic eleven-family readiness report evaluated from committed immutable descriptors: verdict ready, digest gate-2b0e1931, two honest P2/P3 findings with owners and release decisions, zero P0/P1"
+      "result": "release packet assembled from the package metadata, the S37 readiness digest (gate-2b0e1931) and design-partner KPIs; decision bounded-rollout-approved with monitoring and rollback retained and dual approval on critical exceptions"
     },
     {
-      "id": "S37-FULL-GATES",
+      "id": "S38-FULL-GATES",
       "command": "pnpm verify",
       "exit_code": 0,
-      "result": "full pnpm verify green — S00-S37 verifiers (verify-s37 passes 119 checks) and 258 governance tests"
-    },
-    {
-      "id": "S37-PROTECTED-PR-MERGE",
-      "command": "gh pr merge 93 --squash",
-      "exit_code": 0,
-      "result": "PR #93 squash-merged as d6c579eaa9ad417105ed067e13292e52c139700f after all five required checks passed and mergeStateStatus was CLEAN"
-    },
-    {
-      "id": "S37-MAIN-CI",
-      "command": "inspect main check runs on d6c579eaa9ad417105ed067e13292e52c139700f",
-      "exit_code": 0,
-      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
+      "result": "full pnpm verify green — S00-S38 verifiers (verify-s38 passes 105 checks) and 277 governance tests"
     }
   ],
   "known_blockers": [
-    "reference-machine SLO evaluation and full-screen-reader manual passes run in the hosted release environment; this repo carries the contracts, the honest bench and the deterministic gate"
+    "the design-partner cohort KPIs and ring execution recorded here run against committed frozen fixtures; live partner cohorts execute the same contracts in the hosted program"
   ],
-  "pending": [],
-  "last_verified_at": "2026-08-29T17:15:00Z",
-  "pull_request": {
-    "number": 93,
-    "url": "https://github.com/SunArthurX/saber-harness/pull/93",
-    "state": "MERGED",
-    "merge_commit": "d6c579eaa9ad417105ed067e13292e52c139700f"
-  }
+  "pending": [
+    "push segment/S38-design-partner-production and open the protected PR",
+    "five required checks green plus mergeStateStatus CLEAN",
+    "squash-merge, completion record, annotated s38-complete with peeled-SHA verification"
+  ],
+  "last_verified_at": "2026-08-29T18:30:00Z",
+  "pull_request": null
 }
