@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "2.0"
 architecture_version: "2.1"
 current_segment:
-  id: S33
-  name: continuity-knowledge
-  status: completed
-  objective: import authorized external CodingAgent conversations through versioned adapters with consent, validation and idempotent recompute; browse raw/canonical/derived lineage with deletion propagation; resume through capsules with drift detection and user choice for ambiguity; retrieve with hybrid channels, trust/TTL/revocation filters, context receipts and measured quality; curate a conflict-aware, expiring, revocable, forgettable memory ledger with expected-revision concurrency; and keep everything under mandatory local encryption with honest E2EE limits and verified deletion graphs
+  id: S34
+  name: armor-evolution-health
+  status: in_progress
+  objective: distinguish external Armor from internal capability growth through signed capability manifests with per-component permissions, isolation, health and revocation; route every evolution candidate through the E0-E7 ladder with evidence, permission deltas, isolated evaluation, explicit canaries and last-known-good rollback; contain faults through H0-H4 vital signals, immune supervisor controls that outrank the agent brain, redaction-first support bundles; and prove bounded containment and recovery in a six-scenario game day
 predecessor:
-  segment: S32
+  segment: S33
   status: completed
-  tag: s32-complete
-  commit: d91b192180a1794bf79c52c6dd24a9067966ba32
+  tag: s33-complete
+  commit: f7f837e35fb3a1f7fe59c202ad463764416bf93a
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -120,7 +120,7 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S33-completion
+  branch: segment/S34-armor-evolution-health
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 1633d17
@@ -133,48 +133,54 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T09:20:00Z"
+  last_checkpoint_at: "2026-08-29T10:05:00Z"
 acceptance:
   required:
-    - s32_tagged_base
-    - two_formats_import_idempotently
-    - consent_before_read
-    - malicious_attachment_validation
-    - untrusted_never_auto_promotes
-    - deletion_propagation_graph
-    - capsule_capture_complete
-    - drift_detection_all_states
-    - continuation_never_rewrites
-    - retrieval_filters_and_receipts
-    - memory_expected_revision_actions
-    - recall_output_needs_evidence
-    - e2ee_minimal_metadata
-    - strict_mode_honest_limits
-    - memory_eval_threshold
-    - s33_verifier
+    - s33_tagged_base
+    - signed_manifests_fail_closed
+    - install_grants_reviewed_surface_only
+    - revocation_marks_dependents
+    - ladder_e0_e7_with_e6_pr_only
+    - never_self_installs
+    - duplicates_conflicts_poison_blocked
+    - baseline_frozen_last_known_good
+    - isolated_eval_no_production_secret
+    - canary_plan_complete_or_fail
+    - rollback_even_when_crashed
+    - vital_signals_h0_h4
+    - quiet_low_severity_visible_high
+    - bundle_redaction_first_user_reviewed
+    - supervisor_outranks_agent
+    - agent_cannot_suppress_or_exit_safe_mode
+    - bounded_retry_circuit_breaker
+    - game_day_six_scenarios_recover
+    - s34_verifier
     - full_local_verification
     - verified_segment_push
   passed:
-    - s32_tagged_base
-    - two_formats_import_idempotently
-    - consent_before_read
-    - malicious_attachment_validation
-    - untrusted_never_auto_promotes
-    - deletion_propagation_graph
-    - capsule_capture_complete
-    - drift_detection_all_states
-    - continuation_never_rewrites
-    - retrieval_filters_and_receipts
-    - memory_expected_revision_actions
-    - recall_output_needs_evidence
-    - e2ee_minimal_metadata
-    - strict_mode_honest_limits
-    - memory_eval_threshold
-    - s33_verifier
+    - s33_tagged_base
+    - signed_manifests_fail_closed
+    - install_grants_reviewed_surface_only
+    - revocation_marks_dependents
+    - ladder_e0_e7_with_e6_pr_only
+    - never_self_installs
+    - duplicates_conflicts_poison_blocked
+    - baseline_frozen_last_known_good
+    - isolated_eval_no_production_secret
+    - canary_plan_complete_or_fail
+    - rollback_even_when_crashed
+    - vital_signals_h0_h4
+    - quiet_low_severity_visible_high
+    - bundle_redaction_first_user_reviewed
+    - supervisor_outranks_agent
+    - agent_cannot_suppress_or_exit_safe_mode
+    - bounded_retry_circuit_breaker
+    - game_day_six_scenarios_recover
+    - s34_verifier
     - full_local_verification
-    - verified_segment_push
   failed: []
-  pending: []
+  pending:
+    - verified_segment_push
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -203,7 +209,8 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers: []
+blockers:
+  - S34 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows and dependency-audit before protected merge
 next_action:
-  command: after this completion record merges, create annotated s33-complete on the record merge commit and verify its peeled SHA equals that main commit; S34 (armor/evolution/health) then starts only from docs/execution/desktop/S34-ARMOR-EVOLUTION-HEALTH.md
-  description: PR #85 squash-merged as c46240b98e2f22ed45f8573d27c593d640281fa5 after repository-verification, monorepo ubuntu/macos/windows and dependency-audit passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit (main-provenance needed one rerun after the known merge-indexing race, then passed). The record closes S33: continuity and knowledge (versioned import adapters with consent and fail-closed validation, four-layer lineage with deletion propagation, resumption capsules with drift detection and non-rewriting continuations, filtered retrieval with context receipts and a fixed-set evaluation at precision 1.000, the nine-action expected-revision memory ledger, mandatory local encryption with minimal-metadata E2EE and six verified deletion propagations), 22 pure tests across four suites, and verify-s33 (72 checks). S34 is not started
+  command: push segment/S34-armor-evolution-health, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s34-complete on the record merge commit with peeled-SHA verification; S35 starts only from docs/execution/desktop/S35-ENTERPRISE-MULTITENANT.md
+  description: S34 armor, evolution and health implemented on segment/S34-armor-evolution-health — four pure modules (armorRack: signed capability manifests failing closed on unknown kinds, untrusted signers, missing digests, unsigned or tampered payloads, full rack cards with publisher/signer/version/runtime/scope/capabilities/secrets/egress/health/cost/uninstall impact, install grants that never exceed the reviewed manifest, reversible load/unload with privileged immune roots, revocation that immediately removes authorization and marks dependents; evolutionWorkshop: the E0-E7 ladder with E6 protected-PR-only and E7 forbidden, intake blocking duplicates, conflicting effects and poisoned sources, candidate reviews that never self-install, frozen baselines with last-known-good, isolated secret-free evaluation with regression honesty, canary plans failing closed without cohort/duration/stop-thresholds/owner, and rollback from UI or Core even after a candidate crash; healthMonitor: eleven vital signals classified H0-H4, incident lifecycles with detect/contain/repair/verify/escalate phases, quiet low severity versus visible high severity, redaction-first user-reviewed support bundles, supervisor immune controls that need no model approval, agent attempts to suppress health events, edit audit history or exit Safe Mode all failing closed, safe-mode exits requiring external human/admin/vendor authority, and bounded-retry circuit breakers; gameDay: six injected scenarios proving bounded containment, last-known-good or Safe Mode recovery, preserved append-only evidence and correct escalation with containment outranking the agent brain), 26 pure tests across four suites and verify-s34 (76 checks) chained into local and hosted gates; full pnpm verify green (191 governance tests)

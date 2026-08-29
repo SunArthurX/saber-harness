@@ -96,6 +96,8 @@ jobs:
         run: node scripts/verify-s32.mjs
       - name: Verify S33 continuity and knowledge
         run: node scripts/verify-s33.mjs
+      - name: Verify S34 armor evolution health
+        run: node scripts/verify-s34.mjs
       - name: Test repository governance policy
         run: node --test scripts/tests/*.test.mjs
       - name: Verify Git whitespace contract
