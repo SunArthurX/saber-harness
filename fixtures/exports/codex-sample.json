@@ -1,0 +1,21 @@
+{
+  "format": "codex-export",
+  "format_version": 1,
+  "exported_at_ms": 1700000000000,
+  "conversations": [
+    {
+      "id": "conv-cx-1",
+      "title": "Fix failing test",
+      "messages": [
+        { "role": "user", "text": "The fixture test fails on CI", "at_ms": 1700000001000 },
+        {
+          "role": "assistant",
+          "text": "The test asserted the wrong fixture path; fixed in src/check.ts",
+          "at_ms": 1700000002000
+        }
+      ],
+      "metadata": { "model": "gpt-x", "repository": "fixture/basic" },
+      "unsupported_field": { "reasoning_trace": "elided" }
+    }
+  ]
+}

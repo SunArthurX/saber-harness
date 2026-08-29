@@ -94,6 +94,8 @@ jobs:
         run: node scripts/verify-s31.mjs
       - name: Verify S32 multi-agent worktrees
         run: node scripts/verify-s32.mjs
+      - name: Verify S33 continuity and knowledge
+        run: node scripts/verify-s33.mjs
       - name: Test repository governance policy
         run: node --test scripts/tests/*.test.mjs
       - name: Verify Git whitespace contract

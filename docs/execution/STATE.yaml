@@ -2,10 +2,10 @@ project: saber
 roadmap_version: "2.0"
 architecture_version: "2.1"
 current_segment:
-  id: S32
-  name: multiagent-worktree
-  status: completed
-  objective: let one Goal delegate bounded Tasks to multiple Agents — each with an explicit Worktree, Realm, model, budget and a capability set that can never widen its parent — with per-task worktree lifecycle (dirty-base detection, quarantine-first cleanup), Goal DAG validation (cycles, missing dependencies, impossible budgets), follow/steer/take-over, conflict-detecting integration in a review worktree, and fault containment proving sibling and Goal state survive child crashes, cancellations and malicious results
+  id: S33
+  name: continuity-knowledge
+  status: in_progress
+  objective: import authorized external CodingAgent conversations through versioned adapters with consent, validation and idempotent recompute; browse raw/canonical/derived lineage with deletion propagation; resume through capsules with drift detection and user choice for ambiguity; retrieve with hybrid channels, trust/TTL/revocation filters, context receipts and measured quality; curate a conflict-aware, expiring, revocable, forgettable memory ledger with expected-revision concurrency; and keep everything under mandatory local encryption with honest E2EE limits and verified deletion graphs
 predecessor:
   segment: S29
   status: completed
@@ -110,7 +110,7 @@ completed_segments:
     commit: d45ba7404aa75e1f0813f5911ca9e956b202df54
   - segment: S32
     tag: s32-complete
-    commit: 39b4e6ec95f8167ec72aabf9cb45513693f3c109
+    commit: d91b192180a1794bf79c52c6dd24a9067966ba32
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
@@ -130,46 +130,48 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T07:47:40Z"
+  last_checkpoint_at: "2026-08-29T08:10:10Z"
 acceptance:
   required:
-    - s31_tagged_base
-    - dag_validation_before_dispatch
-    - critical_path_no_fake_percentages
-    - worktree_create_idempotent
-    - dirty_base_detection
-    - quarantine_first_cleanup
-    - child_scope_never_widens
-    - budget_clamp_and_pause
-    - follow_steer_takeover
-    - conflict_detection_before_merge
-    - review_worktree_integration
-    - sibling_containment
-    - malicious_result_cannot_launder
-    - e2e_parallel_integration_real_core
-    - s32_verifier
+    - s32_tagged_base
+    - two_formats_import_idempotently
+    - consent_before_read
+    - malicious_attachment_validation
+    - untrusted_never_auto_promotes
+    - deletion_propagation_graph
+    - capsule_capture_complete
+    - drift_detection_all_states
+    - continuation_never_rewrites
+    - retrieval_filters_and_receipts
+    - memory_expected_revision_actions
+    - recall_output_needs_evidence
+    - e2ee_minimal_metadata
+    - strict_mode_honest_limits
+    - memory_eval_threshold
+    - s33_verifier
     - full_local_verification
     - verified_segment_push
   passed:
-    - s31_tagged_base
-    - dag_validation_before_dispatch
-    - critical_path_no_fake_percentages
-    - worktree_create_idempotent
-    - dirty_base_detection
-    - quarantine_first_cleanup
-    - child_scope_never_widens
-    - budget_clamp_and_pause
-    - follow_steer_takeover
-    - conflict_detection_before_merge
-    - review_worktree_integration
-    - sibling_containment
-    - malicious_result_cannot_launder
-    - e2e_parallel_integration_real_core
-    - s32_verifier
+    - s32_tagged_base
+    - two_formats_import_idempotently
+    - consent_before_read
+    - malicious_attachment_validation
+    - untrusted_never_auto_promotes
+    - deletion_propagation_graph
+    - capsule_capture_complete
+    - drift_detection_all_states
+    - continuation_never_rewrites
+    - retrieval_filters_and_receipts
+    - memory_expected_revision_actions
+    - recall_output_needs_evidence
+    - e2ee_minimal_metadata
+    - strict_mode_honest_limits
+    - memory_eval_threshold
+    - s33_verifier
     - full_local_verification
-    - verified_segment_push
   failed: []
-  pending: []
+  pending:
+    - verified_segment_push
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -198,7 +200,8 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers: []
+blockers:
+  - S33 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows and dependency-audit before protected merge
 next_action:
-  command: after this completion record merges, create annotated s32-complete on the record merge commit and verify its peeled SHA equals that main commit; S33 (continuity/knowledge) then starts only from docs/execution/desktop/S33-CONTINUITY-KNOWLEDGE.md
-  description: PR #83 squash-merged as 39b4e6ec95f8167ec72aabf9cb45513693f3c109 after repository-verification, monorepo ubuntu/macos/windows (three real-Core e2es green on every leg) and dependency-audit passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit. The record closes S32: multi-agent authority (journal-first idempotent worktrees, non-widening delegations with clamped budgets, conflict-detecting integration, quarantine-first cleanup), three projection modules, 21 pure tests, the 19-check parallel-integration e2e and verify-s32 (63 checks). S33 is not started
+  command: push segment/S33-continuity-knowledge, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s33-complete on the record merge commit with peeled-SHA verification; S34 starts only from docs/execution/desktop/S34-ARMOR-EVOLUTION-HEALTH.md
+  description: S33 continuity and knowledge implemented on segment/S33-continuity-knowledge — six pure modules (importWizard: versioned codex/claude adapters with consent manifests before any read, size/media/schema/parser-version/malicious-attachment validation, deterministic idempotent recompute, unsupported fields visible, cancel-safe import sessions; lineageBrowser: four separately-visible layers with parser/version/digest and recompute status, untrusted content never auto-promoting, deletion propagation policies, resumption capsules capturing goal/task/repo/commit/branch/dirty-hash/toolchain/policy/model with unchanged/diverged/missing/unknown revalidation requiring user choice on ambiguity and continuations that create linked events without rewriting sources; retrievalContext: trust/sensitivity/scope/TTL/revocation filters before return, blended rerank with per-source budgets, context receipts on every fragment, precision/stale/duplicate/false-provenance evaluation; memoryLedger: four types, nine actions all carrying expected revisions, recall respecting status/TTL/revocation/scope, workspace-wins conflict resolution without secret last-write-wins, recall output requiring independent evidence; privacyDeletion: mandatory local encryption and OS credential storage, minimal-metadata E2EE envelopes, honest strict-mode limits, six verified deletion propagations including legal hold and canonical-survives-index-loss, client-key conflict surfacing), 22 pure tests across four suites, the fixed-set memory evaluation (precision 1.000 >= 0.75, zero staleness/duplication/false provenance) and verify-s33 (72 checks) chained into local and hosted gates; full pnpm verify green (165 governance tests)
