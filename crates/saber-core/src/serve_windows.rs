@@ -15,7 +15,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 
 use interprocess::local_socket::{
-    GenericNamespaced, ListenerOptions, Stream as LocalStream, ToFsName,
+    GenericNamespaced, ListenerOptions, Stream as LocalStream, ToNsName, prelude::*,
 };
 use saber_core_protocol::{
     ControlMethod, DesktopPlatform, MAX_FRAME_BYTES, PROTOCOL_VERSION, ProtocolError,
@@ -39,7 +39,7 @@ pub fn serve(store_dir: &Path, workspace_id: &str) -> Result<(), String> {
     let pipe_name = address
         .strip_prefix(r"\\.\pipe\")
         .unwrap_or(&address)
-        .to_fs_name::<GenericNamespaced>()
+        .to_ns_name::<GenericNamespaced>()
         .map_err(|error| format!("endpoint name rejected: {error}"))?;
     // First-listener semantics: creating the listener while another Core
     // still owns the same name fails instead of replacing it.
