@@ -19,7 +19,7 @@ const failures = [];
 const passes = [];
 const check = (condition, name, detail) => (condition ? passes : failures).push({ name, detail });
 const text = (path) => readFileSync(join(root, path), "utf8");
-const normalized = (value) => value.replace(/\s+/g, " ");
+const _normalized = (value) => value.replace(/\s+/g, " ");
 
 const requiredFiles = [
   "crates/saber-core/src/serve.rs",

@@ -20,10 +20,9 @@
  *   SABER_DESKTOP_GULP_TASK   upstream gulp packaging task (for --package)
  */
 import { spawn, spawnSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
 
 import { extractWorktree } from "./apply-patches.mjs";
 import { loadLock, validateLock } from "./fetch-upstream.mjs";

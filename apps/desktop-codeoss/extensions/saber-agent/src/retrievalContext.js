@@ -30,7 +30,7 @@ function fragment(source, { score, channel, rerankScore } = {}) {
 }
 
 /** Filters applied before fragments may return. */
-function retrievalFilter(fragments_, query, { workspaceId, userId, nowMs }) {
+function retrievalFilter(fragments_, _query, { workspaceId, userId, nowMs }) {
   const reasons = [];
   const visible = fragments_.filter((item) => {
     if (item.sensitivity === "secret") {

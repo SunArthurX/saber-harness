@@ -38,7 +38,7 @@ for (const file of files) check(existsSync(join(root, file)), "required-file", f
 
 const matrixSchema = JSON.parse(text("schemas/sandbox/v1/platform-matrix.json"));
 const matrix = JSON.parse(text("schemas/sandbox/v1/matrix.json"));
-check(matrixSchema["$id"].endsWith("sandbox/v1/platform-matrix.json"), "matrix-schema-id", "platform-matrix.json");
+check(matrixSchema.$id.endsWith("sandbox/v1/platform-matrix.json"), "matrix-schema-id", "platform-matrix.json");
 check(matrixSchema["x-saber-version"] === "1.0.0", "matrix-schema-version", matrixSchema["x-saber-version"]);
 check(matrixSchema.properties.spi_version.const === matrix.spi_version, "spi-version-parity", matrix.spi_version);
 check(matrix.schema_version === "1.0.0", "matrix-data-version", matrix.schema_version);

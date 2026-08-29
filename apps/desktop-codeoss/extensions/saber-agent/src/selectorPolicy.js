@@ -90,8 +90,7 @@ function effectiveSelection(policy, { modelKey, realmId, autonomy, budget } = {}
   const divergences = [];
   const model = MODELS.find((entry) => `${entry.provider}/${entry.model}` === modelKey) ?? null;
   const modelEligible = Boolean(
-    model &&
-      model.policyTags.every((tag) => policy.policyTags.includes(tag)) &&
+    model?.policyTags.every((tag) => policy.policyTags.includes(tag)) &&
       (policy.priceClasses.length === 0 || policy.priceClasses.includes(model.priceClass)),
   );
   if (model && !modelEligible) {

@@ -23,7 +23,7 @@ const REVIEW_DECISIONS = Object.freeze([
 ]);
 
 /** Classify one inventory diff between baseline and current. */
-function classifyFile(path, baseline, current) {
+function classifyFile(_path, baseline, current) {
   if (baseline === undefined && current !== undefined) {
     return "added";
   }

@@ -91,7 +91,7 @@ function fixtureSignature(artifactDigest, channelIdentity, version) {
  * environment, signer and channel identity.
  */
 function provenance(artifact) {
-  if (!artifact.sha256 || artifact.sha256.length !== 64) {
+  if (artifact.sha256?.length !== 64) {
     throw new Error("artifact_digest_missing");
   }
   if (!artifact.sbomDigest || !artifact.sourceCommit || !artifact.lockCommit || !artifact.patchManifest) {

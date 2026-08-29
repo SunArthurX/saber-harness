@@ -12,7 +12,6 @@
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { fileURLToPath } from "node:url";
 
 const { resolveCoreBinary, superviseCore, SUPERVISOR_DEFAULTS } = await import(
   new URL("./core-supervisor.mjs", import.meta.url).href

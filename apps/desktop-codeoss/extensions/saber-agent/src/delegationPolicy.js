@@ -109,7 +109,7 @@ function detectConflicts(childChanges) {
 
 /** Fault containment (S32-WP06/PHL-10): a failed child cannot corrupt
  * siblings, the goal, or launder authority. */
-function containFault(fault, siblings) {
+function containFault(fault, _siblings) {
   return Object.freeze({
     fault,
     siblingsAffected: Object.freeze([]),

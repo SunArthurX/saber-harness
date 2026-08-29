@@ -25,7 +25,7 @@ function envelopeWrap(dataKeyBytes, kmsAdapter, keyId) {
  * per item) and rollback-safe (old wrapping stays valid until all
  * items are re-wrapped).
  */
-function rotateKey(items, fromKeyId, toKeyId, kmsAdapter) {
+function rotateKey(items, _fromKeyId, toKeyId, kmsAdapter) {
   if (items.length === 0) {
     return Object.freeze({ rotated: 0, resumable: true, rollbackSafe: true, completed: true });
   }
@@ -64,7 +64,7 @@ function secretReference(config) {
   if (typeof config.value === "string" && config.value.length > 0) {
     throw new Error("secret_value_in_policy_prohibited");
   }
-  if (!config.reference || !config.reference.startsWith("secret://")) {
+  if (!config.reference?.startsWith("secret://")) {
     throw new Error(`invalid_secret_reference:${String(config.reference)}`);
   }
   return Object.freeze({
