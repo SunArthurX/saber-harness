@@ -108,7 +108,7 @@ export interface EventEnvelope {
   payload: Record<string, unknown>;
 }
 
-export type ControlMethod = "approval.resolve" | "core.health" | "core.initialize" | "events.subscribe" | "goal.create" | "plan.freeze" | "run.cancel" | "run.fork" | "run.pause" | "run.resume" | "run.retry" | "run.start" | "run.steer";
+export type ControlMethod = "approval.resolve" | "changeset.apply" | "changeset.commit" | "changeset.prepare" | "changeset.rollback" | "core.health" | "core.initialize" | "events.subscribe" | "goal.create" | "plan.freeze" | "run.cancel" | "run.fork" | "run.pause" | "run.resume" | "run.retry" | "run.start" | "run.steer";
 
 export interface RequestContext {
   request_id: string;

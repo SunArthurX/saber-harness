@@ -1,72 +1,58 @@
-# S30 Handoff — Governed Agent Run (RT-1 MVP)
+# S31 Handoff — Changes and Evidence Review
 
-Status: completed — PR #79 merged (5c85980) with all five required checks green (monorepo legs ran the real-Core e2e) and all six main contexts green; this record closes S30 and the RT-1 MVP vertical. The annotated s30-complete tag follows this record's merge; S31 starts from its runbook in a new execution round
+Status: in progress — the complete review vertical is implemented and
+verified against the REAL Core (22/22 e2e checks including a real git
+commit and a hash-proven rollback); the protected PR, hosted checks,
+completion record and s31-complete tag remain
 Date: 2026-08-29
-Branch: `segment/S30-governed-agent-run`
-Base main: `f169e57498cc35bd5f479302eb345a075339ea31` (`s29-complete`)
-Runbook: `docs/execution/desktop/S30-GOVERNED-AGENT-RUN.md`
+Branch: `segment/S31-changes-evidence-review`
+Base main: `7f0567b1c81ababf5ea7d99ab4b74b126322e4a7` (`s30-complete`)
+Runbook: `docs/execution/desktop/S31-CHANGES-EVIDENCE-REVIEW.md`
 
 ## Objective
 
-A user turns a conversation into an editable Goal and Plan, starts a
-real Agent Run, observes durable Tool events, grants only exact
-approvals, and can pause, steer, cancel, resume or fork without losing
-causal history.
+Agent changes become an independently reviewable Change Set. Users
+inspect file and hunk diffs, test evidence and boundary impact; they
+can comment, request a revision, accept, reject, apply, roll back,
+commit or create a PR through the Core.
 
 ## What landed
 
-- **Core engine** (`crates/saber-core/src/run_engine.rs`): goals with
-  frozen acceptance; immutable plan versions; run start bound to plan
-  version, model route, Realm, worktree, policy snapshot and
-  idempotency key; a deterministic fixture executor (file read/edit,
-  node-only exact-argv commands inside the canonicalized worktree);
-  network effects denied by policy BEFORE any attempt; exact one-shot
-  approval cards (digest, expiry, plan version, scope narrowing,
-  changed-resource) with every adversarial path failing closed; the
-  independent verifier evaluating frozen acceptance with bound
-  evidence; pause at safe boundaries; resume with policy-snapshot
-  revalidation; steer as causal control events; cancel with
-  compensation; fork/retry as explicit lineage. The engine index is a
-  disposable projection rebuilt by replay.
-- **Store**: exactly one additive `append_core_event` — transactional,
-  idempotent, hash-chained like every other append.
-- **Transport**: both the unix socket and the Windows named pipe server
-  dispatch run methods through the shared `run_dispatch` module and
-  advertise the capabilities in `core.initialize`.
-- **Protocol**: six new methods (`goal.create`, `plan.freeze`,
-  `run.start`, `run.pause`, `run.resume`, `approval.resolve`) in the
-  schema, generated Rust/TS, agent-runtime and ide-client registries;
-  mutations carry context idempotency keys (validated after the
-  frame-size contract to preserve earlier ordering).
-- **Projections**: `goalPlan.js` (immutable versions with diff facets,
-  acceptance changes always visible, binding tuple),
-  `runTimeline.js` (eleven UX states, cursor dedup, stale events
-  cannot regress terminals, exact tool summaries, no invented
-  progress), `approvalGate.js` (complete cards, deny always,
-  narrowing cannot broaden, every adversarial preflight),
-  `runControls.js` (pause/steer/cancel/resume/fork semantics, one
-  projection for every surface, truthful quit options).
-- **Evidence**: `desktop:test:goal-plan` (5), approval-adversarial (5),
-  run-controls (9); `desktop:e2e:governed-run` — 27/27 against the
-  real Core over the real socket through `fixtures/repos/basic`
-  including a Core restart that preserves the whole journal;
-  `verify-s30` (106 checks). The monorepo CI matrix now builds the
-  Core and runs the e2e on every leg.
+- **Core authority** (`change_set.rs`): baseline snapshot at run start;
+  change-set prepare with classification (added/modified/deleted,
+  binary, generated) and external-edit detection; apply requiring the
+  EXACT expected tree digest (stale applies blocked); rollback that
+  restores and PROVES restoration by hashes; commit that durably
+  records message/authorship disclosure/signing BEFORE running real
+  git in the worktree. Four new protocol methods through the shared
+  dispatch on both transports.
+- **Projections**: `changeSetProjection.js` (classification, stale
+  preflight, rollback proof, binary metadata presentation),
+  `reviewComments.js` (fingerprint-bound durable comments, stale
+  marking, non-mutating hunk intents, keyboard navigation),
+  `verificationEvidence.js` (seven evidence states, tree-change
+  invalidation, separate security ownership, preview auto-verify with
+  inconclusive outcomes, completion gate requiring an independent
+  signer — a model message alone never completes),
+  `boundaryDiff.js` (nine boundary categories demanding explicit
+  acknowledgment).
+- **Evidence**: 30 pure tests across three suites (including the
+  adversarial completion suite: forged success, stale evidence,
+  changed-after-approval, binary omission, partial apply crash,
+  rollback failure, conflict, restart determinism); the 22-check
+  review-commit e2e over the real Core; `verify-s31` (72 checks);
+  the monorepo CI matrix runs the e2e on every leg.
 
 ## Honest limits
 
-- The model route is the deterministic fixture executor; provider-backed
-  runs arrive in later segments.
-- The e2e drives the Core binary directly; the packaged-desktop journey
-  stays hosted desktop:build evidence.
-- Sandbox realm integration (the S24 registry) is not yet wired into
-  the run engine; commands run node-only exact argv inside the
-  canonicalized worktree as an intermediate, policy-checked boundary.
+- PR creation is a separately approved network capability; the fixture
+  journey stops at the local git commit and no egress was attempted.
+- Hunk-level (vs file-level) apply granularity is projection-side;
+  the Core applies whole change sets against the proven digest.
 
 ## Next actions
 
-1. Create annotated `s30-complete` on this record's merge commit;
-   verify the peeled SHA equals that main commit locally and remotely.
-2. S31 (change evidence review) starts only from
-   `docs/execution/desktop/S31-CHANGE-EVIDENCE-REVIEW.md` in a new
-   execution round.
+1. Push, open the protected PR, wait for the five checks.
+2. Squash-merge; completion record; annotated `s31-complete`.
+3. S32 starts only from
+   `docs/execution/desktop/S32-MULTI-AGENT-WORKTREES.md`.

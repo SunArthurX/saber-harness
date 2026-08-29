@@ -10,6 +10,7 @@
 
 // The unix-domain supervision endpoint; Windows compiles the crate
 // without it and the CLI fails closed there by design.
+pub mod change_set;
 pub mod run_dispatch;
 pub mod run_engine;
 #[cfg(unix)]

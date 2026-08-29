@@ -2,10 +2,10 @@ project: saber
 roadmap_version: "2.0"
 architecture_version: "2.1"
 current_segment:
-  id: S30
-  name: governed-agent-run
-  status: completed
-  objective: turn a conversation into an editable Goal and Plan, start a real governed Agent Run through the Core, observe durable Tool events, grant only exact one-shot approvals, and pause, steer, cancel, resume or fork without losing causal history — with the independent verifier evaluating frozen acceptance, network effects denied before any attempt, terminal states non-regressing, and the whole journal surviving a Core restart
+  id: S31
+  name: changes-evidence-review
+  status: in_progress
+  objective: turn agent worktree changes into an independently reviewable Change Set — baseline-bound classification (added/modified/deleted, binary, generated), stale-apply blocking on external edits, durable fingerprint-bound review comments, verification evidence with independent completion signing, explicit boundary diff review, hash-proven rollback and disclosure-preceded real git commit through the Core
 predecessor:
   segment: S29
   status: completed
@@ -87,6 +87,9 @@ completed_segments:
   - segment: S24
     tag: s24-complete
     commit: 502dd1db348be7e0c4ab1a6e188275b26027d5dd
+  - segment: S25
+    tag: s25-complete
+    commit: cedaee7fca4b987777218556dcffca8a63a77fa1
   - segment: S26
     tag: s26-complete
     commit: f4693d16ae7ca19de5fd16fa70fbd86b0ac7fe87
@@ -101,10 +104,7 @@ completed_segments:
     commit: f169e57498cc35bd5f479302eb345a075339ea31
   - segment: S30
     tag: s30-complete
-    commit: 5c8598063f8a2eb5ce8484ccb0a6338fb2c83a77
-  - segment: S25
-    tag: s25-complete
-    commit: cedaee7fca4b987777218556dcffca8a63a77fa1
+    commit: 7f0567b1c81ababf5ea7d99ab4b74b126322e4a7
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
@@ -124,44 +124,48 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T06:10:28Z"
+  last_checkpoint_at: "2026-08-29T06:34:52Z"
 acceptance:
   required:
-    - s29_tagged_base
-    - goal_plan_authoring
-    - immutable_plan_versions
-    - run_binding_tuple
-    - eleven_ux_states
-    - cursor_dedup_no_regression
-    - exact_approval_gate
-    - adversarial_approvals_fail_closed
-    - pause_steer_cancel_resume_fork
-    - network_denied_before_attempt
-    - independent_verifier
-    - e2e_real_core_fixture_task
-    - core_restart_preserves_journal
-    - s30_verifier
+    - s30_tagged_base
+    - baseline_snapshot_on_run_start
+    - change_classification
+    - stale_apply_blocking
+    - external_edit_detection
+    - durable_fingerprint_comments
+    - evidence_states_and_invalidation
+    - independent_completion_signing
+    - boundary_diff_explicit_review
+    - rollback_hash_proof
+    - disclosure_before_commit
+    - real_git_commit
+    - adversarial_completion_suite
+    - e2e_review_commit_real_core
+    - core_restart_preserves_review_journal
+    - s31_verifier
     - full_local_verification
     - verified_segment_push
   passed:
-    - s29_tagged_base
-    - goal_plan_authoring
-    - immutable_plan_versions
-    - run_binding_tuple
-    - eleven_ux_states
-    - cursor_dedup_no_regression
-    - exact_approval_gate
-    - adversarial_approvals_fail_closed
-    - pause_steer_cancel_resume_fork
-    - network_denied_before_attempt
-    - independent_verifier
-    - e2e_real_core_fixture_task
-    - core_restart_preserves_journal
-    - s30_verifier
+    - s30_tagged_base
+    - baseline_snapshot_on_run_start
+    - change_classification
+    - stale_apply_blocking
+    - external_edit_detection
+    - durable_fingerprint_comments
+    - evidence_states_and_invalidation
+    - independent_completion_signing
+    - boundary_diff_explicit_review
+    - rollback_hash_proof
+    - disclosure_before_commit
+    - real_git_commit
+    - adversarial_completion_suite
+    - e2e_review_commit_real_core
+    - core_restart_preserves_review_journal
+    - s31_verifier
     - full_local_verification
-    - verified_segment_push
   failed: []
-  pending: []
+  pending:
+    - verified_segment_push
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -190,7 +194,8 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers: []
+blockers:
+  - S31 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows (the legs run both real-Core e2es) and dependency-audit before protected merge
 next_action:
-  command: after this completion record merges, create annotated s30-complete on the record merge commit and verify its peeled SHA equals that main commit; S31 (change evidence review) then starts only from docs/execution/desktop/S31-CHANGE-EVIDENCE-REVIEW.md
-  description: PR #79 squash-merged as 5c8598063f8a2eb5ce8484ccb0a6338fb2c83a77 after repository-verification, monorepo ubuntu/macos/windows (each leg building the Core and running the real-Core governed-run e2e) and dependency-audit all passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit. The record closes S30: governed run engine with goals/plans/approvals/verifier over the encrypted store, six new protocol methods with mutation idempotency, four projection modules, 19 pure tests, the 27-check real-Core e2e now part of every monorepo CI leg, and verify-s30 (106 checks) in local and hosted gates. RT-1 MVP vertical reached: one real fixture task completes through the real Core with exact approvals and restart-surviving evidence. S31 is not started
+  command: push segment/S31-changes-evidence-review, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s31-complete on the record merge commit with peeled-SHA verification; S32 starts only from docs/execution/desktop/S32-MULTI-AGENT-WORKTREES.md
+  description: S31 changes and evidence review implemented on segment/S31-changes-evidence-review — Core side: change_set.rs (baseline snapshot of every worktree file at run start recorded as run.baseline_snapshot with manifest+tree digest; changeset.prepare diffs current vs baseline with added/modified/deleted classification, binary sniff, generated hints, external-edit detection via the approval journal, deterministic tree digest; changeset.apply requires the EXACT expected tree digest — wrong digests and external edits block with stale_apply_blocked; changeset.rollback restores baseline content and PROVES restoration by comparing every hash, failing with rollback_proof_failed otherwise; changeset.commit records message/authorship disclosure/signing durably BEFORE running real git in the worktree and returns the real commit sha) wired through the shared dispatch on both transports with four new protocol methods (changeset.prepare/apply/rollback/commit) regenerated through schema→Rust/TS→registries — projections: changeSetProjection (classification, stale apply preflight, rollback proof, metadata-and-approved-preview for binaries), reviewComments (fingerprint-bound durable comments, stale marking not relocation, hunk intents that never mutate, keyboard navigation contract), verificationEvidence (seven evidence states with full metadata, tree-change invalidation, separate security ownership, preview auto-verify with inconclusive outcome and screenshots-never-suffice, completion gate requiring an independent signer — a model message alone never completes), boundaryDiff (nine boundary categories with explicit acknowledgment) — evidence: 30 pure tests across three suites (change-set 6, review-a11y 14, apply-rollback 8 including forged success, stale evidence, changed-after-approval, binary omission, partial apply crash, rollback failure, conflict and restart determinism), the 22-check review-commit e2e over the REAL Core (prepare → wrong-digest block → exact apply → external-edit block → real git commit → hash-proven rollback → journal ordering with disclosure before commit → Core restart preserving 23 events), verify-s31 (72 checks) chained into local and hosted gates, and the monorepo CI matrix running the review-commit e2e on every leg; full pnpm verify green (122 governance tests); cargo fmt/clippy -D warnings clean

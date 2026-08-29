@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S30",
-  "status": "completed",
-  "branch": "segment/S30-completion",
+  "segment": "S31",
+  "status": "in_progress",
+  "branch": "segment/S31-changes-evidence-review",
   "base": {
-    "main_commit": "f169e57498cc35bd5f479302eb345a075339ea31",
-    "segment": "S29",
-    "tag": "s29-complete",
-    "commit": "f169e57498cc35bd5f479302eb345a075339ea31"
+    "main_commit": "7f0567b1c81ababf5ea7d99ab4b74b126322e4a7",
+    "segment": "S30",
+    "tag": "s30-complete",
+    "commit": "7f0567b1c81ababf5ea7d99ab4b74b126322e4a7"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
@@ -16,70 +16,50 @@
   "remote_head": "resolve-from-git",
   "checks": [
     {
-      "id": "S30-PREDECESSOR",
-      "command": "git rev-parse 's29-complete^{}' && git rev-parse origin/main",
+      "id": "S31-PREDECESSOR",
+      "command": "git rev-parse 's30-complete^{}' && git rev-parse origin/main",
       "exit_code": 0,
-      "result": "annotated s29-complete resolves to f169e57498cc35bd5f479302eb345a075339ea31 which equals origin/main; S30 branches from it (S29 entry appended to completed_segments, repairing the drift)"
+      "result": "annotated s30-complete resolves to 7f0567b1c81ababf5ea7d99ab4b74b126322e4a7 which equals origin/main; S31 branches from it (S30's completed_segments commit corrected to the record merge and the S25 ordering drift repaired)"
     },
     {
-      "id": "S30-PROTOCOL-PARITY",
+      "id": "S31-PROTOCOL-PARITY",
       "command": "pnpm generate:check",
       "exit_code": 0,
-      "result": "goal.create, plan.freeze, run.start, run.pause, run.resume and approval.resolve added once to the control schema and regenerated identically into Rust and TypeScript; decoder accepts them; agent-runtime and ide-client registries mirror the surface; mutations now carry context idempotency keys (encodeRequest enforces the key after the frame-size contract, preserving the earlier ordering test)"
+      "result": "changeset.prepare/apply/rollback/commit added to the control schema and regenerated identically into Rust and TypeScript; the decoder accepts them; the ide-client registry mirrors the surface"
     },
     {
-      "id": "S30-CORE-ENGINE",
+      "id": "S31-CORE-CHANGE-SET",
       "command": "cargo test -p saber-core --locked",
       "exit_code": 0,
-      "result": "run_engine.rs: governed run reaches approval then succeeds after exact approval (goal with frozen acceptance, immutable plan v1, file.read executed, file.edit blocked on a one-shot card, forged digest rejected, approval executes, net.request denied by policy before any attempt, independent verifier passes file_contains, terminal succeeded with bound evidence); approval replay and terminal regression fail closed; the engine index rebuilds from replayed events alone. Effects cannot escape the canonicalized worktree; command effects run node-only exact argv with the script inside the worktree"
+      "result": "change_set.rs: run start snapshots every worktree file (baseline manifest + content copies, recorded as run.baseline_snapshot with tree digest); prepare classifies added/modified/deleted with binary sniff and generated hints, detects external edits via the approval journal and binds a deterministic tree digest; apply requires the exact expected digest (stale_apply_blocked on wrong digests and external edits); rollback restores baseline content and proves it by comparing every hash (rollback_proof_failed otherwise); commit durably records message, authorship disclosure and signing choice BEFORE running real git and returns the real commit sha; binary/generated classification unit-tested"
     },
     {
-      "id": "S30-STORE-AND-DISPATCH",
-      "command": "cargo clippy -p saber-core -p saber-event-store --all-targets --locked -- -D warnings",
+      "id": "S31-PROJECTIONS",
+      "command": "pnpm desktop:test:change-set && pnpm desktop:test:review-a11y && pnpm desktop:test:apply-rollback",
       "exit_code": 0,
-      "result": "the store gained exactly one additive append_core_event (transactional, idempotent, hash-chained); both the unix socket and the Windows named-pipe server dispatch run methods through the shared run_dispatch module and advertise the run capabilities in initialize"
+      "result": "30/30: classification with metadata-and-approved-preview for binaries; stale-apply preflight; rollback proof with surfaced mismatches; boundary diff across nine categories with explicit acknowledgment; fingerprint-bound durable comments marked stale not relocated; hunk intents that never mutate; seven evidence states with tree-change invalidation and separate security ownership; preview auto-verify with inconclusive outcome and screenshots-never-suffice; completion gate requiring an independent signer (forged success text and producer-sole-signing both blocked)"
     },
     {
-      "id": "S30-PROJECTIONS",
-      "command": "pnpm desktop:test:goal-plan && pnpm desktop:test:approval-adversarial && pnpm desktop:test:run-controls",
+      "id": "S31-E2E-REVIEW-COMMIT",
+      "command": "pnpm desktop:e2e:review-commit",
       "exit_code": 0,
-      "result": "19/19: immutable plan versions with visible diff facets (acceptance changes always surfaced); eleven UX states mapped from six durable states with cursor dedup, stale-event non-regression and exact tool summaries (no invented progress); complete approval cards with deny always offered, narrowing that can only remove trailing argv, and every adversarial preflight (expired, digest mismatch, unknown card, changed plan, broadened scope, invalid decision); pause boundaries, steer placement, cancel propagation with compensation, resume revalidation, fork lineage, one projection feeding every surface and truthful quit options"
+      "result": "22/22 against the real Core: run succeeds through exact approvals; prepare classifies notes.md as added with no external edits and a bound tree digest; applying with a wrong digest is blocked; exact apply matches; an external edit after approval blocks the stale apply; commit records the disclosure then creates a REAL git commit (40-hex sha, visible in git log); rollback removes the run-added file, restores the externally tampered file and passes the hash proof; the journal contains baseline_snapshot/prepared/applied/commit_disclosed/committed/rolled_back with disclosure preceding commit; a Core restart preserves all 23 review events"
     },
     {
-      "id": "S30-E2E-REAL-CORE",
-      "command": "pnpm desktop:e2e:governed-run",
+      "id": "S31-FULL-GATES",
+      "command": "pnpm verify && cargo fmt --all -- --check && cargo clippy --workspace --all-targets --locked -- -D warnings",
       "exit_code": 0,
-      "result": "27/27 against the real saber-core debug binary over the real unix socket: initialize with capabilities; goal.create; plan.freeze v1; run.start executes file.read then blocks on the exact file.edit card (one-shot, network none, deny offered); forged digest fails closed; steer applies now while blocked; pause bounds at the next step; resume revalidates and re-issues a fresh card; both approvals match their displayed digests and exact argv; the command.test step runs node scripts/check.mjs inside the fixture worktree and exits 0; the network step is denied by policy with no attempt ever recorded; the independent verifier binds two evidence refs and the run terminalizes succeeded; approval-precedes-effect ordering holds in the replayed journal; fork re-executes the plan and cancel is terminal and locked; a Core restart on the same encrypted store preserves all 44 events and both run states"
-    },
-    {
-      "id": "S30-FULL-GATES",
-      "command": "pnpm verify && cargo fmt --all -- --check && cargo clippy --workspace --all-targets --locked -- -D warnings && git diff --check origin/main",
-      "exit_code": 0,
-      "result": "full pnpm verify green (generation parity, format, lint, typecheck, builds, package tests, licenses, S00-S30 verifiers — verify-s30 passes 106 checks — and 100 governance tests); Rust fmt and workspace clippy clean under -D warnings; whitespace contract holds"
-    },
-    {
-      "id": "S30-PROTECTED-PR-MERGE",
-      "command": "gh pr merge 79 --squash",
-      "exit_code": 0,
-      "result": "PR #79 squash-merged as 5c8598063f8a2eb5ce8484ccb0a6338fb2c83a77 after all five required checks passed (including the monorepo legs running the real-Core e2e and the Windows leg compiling the engine) and mergeStateStatus was CLEAN"
-    },
-    {
-      "id": "S30-MAIN-CI",
-      "command": "inspect main check runs on 5c8598063f8a2eb5ce8484ccb0a6338fb2c83a77",
-      "exit_code": 0,
-      "result": "repository verification, three-platform monorepo CI (with the governed-run e2e), dependency audit and main provenance all concluded successfully on the merge commit"
+      "result": "full pnpm verify green (S00-S31 verifiers — verify-s31 passes 72 checks — and 122 governance tests); Rust fmt and workspace clippy clean under -D warnings; whitespace contract holds"
     }
   ],
   "known_blockers": [
-    "the packaged-desktop journey (desktop:build matrix) remains hosted evidence; the local e2e drives the real Core binary directly rather than a packaged app",
-    "the deterministic fixture model route is the only executor: real provider-backed runs arrive with later segments"
+    "PR creation remains a separately approved network capability by design — the fixture journey stops at the local git commit; no network egress was requested or attempted"
   ],
-  "pending": [],
-  "last_verified_at": "2026-08-29T06:10:28Z",
-  "pull_request": {
-    "number": 79,
-    "url": "https://github.com/SunArthurX/saber-harness/pull/79",
-    "state": "MERGED",
-    "merge_commit": "5c8598063f8a2eb5ce8484ccb0a6338fb2c83a77"
-  }
+  "pending": [
+    "push segment/S31-changes-evidence-review and open the protected PR",
+    "five required checks green (monorepo legs run both real-Core e2es) plus mergeStateStatus CLEAN",
+    "squash-merge, completion record, annotated s31-complete with peeled-SHA verification"
+  ],
+  "last_verified_at": "2026-08-29T06:35:17Z",
+  "pull_request": null
 }

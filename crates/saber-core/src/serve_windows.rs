@@ -73,7 +73,7 @@ pub fn serve(store_dir: &Path, workspace_id: &str) -> Result<(), String> {
     // lock engine-then-store.
     let engine = {
         let guard = store.lock().map_err(|_| "store poisoned".to_string())?;
-        crate::run_engine::RunEngine::rebuild(&guard)
+        crate::run_engine::RunEngine::rebuild(store_dir, &guard)
             .map_err(|error| format!("run engine rebuild failed: {error}"))?
     };
     let engine = Arc::new(Mutex::new(engine));
