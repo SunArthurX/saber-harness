@@ -1,38 +1,42 @@
-# S32 Handoff — Multi-Agent and Worktree
+# S33 Handoff — Continuity and Knowledge
 
-Status: completed — PR #83 merged (39b4e6e) with all five required checks green and all six main contexts green on the merge commit; this record closes S32. The annotated s32-complete tag follows this record's merge; S33 starts from its runbook in a new execution round
+Status: in progress — the complete continuity/knowledge contract is
+implemented and tested (22 pure tests + the fixed-set evaluation); the
+protected PR, hosted checks, completion record and s33-complete tag
+remain
 Date: 2026-08-29
-Branch: `segment/S32-multiagent-worktree`
-Base main: `d45ba7404aa75e1f0813f5911ca9e956b202df54` (`s31-complete`)
-Runbook: `docs/execution/desktop/S32-MULTIAGENT-WORKTREE.md`
+Branch: `segment/S33-continuity-knowledge`
+Base main: `d91b192180a1794bf79c52c6dd24a9067966ba32` (`s32-complete`)
+Runbook: `docs/execution/desktop/S33-CONTINUITY-KNOWLEDGE.md`
 
 ## What landed
 
-- **Core** (`multi_agent.rs`): journal-first `worktree.create`
-  (deterministic seeds → idempotent replay; collision-safe, owner-
-  tagged git worktrees with dirty-base detection), `task.delegate`
-  (child scope can never widen across capabilities/secrets/network/
-  dataClass/realms; budgets clamp to the parent),
-  `worktree.integrate` (review worktree with overlap detection) and
-  quarantine-default cleanup. Three new protocol methods on both
-  transports.
-- **Projections**: `goalDag` (pre-dispatch validation, waiting
-  reasons, critical path), `worktreeLifecycle` (anomalies,
-  quarantine, take-over, realm moves, follow), `delegationPolicy`
-  (scope subsets, budgets, team decisions, conflicts, containment).
-- **Evidence**: 21 pure tests across three suites; the 19-check
-  parallel-integration e2e over the real Core; verify-s32 (63 checks);
-  monorepo CI runs the e2e on every leg.
+- **importWizard** — versioned codex/claude adapters, consent before
+  read, fail-closed validation, idempotent deterministic recompute,
+  unsupported fields visible, cancel-safe sessions.
+- **lineageBrowser** — four lineage layers, recompute status, no
+  untrusted auto-promotion, deletion propagation, resumption capsules
+  with drift detection and non-rewriting continuations.
+- **retrievalContext** — pre-return filters, blended rerank with
+  per-source budgets, context receipts, quality evaluation.
+- **memoryLedger** — four types, nine expected-revision actions,
+  scope/TTL/revocation-aware recall, workspace-wins conflicts,
+  evidence-gated recall promotion.
+- **privacyDeletion** — mandatory encryption, minimal-metadata E2EE,
+  honest strict mode, six verified deletion propagations,
+  conflict-surfacing client-key sync.
+- **Evidence**: 22 tests across four suites; the memory evaluation
+  (precision 1.000 >= 0.75); verify-s33 (72 checks) in local and
+  hosted gates.
 
 ## Honest limits
 
-Child runs share one Core process (store-mutex serialization); true
-process-level parallelism arrives with sandbox realm integration.
+Adapters cover the two fixture formats; production live-API
+connectors arrive with enterprise integration.
 
 ## Next actions
 
-1. Create annotated s32-complete on this record's merge commit;
-   verify the peeled SHA equals that main commit locally and remotely.
-2. S33 (continuity/knowledge) starts only from
-   docs/execution/desktop/S33-CONTINUITY-KNOWLEDGE.md in a new
-   execution round.
+1. Push, open the protected PR, wait for the five checks.
+2. Squash-merge; completion record; annotated `s33-complete`.
+3. S34 starts only from
+   `docs/execution/desktop/S34-ARMOR-EVOLUTION-HEALTH.md`.

@@ -1,0 +1,20 @@
+{
+  "format": "claude-export",
+  "format_version": 2,
+  "exported_at_ms": 1700000100000,
+  "chats": [
+    {
+      "uuid": "chat-cl-1",
+      "name": "Refactor parser",
+      "turns": [
+        { "sender": "human", "content": "Refactor the parser to fail closed", "timestamp": 1700000101000 },
+        {
+          "sender": "assistant",
+          "content": "Parser now rejects unknown nodes instead of skipping them",
+          "timestamp": 1700000102000
+        }
+      ],
+      "extra": { "system_prompt": "elided" }
+    }
+  ]
+}

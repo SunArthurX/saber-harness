@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S32",
-  "status": "completed",
-  "branch": "segment/S32-completion",
+  "segment": "S33",
+  "status": "in_progress",
+  "branch": "segment/S33-continuity-knowledge",
   "base": {
-    "main_commit": "d45ba7404aa75e1f0813f5911ca9e956b202df54",
-    "segment": "S31",
-    "tag": "s31-complete",
-    "commit": "d45ba7404aa75e1f0813f5911ca9e956b202df54"
+    "main_commit": "d91b192180a1794bf79c52c6dd24a9067966ba32",
+    "segment": "S32",
+    "tag": "s32-complete",
+    "commit": "d91b192180a1794bf79c52c6dd24a9067966ba32"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
@@ -16,63 +16,56 @@
   "remote_head": "resolve-from-git",
   "checks": [
     {
-      "id": "S32-PREDECESSOR",
-      "command": "git rev-parse 's32?' ",
+      "id": "S33-PREDECESSOR",
+      "command": "git rev-parse 's32-complete^{}'",
       "exit_code": 0,
-      "result": "s31-complete resolves to d45ba7404aa75e1f0813f5911ca9e956b202df54 which equals origin/main; S32 branches from it"
+      "result": "s32-complete resolves to d91b192180a1794bf79c52c6dd24a9067966ba32 which equals origin/main; S33 branches from it (S32 completed entry corrected to the tag commit)"
     },
     {
-      "id": "S32-PROTOCOL-PARITY",
-      "command": "pnpm generate:check",
+      "id": "S33-IMPORT-LINEAGE",
+      "command": "pnpm desktop:test:import-lineage",
       "exit_code": 0,
-      "result": "task.delegate, worktree.create and worktree.integrate added to the schema and regenerated identically; decoder and registries extended on both sides"
+      "result": "7/7: both fixture formats (codex-export v1, claude-export v2) import idempotently and recompute deterministically; unsupported fields remain visible; validation fails closed on size, media, schema, parser version and malicious attachments; consent precedes reading and cancellation leaves no half-authoritative records; lineage layers separate with recompute status; untrusted imports never auto-promote; deletion propagates per policy"
     },
     {
-      "id": "S32-CORE-MULTI-AGENT",
-      "command": "cargo test -p saber-core --locked",
+      "id": "S33-RESUME-DRIFT",
+      "command": "pnpm desktop:test:resume-drift",
       "exit_code": 0,
-      "result": "multi_agent.rs: journal-first worktree creation with deterministic seeds (identical requests replay idempotently; collisions and post-replay gaps fail honestly), dirty-base detection excluding Saber's managed directory, delegation with child-scope widening rejected across every dimension and budgets clamped, integration into a review worktree with overlap detection, quarantine-default cleanup blocking unreviewed changes; copy_tree skips .git and node_modules (unit-tested)"
+      "result": "3/3: capsules capture the full continuation identity; revalidation distinguishes unchanged/diverged/missing/unknown with drift detail and user choice on ambiguity; continuations create linked events and never rewrite the source"
     },
     {
-      "id": "S32-PROJECTIONS",
-      "command": "pnpm desktop:test:goal-dag && pnpm desktop:test:worktree-lifecycle && pnpm desktop:test:multiagent-faults",
+      "id": "S33-MEMORY-LEDGER",
+      "command": "pnpm desktop:test:memory-ledger",
       "exit_code": 0,
-      "result": "21/21: DAG cycles, missing dependencies and impossible budgets fail before dispatch; waiting reasons and critical path computed from durable state with no percentages; lifecycle anomalies, quarantine-first cleanup, pause-then-verify take-over, realm-move capability diffs, follow and queued messages; delegation subset validation across all five scope dimensions, budget clamps and pause-with-evidence, explained team decisions, conflict detection with proposed order, fault containment and non-laundering cross-task messages"
+      "result": "7/7: retrieval filters secrets/revocations/TTL/scope before return; rerank under per-source budgets; context receipts; measured precision/stale/duplicate/false-provenance; expected-revision ledger actions; status/TTL/revocation/scope-aware recall; workspace-wins without secret last-write-wins; recall promotion needs independent evidence"
     },
     {
-      "id": "S32-E2E-PARALLEL-INTEGRATION",
-      "command": "pnpm desktop:e2e:parallel-integration",
+      "id": "S33-DELETION-E2EE",
+      "command": "pnpm desktop:test:deletion-e2ee",
       "exit_code": 0,
-      "result": "19/19 against the real Core: two per-task worktrees with distinct ids created through worktree.create (idempotent replay verified); a widened delegation rejected with child_scope_widened; bounded delegation clamped to five tool calls; child 1 runs to success with its own worktree-authored output; child 2 blocks mid-approval and its cancellation leaves child 1's output and goal health intact; integration into a review worktree detects the overlapping file, applies the unique one and journals everything"
+      "result": "5/5: mandatory encryption and OS credential storage; minimal-metadata E2EE envelopes; honest strict mode; six verified deletion propagations; client-key conflicts surface"
     },
     {
-      "id": "S32-FULL-GATES",
-      "command": "pnpm verify && cargo fmt --all -- --check && cargo clippy --workspace --all-targets --locked -- -D warnings",
+      "id": "S33-EVAL",
+      "command": "pnpm desktop:eval:memory",
       "exit_code": 0,
-      "result": "full pnpm verify green (S00-S32 verifiers \u2014 verify-s32 passes 63 checks \u2014 and 143 governance tests); workspace fmt and clippy clean under -D warnings; whitespace contract holds"
+      "result": "precision 1.000 (threshold 0.75), staleRate 0.000, duplicateRate 0.000, falseProvenance 0.000 on the fixed evaluation set"
     },
     {
-      "id": "S32-PROTECTED-PR-MERGE",
-      "command": "gh pr merge 83 --squash",
+      "id": "S33-FULL-GATES",
+      "command": "pnpm verify",
       "exit_code": 0,
-      "result": "PR #83 squash-merged as 39b4e6ec95f8167ec72aabf9cb45513693f3c109 after all five required checks passed and mergeStateStatus was CLEAN"
-    },
-    {
-      "id": "S32-MAIN-CI",
-      "command": "inspect main check runs on 39b4e6ec95f8167ec72aabf9cb45513693f3c109",
-      "exit_code": 0,
-      "result": "repository verification, three-platform monorepo CI (three e2es), dependency audit and main provenance all concluded successfully on the merge commit"
+      "result": "full pnpm verify green \u2014 S00-S33 verifiers (verify-s33 passes 72 checks) and 165 governance tests"
     }
   ],
   "known_blockers": [
-    "concurrent child runs share one Core process serially through the store mutex; true process-level parallelism arrives with sandbox realm integration"
+    "adapters cover the two fixture formats; production live-API connectors arrive with enterprise integration"
   ],
-  "pending": [],
-  "last_verified_at": "2026-08-29T07:47:40Z",
-  "pull_request": {
-    "number": 83,
-    "url": "https://github.com/SunArthurX/saber-harness/pull/83",
-    "state": "MERGED",
-    "merge_commit": "39b4e6ec95f8167ec72aabf9cb45513693f3c109"
-  }
+  "pending": [
+    "push segment/S33-continuity-knowledge and open the protected PR",
+    "five required checks green plus mergeStateStatus CLEAN",
+    "squash-merge, completion record, annotated s33-complete with peeled-SHA verification"
+  ],
+  "last_verified_at": "2026-08-29T08:10:10Z",
+  "pull_request": null
 }
