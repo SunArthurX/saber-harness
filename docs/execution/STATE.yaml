@@ -4,7 +4,7 @@ architecture_version: "2.1"
 current_segment:
   id: S28
   name: desktop-workbench-shell
-  status: in_progress
+  status: completed
   objective: open a real repository into the default three-zone Desktop Agent Workbench (persistent project/task navigation, central agent pane, native Code-OSS surfaces) with keyboard-operable pane lattice, named presets, versioned layout persistence with corrupt-layout recovery, fail-closed identity gating and an audited accessibility contract — while layout, focus and accessible identity survive restart and no agent execution is required yet
 predecessor:
   segment: S27
@@ -115,44 +115,44 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T03:35:14Z"
+  last_checkpoint_at: "2026-08-29T04:17:02Z"
 acceptance:
   required:
-    - s26_tagged_base
-    - lifecycle_contract_registry
-    - unix_endpoint_hardening
-    - one_time_bootstrap_token
-    - cursor_replay_with_ack
-    - adversarial_fail_closed
-    - crash_recovery_matrix
-    - renderer_bridge_allowlist
-    - windows_named_pipe_transport
-    - electron_main_lifecycle_wiring
-    - handshake_failure_audit_events
-    - safe_mode_and_support_bundle_ux
-    - slow_consumer_cursor_gap_cases
-    - s27_verifier
+    - s27_tagged_base
+    - layout_tokens_and_safe_states
+    - navigation_projection_states
+    - stable_ids_incremental_updates
+    - context_menu_transition_gating
+    - identity_fail_closed_gating
+    - fixture_provenance_command_center_secondary
+    - first_run_walkthrough_no_remote
+    - layout_persistence_corrupt_recovery
+    - identity_mismatch_no_silent_switch
+    - keyboard_path_complete
+    - landmarks_live_regions
+    - contrast_zoom_localization
+    - smoke_workspace_fixture
+    - s28_verifier
     - full_local_verification
-    - verified_segment_push
     - hosted_branch_ci
     - protected_pr_merge
   passed:
-    - s26_tagged_base
-    - lifecycle_contract_registry
-    - unix_endpoint_hardening
-    - one_time_bootstrap_token
-    - cursor_replay_with_ack
-    - adversarial_fail_closed
-    - crash_recovery_matrix
-    - renderer_bridge_allowlist
-    - s27_verifier
+    - s27_tagged_base
+    - layout_tokens_and_safe_states
+    - navigation_projection_states
+    - stable_ids_incremental_updates
+    - context_menu_transition_gating
+    - identity_fail_closed_gating
+    - fixture_provenance_command_center_secondary
+    - first_run_walkthrough_no_remote
+    - layout_persistence_corrupt_recovery
+    - identity_mismatch_no_silent_switch
+    - keyboard_path_complete
+    - landmarks_live_regions
+    - contrast_zoom_localization
+    - smoke_workspace_fixture
+    - s28_verifier
     - full_local_verification
-    - windows_named_pipe_transport
-    - electron_main_lifecycle_wiring
-    - handshake_failure_audit_events
-    - slow_consumer_cursor_gap_cases
-    - safe_mode_and_support_bundle_ux
-    - verified_segment_push
     - hosted_branch_ci
     - protected_pr_merge
   failed: []
@@ -185,8 +185,7 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers:
-  - S28 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows and dependency-audit before protected merge; runtime three-OS launch/restart/corrupt-layout evidence is hosted-CI evidence recorded honestly
+blockers: []
 next_action:
-  command: push segment/S28-workbench-shell, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s28-complete on the record merge commit with peeled-SHA verification; S29 starts only from docs/execution/desktop/S29-CONVERSATION-CONTEXT.md
-  description: S28 desktop workbench shell implemented on segment/S28-workbench-shell — six pure projection modules (workbenchLayout safe-states/splitter/presets/receipts, navigationProjection nine-state store with stable IDs and valid-transition menus, identityContext fail-closed destructive gating with revision binding, agentWorkspace fixture ViewModels with secondary Command Center and no-remote walkthrough, layoutPersistence versioned restore with corrupt/identity-mismatch fallback and pane placeholders, a11yAudit keyboard path/landmarks/live regions/contrast/zoom/localization parity), native-only manifest wiring (five navigation views, evidence panel drawer, auxiliary command center, 13 keybindings, context menus gated on viewItem), smoke --workspace fixture validation, desktop:test:workbench (17) + desktop:test:a11y (8) suites, verify-s28 (142 checks) chained into local and hosted gates; full pnpm verify green on the branch; verify-s26 extension-boundary check evolved to allow extension-internal src/ modules while still forbidding Node built-ins and npm packages
+  command: after this completion record merges, create annotated s28-complete on the record merge commit and verify its peeled SHA equals that main commit; S29 (conversation/context) then starts only from docs/execution/desktop/S29-CONVERSATION-CONTEXT.md
+  description: PR #75 squash-merged as 4aceea50fe18dd6b946008ae8e5a84f2ac073422 after repository-verification, monorepo ubuntu/macos/windows and dependency-audit all passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit. The record closes S28: six pure projection modules (lattice with safe states/presets/receipts, nine-state navigation store with stable IDs and transition-gated menus, fail-closed identity gating with revision binding, fixture ViewModels with secondary Command Center and a no-remote walkthrough, versioned layout persistence with corrupt/identity fallback, a11y audit covering keyboard path/landmarks/live regions/contrast/zoom/localization), native-only manifest wiring (five navigation views, evidence panel drawer, auxiliary command center, 13 keybindings), smoke --workspace fixture validation, desktop:test:workbench (17) + desktop:test:a11y (8), verify-s28 (142 checks) chained into local and hosted gates; runtime three-OS launch evidence remains honestly recorded as hosted desktop:build evidence. S29 is not started
