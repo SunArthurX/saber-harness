@@ -2,10 +2,10 @@ project: saber
 roadmap_version: "2.0"
 architecture_version: "2.1"
 current_segment:
-  id: S34
-  name: armor-evolution-health
-  status: completed
-  objective: distinguish external Armor from internal capability growth through signed capability manifests with per-component permissions, isolation, health and revocation; route every evolution candidate through the E0-E7 ladder with evidence, permission deltas, isolated evaluation, explicit canaries and last-known-good rollback; contain faults through H0-H4 vital signals, immune supervisor controls that outrank the agent brain, redaction-first support bundles; and prove bounded containment and recovery in a six-scenario game day
+  id: S35
+  name: enterprise-desktop
+  status: in_progress
+  objective: enroll devices and users with short-lived claims, deterministic tenant-scoped SCIM and fail-closed lost/revoked/offline behavior; distribute signed monotonic policy that lower scopes cannot weaken; keep secrets behind named references with KMS envelope wrapping, resumable rotation and DLP block evidence; govern five separate registries where org allowlists never override Core denial; enforce least-privilege RBAC with tenant-safe audit partitions, idempotent retention jobs and dual-control Break Glass; and pass all ten enterprise adversarial scenarios
 predecessor:
   segment: S33
   status: completed
@@ -120,7 +120,7 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S34-completion
+  branch: segment/S35-enterprise-desktop
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 1633d17
@@ -133,54 +133,60 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T11:00:00Z"
+  last_checkpoint_at: "2026-08-29T12:10:00Z"
 acceptance:
   required:
-    - s33_tagged_base
-    - signed_manifests_fail_closed
-    - install_grants_reviewed_surface_only
-    - revocation_marks_dependents
-    - ladder_e0_e7_with_e6_pr_only
-    - never_self_installs
-    - duplicates_conflicts_poison_blocked
-    - baseline_frozen_last_known_good
-    - isolated_eval_no_production_secret
-    - canary_plan_complete_or_fail
-    - rollback_even_when_crashed
-    - vital_signals_h0_h4
-    - quiet_low_severity_visible_high
-    - bundle_redaction_first_user_reviewed
-    - supervisor_outranks_agent
-    - agent_cannot_suppress_or_exit_safe_mode
-    - bounded_retry_circuit_breaker
-    - game_day_six_scenarios_recover
-    - s34_verifier
+    - s34_tagged_base
+    - assertions_short_lived_no_passwords
+    - forged_claims_fail_closed
+    - scim_deterministic_tenant_scoped
+    - recursive_groups_bounded
+    - device_high_risk_fail_closed
+    - policy_signed_monotonic
+    - rollback_replay_rejected
+    - lower_scope_cannot_weaken_deny
+    - offline_last_verified_with_staleness
+    - envelope_wrap_plaintext_memory_only
+    - rotation_resumable_rollback_safe
+    - secret_references_not_values
+    - dlp_block_evidence
+    - registries_inert_before_approval
+    - org_allowlist_never_overrides_core
+    - rbac_least_privilege
+    - audit_tenant_safe_legal_basis_export
+    - retention_jobs_idempotent
+    - break_glass_dual_control_audit_always
+    - ten_adversarial_scenarios_fail_closed
+    - s35_verifier
     - full_local_verification
     - verified_segment_push
   passed:
-    - s33_tagged_base
-    - signed_manifests_fail_closed
-    - install_grants_reviewed_surface_only
-    - revocation_marks_dependents
-    - ladder_e0_e7_with_e6_pr_only
-    - never_self_installs
-    - duplicates_conflicts_poison_blocked
-    - baseline_frozen_last_known_good
-    - isolated_eval_no_production_secret
-    - canary_plan_complete_or_fail
-    - rollback_even_when_crashed
-    - vital_signals_h0_h4
-    - quiet_low_severity_visible_high
-    - bundle_redaction_first_user_reviewed
-    - supervisor_outranks_agent
-    - agent_cannot_suppress_or_exit_safe_mode
-    - bounded_retry_circuit_breaker
-    - game_day_six_scenarios_recover
-    - s34_verifier
+    - s34_tagged_base
+    - assertions_short_lived_no_passwords
+    - forged_claims_fail_closed
+    - scim_deterministic_tenant_scoped
+    - recursive_groups_bounded
+    - device_high_risk_fail_closed
+    - policy_signed_monotonic
+    - rollback_replay_rejected
+    - lower_scope_cannot_weaken_deny
+    - offline_last_verified_with_staleness
+    - envelope_wrap_plaintext_memory_only
+    - rotation_resumable_rollback_safe
+    - secret_references_not_values
+    - dlp_block_evidence
+    - registries_inert_before_approval
+    - org_allowlist_never_overrides_core
+    - rbac_least_privilege
+    - audit_tenant_safe_legal_basis_export
+    - retention_jobs_idempotent
+    - break_glass_dual_control_audit_always
+    - ten_adversarial_scenarios_fail_closed
+    - s35_verifier
     - full_local_verification
-    - verified_segment_push
   failed: []
-  pending: []
+  pending:
+    - verified_segment_push
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -209,7 +215,8 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers: []
+blockers:
+  - S35 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows and dependency-audit before protected merge
 next_action:
-  command: after this completion record merges, create annotated s34-complete on the record merge commit and verify its peeled SHA equals that main commit; S35 (enterprise/multitenant) then starts only from docs/execution/desktop/S35-ENTERPRISE-MULTITENANT.md
-  description: PR #87 squash-merged as 9ff1e6fb09788281098a4428b505901ceebff5af after repository-verification, monorepo ubuntu/macos/windows and dependency-audit passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit. The record closes S34: armor, evolution and health (fail-closed signed capability manifests with rack cards, manifest-bounded install grants, reversible load/unload and dependent-marking revocation; the E0-E7 evolution ladder with E6 protected-PR-only and E7 forbidden, blocking intake for duplicates/conflicts/poisoned sources, frozen baselines, isolated secret-free evaluation, fail-closed canaries and crash-proof rollback; eleven vital signals across H0-H4 with quiet/visible UX, redaction-first user-reviewed support bundles, supervisor immune controls outranking the agent, fail-closed agent suppression/audit-edit/safe-mode-exit and bounded circuit breakers; six game-day scenarios proving bounded containment, recovery, append-only evidence and correct escalation), 26 pure tests across four suites and verify-s34 (76 checks). S35 is not started
+  command: push segment/S35-enterprise-desktop, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s35-complete on the record merge commit with peeled-SHA verification; S36 starts only from docs/execution/desktop/S36-PACKAGING-UPDATE.md
+  description: S35 enterprise desktop implemented on segment/S35-enterprise-desktop — four pure modules (enterpriseIdentity: OIDC/SAML assertion exchange into short-lived claims with password handling prohibited, forged issuer/subject/tenant claims and expiry failing closed beyond clock skew, deterministic tenant-scoped SCIM mapping with depth-bounded group resolution and transitive role closure, device enrollment exposing posture/ownership/check-in/revocation, high-risk authorization failing closed on revoked, deprovisioned, lost, tenant-mismatched or offline-grace-exceeded devices; policyDistribution: enterprise-key-signed versioned bundles, monotonic acceptance rejecting rollback and same-sequence replay, effective policy where lower scopes may tighten but never weaken an org deny, offline clients using last-verified policy with surfaced staleness and no silent default fallback; kmsDlp: KMS envelope wrapping keeping plaintext in approved process memory only, per-item-checkpointed resumable rollback-safe key rotation, revocable device wraps, named secret references that reject literal values, plaintext sink audits rejecting logs/model-context/policy-files/crash-dumps, DLP evaluation exposing classification/destination/transformation/block evidence; tenantIsolation: five separate signed registry catalogs whose entries cannot execute or fetch before approval and whose org allowlist never overrides a Core denial, seven least-privilege roles, tenant-safe audit partitions exporting metadata/content per role and legal basis, observable idempotent retention/legal-hold/export/deletion jobs, dual-control expiring alarming review-required Break Glass that never disables audit, and all ten adversarial scenarios failing closed), 24 pure tests across four suites and verify-s35 (77 checks) chained into local and hosted gates; full pnpm verify green (215 governance tests). This record also corrects the S35 runbook filename referenced by the S34 record (S35-ENTERPRISE-DESKTOP.md, not S35-ENTERPRISE-MULTITENANT.md)

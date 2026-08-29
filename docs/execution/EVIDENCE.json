@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S34",
-  "status": "completed",
-  "branch": "segment/S34-completion",
+  "segment": "S35",
+  "status": "in_progress",
+  "branch": "segment/S35-enterprise-desktop",
   "base": {
-    "main_commit": "f7f837e35fb3a1f7fe59c202ad463764416bf93a",
-    "segment": "S33",
-    "tag": "s33-complete",
-    "commit": "f7f837e35fb3a1f7fe59c202ad463764416bf93a"
+    "main_commit": "da9499edaaa9a4d61056dad99722809f7c01bf8e",
+    "segment": "S34",
+    "tag": "s34-complete",
+    "commit": "da9499edaaa9a4d61056dad99722809f7c01bf8e"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
@@ -16,63 +16,50 @@
   "remote_head": "resolve-from-git",
   "checks": [
     {
-      "id": "S34-PREDECESSOR",
-      "command": "git rev-parse 's33-complete^{}'",
+      "id": "S35-PREDECESSOR",
+      "command": "git rev-parse 's34-complete^{}'",
       "exit_code": 0,
-      "result": "s33-complete resolves to f7f837e35fb3a1f7fe59c202ad463764416bf93a which equals origin/main; S34 branches from it"
+      "result": "s34-complete resolves to da9499edaaa9a4d61056dad99722809f7c01bf8e which equals origin/main; S35 branches from it"
     },
     {
-      "id": "S34-ARMOR-RACK",
-      "command": "pnpm desktop:test:armor-rack",
+      "id": "S35-ENTERPRISE-IDENTITY",
+      "command": "pnpm desktop:test:enterprise-identity",
       "exit_code": 0,
-      "result": "5/5: manifests fail closed on unknown kind, untrusted signer, unsigned, missing digest and tampered payload; rack cards show the full review surface; install grants never exceed the reviewed manifest; load/unload is reversible with privileged immune roots; revocation removes authorization and marks dependents"
+      "result": "6/6: assertion exchange yields short-lived claims with passwords prohibited; forged issuer/subject/tenant and expiry fail closed beyond clock skew; group resolution is tenant-scoped and depth-bounded against recursion; SCIM mapping is deterministic with transitive role closure; enrollment exposes the full device surface; high-risk actions fail closed on revoked/deprovisioned/lost/mismatched/stale devices"
     },
     {
-      "id": "S34-EVOLUTION-WORKSHOP",
-      "command": "pnpm desktop:test:evolution-workshop",
+      "id": "S35-POLICY-DISTRIBUTION",
+      "command": "pnpm desktop:test:policy-distribution",
       "exit_code": 0,
-      "result": "8/8: the E0-E7 ladder keeps E6 protected-PR-only and E7 forbidden; duplicates group, conflicts and poisoned sources block; reviews never self-install; baselines freeze with last-known-good; evaluation is isolated and secret-free with honest regression verdicts; canary plans fail closed when incomplete; rollback works even after a crash"
+      "result": "5/5: bundles are enterprise-key signed only; acceptance is monotonic rejecting rollback and replay; lower scopes cannot weaken an org deny; effective policy shows scope, deny/allow and last sequence; offline uses last-verified policy with surfaced staleness and no silent defaults"
     },
     {
-      "id": "S34-HEALTH-INCIDENTS",
-      "command": "pnpm desktop:test:health-incidents",
+      "id": "S35-KMS-DLP",
+      "command": "pnpm desktop:test:kms-dlp",
       "exit_code": 0,
-      "result": "8/8: all eleven signals classify into H0-H4; lifecycles carry detect/contain/repair/verify/escalate; low severity stays quiet while high severity shows impact/action/risk/choices; bundles are redaction-first and export only after user review; immune controls need no model approval; the agent cannot suppress events, edit audit history or exit Safe Mode; safe-mode exit needs external authority; circuit breakers bound crash loops"
+      "result": "6/6: envelope wrapping keeps plaintext in approved process memory only; rotation is resumable, rollback-safe with old wraps valid until completion; revoked keys become undecryptable; policy carries named references not values; plaintext sinks are audited against logs/models/policy/crash dumps; DLP exposes classification/destination/transformation/block evidence"
     },
     {
-      "id": "S34-GAME-DAY",
-      "command": "pnpm desktop:test:game-day",
+      "id": "S35-TENANT-ISOLATION",
+      "command": "pnpm desktop:test:tenant-isolation",
       "exit_code": 0,
-      "result": "5/5: all six scenarios inject, contain boundedly, recover to last-known-good/Safe Mode/unchanged baseline/deterministic rebuild, preserve append-only evidence and escalate correctly while containment outranks the agent brain"
+      "result": "7/7: five separate catalogs with signed inert-before-approval entries; org allowlist never overrides a Core denial; seven least-privilege roles; tenant-safe audit partitions with role-and-legal-basis export; idempotent retention jobs; dual-control expiring Break Glass with alarm, review and audit always on; all ten adversarial scenarios fail closed"
     },
     {
-      "id": "S34-FULL-GATES",
+      "id": "S35-FULL-GATES",
       "command": "pnpm verify",
       "exit_code": 0,
-      "result": "full pnpm verify green — S00-S34 verifiers (verify-s34 passes 76 checks) and 191 governance tests"
-    },
-    {
-      "id": "S34-PROTECTED-PR-MERGE",
-      "command": "gh pr merge 87 --squash",
-      "exit_code": 0,
-      "result": "PR #87 squash-merged as 9ff1e6fb09788281098a4428b505901ceebff5af after all five required checks passed and mergeStateStatus was CLEAN"
-    },
-    {
-      "id": "S34-MAIN-CI",
-      "command": "inspect main check runs on 9ff1e6fb09788281098a4428b505901ceebff5af",
-      "exit_code": 0,
-      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
+      "result": "full pnpm verify green — S00-S35 verifiers (verify-s35 passes 77 checks) and 215 governance tests"
     }
   ],
   "known_blockers": [
-    "armor manifests use deterministic fixture signatures; production code-signing integration arrives with the release train packaging segment"
+    "identity, KMS and registries use non-production fixture adapters; real IdP/KMS/SCIM endpoints arrive with the production gate segment"
   ],
-  "pending": [],
-  "last_verified_at": "2026-08-29T11:00:00Z",
-  "pull_request": {
-    "number": 87,
-    "url": "https://github.com/SunArthurX/saber-harness/pull/87",
-    "state": "MERGED",
-    "merge_commit": "9ff1e6fb09788281098a4428b505901ceebff5af"
-  }
+  "pending": [
+    "push segment/S35-enterprise-desktop and open the protected PR",
+    "five required checks green plus mergeStateStatus CLEAN",
+    "squash-merge, completion record, annotated s35-complete with peeled-SHA verification"
+  ],
+  "last_verified_at": "2026-08-29T12:10:00Z",
+  "pull_request": null
 }
