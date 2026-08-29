@@ -3,7 +3,7 @@
   "project": "saber",
   "segment": "S38",
   "status": "completed",
-  "branch": "segment/S38-interactive-evidence",
+  "branch": "segment/S38-keybinding-audit",
   "base": {
     "main_commit": "3bedc66b39548d6185df0080789e5b96f35a8682",
     "segment": "S37",
@@ -86,13 +86,19 @@
       "command": "AppleScript key codes + command palette + workspace state.vscdb inspection on the running app",
       "exit_code": 0,
       "result": "deeper interactive pass on the real running app: the macOS menu bar enumerated via accessibility (View menu confirmed; extension containers do not get View submenus upstream, so their absence is expected); a command-palette search executed 'Open Desktop Agent Workbench' end to end — the extension host log records '#_doActivateExtension saber.saber-agent ... activationEvent: onCommand:saber.workbench.open' (lazy activation explains why idle launches show no saber log lines); key codes delivered a saber keybinding to the app; and the workspace state.vscdb materialized all three saber containers with every view visible — saber-workbench (projects/goals/tasks/conversations/runs), saber-evidence-panel (evidence) and saber-secondary (commandCenter), confirming the secondarySidebar fix put the command center in its proper secondary container in the real UI state. No new defects found"
+    },
+    {
+      "id": "S38-KEYBINDING-AND-UNTITLED-AUDIT",
+      "command": "fresh no-input dev launch + keybinding contribution audit + editor-state DB comparison",
+      "exit_code": 0,
+      "result": "closed the two open questions from the interactive pass. (1) The unexpected 'Untitled-1' editor: a fresh session launched and left completely untouched holds zero untitled editors in its editor-state DB (only the Getting Started input), and the saber-agent code contains no path that creates untitled documents (its only editor path opens read-only virtual-scheme documents through the registered saber-workbench provider) — the untitled editor in the earlier session was an artifact of synthetic IME-buffered typing, not a product defect. (2) The keybindings: contributions use the valid upstream format (key plus mac override of cmd+alt+*, no when-clauses) and the renderer logs contain zero keybinding-registration errors; live firing could not be verified because synthetic Option-modifier events do not reliably reach Electron and Chromium's accessibility tree is not exposed to assistive clients in this profile — recorded as an honest verification limit, while the commands themselves are already proven executable end to end through the earlier palette run"
     }
   ],
   "known_blockers": [
     "the design-partner cohort KPIs and ring execution recorded here run against committed frozen fixtures; live partner cohorts execute the same contracts in the hosted program"
   ],
   "pending": [],
-  "last_verified_at": "2026-08-29T22:35:00Z",
+  "last_verified_at": "2026-08-29T23:40:00Z",
   "pull_request": {
     "number": 95,
     "url": "https://github.com/SunArthurX/saber-harness/pull/95",
