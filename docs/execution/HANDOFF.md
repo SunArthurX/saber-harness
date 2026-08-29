@@ -71,3 +71,10 @@ palette-driven command execution (the extension host recorded
 the workspace `state.vscdb`, which materialized all three saber
 containers with every view visible — including the command center
 under its fixed `saber-secondary` home — rather than screenshots.
+
+Follow-up audit: the stray `Untitled-1` from the palette session was
+an IME artifact (a fresh untouched session holds zero untitled
+editors and saber code never creates untitled documents). Keybinding
+contributions are statically valid with no registration errors; live
+Option-modifier firing stays an honest verification limit of
+synthetic input.
