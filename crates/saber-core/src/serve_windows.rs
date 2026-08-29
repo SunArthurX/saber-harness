@@ -26,15 +26,17 @@ const TOKEN_BYTES: usize = 32;
 const OUT_BUFFER: u32 = 64 * 1024;
 const IN_BUFFER: u32 = 64 * 1024;
 
-use windows_sys::Win32::Foundation::CloseHandle;
-use windows_sys::Win32::Storage::FileSystem::{
-    FILE_FLAG_FIRST_PIPE_INSTANCE, FILE_FLAG_OVERLAPPED, ReadFile, WriteFile,
-};
+use std::os::windows::io::FromRawHandle;
+
+use windows_sys::Win32::Foundation::{CloseHandle, INVALID_HANDLE_VALUE};
 use windows_sys::Win32::System::Pipes::{
-    ConnectNamedPipe, CreateNamedPipeW, DisconnectNamedPipe, PIPE_ACCESS_DUPLEX,
-    PIPE_READMODE_MESSAGE, PIPE_REJECT_REMOTE_CLIENTS, PIPE_TYPE_MESSAGE, PIPE_UNLIMITED_INSTANCES,
+    ConnectNamedPipe, CreateNamedPipeW, DisconnectNamedPipe, PIPE_READMODE_MESSAGE,
+    PIPE_REJECT_REMOTE_CLIENTS, PIPE_TYPE_MESSAGE, PIPE_UNLIMITED_INSTANCES,
 };
-use windows_sys::Win32::System::Threading::INFINITE;
+// Stable WinSDK constants spelled locally to avoid feature-path churn in
+// windows-sys: duplex access (3) and first-instance guard (0x0008_0000).
+const PIPE_ACCESS_DUPLEX: u32 = 3;
+const FILE_FLAG_FIRST_PIPE_INSTANCE: u32 = 0x0008_0000;
 
 /// Serve the workspace supervision endpoint until the process is stopped.
 ///
@@ -63,15 +65,19 @@ pub fn serve(store_dir: &Path, workspace_id: &str) -> Result<(), String> {
         .map_err(|error| error.to_string())?;
 
     let token_spent = Arc::new(AtomicBool::new(false));
-    let mut instance = 0_u32;
     loop {
-        instance += 1;
-        let pipe = create_pipe_instance(&address, instance == 1)?;
+        let pipe = create_pipe_instance(&address)?;
+        // Wrap the raw handle before moving into the handler thread so the
+        // spawn closure only carries Send types.
+        let stream = PipeStream {
+            file: unsafe { std::fs::File::from_raw_handle(pipe) },
+            handle: pipe,
+        };
         let store = Arc::clone(&store);
         let token = token.clone();
         let token_spent = Arc::clone(&token_spent);
         std::thread::spawn(move || {
-            if let Err(error) = handle_instance(pipe, store, &token, token_spent) {
+            if let Err(error) = handle_instance(stream, store, &token, token_spent) {
                 eprintln!("saber-core serve: connection error: {error}");
             }
         });
@@ -82,17 +88,16 @@ fn to_wide(value: &str) -> Vec<u16> {
     value.encode_utf16().chain(std::iter::once(0)).collect()
 }
 
-fn create_pipe_instance(address: &str, first: bool) -> Result<*mut core::ffi::c_void, String> {
+fn create_pipe_instance(address: &str) -> Result<*mut core::ffi::c_void, String> {
     let wide = to_wide(address);
     // The default DACL of the creating process token restricts the pipe to
     // the current logon identity; PIPE_REJECT_REMOTE_CLIENTS blocks remote
-    // pipe access. FIRST_PIPE_INSTANCE (always requested) guarantees an
-    // existing listener is never silently replaced.
-    let _ = first;
+    // pipe access. FIRST_PIPE_INSTANCE guarantees an existing listener is
+    // never silently replaced.
     let pipe = unsafe {
         CreateNamedPipeW(
             wide.as_ptr(),
-            PIPE_ACCESS_DUPLEX | FILE_FLAG_FIRST_PIPE_INSTANCE | FILE_FLAG_OVERLAPPED,
+            PIPE_ACCESS_DUPLEX | FILE_FLAG_FIRST_PIPE_INSTANCE,
             PIPE_TYPE_MESSAGE | PIPE_READMODE_MESSAGE | PIPE_REJECT_REMOTE_CLIENTS,
             PIPE_UNLIMITED_INSTANCES,
             OUT_BUFFER,
@@ -101,87 +106,77 @@ fn create_pipe_instance(address: &str, first: bool) -> Result<*mut core::ffi::c_
             std::ptr::null(),
         )
     };
-    if pipe == windows_sys::Win32::Foundation::INVALID_HANDLE_VALUE {
+    if pipe == INVALID_HANDLE_VALUE {
         return Err(format!("pipe creation failed for {address}"));
     }
     Ok(pipe)
 }
 
-struct PipeStream(*mut core::ffi::c_void);
+/// Owns one connected pipe instance: a std File view over the raw handle
+/// plus the raw handle retained for DisconnectNamedPipe on drop.
+struct PipeStream {
+    file: std::fs::File,
+    handle: *mut core::ffi::c_void,
+}
+
+// The handle is only touched on the owning thread after creation; the
+// stream moves once from the accept loop into its handler thread.
+unsafe impl Send for PipeStream {}
 
 impl Drop for PipeStream {
     fn drop(&mut self) {
         unsafe {
-            DisconnectNamedPipe(self.0);
-            CloseHandle(self.0);
+            DisconnectNamedPipe(self.handle);
+            CloseHandle(self.handle);
         }
     }
 }
 
 impl Write for PipeStream {
     fn write(&mut self, buffer: &[u8]) -> std::io::Result<usize> {
-        let mut written = 0_u32;
-        let result = unsafe {
-            WriteFile(
-                self.0,
-                buffer.as_ptr().cast(),
-                u32::try_from(buffer.len()).unwrap_or(u32::MAX),
-                &mut written,
-                std::ptr::null_mut(),
-            )
-        };
-        if result == 0 {
-            return Err(std::io::Error::other("pipe write failed"));
-        }
-        Ok(written as usize)
+        self.file.write(buffer)
     }
 
     fn flush(&mut self) -> std::io::Result<()> {
-        Ok(())
+        self.file.flush()
     }
 }
 
 fn handle_instance(
-    pipe: *mut core::ffi::c_void,
+    mut stream: PipeStream,
     store: Arc<Mutex<EventStore>>,
     token: &str,
     token_spent: Arc<AtomicBool>,
 ) -> Result<(), String> {
-    let connected = unsafe { ConnectNamedPipe(pipe, std::ptr::null_mut()) };
+    let connected = unsafe { ConnectNamedPipe(stream.handle, std::ptr::null_mut()) };
     if connected == 0 {
         // ERROR_PIPE_CONNECTED (a client connected between creation and
         // ConnectNamedPipe) still yields a usable instance.
         let error = unsafe { windows_sys::Win32::Foundation::GetLastError() };
-        if error != 535 {
+        const ERROR_PIPE_CONNECTED: u32 = 535;
+        if error != ERROR_PIPE_CONNECTED {
             return Err(format!("connect failed: {error}"));
         }
     }
-    let _ = INFINITE;
-    let mut stream = PipeStream(pipe);
     let mut line = String::new();
     let mut initialized = false;
     loop {
         line.clear();
-        // Message-mode pipe: each ReadFile returns one write from the peer.
+        // Message-mode pipe: each read returns one write from the peer.
+        use std::io::Read as _;
         let mut buffer = vec![0_u8; MAX_FRAME_BYTES + 1];
-        let mut read = 0_u32;
-        let result = unsafe {
-            ReadFile(
-                pipe,
-                buffer.as_mut_ptr().cast(),
-                u32::try_from(buffer.len()).unwrap_or(u32::MAX),
-                &mut read,
-                std::ptr::null_mut(),
-            )
-        };
-        if result == 0 || read == 0 {
+        let read = stream
+            .file
+            .read(&mut buffer)
+            .map_err(|error| format!("read failed: {error}"))?;
+        if read == 0 {
             return Ok(()); // peer disconnected; Core state untouched
         }
-        if read as usize > LINE_LIMIT {
+        if read > LINE_LIMIT {
             write_line(&mut stream, &error_frame(None, "frame_too_large"))?;
             return Ok(());
         }
-        buffer.truncate(read as usize);
+        buffer.truncate(read);
         line.push_str(&String::from_utf8_lossy(&buffer));
         let now = unix_now_ms();
         let request = match saber_core_protocol::decode_request(line.as_bytes(), now) {
