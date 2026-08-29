@@ -1,11 +1,12 @@
 # S37 Handoff — Quality and Security Gate
 
-Status: in progress — the complete quality/security gate contract is
-implemented and tested (21 pure tests + the real bench and readiness
-drivers); the protected PR, hosted checks, completion record and
-s37-complete tag remain
+Status: completed — PR #93 merged (d6c579e) with all five
+required checks green and all six main contexts green on the merge
+commit; this record closes S37. The annotated s37-complete tag follows
+this record's merge; S38 starts from its runbook in a new execution
+round
 Date: 2026-08-29
-Branch: `segment/S37-quality-security-gate`
+Branch: `segment/S37-completion`
 Base main: `92b05d5f6bb3da7ea6f8f49b9b24abdf8b981348` (`s36-complete`)
 Runbook: `docs/execution/desktop/S37-QUALITY-SECURITY-GATE.md`
 
@@ -40,7 +41,8 @@ contracts, the honest bench and the deterministic gate.
 
 ## Next actions
 
-1. Push, open the protected PR, wait for the five checks.
-2. Squash-merge; completion record; annotated `s37-complete`.
-3. S38 starts only from
-   `docs/execution/desktop/S38-DESIGN-PARTNER-PRODUCTION.md`.
+1. Create annotated `s37-complete` on this record's merge commit;
+   verify the peeled SHA equals that main commit locally and remotely.
+2. S38 (design-partner production) starts only from
+   `docs/execution/desktop/S38-DESIGN-PARTNER-PRODUCTION.md` in a new
+   execution round.
