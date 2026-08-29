@@ -45,8 +45,7 @@ test("S29-WP05 excluded content and secret canaries are absent from provider fix
   // The provider fixture is exactly the remaining fragments — no excluded
   // text, no canaries.
   const fixture =
-    JSON.stringify(remainingFragments) +
-    JSON.stringify({ note: "user asked to keep " + SECRET_CANARY.value + " private" });
+    JSON.stringify(remainingFragments) + JSON.stringify({ note: `user asked to keep ${SECRET_CANARY.value} private` });
   const scan = privacy.canaryScan(fixture, CANARIES);
   assert.equal(scan.clean, false, "planted canary must be detected");
   assert.equal(scan.hits.length, 1);

@@ -123,7 +123,7 @@ function retentionJob(kind, key) {
  * Break Glass: dual control, expiry, prominent alarm and after-action
  * review; audit never stops during a break.
  */
-function breakGlass(request, existingApprovals = []) {
+function breakGlass(request, _existingApprovals = []) {
   if (request.approvals < 2) {
     return Object.freeze({
       granted: false,

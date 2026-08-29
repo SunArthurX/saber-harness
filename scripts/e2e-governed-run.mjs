@@ -276,7 +276,7 @@ async function main() {
     // Replay the durable journal and audit causality.
     const events = await collectEvents(client);
     const types = events.map((event) => event.type ?? "");
-    const approvalIndex = types.findIndex((type) => type === "run.approval_resolved");
+    const approvalIndex = types.indexOf("run.approval_resolved");
     const editCompletedIndex = events.findIndex(
       (event) => event.type === "run.effect_completed" && event.payload?.step_id === "edit",
     );

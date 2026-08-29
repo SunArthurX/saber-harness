@@ -1,15 +1,4 @@
 #!/usr/bin/env node
-/**
- * S37 benchmark driver — measures real workload primitives (large-diff
- * projection, event-decode throughput, 10k-entry indexing walk) and
- * records median/P95 raw metadata without user content.
- *
- * SLO evaluation against reference thresholds only runs when
- * REFERENCE_MACHINE_CLASS is set (low|mid|high); CI machines are not
- * reference environments, so raw numbers are recorded honestly and
- * the run stays green unless a functional invariant fails.
- */
-import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { join } from "node:path";
 

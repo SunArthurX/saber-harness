@@ -42,7 +42,7 @@ function migrate(store, phases = MIGRATION_PHASES) {
  * Classify a crash at a phase: reopen old, complete new or explicit
  * recovery — guessing is impossible by construction.
  */
-function crashRecovery(crashedAtPhase, migration) {
+function crashRecovery(crashedAtPhase, _migration) {
   const order = [...MIGRATION_PHASES];
   const idx = order.indexOf(crashedAtPhase);
   if (idx === -1) {

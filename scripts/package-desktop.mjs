@@ -31,7 +31,7 @@ const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 function payloadFor(platform) {
   const def = PLATFORMS[platform];
   return Buffer.from(
-    JSON.stringify(
+    `${JSON.stringify(
       {
         appId: APP_ID,
         version,
@@ -43,7 +43,7 @@ function payloadFor(platform) {
       },
       null,
       2,
-    ) + "\n",
+    )}\n`,
     "utf8",
   );
 }
@@ -56,7 +56,7 @@ function sbom() {
       return { name: pkg.name, version: pkg.version, license: pkg.license ?? "UNLICENSED" };
     },
   );
-  const body = JSON.stringify({ appId: APP_ID, version, packages }, null, 2) + "\n";
+  const body = `${JSON.stringify({ appId: APP_ID, version, packages }, null, 2)}\n`;
   return { body, digest: sha256(Buffer.from(body, "utf8")) };
 }
 
@@ -83,30 +83,30 @@ for (const platform of Object.keys(PLATFORMS)) {
     signer: channel.identity,
     channelIdentity: channel.identity,
   });
-  writeFileSync(join(platformDir, "provenance.json"), JSON.stringify(record, null, 2) + "\n");
+  writeFileSync(join(platformDir, "provenance.json"), `${JSON.stringify(record, null, 2)}\n`);
   artifacts.push({ platform, digest, provenance: record });
 }
 
 writeFileSync(join(outDir, "sbom.json"), bill.body);
 writeFileSync(
   join(outDir, "notices.json"),
-  JSON.stringify(
+  `${JSON.stringify(
     { appId: APP_ID, version, notices: ["third-party notices ship inside the hosted installer build"] },
     null,
     2,
-  ) + "\n",
+  )}\n`,
 );
 writeFileSync(
   join(outDir, "trust-metadata.json"),
-  JSON.stringify(
+  `${JSON.stringify(
     { appId: APP_ID, channels: CHANNELS, e7: "updater trust roots are E7-governed; agent cannot rewrite" },
     null,
     2,
-  ) + "\n",
+  )}\n`,
 );
 writeFileSync(
   join(outDir, "index.json"),
-  JSON.stringify({ appId: APP_ID, version, sourceCommit, artifacts }, null, 2) + "\n",
+  `${JSON.stringify({ appId: APP_ID, version, sourceCommit, artifacts }, null, 2)}\n`,
 );
 
 const expected = ["sbom.json", "notices.json", "trust-metadata.json", "index.json"];

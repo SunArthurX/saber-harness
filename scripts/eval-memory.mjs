@@ -1,12 +1,4 @@
 #!/usr/bin/env node
-/**
- * S33 desktop:eval:memory — fixed evaluation set for retrieval quality.
- *
- * Deterministic, offline evaluation over the fixture corpus: the
- * hybrid retrieval path must reach the S33 precision threshold with
- * bounded staleness, duplication and false provenance.
- */
-import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
