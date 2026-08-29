@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S35",
-  "status": "in_progress",
-  "branch": "segment/S35-enterprise-desktop",
+  "status": "completed",
+  "branch": "segment/S35-completion",
   "base": {
     "main_commit": "da9499edaaa9a4d61056dad99722809f7c01bf8e",
     "segment": "S34",
@@ -50,16 +50,29 @@
       "command": "pnpm verify",
       "exit_code": 0,
       "result": "full pnpm verify green — S00-S35 verifiers (verify-s35 passes 77 checks) and 215 governance tests"
+    },
+    {
+      "id": "S35-PROTECTED-PR-MERGE",
+      "command": "gh pr merge 89 --squash",
+      "exit_code": 0,
+      "result": "PR #89 squash-merged as 8430901f442888ba86ee097ec9ddb439bf8b664c after all five required checks passed and mergeStateStatus was CLEAN"
+    },
+    {
+      "id": "S35-MAIN-CI",
+      "command": "inspect main check runs on 8430901f442888ba86ee097ec9ddb439bf8b664c",
+      "exit_code": 0,
+      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
     }
   ],
   "known_blockers": [
     "identity, KMS and registries use non-production fixture adapters; real IdP/KMS/SCIM endpoints arrive with the production gate segment"
   ],
-  "pending": [
-    "push segment/S35-enterprise-desktop and open the protected PR",
-    "five required checks green plus mergeStateStatus CLEAN",
-    "squash-merge, completion record, annotated s35-complete with peeled-SHA verification"
-  ],
-  "last_verified_at": "2026-08-29T12:10:00Z",
-  "pull_request": null
+  "pending": [],
+  "last_verified_at": "2026-08-29T13:05:00Z",
+  "pull_request": {
+    "number": 89,
+    "url": "https://github.com/SunArthurX/saber-harness/pull/89",
+    "state": "MERGED",
+    "merge_commit": "8430901f442888ba86ee097ec9ddb439bf8b664c"
+  }
 }

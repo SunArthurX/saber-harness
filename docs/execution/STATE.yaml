@@ -4,7 +4,7 @@ architecture_version: "2.1"
 current_segment:
   id: S35
   name: enterprise-desktop
-  status: in_progress
+  status: completed
   objective: enroll devices and users with short-lived claims, deterministic tenant-scoped SCIM and fail-closed lost/revoked/offline behavior; distribute signed monotonic policy that lower scopes cannot weaken; keep secrets behind named references with KMS envelope wrapping, resumable rotation and DLP block evidence; govern five separate registries where org allowlists never override Core denial; enforce least-privilege RBAC with tenant-safe audit partitions, idempotent retention jobs and dual-control Break Glass; and pass all ten enterprise adversarial scenarios
 predecessor:
   segment: S33
@@ -120,7 +120,7 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S35-enterprise-desktop
+  branch: segment/S35-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 1633d17
@@ -133,7 +133,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T12:10:00Z"
+  last_checkpoint_at: "2026-08-29T13:05:00Z"
 acceptance:
   required:
     - s34_tagged_base
@@ -184,9 +184,9 @@ acceptance:
     - ten_adversarial_scenarios_fail_closed
     - s35_verifier
     - full_local_verification
-  failed: []
-  pending:
     - verified_segment_push
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -215,8 +215,7 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers:
-  - S35 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows and dependency-audit before protected merge
+blockers: []
 next_action:
-  command: push segment/S35-enterprise-desktop, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s35-complete on the record merge commit with peeled-SHA verification; S36 starts only from docs/execution/desktop/S36-PACKAGING-UPDATE.md
-  description: S35 enterprise desktop implemented on segment/S35-enterprise-desktop — four pure modules (enterpriseIdentity: OIDC/SAML assertion exchange into short-lived claims with password handling prohibited, forged issuer/subject/tenant claims and expiry failing closed beyond clock skew, deterministic tenant-scoped SCIM mapping with depth-bounded group resolution and transitive role closure, device enrollment exposing posture/ownership/check-in/revocation, high-risk authorization failing closed on revoked, deprovisioned, lost, tenant-mismatched or offline-grace-exceeded devices; policyDistribution: enterprise-key-signed versioned bundles, monotonic acceptance rejecting rollback and same-sequence replay, effective policy where lower scopes may tighten but never weaken an org deny, offline clients using last-verified policy with surfaced staleness and no silent default fallback; kmsDlp: KMS envelope wrapping keeping plaintext in approved process memory only, per-item-checkpointed resumable rollback-safe key rotation, revocable device wraps, named secret references that reject literal values, plaintext sink audits rejecting logs/model-context/policy-files/crash-dumps, DLP evaluation exposing classification/destination/transformation/block evidence; tenantIsolation: five separate signed registry catalogs whose entries cannot execute or fetch before approval and whose org allowlist never overrides a Core denial, seven least-privilege roles, tenant-safe audit partitions exporting metadata/content per role and legal basis, observable idempotent retention/legal-hold/export/deletion jobs, dual-control expiring alarming review-required Break Glass that never disables audit, and all ten adversarial scenarios failing closed), 24 pure tests across four suites and verify-s35 (77 checks) chained into local and hosted gates; full pnpm verify green (215 governance tests). This record also corrects the S35 runbook filename referenced by the S34 record (S35-ENTERPRISE-DESKTOP.md, not S35-ENTERPRISE-MULTITENANT.md)
+  command: after this completion record merges, create annotated s35-complete on the record merge commit and verify its peeled SHA equals that main commit; S36 (packaging/update) then starts only from docs/execution/desktop/S36-PACKAGING-UPDATE.md
+  description: PR #89 squash-merged as 8430901f442888ba86ee097ec9ddb439bf8b664c after repository-verification, monorepo ubuntu/macos/windows and dependency-audit passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit. The record closes S35: enterprise desktop (short-lived claims without passwords with forged claims and expiry failing closed, deterministic tenant-scoped depth-bounded SCIM with transitive role closure, device surfaces with fail-closed high-risk authorization; enterprise-key-signed monotonic policy that lower scopes cannot weaken with honest offline staleness; KMS envelope wrapping with plaintext confined to approved process memory, resumable rollback-safe rotation, named secret references, plaintext sink audits and DLP block evidence; five signed registry catalogs inert before approval where org allowlists never override a Core denial, seven least-privilege roles, tenant-safe audit export by role and legal basis, idempotent retention jobs, dual-control Break Glass with audit always on, and ten adversarial scenarios failing closed), 24 pure tests across four suites and verify-s35 (77 checks). S36 is not started
