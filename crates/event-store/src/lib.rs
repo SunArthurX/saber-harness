@@ -328,6 +328,22 @@ pub struct RecoveryReport {
     pub pending_effects: Vec<PendingEffect>,
 }
 
+/// One replayed event in durable cursor order (S27 supervision transport).
+/// The payload stays opaque JSON; callers never get raw store handles.
+#[derive(Clone, Debug, PartialEq, Eq, serde::Serialize)]
+pub struct ReplayedEvent {
+    /// Durable, monotonically increasing cursor position.
+    pub sequence: i64,
+    /// Stable event identifier from the audited hash chain.
+    pub event_id: String,
+    /// Closed event-type vocabulary entry.
+    pub event_type: String,
+    /// Wall-clock milliseconds at commit time.
+    pub occurred_at_ms: i64,
+    /// Opaque committed payload; secrets never appear here.
+    pub payload_json: String,
+}
+
 /// `SQLCipher` connection owning the authoritative local event log and projections.
 pub struct EventStore {
     connection: Connection,
@@ -762,6 +778,58 @@ impl EventStore {
     /// # Errors
     ///
     /// Rejects results without a pending intent and conflicting idempotency keys.
+    /// Record a supervision-transport handshake failure as a durable,
+    /// hash-chained audit event (S27-WP02: fail closed AND audit). The
+    /// payload must never contain the presented token material.
+    ///
+    /// # Errors
+    ///
+    /// Returns a database error when the append fails.
+    pub fn record_handshake_failure(
+        &mut self,
+        workspace_id: &str,
+        reason: &str,
+        actor_id: &str,
+        now_unix_ms: u64,
+    ) -> Result<(), StoreError> {
+        self.ensure_workspace(workspace_id)?;
+        let millis = now_unix_ms.to_le_bytes();
+        let fingerprint = digest(&[
+            b"handshake-rejected",
+            workspace_id.as_bytes(),
+            reason.as_bytes(),
+            actor_id.as_bytes(),
+            millis.as_slice(),
+        ]);
+        let mut suffix = String::with_capacity(fingerprint.len() * 2);
+        for byte in &fingerprint {
+            use std::fmt::Write as _;
+            let _ = write!(suffix, "{byte:02x}");
+        }
+        let event_id = format!("handshake_rejected_{suffix}_{reason}");
+        let payload = serde_json::json!({
+            "reason": reason,
+            "actor_id": actor_id,
+            "transport": "supervision",
+        });
+        let transaction = self.connection.transaction()?;
+        append_event(
+            &transaction,
+            &event_id,
+            workspace_id,
+            "supervision.handshake_rejected",
+            now_unix_ms,
+            &payload,
+        )?;
+        transaction.commit()?;
+        Ok(())
+    }
+
+    /// Persist the verified outcome of a committed effect.
+    ///
+    /// # Errors
+    ///
+    /// Returns a database error when the transactional append fails.
     pub fn record_effect_result(
         &mut self,
         command: &EffectResult<'_>,
@@ -1115,6 +1183,38 @@ impl EventStore {
         Ok(self
             .connection
             .query_row("SELECT count(*) FROM runs", [], |row| row.get(0))?)
+    }
+
+    /// Replay at most `limit` events with `sequence > after_sequence` in
+    /// durable order, plus the next cursor. Read-only: replaying cannot
+    /// mutate or skip the hash chain.
+    ///
+    /// # Errors
+    ///
+    /// Returns a database error when the replay query fails.
+    pub fn replay_events(
+        &self,
+        after_sequence: i64,
+        limit: i64,
+    ) -> Result<(Vec<ReplayedEvent>, i64), StoreError> {
+        let capped = limit.clamp(1, 500);
+        let mut statement = self.connection.prepare(
+            "SELECT sequence, event_id, event_type, occurred_at_ms, payload_json
+             FROM events WHERE sequence > ?1 ORDER BY sequence ASC LIMIT ?2",
+        )?;
+        let rows = statement
+            .query_map(params![after_sequence, capped], |row| {
+                Ok(ReplayedEvent {
+                    sequence: row.get(0)?,
+                    event_id: row.get(1)?,
+                    event_type: row.get(2)?,
+                    occurred_at_ms: row.get(3)?,
+                    payload_json: row.get(4)?,
+                })
+            })?
+            .collect::<Result<Vec<_>, _>>()?;
+        let next_cursor = rows.last().map_or(after_sequence, |event| event.sequence);
+        Ok((rows, next_cursor))
     }
 }
 

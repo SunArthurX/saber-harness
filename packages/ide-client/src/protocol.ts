@@ -22,7 +22,9 @@ export type IdeMethod =
   | "events.subscribe"
   | "approval.resolve"
   | "context.exclude"
-  | "context.revoke";
+  | "context.revoke"
+  | "core.initialize"
+  | "core.health";
 
 const METHODS = new Set<IdeMethod>([
   "run.steer",
@@ -33,6 +35,8 @@ const METHODS = new Set<IdeMethod>([
   "approval.resolve",
   "context.exclude",
   "context.revoke",
+  "core.initialize",
+  "core.health",
 ]);
 
 /** Deterministic protocol failure with a stable code. */

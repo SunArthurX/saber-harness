@@ -82,6 +82,8 @@ jobs:
         run: node scripts/verify-s25.mjs
       - name: Verify S26 codeoss bootstrap
         run: node scripts/verify-s26.mjs
+      - name: Verify S27 supervision transport
+        run: node scripts/verify-s27.mjs
       - name: Test repository governance policy
         run: node --test scripts/tests/*.test.mjs
       - name: Verify Git whitespace contract
