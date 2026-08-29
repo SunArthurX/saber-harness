@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S38",
-  "status": "in_progress",
-  "branch": "segment/S38-design-partner-production",
+  "status": "completed",
+  "branch": "segment/S38-completion",
   "base": {
     "main_commit": "3bedc66b39548d6185df0080789e5b96f35a8682",
     "segment": "S37",
@@ -56,16 +56,29 @@
       "command": "pnpm verify",
       "exit_code": 0,
       "result": "full pnpm verify green — S00-S38 verifiers (verify-s38 passes 105 checks) and 277 governance tests"
+    },
+    {
+      "id": "S38-PROTECTED-PR-MERGE",
+      "command": "gh pr merge 95 --squash",
+      "exit_code": 0,
+      "result": "PR #95 squash-merged as 99049079db898ac6949d0a27a63c1ebd29743568 after all five required checks passed and mergeStateStatus was CLEAN"
+    },
+    {
+      "id": "S38-MAIN-CI",
+      "command": "inspect main check runs on 99049079db898ac6949d0a27a63c1ebd29743568",
+      "exit_code": 0,
+      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
     }
   ],
   "known_blockers": [
     "the design-partner cohort KPIs and ring execution recorded here run against committed frozen fixtures; live partner cohorts execute the same contracts in the hosted program"
   ],
-  "pending": [
-    "push segment/S38-design-partner-production and open the protected PR",
-    "five required checks green plus mergeStateStatus CLEAN",
-    "squash-merge, completion record, annotated s38-complete with peeled-SHA verification"
-  ],
-  "last_verified_at": "2026-08-29T18:30:00Z",
-  "pull_request": null
+  "pending": [],
+  "last_verified_at": "2026-08-29T19:30:00Z",
+  "pull_request": {
+    "number": 95,
+    "url": "https://github.com/SunArthurX/saber-harness/pull/95",
+    "state": "MERGED",
+    "merge_commit": "99049079db898ac6949d0a27a63c1ebd29743568"
+  }
 }

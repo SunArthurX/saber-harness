@@ -4,7 +4,7 @@ architecture_version: "2.1"
 current_segment:
   id: S38
   name: design-partner-production
-  status: in_progress
+  status: completed
   objective: run an authorized design-partner cohort with complete written consent, isolated tenant keys and diversity that rejects cherry-picking; execute the frozen twelve-category fixed benchmark recording completion, corrections, regressions, latency, cost, approval interruptions, memory precision and rollback while treating models as replaceable routes; advance internal-alpha/private-beta/RC rings with explicit thresholds, owners and rollback; prove support and incident readiness across five playbooks and five rehearsals where support can never request raw secrets or unrestricted repositories; close privacy and governance with independent owners; and emit a deterministic release packet whose bounded-rollout approval keeps monitoring and rollback with dual control on critical security exceptions. Completing S38 completes the desktop execution plan
 predecessor:
   segment: S33
@@ -120,7 +120,7 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S38-design-partner-production
+  branch: segment/S38-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 1633d17
@@ -133,7 +133,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T18:30:00Z"
+  last_checkpoint_at: "2026-08-29T19:30:00Z"
 acceptance:
   required:
     - s37_tagged_base
@@ -182,9 +182,9 @@ acceptance:
     - rc_verifier_bounded_rollout
     - s38_verifier
     - full_local_verification
-  failed: []
-  pending:
     - verified_segment_push
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -213,8 +213,7 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers:
-  - S38 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows and dependency-audit before protected merge
+blockers: []
 next_action:
-  command: push segment/S38-design-partner-production, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s38-complete on the record merge commit with peeled-SHA verification; completing S38 completes the desktop execution plan end to end
-  description: S38 design partner and production implemented on segment/S38-design-partner-production — four pure modules plus two real drivers (partnerCohort: eight-clause opt-in written consent with no defaults, cohort selection across languages/sizes/OSes/privacy/team types rejecting cherry-picked cohorts under five members, isolated tenant/workspace keys with named partner owners, and research protocols that never request private data or private-repo reproduction; taskBenchmark: twelve frozen task categories each requiring acceptance and starting commit before execution, the full measurement surface including human corrections, regressions, latency, cost, approval interruptions and memory precision, published production thresholds evaluated honestly with named findings, and route comparison treating models as replaceable routes rather than product identities; releaseRings: internal-alpha/private-beta/release-candidate plans failing closed without start/stop thresholds, cohort, duration, owner and rollback, ordered progression, RC pinned to production-signed artifacts and the update channel, five playbooks and five rehearsals for support readiness, and support requests that can never ask for raw secrets or unrestricted private repositories; productionDecision: eight privacy closeout checks, governance review requiring independent owners, the seven-content release packet where unresolved P0/P1 findings block the decision, deterministic packet digests, bounded-rollout approvals that keep monitoring and rollback, dual approval for critical security exceptions and approval boundaries; scripts/acceptance-design-partner.mjs evaluating the committed frozen benchmark across all twelve categories plus the DJ-14..DJ-32 journey catalog; scripts/verify-release-candidate.mjs chaining the package metadata, the S37 readiness digest and design-partner KPIs into a verified bounded-rollout packet), 19 pure tests across three suites, verify-s38 (105 checks), the acceptance and RC drivers chained into local gates; full pnpm verify green (277 governance tests)
+  command: after this completion record merges, create annotated s38-complete on the record merge commit and verify its peeled SHA equals that main commit; with s38-complete tagged, the desktop execution plan (S00-S38) is complete end to end — trusted Rust Core, governed runs, change sets, multi-agent worktrees, continuity/knowledge, armor/evolution/health, enterprise controls, packaging/update, the quality/security gate and design-partner production all landed, verified and tagged
+  description: PR #95 squash-merged as 99049079db898ac6949d0a27a63c1ebd29743568 after repository-verification, monorepo ubuntu/macos/windows and dependency-audit passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit. The record closes S38: design partner and production (eight-clause opt-in consent without defaults, cherry-picking-rejecting diverse cohorts with isolated tenant keys and named owners, research protocols that never request private data; the twelve-category frozen benchmark with the full measurement surface behind published production thresholds and replaceable model routes; ordered alpha/beta/RC rings with fail-closed plans and production-signed RC artifacts; five playbooks and five rehearsals with support never able to request raw secrets or unrestricted repositories; eight privacy closeout checks and independent-owner governance; the seven-content release packet where unresolved P0/P1 blocks, bounded rollout keeps monitoring and rollback, and critical security exceptions need dual approval; and the real acceptance and release-candidate drivers chaining package metadata, the S37 readiness digest and design-partner KPIs), 19 pure tests across three suites and verify-s38 (105 checks). This closes the final desktop segment: S00-S38 are complete, all with annotated sXX-complete tags whose peeled SHAs equal their record merge commits

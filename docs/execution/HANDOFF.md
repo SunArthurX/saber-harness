@@ -1,12 +1,12 @@
 # S38 Handoff — Design Partner and Production
 
-Status: in progress — the complete design-partner/production contract
-is implemented and tested (19 pure tests + the real acceptance and
-release-candidate drivers); the protected PR, hosted checks,
-completion record and s38-complete tag remain. Completing S38
-completes the desktop execution plan end to end
+Status: completed — PR #95 merged (9904907) with all five
+required checks green and all six main contexts green on the merge
+commit; this record closes S38 and with it the desktop execution
+plan (S00-S38) end to end. The annotated s38-complete tag follows
+this record's merge
 Date: 2026-08-29
-Branch: `segment/S38-design-partner-production`
+Branch: `segment/S38-completion`
 Base main: `3bedc66b39548d6185df0080789e5b96f35a8682` (`s37-complete`)
 Runbook: `docs/execution/desktop/S38-DESIGN-PARTNER-PRODUCTION.md`
 
@@ -42,7 +42,10 @@ the hosted program.
 
 ## Next actions
 
-1. Push, open the protected PR, wait for the five checks.
-2. Squash-merge; completion record; annotated `s38-complete`.
-3. With `s38-complete` tagged, the desktop execution plan (S00-S38)
-   is complete end to end.
+1. Create annotated `s38-complete` on this record's merge commit;
+   verify the peeled SHA equals that main commit locally and remotely.
+2. With `s38-complete` tagged, the desktop execution plan (S00-S38)
+   is complete end to end: every segment has an annotated
+   `sXX-complete` tag whose peeled SHA equals its record merge
+   commit, protected main carries all work, and the full gate
+   (`pnpm verify`, 277 governance tests) is green.
