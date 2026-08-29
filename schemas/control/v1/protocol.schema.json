@@ -23,7 +23,10 @@
         "run.resume",
         "run.retry",
         "run.start",
-        "run.steer"
+        "run.steer",
+        "task.delegate",
+        "worktree.create",
+        "worktree.integrate"
       ]
     },
     "RequestContext": {

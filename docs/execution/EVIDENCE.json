@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S31",
-  "status": "completed",
-  "branch": "segment/S31-completion",
+  "segment": "S32",
+  "status": "in_progress",
+  "branch": "segment/S32-multiagent-worktree",
   "base": {
-    "main_commit": "7f0567b1c81ababf5ea7d99ab4b74b126322e4a7",
-    "segment": "S30",
-    "tag": "s30-complete",
-    "commit": "7f0567b1c81ababf5ea7d99ab4b74b126322e4a7"
+    "main_commit": "d45ba7404aa75e1f0813f5911ca9e956b202df54",
+    "segment": "S31",
+    "tag": "s31-complete",
+    "commit": "d45ba7404aa75e1f0813f5911ca9e956b202df54"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
@@ -16,63 +16,50 @@
   "remote_head": "resolve-from-git",
   "checks": [
     {
-      "id": "S31-PREDECESSOR",
-      "command": "git rev-parse 's30-complete^{}' && git rev-parse origin/main",
+      "id": "S32-PREDECESSOR",
+      "command": "git rev-parse 's32?' ",
       "exit_code": 0,
-      "result": "annotated s30-complete resolves to 7f0567b1c81ababf5ea7d99ab4b74b126322e4a7 which equals origin/main; S31 branches from it (S30's completed_segments commit corrected to the record merge and the S25 ordering drift repaired)"
+      "result": "s31-complete resolves to d45ba7404aa75e1f0813f5911ca9e956b202df54 which equals origin/main; S32 branches from it"
     },
     {
-      "id": "S31-PROTOCOL-PARITY",
+      "id": "S32-PROTOCOL-PARITY",
       "command": "pnpm generate:check",
       "exit_code": 0,
-      "result": "changeset.prepare/apply/rollback/commit added to the control schema and regenerated identically into Rust and TypeScript; the decoder accepts them; the ide-client registry mirrors the surface"
+      "result": "task.delegate, worktree.create and worktree.integrate added to the schema and regenerated identically; decoder and registries extended on both sides"
     },
     {
-      "id": "S31-CORE-CHANGE-SET",
+      "id": "S32-CORE-MULTI-AGENT",
       "command": "cargo test -p saber-core --locked",
       "exit_code": 0,
-      "result": "change_set.rs: run start snapshots every worktree file (baseline manifest + content copies, recorded as run.baseline_snapshot with tree digest); prepare classifies added/modified/deleted with binary sniff and generated hints, detects external edits via the approval journal and binds a deterministic tree digest; apply requires the exact expected digest (stale_apply_blocked on wrong digests and external edits); rollback restores baseline content and proves it by comparing every hash (rollback_proof_failed otherwise); commit durably records message, authorship disclosure and signing choice BEFORE running real git and returns the real commit sha; binary/generated classification unit-tested"
+      "result": "multi_agent.rs: journal-first worktree creation with deterministic seeds (identical requests replay idempotently; collisions and post-replay gaps fail honestly), dirty-base detection excluding Saber's managed directory, delegation with child-scope widening rejected across every dimension and budgets clamped, integration into a review worktree with overlap detection, quarantine-default cleanup blocking unreviewed changes; copy_tree skips .git and node_modules (unit-tested)"
     },
     {
-      "id": "S31-PROJECTIONS",
-      "command": "pnpm desktop:test:change-set && pnpm desktop:test:review-a11y && pnpm desktop:test:apply-rollback",
+      "id": "S32-PROJECTIONS",
+      "command": "pnpm desktop:test:goal-dag && pnpm desktop:test:worktree-lifecycle && pnpm desktop:test:multiagent-faults",
       "exit_code": 0,
-      "result": "30/30: classification with metadata-and-approved-preview for binaries; stale-apply preflight; rollback proof with surfaced mismatches; boundary diff across nine categories with explicit acknowledgment; fingerprint-bound durable comments marked stale not relocated; hunk intents that never mutate; seven evidence states with tree-change invalidation and separate security ownership; preview auto-verify with inconclusive outcome and screenshots-never-suffice; completion gate requiring an independent signer (forged success text and producer-sole-signing both blocked)"
+      "result": "21/21: DAG cycles, missing dependencies and impossible budgets fail before dispatch; waiting reasons and critical path computed from durable state with no percentages; lifecycle anomalies, quarantine-first cleanup, pause-then-verify take-over, realm-move capability diffs, follow and queued messages; delegation subset validation across all five scope dimensions, budget clamps and pause-with-evidence, explained team decisions, conflict detection with proposed order, fault containment and non-laundering cross-task messages"
     },
     {
-      "id": "S31-E2E-REVIEW-COMMIT",
-      "command": "pnpm desktop:e2e:review-commit",
+      "id": "S32-E2E-PARALLEL-INTEGRATION",
+      "command": "pnpm desktop:e2e:parallel-integration",
       "exit_code": 0,
-      "result": "22/22 against the real Core: run succeeds through exact approvals; prepare classifies notes.md as added with no external edits and a bound tree digest; applying with a wrong digest is blocked; exact apply matches; an external edit after approval blocks the stale apply; commit records the disclosure then creates a REAL git commit (40-hex sha, visible in git log); rollback removes the run-added file, restores the externally tampered file and passes the hash proof; the journal contains baseline_snapshot/prepared/applied/commit_disclosed/committed/rolled_back with disclosure preceding commit; a Core restart preserves all 23 review events"
+      "result": "19/19 against the real Core: two per-task worktrees with distinct ids created through worktree.create (idempotent replay verified); a widened delegation rejected with child_scope_widened; bounded delegation clamped to five tool calls; child 1 runs to success with its own worktree-authored output; child 2 blocks mid-approval and its cancellation leaves child 1's output and goal health intact; integration into a review worktree detects the overlapping file, applies the unique one and journals everything"
     },
     {
-      "id": "S31-FULL-GATES",
+      "id": "S32-FULL-GATES",
       "command": "pnpm verify && cargo fmt --all -- --check && cargo clippy --workspace --all-targets --locked -- -D warnings",
       "exit_code": 0,
-      "result": "full pnpm verify green (S00-S31 verifiers — verify-s31 passes 72 checks — and 122 governance tests); Rust fmt and workspace clippy clean under -D warnings; whitespace contract holds"
-    },
-    {
-      "id": "S31-PROTECTED-PR-MERGE",
-      "command": "gh pr merge 81 --squash",
-      "exit_code": 0,
-      "result": "PR #81 squash-merged as 1bfd7935fb20d456aaefccdcd6d035b9b454b85c after all five required checks passed and mergeStateStatus was CLEAN"
-    },
-    {
-      "id": "S31-MAIN-CI",
-      "command": "inspect main check runs on 1bfd7935fb20d456aaefccdcd6d035b9b454b85c",
-      "exit_code": 0,
-      "result": "repository verification, three-platform monorepo CI (both e2es), dependency audit and main provenance all concluded successfully on the merge commit; main-provenance initially failed on a GitHub merge-indexing race (the commit-to-PR association query ran before indexing completed) and passed on rerun with the association confirmed"
+      "result": "full pnpm verify green (S00-S32 verifiers — verify-s32 passes 63 checks — and 143 governance tests); workspace fmt and clippy clean under -D warnings; whitespace contract holds"
     }
   ],
   "known_blockers": [
-    "PR creation remains a separately approved network capability by design — the fixture journey stops at the local git commit; no network egress was requested or attempted"
+    "concurrent child runs share one Core process serially through the store mutex; true process-level parallelism arrives with sandbox realm integration"
   ],
-  "pending": [],
-  "last_verified_at": "2026-08-29T07:04:38Z",
-  "pull_request": {
-    "number": 81,
-    "url": "https://github.com/SunArthurX/saber-harness/pull/81",
-    "state": "MERGED",
-    "merge_commit": "1bfd7935fb20d456aaefccdcd6d035b9b454b85c"
-  }
+  "pending": [
+    "push segment/S32-multiagent-worktree and open the protected PR",
+    "five required checks green (three real-Core e2es on every monorepo leg) plus mergeStateStatus CLEAN",
+    "squash-merge, completion record, annotated s32-complete with peeled-SHA verification"
+  ],
+  "last_verified_at": "2026-08-29T07:29:40Z",
+  "pull_request": null
 }

@@ -29,6 +29,9 @@ const MUTATION_METHODS = new Set<IdeMethod>([
   "changeset.apply",
   "changeset.rollback",
   "changeset.commit",
+  "task.delegate",
+  "worktree.create",
+  "worktree.integrate",
   "context.exclude",
   "context.revoke",
 ]);
@@ -50,6 +53,9 @@ export type IdeMethod =
   | "changeset.apply"
   | "changeset.rollback"
   | "changeset.commit"
+  | "task.delegate"
+  | "worktree.create"
+  | "worktree.integrate"
   | "context.exclude"
   | "context.revoke"
   | "core.initialize"
@@ -71,6 +77,9 @@ const METHODS = new Set<IdeMethod>([
   "changeset.apply",
   "changeset.rollback",
   "changeset.commit",
+  "task.delegate",
+  "worktree.create",
+  "worktree.integrate",
   "context.exclude",
   "context.revoke",
   "core.initialize",

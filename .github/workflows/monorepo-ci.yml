@@ -69,6 +69,8 @@ jobs:
         run: pnpm --filter @saber/ide-client build && pnpm desktop:e2e:governed-run
       - name: Review-commit e2e over the real Core
         run: pnpm desktop:e2e:review-commit
+      - name: Parallel-integration e2e over the real Core
+        run: pnpm desktop:e2e:parallel-integration
       - name: Scan repository safety invariants and secret patterns
         run: node scripts/verify-s00.mjs
       - name: Verify JavaScript and repository gates
