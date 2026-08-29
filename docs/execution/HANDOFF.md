@@ -1,9 +1,6 @@
 # S29 Handoff — Conversation and Context
 
-Status: in progress — the complete conversation/context contract is
-implemented, tested locally (31 tests across four suites) and chained
-into every gate; the protected PR, hosted checks, completion record and
-s29-complete tag remain
+Status: completed — PR #77 merged (dd1b43f) with all five required checks green and all six main contexts green on the merge commit; this record closes S29. The annotated s29-complete tag follows this record's merge; S30 (governed agent run) starts from its runbook in a new execution round
 Date: 2026-08-29
 Branch: `segment/S29-conversation-context`
 Base main: `e33f70bd699313c8c9b9b6980af0a7ef74f9a8ee` (`s28-complete`)
@@ -60,16 +57,8 @@ has a focused check with real local results; full `pnpm verify` green.
 
 ## Next actions
 
-1. Push `segment/S29-conversation-context`, open the protected PR.
-2. Five required checks green + mergeStateStatus CLEAN; squash-merge.
-3. Completion record; annotated `s29-complete` on the record merge
-   commit with peeled-SHA verification local and remote.
-4. Do not start S30 before `s29-complete`; S30 (governed agent run,
-   RT-1 MVP) starts from its runbook in a new execution round.
-
-## Honest limits
-
-- No provider is contacted: all conversation data is labeled fixture
-  data; live streaming lands with governed runs in S30.
-- No authority: exclude/revoke are projection-level operations with
-  evidence; Core-side enforcement arrives with governed runs.
+1. Create annotated `s29-complete` on this record's merge commit;
+   verify the peeled SHA equals that main commit locally and remotely.
+2. S30 (governed agent run, RT-1 MVP) starts only from
+   `docs/execution/desktop/S30-GOVERNED-AGENT-RUN.md` in a new
+   execution round.

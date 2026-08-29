@@ -4,7 +4,7 @@ architecture_version: "2.1"
 current_segment:
   id: S29
   name: conversation-context
-  status: in_progress
+  status: completed
   objective: hold a streaming, resumable desktop agent conversation and know exactly which files, symbols, artifacts, prior conversations, skills and attachments will be sent to which model and why — with distinct message rendering and reconnect dedup, a ten-state composer with @/#//$/$+ resolution, preview/receipt reconciliation, policy-bound model/realm/autonomy/budget selectors, evidence-creating exclusion and honest revocation, canary containment and rate-limited accessible announcements
 predecessor:
   segment: S28
@@ -118,7 +118,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T04:35:15Z"
+  last_checkpoint_at: "2026-08-29T04:48:35Z"
 acceptance:
   required:
     - s28_tagged_base
@@ -161,9 +161,9 @@ acceptance:
     - failures_retain_draft
     - s29_verifier
     - full_local_verification
-  failed: []
-  pending:
     - verified_segment_push
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -192,8 +192,7 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers:
-  - S29 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows and dependency-audit before protected merge; live streaming against a real provider is governed-run evidence (S30+) and is not claimed
+blockers: []
 next_action:
-  command: push segment/S29-conversation-context, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s29-complete on the record merge commit with peeled-SHA verification; S30 starts only from docs/execution/desktop/S30-GOVERNED-AGENT-RUN.md
-  description: S29 conversation and context implemented on segment/S29-conversation-context — five pure modules (conversationModel: ten distinct message kinds, append-only stream with reconnect dedup by event ID, hidden chain-of-thought never exposed, retry appends a new causal event, redaction-marked copy, collapsed tool detail with surviving evidence navigation; composerState: ten-state machine, @/#//$ token resolution domains, media/size/malware/sensitivity attachment gates, separate queue and steer with visible insertion boundary, draft retained with recovery on every failure; contextReceipt: ten-field fragment contract, secret fragments refused, preview totals reconciling with sent receipts, exclusion removing before dispatch and creating evidence, keyboard-operable chips; selectorPolicy: provider/model/locality/limit/price/eligibility display, realm boundaries with egress, closed capability set where governed-full is clamped by policy, token/money/wall-time/tool-call budgets; privacyControls: canary scan proving secret/sensitive canaries never reach provider fixtures, honest revocation naming already-contacted providers, approved encrypted crash-excluded draft storage), native conversation commands (focus/retry/preview/exclude) with en/zh strings, run-a11y journey runner, four suites (12+9+6+4 tests) and verify-s29 (119 checks) chained into local and hosted gates; full pnpm verify green on the branch
+  command: after this completion record merges, create annotated s29-complete on the record merge commit and verify its peeled SHA equals that main commit; S30 (governed agent run, RT-1 MVP) then starts only from docs/execution/desktop/S30-GOVERNED-AGENT-RUN.md
+  description: PR #77 squash-merged as dd1b43f37de5a4a4c7b7bd8864e162fe92712588 after repository-verification, monorepo ubuntu/macos/windows and dependency-audit all passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit. The record closes S29: five pure modules (message model with reconnect dedup and no chain-of-thought exposure, ten-state composer with token/attachment gates and separate queue/steer, ten-field context preview reconciling with sent receipts and evidence-creating exclusion, policy-bound selectors with governed-full clamped, canary containment and honest revocation), native conversation commands with en/zh strings, run-a11y journey runner, four suites (31 tests) and verify-s29 (119 checks). Live provider streaming is governed-run evidence (S30). S30 is not started
