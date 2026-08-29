@@ -3,7 +3,7 @@
   "project": "saber",
   "segment": "S38",
   "status": "completed",
-  "branch": "segment/S38-app-test-evidence",
+  "branch": "segment/S38-interactive-evidence",
   "base": {
     "main_commit": "3bedc66b39548d6185df0080789e5b96f35a8682",
     "segment": "S37",
@@ -80,13 +80,19 @@
       "command": "gh pr merge 97 --squash",
       "exit_code": 0,
       "result": "PR #97 (secondarySidebar key fix found in the dev-app test) squash-merged as 22e1dbd after all five required checks passed with mergeStateStatus CLEAN; all main contexts green on the merge commit"
+    },
+    {
+      "id": "S38-DEV-APP-INTERACTIVE",
+      "command": "AppleScript key codes + command palette + workspace state.vscdb inspection on the running app",
+      "exit_code": 0,
+      "result": "deeper interactive pass on the real running app: the macOS menu bar enumerated via accessibility (View menu confirmed; extension containers do not get View submenus upstream, so their absence is expected); a command-palette search executed 'Open Desktop Agent Workbench' end to end — the extension host log records '#_doActivateExtension saber.saber-agent ... activationEvent: onCommand:saber.workbench.open' (lazy activation explains why idle launches show no saber log lines); key codes delivered a saber keybinding to the app; and the workspace state.vscdb materialized all three saber containers with every view visible — saber-workbench (projects/goals/tasks/conversations/runs), saber-evidence-panel (evidence) and saber-secondary (commandCenter), confirming the secondarySidebar fix put the command center in its proper secondary container in the real UI state. No new defects found"
     }
   ],
   "known_blockers": [
     "the design-partner cohort KPIs and ring execution recorded here run against committed frozen fixtures; live partner cohorts execute the same contracts in the hosted program"
   ],
   "pending": [],
-  "last_verified_at": "2026-08-29T21:45:00Z",
+  "last_verified_at": "2026-08-29T22:35:00Z",
   "pull_request": {
     "number": 95,
     "url": "https://github.com/SunArthurX/saber-harness/pull/95",
