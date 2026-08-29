@@ -95,8 +95,10 @@ fn handle_connection(
     token: &str,
     token_spent: Arc<AtomicBool>,
 ) -> Result<(), String> {
-    let mut reader = BufReader::new(stream.try_clone().map_err(|e| e.to_string())?);
-    let mut writer = stream;
+    // One BufReader owns the stream; responses write through get_mut (the
+    // documented sync pattern — reading and writing the same connection
+    // without ownership juggling).
+    let mut reader = BufReader::new(stream);
     let mut line = String::new();
     let mut initialized = false;
     loop {
@@ -108,20 +110,20 @@ fn handle_connection(
             return Ok(()); // peer disconnected; Core state is untouched
         }
         if read > LINE_LIMIT {
-            write_line(&mut writer, &error_frame(None, "frame_too_large"))?;
+            write_line(reader.get_mut(), &error_frame(None, "frame_too_large"))?;
             return Ok(());
         }
         let now = unix_now_ms();
         let request = match saber_core_protocol::decode_request(line.as_bytes(), now) {
             Ok(request) => request,
             Err(error) => {
-                write_line(&mut writer, &error_frame(None, error.code()))?;
+                write_line(reader.get_mut(), &error_frame(None, error.code()))?;
                 continue;
             }
         };
         let request_id = request.context.request_id.clone();
         if !initialized {
-            initialized = handshake(&mut writer, &request, token, &token_spent, &store)?;
+            initialized = handshake(reader.get_mut(), &request, token, &token_spent, &store)?;
             continue;
         }
         match request.method {
@@ -130,7 +132,7 @@ fn handle_connection(
                 let runs = store.run_count().map_err(|e| e.to_string())?;
                 let events = store.event_count().map_err(|e| e.to_string())?;
                 write_line(
-                    &mut writer,
+                    reader.get_mut(),
                     &result_frame(&request_id, &health_result(runs, events)),
                 )?;
             }
@@ -152,14 +154,14 @@ fn handle_connection(
                     .map_err(|e| e.to_string())?;
                 let total = store.event_count().map_err(|e| e.to_string())?;
                 write_line(
-                    &mut writer,
+                    reader.get_mut(),
                     &result_frame(&request_id, &replay_result(&events, next_cursor, total)),
                 )?;
             }
             other => {
                 let _ = other;
                 write_line(
-                    &mut writer,
+                    reader.get_mut(),
                     &error_frame(Some(&request_id), "method_not_served"),
                 )?;
             }
