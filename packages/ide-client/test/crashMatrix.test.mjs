@@ -124,6 +124,10 @@ test("core kill degrades the client; recovery replays identical durable state", 
 
   // Recovery: respawn the Core on the same store, fresh one-time token,
   // replay must be identical — no duplicates, no gaps, same first event.
+  // Recovery: respawn the Core on the same store, fresh one-time token.
+  // The pre-crash history must be preserved exactly (same first event,
+  // same runs); new suffix events are only the audit records of the
+  // rejected handshakes above (fail closed AND audited).
   await new Promise((resolve) => setTimeout(resolve, 200));
   rmSync(SOCKET, { force: true });
   const second = startServe(store);
@@ -134,11 +138,19 @@ test("core kill degrades the client; recovery replays identical durable state", 
   await clientB.ready();
   await clientB.initialize(await second.tokenPromise);
   const after = await snapshot(clientB);
+  const afterTypes = [];
+  for await (const page of clientB.replayAll(0, 500)) {
+    afterTypes.push(...page.events.map((event) => event.event_type));
+  }
   clientB.close();
   second.child.kill("SIGKILL");
 
-  assert.equal(after.count, before.count, "recovery replay must not duplicate or lose events");
-  assert.equal(after.firstEventId, before.firstEventId);
-  assert.equal(after.health.event_count, before.health.event_count);
-  assert.equal(after.health.run_count, before.health.run_count);
+  assert.ok(after.count >= before.count, "recovery replay must not lose events");
+  assert.equal(after.firstEventId, before.firstEventId, "durable order and first event preserved");
+  assert.equal(after.health.run_count, before.health.run_count, "run projection unchanged");
+  const suffix = afterTypes.slice(before.count);
+  assert.ok(
+    suffix.every((type) => type === "supervision.handshake_rejected"),
+    `only handshake audit records may appear after the crash history, saw: ${suffix.join(",")}`,
+  );
 });

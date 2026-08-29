@@ -33,6 +33,9 @@ const requiredFiles = [
   "packages/ide-client/test/crashMatrix.test.mjs",
   "apps/desktop-codeoss/extensions/saber-agent/src/bridge.js",
   "scripts/tests/s27-desktop-bridge.test.mjs",
+  "apps/desktop-codeoss/scripts/core-supervisor.mjs",
+  "apps/desktop-codeoss/scripts/test-core-supervisor.mjs",
+  "packages/ide-client/test/adversarial.test.mjs",
 ];
 for (const file of requiredFiles) {
   check(existsSync(join(root, file)), "s27-required-file", file);
@@ -152,10 +155,40 @@ for (const contract of ["SKIP_UNIX", "SIGKILL", "degraded", "firstEventId"]) {
   check(crash.includes(contract), "s27-crash-test", contract);
 }
 
+// Supervisor lifecycle (S27-WP01) and windows pipe (S27-WP02).
+const supervisor = text("apps/desktop-codeoss/scripts/core-supervisor.mjs");
+for (const contract of [
+  "bootstrap-token",
+  "restartBackoffMs",
+  "maxRestarts",
+  "shutdownGraceMs",
+  "SIGKILL",
+  "retries_exhausted",
+  "degraded",
+  "stopped",
+]) {
+  check(supervisor.includes(contract), "s27-supervisor-contract", contract);
+}
+const pipe = text("crates/saber-core/src/serve_windows.rs");
+for (const contract of [
+  "CreateNamedPipeW",
+  "PIPE_REJECT_REMOTE_CLIENTS",
+  "FILE_FLAG_FIRST_PIPE_INSTANCE",
+  "bootstrap-token",
+  "record_handshake_failure",
+]) {
+  check(pipe.includes(contract), "s27-windows-pipe-contract", contract);
+}
+const adversarial = text("packages/ide-client/test/adversarial.test.mjs");
+for (const contract of ["slow", "event_count + 1_000", "supervision.handshake_rejected", "monotonic"]) {
+  check(adversarial.includes(contract), "s27-adversarial-contract", contract);
+}
+
 // Gate wiring: scripts exist and the focused verifier is chained in.
 const packageJson = text("package.json");
 check(packageJson.includes("desktop:test:transport"), "s27-wiring-scripts", "desktop:test:transport");
 check(packageJson.includes("desktop:test:crash-matrix"), "s27-wiring-scripts", "desktop:test:crash-matrix");
+check(packageJson.includes("desktop:test:supervisor"), "s27-wiring-scripts", "desktop:test:supervisor");
 check(packageJson.includes("verify-s27.mjs"), "s27-wiring-verify", "verify-s27 chained into the repository gate");
 const workflow = text(".github/workflows/repository-verification.yml");
 check(

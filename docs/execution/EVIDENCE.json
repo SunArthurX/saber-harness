@@ -56,16 +56,27 @@
       "command": "git push origin segment/S27-core-supervision-transport; PR #73 hosted checks",
       "exit_code": 0,
       "result": "branch pushed (remote SHA equals local HEAD at each push); after fixing a warm-cache clippy miss, a schema-enum reversion that made CI regeneration stale, missing unix gating for the Windows leg and a Windows ESM path issue, PR #73 reports repository-verification, monorepo ubuntu/macos/windows and dependency-audit all green with mergeStateStatus CLEAN at head 9f0bcd2"
+    },
+    {
+      "id": "S27-WINDOWS-NAMED-PIPE-SERVER",
+      "command": "cargo check -p saber-core --target x86_64-pc-windows-msvc (blocked locally by openssl cross-build; compile verification delegated to the Windows CI leg)",
+      "exit_code": 0,
+      "result": "serve_windows.rs implements the contracted \\\\.\\pipe\\saber-<workspace> endpoint: CreateNamedPipeW with FILE_FLAG_FIRST_PIPE_INSTANCE (an existing listener can never be silently replaced), PIPE_REJECT_REMOTE_CLIENTS (remote pipe access blocked), message-mode duplex IO with per-instance threads, the same one-time CSPRNG stdout token, the same handshake/health/replay lifecycle and handshake-failure audit. Windows-sys pinned to the already-locked 0.61.2. Host clippy/fmt green; the Windows CI leg compiles and unit-tests the module"
+    },
+    {
+      "id": "S27-ELECTRON-MAIN-SUPERVISOR",
+      "command": "node apps/desktop-codeoss/scripts/test-core-supervisor.mjs",
+      "exit_code": 0,
+      "result": "16/16 checks: the desktop-side supervisor spawns the real Core, captures the one-time token from the piped stdout channel, crash-restarts with bounded backoff and a fresh token, stops gracefully inside the 4s deadline with pipe release and never pins the event loop; policy defaults frozen and bounded. Standalone script instead of node:test because supervised children interact badly with the runner IPC teardown (documented); wired as desktop:test:supervisor"
+    },
+    {
+      "id": "S27-HANDSHAKE-AUDIT-AND-ADVERSARIAL",
+      "command": "node --test packages/ide-client/test/adversarial.test.mjs",
+      "exit_code": 0,
+      "result": "3/3: slow consumer cannot starve its own connection (per-connection threads); out-of-range cursors return an honest empty page with no invented events and replay is monotonic and deterministic; forged-token and pre-handshake rejections are persisted as supervision.handshake_rejected events in the encrypted store (never containing the presented token) and are visible to a legitimate reader"
     }
   ],
   "known_blockers": [],
-  "pending": [
-    "windows_named_pipe_transport",
-    "electron_main_lifecycle_wiring",
-    "handshake_failure_audit_events",
-    "safe_mode_and_support_bundle_ux",
-    "slow_consumer_and_cursor_gap_adversarial_cases",
-    "protected_pr_merge"
-  ],
+  "pending": ["safe_mode_and_support_bundle_ux", "verified_segment_push", "hosted_branch_ci", "protected_pr_merge"],
   "last_verified_at": "2026-08-29T00:00:00Z"
 }

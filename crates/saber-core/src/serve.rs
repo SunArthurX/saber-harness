@@ -64,6 +64,7 @@ pub fn serve(store_dir: &Path, workspace_id: &str) -> Result<(), String> {
     // connections open at once (main bridge, renderer bridge, tooling),
     // so a serial accept loop would starve every peer after the first.
     let token_spent = Arc::new(AtomicBool::new(false));
+    let workspace = workspace_id.to_string();
     for stream in listener.incoming() {
         let stream = match stream {
             Ok(stream) => stream,
@@ -72,8 +73,10 @@ pub fn serve(store_dir: &Path, workspace_id: &str) -> Result<(), String> {
         let store = Arc::clone(&store);
         let token = token.clone();
         let token_spent = Arc::clone(&token_spent);
+        let workspace = workspace.clone();
         std::thread::spawn(move || {
-            if let Err(error) = handle_connection(stream, &store, &token, &token_spent) {
+            if let Err(error) = handle_connection(stream, &store, &token, &token_spent, &workspace)
+            {
                 eprintln!("saber-core serve: connection error: {error}");
             }
         });
@@ -171,9 +174,12 @@ fn handshake(
     request: &saber_core_protocol::ControlRequest,
     token: &str,
     token_spent: &AtomicBool,
+    store: &Arc<Mutex<EventStore>>,
+    workspace_id: &str,
 ) -> Result<bool, String> {
     let request_id = request.context.request_id.clone();
     if request.method != ControlMethod::CoreInitialize {
+        audit_rejection(store, workspace_id, "not_initialize", request);
         write_frame(writer, &error_frame(Some(&request_id), "unauthorized"))?;
         return Ok(false);
     }
@@ -186,6 +192,7 @@ fn handshake(
     {
         // Never echo the token; never accept a second handshake.
         eprintln!("saber-core serve: rejected handshake (invalid or reused token)");
+        audit_rejection(store, workspace_id, "invalid_or_reused_token", request);
         write_frame(writer, &error_frame(Some(&request_id), "unauthorized"))?;
         return Ok(false);
     }
@@ -197,11 +204,31 @@ fn handshake(
     Ok(true)
 }
 
+/// Persist one handshake rejection as a hash-chained audit event. Never
+/// includes the presented token material; a full audit log must not break
+/// serving, so an append failure only logs to stderr.
+fn audit_rejection(
+    store: &Arc<Mutex<EventStore>>,
+    workspace_id: &str,
+    reason: &str,
+    request: &saber_core_protocol::ControlRequest,
+) {
+    let actor = request.context.actor_id.clone();
+    let Ok(mut store) = store.lock() else {
+        return;
+    };
+    if let Err(error) = store.record_handshake_failure(workspace_id, reason, &actor, unix_now_ms())
+    {
+        eprintln!("saber-core serve: handshake audit append failed: {error}");
+    }
+}
+
 fn handle_connection(
     stream: UnixStream,
     store: &Arc<Mutex<EventStore>>,
     token: &str,
     token_spent: &Arc<AtomicBool>,
+    workspace: &str,
 ) -> Result<(), String> {
     let mut reader = BufReader::new(stream.try_clone().map_err(|e| e.to_string())?);
     let mut writer = stream;
@@ -229,7 +256,7 @@ fn handle_connection(
         };
         let request_id = request.context.request_id.clone();
         if !initialized {
-            initialized = handshake(&mut writer, &request, token, token_spent)?;
+            initialized = handshake(&mut writer, &request, token, token_spent, store, workspace)?;
             continue;
         }
         match request.method {

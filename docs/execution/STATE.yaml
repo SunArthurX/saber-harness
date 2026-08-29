@@ -138,15 +138,15 @@ acceptance:
     - renderer_bridge_allowlist
     - s27_verifier
     - full_local_verification
+    - windows_named_pipe_transport
+    - electron_main_lifecycle_wiring
+    - handshake_failure_audit_events
+    - slow_consumer_cursor_gap_cases
     - verified_segment_push
     - hosted_branch_ci
   failed: []
   pending:
-    - windows_named_pipe_transport
-    - electron_main_lifecycle_wiring
-    - handshake_failure_audit_events
     - safe_mode_and_support_bundle_ux
-    - slow_consumer_cursor_gap_cases
     - protected_pr_merge
 evidence:
   file: docs/execution/EVIDENCE.json

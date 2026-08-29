@@ -188,10 +188,23 @@ fn main() -> ExitCode {
                     }
                 }
             }
-            #[cfg(not(unix))]
+            #[cfg(windows)]
+            {
+                match saber_core::serve_windows::serve(std::path::Path::new(&store), &workspace) {
+                    Ok(()) => ExitCode::SUCCESS,
+                    Err(message) => {
+                        eprintln!("saber-core: {message}");
+                        eprintln!("{}", usage());
+                        ExitCode::from(64)
+                    }
+                }
+            }
+            #[cfg(not(any(unix, windows)))]
             {
                 let _ = (store, workspace);
-                eprintln!("saber-core: serve requires the unix-domain transport; unavailable here");
+                eprintln!(
+                    "saber-core: serve requires the unix or named-pipe transport; unavailable here"
+                );
                 ExitCode::from(64)
             }
         }

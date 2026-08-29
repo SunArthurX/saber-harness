@@ -778,6 +778,58 @@ impl EventStore {
     /// # Errors
     ///
     /// Rejects results without a pending intent and conflicting idempotency keys.
+    /// Record a supervision-transport handshake failure as a durable,
+    /// hash-chained audit event (S27-WP02: fail closed AND audit). The
+    /// payload must never contain the presented token material.
+    ///
+    /// # Errors
+    ///
+    /// Returns a database error when the append fails.
+    pub fn record_handshake_failure(
+        &mut self,
+        workspace_id: &str,
+        reason: &str,
+        actor_id: &str,
+        now_unix_ms: u64,
+    ) -> Result<(), StoreError> {
+        self.ensure_workspace(workspace_id)?;
+        let millis = now_unix_ms.to_le_bytes();
+        let fingerprint = digest(&[
+            b"handshake-rejected",
+            workspace_id.as_bytes(),
+            reason.as_bytes(),
+            actor_id.as_bytes(),
+            millis.as_slice(),
+        ]);
+        let mut suffix = String::with_capacity(fingerprint.len() * 2);
+        for byte in &fingerprint {
+            use std::fmt::Write as _;
+            let _ = write!(suffix, "{byte:02x}");
+        }
+        let event_id = format!("handshake_rejected_{suffix}_{reason}");
+        let payload = serde_json::json!({
+            "reason": reason,
+            "actor_id": actor_id,
+            "transport": "supervision",
+        });
+        let transaction = self.connection.transaction()?;
+        append_event(
+            &transaction,
+            &event_id,
+            workspace_id,
+            "supervision.handshake_rejected",
+            now_unix_ms,
+            &payload,
+        )?;
+        transaction.commit()?;
+        Ok(())
+    }
+
+    /// Persist the verified outcome of a committed effect.
+    ///
+    /// # Errors
+    ///
+    /// Returns a database error when the transactional append fails.
     pub fn record_effect_result(
         &mut self,
         command: &EffectResult<'_>,

@@ -30,7 +30,8 @@
     "verify:repo": "node scripts/verify-s00.mjs && node scripts/verify-s01.mjs && node scripts/verify-s02.mjs && node scripts/verify-s03.mjs && node scripts/verify-s04.mjs && node scripts/verify-s05.mjs && node scripts/verify-s06.mjs && node scripts/verify-s07.mjs && node scripts/verify-s08.mjs && node scripts/verify-s09.mjs && node scripts/verify-s10.mjs && node scripts/verify-s11.mjs && node scripts/verify-s12.mjs && node scripts/verify-s13.mjs && node scripts/verify-s14.mjs && node scripts/verify-s15.mjs && node scripts/verify-s16.mjs && node scripts/verify-s17.mjs && node scripts/verify-s18.mjs && node scripts/verify-s19.mjs && node scripts/verify-s20.mjs && node scripts/verify-s21.mjs && node scripts/verify-s22.mjs && node scripts/verify-s23.mjs && node scripts/verify-s24.mjs && node scripts/verify-s25.mjs && node scripts/verify-s26.mjs && node scripts/verify-s27.mjs && node --test scripts/tests/*.test.mjs",
     "verify": "pnpm generate:check && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm verify:licenses && pnpm verify:repo",
     "bootstrap:check": "node scripts/bootstrap.mjs --check",
-    "acceptance:new-machine": "node scripts/new-machine-acceptance.mjs"
+    "acceptance:new-machine": "node scripts/new-machine-acceptance.mjs",
+    "desktop:test:supervisor": "node apps/desktop-codeoss/scripts/test-core-supervisor.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",

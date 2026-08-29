@@ -12,6 +12,8 @@
 // without it and the CLI fails closed there by design.
 #[cfg(unix)]
 pub mod serve;
+#[cfg(windows)]
+pub mod serve_windows;
 
 use std::cell::RefCell;
 use std::collections::BTreeMap;
