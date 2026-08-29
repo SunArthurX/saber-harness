@@ -1,46 +1,48 @@
-# S35 Handoff — Enterprise Desktop
+# S36 Handoff — Packaging and Update
 
-Status: completed — PR #89 merged (8430901) with all five
-required checks green and all six main contexts green on the merge
-commit; this record closes S35. The annotated s35-complete tag follows
-this record's merge; S36 starts from its runbook in a new execution
-round
+Status: in progress — the complete packaging/update contract is
+implemented and tested (22 pure tests + the real digest-producing
+package driver and offline verifier); the protected PR, hosted
+checks, completion record and s36-complete tag remain
 Date: 2026-08-29
-Branch: `segment/S35-completion`
-Base main: `da9499edaaa9a4d61056dad99722809f7c01bf8e` (`s34-complete`)
-Runbook: `docs/execution/desktop/S35-ENTERPRISE-DESKTOP.md`
+Branch: `segment/S36-packaging-update`
+Base main: `066c7324fd64c25ad0af9c76403f494f906cd3d5` (`s35-complete`)
+Runbook: `docs/execution/desktop/S36-PACKAGING-UPDATE.md`
 
 ## What landed
 
-- **enterpriseIdentity** — short-lived claims without password
-  handling, forged claims failing closed, deterministic tenant-scoped
-  SCIM with depth-bounded groups and transitive role closure, device
-  enrollment surfaces, fail-closed high-risk authorization.
-- **policyDistribution** — enterprise-key-signed versioned bundles,
-  monotonic acceptance (no rollback/replay), org denies that lower
-  scopes cannot weaken, offline last-verified with surfaced
-  staleness.
-- **kmsDlp** — envelope wrapping with plaintext confined to approved
-  process memory, resumable rollback-safe rotation, revocable device
-  wraps, named secret references, plaintext sink audits, DLP block
-  evidence.
-- **tenantIsolation** — five signed registry catalogs inert before
-  approval where org allowlists never override Core denial, seven
-  least-privilege roles, tenant-safe audit export by role and legal
-  basis, idempotent retention jobs, dual-control Break Glass with
-  audit always on, ten adversarial scenarios failing closed.
-- **Evidence**: 24 tests across four suites; verify-s35 (77 checks)
+- **packageDefinition** — three platform definitions (macOS hardened
+  runtime + notarization, Windows Authenticode per-user, Linux
+  deb/archive) with app id, locations, URL scheme, associations and
+  uninstall retention; explicit parity states; CI/KMS/HSM-only
+  signing; dev/prod identity separation; complete provenance with
+  offline verification.
+- **updateChannels** — four monotonic rings; client chain rejects
+  freeze/rollback/wrong channel/platform/expired; rollback without
+  silent data downgrade; active-run reconciliation; E7-governed
+  updater trust.
+- **storeMigration** — five recorded phases with atomic commits;
+  crash recovery at every phase never guesses; incompatible
+  downgrades refused; one migration truth across surfaces.
+- **updateRecovery** — six kill phases x six fault conditions with no
+  silent corruption or unsigned execution; complete offline bundles;
+  non-secret silent install; signed distribution policy; protective
+  uninstall.
+- **Scripts** — `package-desktop.mjs` emits real SHA-256 digests,
+  deterministic SBOM and provenance; `verify-offline-bundle.mjs`
+  re-verifies on clean-machine terms.
+- **Evidence**: 22 tests across three suites; verify-s36 (77 checks)
   in local and hosted gates.
 
 ## Honest limits
 
-Identity, KMS and registries use non-production fixture adapters;
-real IdP/KMS/SCIM endpoints arrive with the production gate segment.
+Real OS installers (dmg/notarization, Authenticode, deb) are built by
+the hosted release pipeline with CI/KMS-held keys; this repo carries
+the verifiable metadata layer and fixture signatures.
 
 ## Next actions
 
-1. Create annotated `s35-complete` on this record's merge commit;
-   verify the peeled SHA equals that main commit locally and remotely.
-2. S36 (packaging/update) starts only from
-   `docs/execution/desktop/S36-PACKAGING-UPDATE.md` in a new
-   execution round.
+1. Push, open the protected PR, wait for the five checks.
+2. Squash-merge; completion record; annotated `s36-complete`.
+3. S37 starts only from
+   `docs/execution/desktop/S37-QUALITY-SECURITY-GATE.md`.

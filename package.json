@@ -27,7 +27,7 @@
     "generate": "node scripts/generate-contracts.mjs",
     "generate:check": "node scripts/generate-contracts.mjs --check",
     "verify:licenses": "node scripts/verify-licenses.mjs",
-    "verify:repo": "node scripts/verify-s00.mjs && node scripts/verify-s01.mjs && node scripts/verify-s02.mjs && node scripts/verify-s03.mjs && node scripts/verify-s04.mjs && node scripts/verify-s05.mjs && node scripts/verify-s06.mjs && node scripts/verify-s07.mjs && node scripts/verify-s08.mjs && node scripts/verify-s09.mjs && node scripts/verify-s10.mjs && node scripts/verify-s11.mjs && node scripts/verify-s12.mjs && node scripts/verify-s13.mjs && node scripts/verify-s14.mjs && node scripts/verify-s15.mjs && node scripts/verify-s16.mjs && node scripts/verify-s17.mjs && node scripts/verify-s18.mjs && node scripts/verify-s19.mjs && node scripts/verify-s20.mjs && node scripts/verify-s21.mjs && node scripts/verify-s22.mjs && node scripts/verify-s23.mjs && node scripts/verify-s24.mjs && node scripts/verify-s25.mjs && node scripts/verify-s26.mjs && node scripts/verify-s27.mjs && node scripts/verify-s28.mjs && node scripts/verify-s29.mjs && node scripts/verify-s30.mjs && node scripts/verify-s31.mjs && node scripts/verify-s32.mjs && node scripts/verify-s33.mjs && node scripts/verify-s34.mjs && node scripts/verify-s35.mjs && node --test scripts/tests/*.test.mjs",
+    "verify:repo": "node scripts/verify-s00.mjs && node scripts/verify-s01.mjs && node scripts/verify-s02.mjs && node scripts/verify-s03.mjs && node scripts/verify-s04.mjs && node scripts/verify-s05.mjs && node scripts/verify-s06.mjs && node scripts/verify-s07.mjs && node scripts/verify-s08.mjs && node scripts/verify-s09.mjs && node scripts/verify-s10.mjs && node scripts/verify-s11.mjs && node scripts/verify-s12.mjs && node scripts/verify-s13.mjs && node scripts/verify-s14.mjs && node scripts/verify-s15.mjs && node scripts/verify-s16.mjs && node scripts/verify-s17.mjs && node scripts/verify-s18.mjs && node scripts/verify-s19.mjs && node scripts/verify-s20.mjs && node scripts/verify-s21.mjs && node scripts/verify-s22.mjs && node scripts/verify-s23.mjs && node scripts/verify-s24.mjs && node scripts/verify-s25.mjs && node scripts/verify-s26.mjs && node scripts/verify-s27.mjs && node scripts/verify-s28.mjs && node scripts/verify-s29.mjs && node scripts/verify-s30.mjs && node scripts/verify-s31.mjs && node scripts/verify-s32.mjs && node scripts/verify-s33.mjs && node scripts/verify-s34.mjs && node scripts/verify-s35.mjs && node scripts/verify-s36.mjs && node --test scripts/tests/*.test.mjs",
     "verify": "pnpm generate:check && pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm verify:licenses && pnpm verify:repo",
     "bootstrap:check": "node scripts/bootstrap.mjs --check",
     "acceptance:new-machine": "node scripts/new-machine-acceptance.mjs",
@@ -61,7 +61,12 @@
     "desktop:test:enterprise-identity": "node --test scripts/tests/s35-enterprise-identity.test.mjs",
     "desktop:test:policy-distribution": "node --test scripts/tests/s35-policy-distribution.test.mjs",
     "desktop:test:kms-dlp": "node --test scripts/tests/s35-kms-dlp.test.mjs",
-    "desktop:test:tenant-isolation": "node --test scripts/tests/s35-tenant-isolation.test.mjs"
+    "desktop:test:tenant-isolation": "node --test scripts/tests/s35-tenant-isolation.test.mjs",
+    "desktop:package": "node scripts/package-desktop.mjs",
+    "desktop:test:install-matrix": "node --test scripts/tests/s36-install-matrix.test.mjs",
+    "desktop:test:update-rollback": "node --test scripts/tests/s36-update-rollback.test.mjs",
+    "desktop:test:migrations": "node --test scripts/tests/s36-migrations.test.mjs",
+    "desktop:verify:offline-bundle": "node scripts/verify-offline-bundle.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
