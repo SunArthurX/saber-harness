@@ -1,9 +1,6 @@
 # S32 Handoff — Multi-Agent and Worktree
 
-Status: in progress — the complete multi-agent vertical is implemented
-and verified against the REAL Core (19/19 e2e checks); the protected
-PR, hosted checks (three e2es per leg), completion record and
-s32-complete tag remain
+Status: completed — PR #83 merged (39b4e6e) with all five required checks green and all six main contexts green on the merge commit; this record closes S32. The annotated s32-complete tag follows this record's merge; S33 starts from its runbook in a new execution round
 Date: 2026-08-29
 Branch: `segment/S32-multiagent-worktree`
 Base main: `d45ba7404aa75e1f0813f5911ca9e956b202df54` (`s31-complete`)
@@ -34,6 +31,8 @@ process-level parallelism arrives with sandbox realm integration.
 
 ## Next actions
 
-1. Push, open the protected PR, wait for the five checks.
-2. Squash-merge; completion record; annotated `s32-complete`.
-3. S33 starts only from `docs/execution/desktop/S33-CONTINUITY-KNOWLEDGE.md`.
+1. Create annotated s32-complete on this record's merge commit;
+   verify the peeled SHA equals that main commit locally and remotely.
+2. S33 (continuity/knowledge) starts only from
+   docs/execution/desktop/S33-CONTINUITY-KNOWLEDGE.md in a new
+   execution round.

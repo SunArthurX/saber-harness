@@ -4,7 +4,7 @@ architecture_version: "2.1"
 current_segment:
   id: S32
   name: multiagent-worktree
-  status: in_progress
+  status: completed
   objective: let one Goal delegate bounded Tasks to multiple Agents — each with an explicit Worktree, Realm, model, budget and a capability set that can never widen its parent — with per-task worktree lifecycle (dirty-base detection, quarantine-first cleanup), Goal DAG validation (cycles, missing dependencies, impossible budgets), follow/steer/take-over, conflict-detecting integration in a review worktree, and fault containment proving sibling and Goal state survive child crashes, cancellations and malicious results
 predecessor:
   segment: S29
@@ -108,6 +108,9 @@ completed_segments:
   - segment: S31
     tag: s31-complete
     commit: d45ba7404aa75e1f0813f5911ca9e956b202df54
+  - segment: S32
+    tag: s32-complete
+    commit: 39b4e6ec95f8167ec72aabf9cb45513693f3c109
 git:
   repository_initialized: true
   remote: git@github.com:SunArthurX/saber-harness.git
@@ -127,7 +130,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T07:29:40Z"
+  last_checkpoint_at: "2026-08-29T07:47:40Z"
 acceptance:
   required:
     - s31_tagged_base
@@ -164,9 +167,9 @@ acceptance:
     - e2e_parallel_integration_real_core
     - s32_verifier
     - full_local_verification
-  failed: []
-  pending:
     - verified_segment_push
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -195,8 +198,7 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers:
-  - S32 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows (three real-Core e2es on every leg) and dependency-audit before protected merge
+blockers: []
 next_action:
-  command: push segment/S32-multiagent-worktree, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s32-complete on the record merge commit with peeled-SHA verification; S33 starts only from docs/execution/desktop/S33-CONTINUITY-KNOWLEDGE.md
-  description: S32 multi-agent and worktree implemented on segment/S32-multiagent-worktree — Core: multi_agent.rs (worktree.create journals first then creates a collision-safe, owner-tagged, deterministic-seeded git worktree with dirty-base detection and idempotent replay; task.delegate binds least capabilities with child-scope widening rejected across capabilities/secrets/network/dataClass/realms and budgets clamped to the parent; worktree.integrate applies child changes into a dedicated review worktree with overlap detection; quarantine_worktree defaults to recoverable quarantine, blocking on unreviewed changes) with three new protocol methods regenerated through schema→Rust/TS→registries and dispatched on both transports — projections: goalDag (pre-dispatch validation of cycles/missing dependencies/impossible budgets, waiting reasons, critical path with no fake percentages), worktreeLifecycle (anomaly detection, quarantine-first cleanup, take-over pause-then-verify, realm-move revalidation with capability diff, follow filtering with preserved causality, cancellable queued messages), delegationPolicy (scope subset validation, budget clamp and pause-with-evidence, explained team-value decisions, conflict detection with proposed order, fault containment, taint-carrying cross-task messages that grant nothing) — evidence: 21 pure tests across three suites, the 19-check parallel-integration e2e over the REAL Core (two per-task worktrees, idempotent replay, widened-scope rejection, budget clamp, concurrent child runs, mid-flight child cancellation leaving sibling output untouched, conflict-detecting integration with review worktree, durable delegation/worktree/integration journal), verify-s32 (63 checks) chained into local and hosted gates, monorepo CI running the e2e on every leg; full pnpm verify green (143 governance tests); workspace fmt/clippy -D warnings clean
+  command: after this completion record merges, create annotated s32-complete on the record merge commit and verify its peeled SHA equals that main commit; S33 (continuity/knowledge) then starts only from docs/execution/desktop/S33-CONTINUITY-KNOWLEDGE.md
+  description: PR #83 squash-merged as 39b4e6ec95f8167ec72aabf9cb45513693f3c109 after repository-verification, monorepo ubuntu/macos/windows (three real-Core e2es green on every leg) and dependency-audit passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit. The record closes S32: multi-agent authority (journal-first idempotent worktrees, non-widening delegations with clamped budgets, conflict-detecting integration, quarantine-first cleanup), three projection modules, 21 pure tests, the 19-check parallel-integration e2e and verify-s32 (63 checks). S33 is not started

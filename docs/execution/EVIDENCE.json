@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S32",
-  "status": "in_progress",
-  "branch": "segment/S32-multiagent-worktree",
+  "status": "completed",
+  "branch": "segment/S32-completion",
   "base": {
     "main_commit": "d45ba7404aa75e1f0813f5911ca9e956b202df54",
     "segment": "S31",
@@ -49,17 +49,30 @@
       "id": "S32-FULL-GATES",
       "command": "pnpm verify && cargo fmt --all -- --check && cargo clippy --workspace --all-targets --locked -- -D warnings",
       "exit_code": 0,
-      "result": "full pnpm verify green (S00-S32 verifiers — verify-s32 passes 63 checks — and 143 governance tests); workspace fmt and clippy clean under -D warnings; whitespace contract holds"
+      "result": "full pnpm verify green (S00-S32 verifiers \u2014 verify-s32 passes 63 checks \u2014 and 143 governance tests); workspace fmt and clippy clean under -D warnings; whitespace contract holds"
+    },
+    {
+      "id": "S32-PROTECTED-PR-MERGE",
+      "command": "gh pr merge 83 --squash",
+      "exit_code": 0,
+      "result": "PR #83 squash-merged as 39b4e6ec95f8167ec72aabf9cb45513693f3c109 after all five required checks passed and mergeStateStatus was CLEAN"
+    },
+    {
+      "id": "S32-MAIN-CI",
+      "command": "inspect main check runs on 39b4e6ec95f8167ec72aabf9cb45513693f3c109",
+      "exit_code": 0,
+      "result": "repository verification, three-platform monorepo CI (three e2es), dependency audit and main provenance all concluded successfully on the merge commit"
     }
   ],
   "known_blockers": [
     "concurrent child runs share one Core process serially through the store mutex; true process-level parallelism arrives with sandbox realm integration"
   ],
-  "pending": [
-    "push segment/S32-multiagent-worktree and open the protected PR",
-    "five required checks green (three real-Core e2es on every monorepo leg) plus mergeStateStatus CLEAN",
-    "squash-merge, completion record, annotated s32-complete with peeled-SHA verification"
-  ],
-  "last_verified_at": "2026-08-29T07:29:40Z",
-  "pull_request": null
+  "pending": [],
+  "last_verified_at": "2026-08-29T07:47:40Z",
+  "pull_request": {
+    "number": 83,
+    "url": "https://github.com/SunArthurX/saber-harness/pull/83",
+    "state": "MERGED",
+    "merge_commit": "39b4e6ec95f8167ec72aabf9cb45513693f3c109"
+  }
 }
