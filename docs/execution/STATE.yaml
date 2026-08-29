@@ -2,10 +2,10 @@ project: saber
 roadmap_version: "2.0"
 architecture_version: "2.1"
 current_segment:
-  id: S35
-  name: enterprise-desktop
-  status: completed
-  objective: enroll devices and users with short-lived claims, deterministic tenant-scoped SCIM and fail-closed lost/revoked/offline behavior; distribute signed monotonic policy that lower scopes cannot weaken; keep secrets behind named references with KMS envelope wrapping, resumable rotation and DLP block evidence; govern five separate registries where org allowlists never override Core denial; enforce least-privilege RBAC with tenant-safe audit partitions, idempotent retention jobs and dual-control Break Glass; and pass all ten enterprise adversarial scenarios
+  id: S36
+  name: packaging-update
+  status: in_progress
+  objective: produce reproducible signed package definitions for macOS, Windows and Linux with full install/data/cache/log surfaces and explicit parity states; keep signing keys in CI/KMS/HSM only with per-artifact SHA-256, SBOM, source/lock commit, patch manifest, build environment, signer and offline-verifiable provenance; run monotonic internal/canary/beta/stable update channels that reject freeze, rollback, wrong channel/platform and expired metadata while never orphaning active runs or letting the agent rewrite updater trust; migrate versioned stores through preflight/checkpoint/verify/atomic-commit with crash recovery at every phase and refused incompatible downgrades; and prove a six-phase kill x six-condition fault recovery matrix plus complete offline bundles and protective uninstall flows
 predecessor:
   segment: S33
   status: completed
@@ -120,7 +120,7 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S35-completion
+  branch: segment/S36-packaging-update
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 1633d17
@@ -133,60 +133,62 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T13:05:00Z"
+  last_checkpoint_at: "2026-08-29T14:15:00Z"
 acceptance:
   required:
-    - s34_tagged_base
-    - assertions_short_lived_no_passwords
-    - forged_claims_fail_closed
-    - scim_deterministic_tenant_scoped
-    - recursive_groups_bounded
-    - device_high_risk_fail_closed
-    - policy_signed_monotonic
-    - rollback_replay_rejected
-    - lower_scope_cannot_weaken_deny
-    - offline_last_verified_with_staleness
-    - envelope_wrap_plaintext_memory_only
-    - rotation_resumable_rollback_safe
-    - secret_references_not_values
-    - dlp_block_evidence
-    - registries_inert_before_approval
-    - org_allowlist_never_overrides_core
-    - rbac_least_privilege
-    - audit_tenant_safe_legal_basis_export
-    - retention_jobs_idempotent
-    - break_glass_dual_control_audit_always
-    - ten_adversarial_scenarios_fail_closed
-    - s35_verifier
+    - s35_tagged_base
+    - three_platform_definitions_complete
+    - parity_gaps_explicit
+    - signing_keys_ci_kms_hsm_only
+    - dev_prod_channel_identities_distinct
+    - provenance_digest_sbom_commit_signer
+    - offline_clean_machine_verification
+    - monotonic_channels_four_rings
+    - chain_rejects_freeze_rollback_wrong_expired
+    - rollback_no_silent_data_downgrade
+    - updates_never_orphan_active_runs
+    - updater_trust_e7_governed
+    - migration_phases_recorded_atomic_commit
+    - crash_every_phase_never_guess
+    - incompatible_downgrade_refused
+    - one_migration_truth_three_surfaces
+    - kill_matrix_no_corruption_no_unsigned
+    - six_faults_contained
+    - offline_bundle_complete
+    - silent_install_non_secret_only
+    - uninstall_protects_encrypted_data
+    - package_driver_real_digests
+    - s36_verifier
     - full_local_verification
     - verified_segment_push
   passed:
-    - s34_tagged_base
-    - assertions_short_lived_no_passwords
-    - forged_claims_fail_closed
-    - scim_deterministic_tenant_scoped
-    - recursive_groups_bounded
-    - device_high_risk_fail_closed
-    - policy_signed_monotonic
-    - rollback_replay_rejected
-    - lower_scope_cannot_weaken_deny
-    - offline_last_verified_with_staleness
-    - envelope_wrap_plaintext_memory_only
-    - rotation_resumable_rollback_safe
-    - secret_references_not_values
-    - dlp_block_evidence
-    - registries_inert_before_approval
-    - org_allowlist_never_overrides_core
-    - rbac_least_privilege
-    - audit_tenant_safe_legal_basis_export
-    - retention_jobs_idempotent
-    - break_glass_dual_control_audit_always
-    - ten_adversarial_scenarios_fail_closed
-    - s35_verifier
+    - s35_tagged_base
+    - three_platform_definitions_complete
+    - parity_gaps_explicit
+    - signing_keys_ci_kms_hsm_only
+    - dev_prod_channel_identities_distinct
+    - provenance_digest_sbom_commit_signer
+    - offline_clean_machine_verification
+    - monotonic_channels_four_rings
+    - chain_rejects_freeze_rollback_wrong_expired
+    - rollback_no_silent_data_downgrade
+    - updates_never_orphan_active_runs
+    - updater_trust_e7_governed
+    - migration_phases_recorded_atomic_commit
+    - crash_every_phase_never_guess
+    - incompatible_downgrade_refused
+    - one_migration_truth_three_surfaces
+    - kill_matrix_no_corruption_no_unsigned
+    - six_faults_contained
+    - offline_bundle_complete
+    - silent_install_non_secret_only
+    - uninstall_protects_encrypted_data
+    - package_driver_real_digests
+    - s36_verifier
     - full_local_verification
-    - verified_segment_push
   failed: []
-  pending: []
+  pending:
+    - verified_segment_push
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -215,7 +217,8 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers: []
+blockers:
+  - S36 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows and dependency-audit before protected merge
 next_action:
-  command: after this completion record merges, create annotated s35-complete on the record merge commit and verify its peeled SHA equals that main commit; S36 (packaging/update) then starts only from docs/execution/desktop/S36-PACKAGING-UPDATE.md
-  description: PR #89 squash-merged as 8430901f442888ba86ee097ec9ddb439bf8b664c after repository-verification, monorepo ubuntu/macos/windows and dependency-audit passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit. The record closes S35: enterprise desktop (short-lived claims without passwords with forged claims and expiry failing closed, deterministic tenant-scoped depth-bounded SCIM with transitive role closure, device surfaces with fail-closed high-risk authorization; enterprise-key-signed monotonic policy that lower scopes cannot weaken with honest offline staleness; KMS envelope wrapping with plaintext confined to approved process memory, resumable rollback-safe rotation, named secret references, plaintext sink audits and DLP block evidence; five signed registry catalogs inert before approval where org allowlists never override a Core denial, seven least-privilege roles, tenant-safe audit export by role and legal basis, idempotent retention jobs, dual-control Break Glass with audit always on, and ten adversarial scenarios failing closed), 24 pure tests across four suites and verify-s35 (77 checks). S36 is not started
+  command: push segment/S36-packaging-update, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s36-complete on the record merge commit with peeled-SHA verification; S37 starts only from docs/execution/desktop/S37-QUALITY-SECURITY-GATE.md
+  description: S36 packaging and update implemented on segment/S36-packaging-update — four pure modules plus two real scripts (packageDefinition: three platform definitions with app id, install/data/cache/log locations, url scheme, file associations, uninstall retention, explicit unsupported-architecture states, CI/KMS/HSM-only signing locations, distinct dev/prod channel identities, provenance records requiring sha256/SBOM/source+lock commits/patch manifest/build environment/signer with fixture signatures verified on clean-machine terms; updateChannels: internal/canary/beta/stable rings with monotonic sequence targets, client chain verification rejecting freeze/rollback/wrong channel/wrong platform/expired metadata, ring rollback never silently downgrading data compatibility, update UI facts, active-run reconciliation deferring swap until checkpoint or takeover, updater trust E7-governed against agent/renderer/extension/remote content; storeMigration: five recorded phases with atomic version commits, crash recovery at every phase reopening old/restoring checkpoints/completing new or entering explicit recovery without guessing, incompatible downgrades refused or export-pathed, one migration truth across desktop/cli/web-supervisor; updateRecovery: six kill phases x six fault conditions matrix proving no silent corruption or unsigned execution, complete offline bundles with verification tool and instructions, documented non-secret silent install options, signed-policy proxy/mirror/air-gap, uninstall flows that ask and default to protecting encrypted data; scripts/package-desktop.mjs producing real SHA-256 digests, deterministic SBOM and provenance into dist/packages; scripts/verify-offline-bundle.mjs re-verifying digests, signatures and bundle completeness), 22 pure tests across three suites, verify-s36 (77 checks), the packaging driver and offline-bundle verifier chained into local gates; full pnpm verify green (237 governance tests). Hosted installer builds with real OS signing remain the release pipeline's job and are recorded as the honest limit

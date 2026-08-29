@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S35",
-  "status": "completed",
-  "branch": "segment/S35-completion",
+  "segment": "S36",
+  "status": "in_progress",
+  "branch": "segment/S36-packaging-update",
   "base": {
-    "main_commit": "da9499edaaa9a4d61056dad99722809f7c01bf8e",
-    "segment": "S34",
-    "tag": "s34-complete",
-    "commit": "da9499edaaa9a4d61056dad99722809f7c01bf8e"
+    "main_commit": "066c7324fd64c25ad0af9c76403f494f906cd3d5",
+    "segment": "S35",
+    "tag": "s35-complete",
+    "commit": "066c7324fd64c25ad0af9c76403f494f906cd3d5"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
@@ -16,63 +16,50 @@
   "remote_head": "resolve-from-git",
   "checks": [
     {
-      "id": "S35-PREDECESSOR",
-      "command": "git rev-parse 's34-complete^{}'",
+      "id": "S36-PREDECESSOR",
+      "command": "git rev-parse 's35-complete^{}'",
       "exit_code": 0,
-      "result": "s34-complete resolves to da9499edaaa9a4d61056dad99722809f7c01bf8e which equals origin/main; S35 branches from it"
+      "result": "s35-complete resolves to 066c7324fd64c25ad0af9c76403f494f906cd3d5 which equals origin/main; S36 branches from it"
     },
     {
-      "id": "S35-ENTERPRISE-IDENTITY",
-      "command": "pnpm desktop:test:enterprise-identity",
+      "id": "S36-UPDATE-ROLLBACK",
+      "command": "pnpm desktop:test:update-rollback",
       "exit_code": 0,
-      "result": "6/6: assertion exchange yields short-lived claims with passwords prohibited; forged issuer/subject/tenant and expiry fail closed beyond clock skew; group resolution is tenant-scoped and depth-bounded against recursion; SCIM mapping is deterministic with transitive role closure; enrollment exposes the full device surface; high-risk actions fail closed on revoked/deprovisioned/lost/mismatched/stale devices"
+      "result": "10/10: three platform definitions carry the full install surface; parity gaps are explicit states; signing keys live only in CI/KMS/HSM with distinct dev/prod identities; provenance requires the complete record and verifies offline; four monotonic rings; chain verification rejects freeze/rollback/wrong channel/wrong platform/expired; rollback never silently downgrades data; updates never orphan active runs; updater trust is E7-governed"
     },
     {
-      "id": "S35-POLICY-DISTRIBUTION",
-      "command": "pnpm desktop:test:policy-distribution",
+      "id": "S36-MIGRATIONS",
+      "command": "pnpm desktop:test:migrations",
       "exit_code": 0,
-      "result": "5/5: bundles are enterprise-key signed only; acceptance is monotonic rejecting rollback and replay; lower scopes cannot weaken an org deny; effective policy shows scope, deny/allow and last sequence; offline uses last-verified policy with surfaced staleness and no silent defaults"
+      "result": "5/5: preflight guards free space; five phases record with atomic commits; crashes at every phase resolve without guessing; incompatible downgrades refused or export-pathed; desktop/cli/web-supervisor share one migration truth"
     },
     {
-      "id": "S35-KMS-DLP",
-      "command": "pnpm desktop:test:kms-dlp",
+      "id": "S36-INSTALL-MATRIX",
+      "command": "pnpm desktop:test:install-matrix",
       "exit_code": 0,
-      "result": "6/6: envelope wrapping keeps plaintext in approved process memory only; rotation is resumable, rollback-safe with old wraps valid until completion; revoked keys become undecryptable; policy carries named references not values; plaintext sinks are audited against logs/models/policy/crash dumps; DLP exposes classification/destination/transformation/block evidence"
+      "result": "7/7: six kill phases recover without corruption or unsigned execution; six fault conditions contained; the full matrix passes; offline bundles complete; silent install documented non-secret only; distribution policy signed; uninstall asks and protects encrypted data by default"
     },
     {
-      "id": "S35-TENANT-ISOLATION",
-      "command": "pnpm desktop:test:tenant-isolation",
+      "id": "S36-PACKAGE-DRIVER",
+      "command": "pnpm desktop:package && pnpm desktop:verify:offline-bundle",
       "exit_code": 0,
-      "result": "7/7: five separate catalogs with signed inert-before-approval entries; org allowlist never overrides a Core denial; seven least-privilege roles; tenant-safe audit partitions with role-and-legal-basis export; idempotent retention jobs; dual-control expiring Break Glass with alarm, review and audit always on; all ten adversarial scenarios fail closed"
+      "result": "the driver produced three platform manifests with real SHA-256 payload digests, deterministic SBOM and provenance into dist/packages; the offline verifier recomputed digests, checked fixture signatures and confirmed SBOM/notices/trust metadata plus verification tool and instructions present"
     },
     {
-      "id": "S35-FULL-GATES",
+      "id": "S36-FULL-GATES",
       "command": "pnpm verify",
       "exit_code": 0,
-      "result": "full pnpm verify green — S00-S35 verifiers (verify-s35 passes 77 checks) and 215 governance tests"
-    },
-    {
-      "id": "S35-PROTECTED-PR-MERGE",
-      "command": "gh pr merge 89 --squash",
-      "exit_code": 0,
-      "result": "PR #89 squash-merged as 8430901f442888ba86ee097ec9ddb439bf8b664c after all five required checks passed and mergeStateStatus was CLEAN"
-    },
-    {
-      "id": "S35-MAIN-CI",
-      "command": "inspect main check runs on 8430901f442888ba86ee097ec9ddb439bf8b664c",
-      "exit_code": 0,
-      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
+      "result": "full pnpm verify green — S00-S36 verifiers (verify-s36 passes 77 checks) and 237 governance tests"
     }
   ],
   "known_blockers": [
-    "identity, KMS and registries use non-production fixture adapters; real IdP/KMS/SCIM endpoints arrive with the production gate segment"
+    "real OS installers (dmg/notarization, Authenticode, deb) are built by the hosted release pipeline with CI/KMS-held keys; this repo carries the verifiable metadata layer and fixture signatures"
   ],
-  "pending": [],
-  "last_verified_at": "2026-08-29T13:05:00Z",
-  "pull_request": {
-    "number": 89,
-    "url": "https://github.com/SunArthurX/saber-harness/pull/89",
-    "state": "MERGED",
-    "merge_commit": "8430901f442888ba86ee097ec9ddb439bf8b664c"
-  }
+  "pending": [
+    "push segment/S36-packaging-update and open the protected PR",
+    "five required checks green plus mergeStateStatus CLEAN",
+    "squash-merge, completion record, annotated s36-complete with peeled-SHA verification"
+  ],
+  "last_verified_at": "2026-08-29T14:15:00Z",
+  "pull_request": null
 }

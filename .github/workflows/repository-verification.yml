@@ -100,6 +100,8 @@ jobs:
         run: node scripts/verify-s34.mjs
       - name: Verify S35 enterprise desktop
         run: node scripts/verify-s35.mjs
+      - name: Verify S36 packaging update
+        run: node scripts/verify-s36.mjs
       - name: Test repository governance policy
         run: node --test scripts/tests/*.test.mjs
       - name: Verify Git whitespace contract
