@@ -17,10 +17,8 @@ use std::sync::{Arc, Mutex};
 use interprocess::local_socket::{
     GenericNamespaced, ListenerOptions, Stream as LocalStream, ToNsName, prelude::*,
 };
-use saber_core_protocol::{
-    ControlMethod, DesktopPlatform, MAX_FRAME_BYTES, PROTOCOL_VERSION, ProtocolError,
-};
-use saber_event_store::{DatabaseKeyProvider, EventStore};
+use saber_core_protocol::{ControlMethod, DesktopPlatform, MAX_FRAME_BYTES, PROTOCOL_VERSION};
+use saber_event_store::EventStore;
 
 use crate::KeyFileProvider;
 
@@ -81,7 +79,7 @@ pub fn serve(store_dir: &Path, workspace_id: &str) -> Result<(), String> {
         let token = token.clone();
         let token_spent = Arc::clone(&token_spent);
         std::thread::spawn(move || {
-            if let Err(error) = handle_connection(stream, store, &token, token_spent) {
+            if let Err(error) = handle_connection(stream, &store, &token, &token_spent) {
                 eprintln!("saber-core serve: connection error: {error}");
             }
         });
@@ -91,9 +89,9 @@ pub fn serve(store_dir: &Path, workspace_id: &str) -> Result<(), String> {
 
 fn handle_connection(
     stream: LocalStream,
-    store: Arc<Mutex<EventStore>>,
+    store: &Arc<Mutex<EventStore>>,
     token: &str,
-    token_spent: Arc<AtomicBool>,
+    token_spent: &Arc<AtomicBool>,
 ) -> Result<(), String> {
     // One BufReader owns the stream; responses write through get_mut (the
     // documented sync pattern — reading and writing the same connection
