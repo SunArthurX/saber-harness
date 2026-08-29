@@ -2,15 +2,15 @@ project: saber
 roadmap_version: "2.0"
 architecture_version: "2.1"
 current_segment:
-  id: S27
-  name: core-supervision-transport
-  status: completed
-  objective: connect the development desktop to a real supervised Core over the contracted local versioned protocol (one-time CSPRNG bootstrap handshake, hardened unix endpoint, cursor replay with acknowledgement, fail-closed adversarial behavior) while keeping every effect authority inside the Core and the renderer a pure projection
+  id: S28
+  name: desktop-workbench-shell
+  status: in_progress
+  objective: open a real repository into the default three-zone Desktop Agent Workbench (persistent project/task navigation, central agent pane, native Code-OSS surfaces) with keyboard-operable pane lattice, named presets, versioned layout persistence with corrupt-layout recovery, fail-closed identity gating and an audited accessibility contract — while layout, focus and accessible identity survive restart and no agent execution is required yet
 predecessor:
-  segment: S25
+  segment: S27
   status: completed
-  tag: s25-complete
-  commit: cedaee7fca4b987777218556dcffca8a63a77fa1
+  tag: s27-complete
+  commit: 5f63b248e6396acd977e45245aaedb4167e94969
 completed_segments:
   - segment: S00
     tag: s00-complete
@@ -84,6 +84,15 @@ completed_segments:
   - segment: S23
     tag: s23-complete
     commit: 47e1f94a8529d103e1c2a884ed954f9fe89ad326
+  - segment: S24
+    tag: s24-complete
+    commit: 502dd1db348be7e0c4ab1a6e188275b26027d5dd
+  - segment: S26
+    tag: s26-complete
+    commit: f4693d16ae7ca19de5fd16fa70fbd86b0ac7fe87
+  - segment: S27
+    tag: s27-complete
+    commit: 5f63b248e6396acd977e45245aaedb4167e94969
   - segment: S25
     tag: s25-complete
     commit: cedaee7fca4b987777218556dcffca8a63a77fa1
@@ -176,7 +185,8 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers: []
+blockers:
+  - S28 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows and dependency-audit before protected merge; runtime three-OS launch/restart/corrupt-layout evidence is hosted-CI evidence recorded honestly
 next_action:
-  command: after this completion record merges, create annotated s27-complete on the record merge commit and verify its peeled SHA equals that main commit; S28 (desktop workbench shell) then starts only from docs/execution/desktop/S28-DESKTOP-WORKBENCH-SHELL.md
-  description: PR #73 squash-merged as f0db0fd after all five required checks (including the Windows leg compiling the interprocess named-pipe transport) passed and mergeStateStatus was CLEAN; all six main contexts are green on the merge commit. The record closes S27: hardened unix endpoint + safe windows named-pipe server, one-time CSPRNG stdout token with encrypted-store handshake-failure audit, cursor replay with acknowledgement, ten-state lifecycle machine, desktop core-supervisor with bounded-backoff restart and graceful shutdown, frozen renderer bridge allowlist, adversarial and crash-matrix suites and verify-s27 (99 checks) chained into local and hosted gates. Safe-mode/support-bundle UX is the desktop-shell surface it lands with in S28 (noted in HANDOFF); S28 is not started
+  command: push segment/S28-workbench-shell, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s28-complete on the record merge commit with peeled-SHA verification; S29 starts only from docs/execution/desktop/S29-CONVERSATION-CONTEXT.md
+  description: S28 desktop workbench shell implemented on segment/S28-workbench-shell — six pure projection modules (workbenchLayout safe-states/splitter/presets/receipts, navigationProjection nine-state store with stable IDs and valid-transition menus, identityContext fail-closed destructive gating with revision binding, agentWorkspace fixture ViewModels with secondary Command Center and no-remote walkthrough, layoutPersistence versioned restore with corrupt/identity-mismatch fallback and pane placeholders, a11yAudit keyboard path/landmarks/live regions/contrast/zoom/localization parity), native-only manifest wiring (five navigation views, evidence panel drawer, auxiliary command center, 13 keybindings, context menus gated on viewItem), smoke --workspace fixture validation, desktop:test:workbench (17) + desktop:test:a11y (8) suites, verify-s28 (142 checks) chained into local and hosted gates; full pnpm verify green on the branch; verify-s26 extension-boundary check evolved to allow extension-internal src/ modules while still forbidding Node built-ins and npm packages

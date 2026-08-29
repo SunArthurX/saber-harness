@@ -22,20 +22,82 @@
           "title": "%viewContainer.title%",
           "icon": "media/saber.svg"
         }
+      ],
+      "panel": [
+        {
+          "id": "saber-evidence-panel",
+          "title": "%viewContainer.evidence.title%",
+          "icon": "media/saber.svg"
+        }
+      ],
+      "auxiliary": [
+        {
+          "id": "saber-secondary",
+          "title": "%viewContainer.secondary.title%",
+          "icon": "media/saber.svg"
+        }
       ]
     },
     "views": {
       "saber-workbench": [
         {
+          "id": "saber.projects",
+          "name": "%view.projects.name%"
+        },
+        {
           "id": "saber.goals",
           "name": "%view.goals.name%"
+        },
+        {
+          "id": "saber.tasks",
+          "name": "%view.tasks.name%"
+        },
+        {
+          "id": "saber.conversations",
+          "name": "%view.conversations.name%"
+        },
+        {
+          "id": "saber.runs",
+          "name": "%view.runs.name%"
+        }
+      ],
+      "saber-evidence-panel": [
+        {
+          "id": "saber.evidence",
+          "name": "%view.evidence.name%"
+        }
+      ],
+      "saber-secondary": [
+        {
+          "id": "saber.commandCenter",
+          "name": "%view.commandCenter.name%"
         }
       ]
     },
     "viewsWelcome": [
       {
+        "view": "saber.projects",
+        "contents": "%viewWelcome.projects.contents%"
+      },
+      {
         "view": "saber.goals",
         "contents": "%viewWelcome.goals.contents%"
+      },
+      {
+        "view": "saber.tasks",
+        "contents": "%viewWelcome.tasks.contents%"
+      },
+      {
+        "view": "saber.conversations",
+        "contents": "%viewWelcome.conversations.contents%"
+      },
+      {
+        "view": "saber.runs",
+        "contents": "%viewWelcome.runs.contents%"
+      },
+      {
+        "view": "saber.evidence",
+        "contents": "%viewWelcome.evidence.contents%"
       }
     ],
     "commands": [
@@ -48,7 +110,247 @@
         "command": "saber.workbench.status",
         "title": "%command.workbench.status.title%",
         "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.openRepository",
+        "title": "%command.workbench.openRepository.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.selectTask",
+        "title": "%command.workbench.selectTask.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.focusConversation",
+        "title": "%command.workbench.focusConversation.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.focusEditor",
+        "title": "%command.workbench.focusEditor.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.openTerminal",
+        "title": "%command.workbench.openTerminal.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.openEvidence",
+        "title": "%command.workbench.openEvidence.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.returnFocus",
+        "title": "%command.workbench.returnFocus.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.focusGoals",
+        "title": "%command.workbench.focusGoals.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.createGoal",
+        "title": "%command.workbench.createGoal.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.walkthrough",
+        "title": "%command.workbench.walkthrough.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.specificationStudio",
+        "title": "%command.workbench.specificationStudio.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.layout.preset.focus",
+        "title": "%command.workbench.layout.preset.focus.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.layout.preset.build",
+        "title": "%command.workbench.layout.preset.build.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.layout.preset.review",
+        "title": "%command.workbench.layout.preset.review.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.layout.preset.team",
+        "title": "%command.workbench.layout.preset.team.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.layout.reset",
+        "title": "%command.workbench.layout.reset.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.layout.moveSplitter",
+        "title": "%command.workbench.layout.moveSplitter.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.layout.receipt",
+        "title": "%command.workbench.layout.receipt.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.pinTask",
+        "title": "%command.workbench.pinTask.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.archiveTask",
+        "title": "%command.workbench.archiveTask.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.restoreTask",
+        "title": "%command.workbench.restoreTask.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.retry",
+        "title": "%command.workbench.retry.title%",
+        "category": "%category%"
+      },
+      {
+        "command": "saber.workbench.reconnect",
+        "title": "%command.workbench.reconnect.title%",
+        "category": "%category%"
       }
-    ]
+    ],
+    "keybindings": [
+      {
+        "command": "saber.workbench.openRepository",
+        "key": "ctrl+alt+r",
+        "mac": "cmd+alt+r"
+      },
+      {
+        "command": "saber.workbench.selectTask",
+        "key": "ctrl+alt+t",
+        "mac": "cmd+alt+t"
+      },
+      {
+        "command": "saber.workbench.focusConversation",
+        "key": "ctrl+alt+c",
+        "mac": "cmd+alt+c"
+      },
+      {
+        "command": "saber.workbench.focusEditor",
+        "key": "ctrl+alt+e",
+        "mac": "cmd+alt+e"
+      },
+      {
+        "command": "saber.workbench.openTerminal",
+        "key": "ctrl+alt+`",
+        "mac": "cmd+alt+`"
+      },
+      {
+        "command": "saber.workbench.openEvidence",
+        "key": "ctrl+alt+d",
+        "mac": "cmd+alt+d"
+      },
+      {
+        "command": "saber.workbench.returnFocus",
+        "key": "ctrl+alt+0",
+        "mac": "cmd+alt+0"
+      },
+      {
+        "command": "saber.workbench.layout.moveSplitter",
+        "key": "ctrl+alt+left",
+        "mac": "cmd+alt+left",
+        "args": {
+          "pane": "primary-sidebar",
+          "delta": -16
+        }
+      },
+      {
+        "command": "saber.workbench.layout.moveSplitter",
+        "key": "ctrl+alt+right",
+        "mac": "cmd+alt+right",
+        "args": {
+          "pane": "primary-sidebar",
+          "delta": 16
+        }
+      },
+      {
+        "command": "saber.workbench.layout.moveSplitter",
+        "key": "ctrl+alt+shift+left",
+        "mac": "cmd+alt+shift+left",
+        "args": {
+          "pane": "agent-pane",
+          "delta": -64
+        }
+      },
+      {
+        "command": "saber.workbench.layout.moveSplitter",
+        "key": "ctrl+alt+shift+right",
+        "mac": "cmd+alt+shift+right",
+        "args": {
+          "pane": "agent-pane",
+          "delta": 64
+        }
+      },
+      {
+        "command": "saber.workbench.layout.moveSplitter",
+        "key": "ctrl+alt+up",
+        "mac": "cmd+alt+up",
+        "args": {
+          "pane": "bottom-panel",
+          "delta": 16
+        }
+      },
+      {
+        "command": "saber.workbench.layout.moveSplitter",
+        "key": "ctrl+alt+down",
+        "mac": "cmd+alt+down",
+        "args": {
+          "pane": "bottom-panel",
+          "delta": -16
+        }
+      }
+    ],
+    "menus": {
+      "view/item/context": [
+        {
+          "command": "saber.workbench.selectTask",
+          "when": "view == saber.tasks && viewItem =~ /saber-(task|conversation|run)--(ready|failed|waiting|archived)/",
+          "group": "navigation@1"
+        },
+        {
+          "command": "saber.workbench.pinTask",
+          "when": "view =~ /^saber\\.(tasks|conversations|runs)$/ && viewItem =~ /saber-(task|conversation|run)--(ready|failed|waiting)/",
+          "group": "navigation@2"
+        },
+        {
+          "command": "saber.workbench.archiveTask",
+          "when": "viewItem =~ /saber-(task|run)--(ready|failed)/",
+          "group": "background@1"
+        },
+        {
+          "command": "saber.workbench.restoreTask",
+          "when": "viewItem =~ /saber-task--archived/",
+          "group": "background@2"
+        },
+        {
+          "command": "saber.workbench.retry",
+          "when": "viewItem =~ /saber-(task|run)--(failed|waiting)/",
+          "group": "background@3"
+        },
+        {
+          "command": "saber.workbench.reconnect",
+          "when": "view =~ /^saber\\./ && viewItem =~ /saber-(task|goal|run)--(offline|failed)/",
+          "group": "background@4"
+        }
+      ]
+    }
   }
 }

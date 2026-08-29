@@ -137,10 +137,20 @@ check(extensionText.includes('"webview"') === false, "s26-extension-no-webview",
 check((extension.activationEvents ?? []).length === 0, "s26-extension-activation", "no eager activation events");
 const extensionSource = text("apps/desktop-codeoss/extensions/saber-agent/src/extension.js");
 const requires = [...extensionSource.matchAll(/require\("([^"]+)"\)/g)].map((match) => match[1]);
+// S28 split the shell into pure sibling modules inside src/; those are
+// still extension-host-local — the boundary forbids Node built-ins and
+// npm packages, not the extension's own dependency-free projections.
 check(
-  requires.length === 1 && requires[0] === "vscode",
+  requires.every((name) => name === "vscode" || name.startsWith("./")),
   "s26-extension-only-vscode-api",
-  "extension requires nothing beyond the vscode API",
+  "extension requires nothing beyond the vscode API and its own src/ modules",
+);
+check(
+  requires
+    .filter((name) => name.startsWith("./"))
+    .every((name) => existsSync(join(root, "apps/desktop-codeoss/extensions/saber-agent/src", name))),
+  "s26-extension-only-vscode-api",
+  "sibling requires resolve inside the extension src/ directory",
 );
 check(
   extensionSource.includes("engineering preview") && extensionSource.includes("not connected"),

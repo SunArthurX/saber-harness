@@ -1,21 +1,26 @@
 #!/usr/bin/env node
 /**
- * S26-WP06 — deterministic smoke over the patched upstream worktree.
+ * S26-WP06 + S28 — deterministic smoke over the patched upstream worktree.
  *
- * This is the static half of the S26 smoke journey: it proves branding,
+ * This is the static half of the smoke journey: it proves branding,
  * data-directory isolation, built-in extension presence, honest
- * unconnected states and Microsoft-service exclusion from the patched
- * product identity — without launching anything and without network.
- * The runtime launch smoke on each packaged platform is the remaining
- * S26-WP06 evidence and is not claimed here.
+ * unconnected states, Microsoft-service exclusion from the patched
+ * product identity and (S28) the workbench shell contribution surface —
+ * without launching anything and without network. `--workspace <path>`
+ * additionally validates a real workspace fixture the workbench must
+ * open into the default layout. The runtime launch smoke on each
+ * packaged platform is the remaining S26-WP06 evidence and is not
+ * claimed here.
  */
-import { existsSync, readFileSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { dirname, isAbsolute, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { applyPatchSeries, copyBuiltinExtensions, extractWorktree } from "./apply-patches.mjs";
 import { loadLock } from "./fetch-upstream.mjs";
 
 const DESKTOP_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const workspaceArg = process.argv.indexOf("--workspace");
+const WORKSPACE = workspaceArg === -1 ? null : process.argv[workspaceArg + 1];
 
 const failures = [];
 const check = (condition, name) => {
@@ -51,6 +56,58 @@ async function main() {
   );
   check(existsSync(join(worktree, "extensions", "saber-agent", "package.nls.zh-cn.json")), "zh-CN strings shipped");
 
+  // S28 — workbench shell contribution surface (static startup assertions).
+  const activityViews = extension.contributes.views["saber-workbench"].map((view) => view.id);
+  check(
+    JSON.stringify(activityViews) ===
+      JSON.stringify(["saber.projects", "saber.goals", "saber.tasks", "saber.conversations", "saber.runs"]),
+    "S28 five navigation views contribute to the default workbench container",
+  );
+  check(
+    Array.isArray(extension.contributes.viewsContainers.panel) &&
+      extension.contributes.views["saber-evidence-panel"].some((view) => view.id === "saber.evidence"),
+    "S28 evidence drawer lives in the bottom panel",
+  );
+  check(
+    Array.isArray(extension.contributes.viewsContainers.auxiliary) &&
+      extension.contributes.views["saber-secondary"].some((view) => view.id === "saber.commandCenter"),
+    "S28 command center is a secondary-sidebar view",
+  );
+  check(
+    extension.contributes.viewsContainers.activitybar.every((container) => container.id !== "saber.commandCenter") &&
+      extension.contributes.views["saber-secondary"].length > 0,
+    "S28 command center is absent from the activity bar (secondary by construction)",
+  );
+  const keybindingCommands = extension.contributes.keybindings.map((binding) => binding.command);
+  check(
+    [
+      "saber.workbench.openRepository",
+      "saber.workbench.selectTask",
+      "saber.workbench.focusConversation",
+      "saber.workbench.focusEditor",
+      "saber.workbench.openTerminal",
+      "saber.workbench.openEvidence",
+      "saber.workbench.returnFocus",
+    ].every((command) => keybindingCommands.includes(command)),
+    "S28 full keyboard path is keybound",
+  );
+  check(
+    extension.contributes.keybindings.some(
+      (binding) => binding.command === "saber.workbench.layout.moveSplitter" && binding.args?.pane,
+    ),
+    "S28 splitter keyboard movement is keybound with pane args",
+  );
+  const englishStrings = JSON.parse(
+    readFileSync(join(worktree, "extensions", "saber-agent", "package.nls.json"), "utf8"),
+  );
+  const chineseStrings = JSON.parse(
+    readFileSync(join(worktree, "extensions", "saber-agent", "package.nls.zh-cn.json"), "utf8"),
+  );
+  check(
+    JSON.stringify(Object.keys(englishStrings).sort()) === JSON.stringify(Object.keys(chineseStrings).sort()),
+    "S28 zh/en string tables keep parity",
+  );
+
   const english = readFileSync(join(worktree, "extensions", "saber-agent", "package.nls.json"), "utf8");
   check(
     english.includes("engineering preview") && english.includes("not connected"),
@@ -63,6 +120,17 @@ async function main() {
       layout.includes("saberWorkbenchContainer?.id ?? this.viewDescriptorService.getDefaultViewContainer"),
     "Desktop Agent Workbench is the default startup sidebar route (patch 0002)",
   );
+
+  if (WORKSPACE !== null && WORKSPACE !== undefined) {
+    const workspacePath = isAbsolute(WORKSPACE) ? WORKSPACE : join(process.cwd(), WORKSPACE);
+    check(existsSync(workspacePath) && statSync(workspacePath).isDirectory(), `workspace fixture exists: ${WORKSPACE}`);
+    const entries = existsSync(workspacePath) ? readdirSync(workspacePath) : [];
+    check(entries.length > 0, "workspace fixture is a real, non-empty workspace");
+    check(
+      entries.includes("README.md") && existsSync(join(workspacePath, "src")),
+      "workspace fixture carries documentation and sources",
+    );
+  }
 
   if (failures.length > 0) {
     console.error(`smoke failed with ${failures.length} failing checks`);

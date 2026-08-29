@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S27",
-  "status": "completed",
-  "branch": "segment/S27-completion",
+  "segment": "S28",
+  "status": "in_progress",
+  "branch": "segment/S28-workbench-shell",
   "base": {
-    "main_commit": "f4693d16ae7ca19de5fd16fa70fbd86b0ac7fe87",
-    "segment": "S26",
-    "tag": "s26-complete",
-    "commit": "f4693d16ae7ca19de5fd16fa70fbd86b0ac7fe87"
+    "main_commit": "5f63b248e6396acd977e45245aaedb4167e94969",
+    "segment": "S27",
+    "tag": "s27-complete",
+    "commit": "5f63b248e6396acd977e45245aaedb4167e94969"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
@@ -16,85 +16,68 @@
   "remote_head": "resolve-from-git",
   "checks": [
     {
-      "id": "S27-PREDECESSOR",
-      "command": "git rev-parse 's26-complete^{}' && git rev-parse origin/main",
+      "id": "S28-PREDECESSOR",
+      "command": "git rev-parse 's27-complete^{}' && git rev-parse origin/main",
       "exit_code": 0,
-      "result": "annotated s26-complete resolves to f4693d16ae7ca19de5fd16fa70fbd86b0ac7fe87 which equals origin/main; S27 branches from it"
+      "result": "annotated s27-complete resolves to 5f63b248e6396acd977e45245aaedb4167e94969 which equals origin/main; S28 branches from it (completed_segments drift for S24/S26/S27 repaired with verified tag values)"
     },
     {
-      "id": "S27-CONTRACT-PARITY",
-      "command": "pnpm generate && node scripts/verify-s27.mjs",
+      "id": "S28-LAYOUT-LATTICE",
+      "command": "node --test scripts/tests/s28-workbench-shell.test.mjs",
       "exit_code": 0,
-      "result": "core.initialize and core.health added once to the control schema and regenerated identically into Rust and TypeScript; verify-s27 passes 77 checks across schema, generated registries, decoder non-mutation classification, endpoint hardening, client lifecycle contracts, bridge allowlist and gate wiring"
+      "result": "S28-WP01 lattice is pure math: safe states at 1280/900/narrow, pane min/max clamps, keyboard splitter steps (16/64px) with bounded ceilings, named Focus/Build/Review/Team presets clamped on apply, default reset, Workspace/Task/Realm Layout Receipt binding revision identity, and theme tokens carrying light/dark/high-contrast values with a reduced-motion contract"
     },
     {
-      "id": "S27-SERVE-REAL-CORE",
-      "command": "target/debug/saber-core serve --store <tmp> --workspace s27test",
+      "id": "S28-NAVIGATION-PROJECTIONS",
+      "command": "node --test scripts/tests/s28-workbench-shell.test.mjs",
       "exit_code": 0,
-      "result": "the real Core serves the contracted unix endpoint: socket mode 0600, symlink refused, live endpoint never stolen, stale endpoint reaped (3 Rust unit tests); one-time CSPRNG bootstrap token printed exactly once on stdout; thread-per-connection so long-lived peers cannot starve each other (a serial-loop starvation bug was found by the third-connection probe and fixed); handshake gated before any other method; core.health returns store statistics; events.subscribe replays cursor-ordered pages from the encrypted store (verified against a real audited run: 5 events, has_more transitions)"
+      "result": "S28-WP02 store projects Projects/Goals/Tasks/Conversations/Runs with stable IDs, incremental upsert/remove bumps, nine view states (first-run..offline), saved group/workspace/timeline views, search and pin ordering (pinned first, archived last); selection is local intent and never mutates nodes; context menus are gated on viewItem states that match the TRANSITIONS matrix exactly"
     },
     {
-      "id": "S27-TRANSPORT-TESTS",
-      "command": "pnpm desktop:test:transport && pnpm desktop:test:crash-matrix",
+      "id": "S28-IDENTITY-GATING",
+      "command": "node --test scripts/tests/s28-workbench-shell.test.mjs",
       "exit_code": 0,
-      "result": "ide-client SupervisionClient: lifecycle machine covers all ten S27-WP01 states; initialize enforces N/N-1 protocol; paged replayAll returns exactly the durable events; forged token, replayed token and pre-handshake requests fail closed unauthorized; core kill degrades via the pure lifecycle machine and a respawned Core on the same store replays identical events (same first event id, same counts, no duplicates or gaps); renderer reload on the surviving Core is refused by the one-time token contract (fail-closed path; the desktop main re-spawns the Core). Unix-only tests carry an explicit skip guard for the Windows leg"
+      "result": "S28-WP03: describeIdentity/identityHeader render Task/Run/Worktree/Realm for complete identities and an explicit manual label otherwise; assertDestructiveAllowed fails closed on manual identity, missing fields (reporting which) and unknown actions; revisionBinding reports mismatches instead of hiding them. No destructive command exists in S28 — the gate is wired and tested ahead of governed runs"
     },
     {
-      "id": "S27-BRIDGE-ALLOWLIST",
-      "command": "node --test scripts/tests/s27-desktop-bridge.test.mjs",
+      "id": "S28-FIXTURE-WORKSPACE",
+      "command": "node --test scripts/tests/s28-workbench-shell.test.mjs",
       "exit_code": 0,
-      "result": "the renderer bridge exposes exactly four frozen saber.* intents, rejects unknown methods and oversized payloads before forwarding, imports no host modules, references no ipcRenderer and the extension manifest still contributes no webview (4/4 tests)"
+      "result": "S28-WP04: Conversation/Plan/Evidence/Vital-Bar ViewModels carry frozen fixture provenance (authoritative: false); evidence uses the S27 replay event shape; Command Center is placed in the secondary sidebar with defaultStartupRoute false and absent from the activity bar; the first-run walkthrough opens/creates Workspace+Goal via local commands with no remote or marketing URLs (asserted on serialized content)"
     },
     {
-      "id": "S27-FULL-GATES",
-      "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets && cargo test --workspace --locked && pnpm verify && git diff --check origin/main...HEAD",
+      "id": "S28-LAYOUT-PERSISTENCE",
+      "command": "node --test scripts/tests/s28-workbench-shell.test.mjs",
       "exit_code": 0,
-      "result": "workspace fmt clean, clippy clean, 54 Rust test suites ok including the three new endpoint-hardening tests, full pnpm verify green (contracts, format, lint, typecheck, builds, package tests incl. transport and crash matrix, licenses, S00-S27 verifiers, governance tests) and the whitespace contract holds"
+      "result": "S28-WP05: layouts serialize under LAYOUT_FORMAT_VERSION into dedicated storage keys (never run/policy keys, asserted); restore round-trips, clamps panes, replaces unavailable panes with explainable placeholders, falls back to the default lattice on corrupt payloads and unsupported versions without deleting run data, and refuses to switch Worktree/Realm silently (identity-mismatch returns the default lattice with the reason surfaced)"
     },
     {
-      "id": "S27-BRANCH-PUSHED-HOSTED-GREEN",
-      "command": "git push origin segment/S27-core-supervision-transport; PR #73 hosted checks",
+      "id": "S28-ACCESSIBILITY",
+      "command": "pnpm desktop:test:a11y",
       "exit_code": 0,
-      "result": "branch pushed (remote SHA equals local HEAD at each push); after fixing a warm-cache clippy miss, a schema-enum reversion that made CI regeneration stale, missing unix gating for the Windows leg and a Windows ESM path issue, PR #73 reports repository-verification, monorepo ubuntu/macos/windows and dependency-audit all green with mergeStateStatus CLEAN at head 9f0bcd2"
+      "result": "S28-WP06: the seven-step keyboard path is fully bound to contributed commands and keybindings; landmarks cover all seven owned regions (navigation/main/status roles); live regions are polite with state-changes-only announcement and none-while-streaming; WCAG contrast passes the audited token pairs in light/dark/high-contrast (ratio implementation validated against black/white=21); 200% zoom reflow keeps panes legal or stacks narrow; long paths truncate in the middle; zh/en string tables keep exact parity; pointer target >=24px, focus ring token and reduced motion contracted"
     },
     {
-      "id": "S27-WINDOWS-NAMED-PIPE-SERVER",
-      "command": "cargo check -p saber-core --target x86_64-pc-windows-msvc (blocked locally by openssl cross-build; compile verification delegated to the Windows CI leg)",
+      "id": "S28-SMOKE-WORKSPACE",
+      "command": "pnpm desktop:smoke --workspace fixtures/repos/basic",
       "exit_code": 0,
-      "result": "serve_windows.rs implements the contracted \\\\.\\pipe\\saber-<workspace> endpoint: CreateNamedPipeW with FILE_FLAG_FIRST_PIPE_INSTANCE (an existing listener can never be silently replaced), PIPE_REJECT_REMOTE_CLIENTS (remote pipe access blocked), message-mode duplex IO with per-instance threads, the same one-time CSPRNG stdout token, the same handshake/health/replay lifecycle and handshake-failure audit. Windows-sys pinned to the already-locked 0.61.2. Host clippy/fmt green; the Windows CI leg compiles and unit-tests the module"
+      "result": "static smoke over the patched upstream worktree now also asserts the S28 shell surface (five navigation views in the default container, evidence drawer in the bottom panel, command center secondary and absent from the activity bar, full keyboard path and splitter keybindings keybound, zh/en parity) and validates a real workspace fixture (fixtures/repos/basic) for the default-route journey; runtime three-OS launch remains hosted evidence"
     },
     {
-      "id": "S27-ELECTRON-MAIN-SUPERVISOR",
-      "command": "node apps/desktop-codeoss/scripts/test-core-supervisor.mjs",
+      "id": "S28-FULL-GATES",
+      "command": "pnpm verify && git diff --check origin/main",
       "exit_code": 0,
-      "result": "16/16 checks: the desktop-side supervisor spawns the real Core, captures the one-time token from the piped stdout channel, crash-restarts with bounded backoff and a fresh token, stops gracefully inside the 4s deadline with pipe release and never pins the event loop; policy defaults frozen and bounded. Standalone script instead of node:test because supervised children interact badly with the runner IPC teardown (documented); wired as desktop:test:supervisor"
-    },
-    {
-      "id": "S27-HANDSHAKE-AUDIT-AND-ADVERSARIAL",
-      "command": "node --test packages/ide-client/test/adversarial.test.mjs",
-      "exit_code": 0,
-      "result": "3/3: slow consumer cannot starve its own connection (per-connection threads); out-of-range cursors return an honest empty page with no invented events and replay is monotonic and deterministic; forged-token and pre-handshake rejections are persisted as supervision.handshake_rejected events in the encrypted store (never containing the presented token) and are visible to a legitimate reader"
-    },
-    {
-      "id": "S27-PROTECTED-PR-MERGE",
-      "command": "gh pr merge 73 --squash",
-      "exit_code": 0,
-      "result": "PR #73 squash-merged as f0db0fd63aff9cea4f4efc0411f61731132435ac after all five required checks passed (windows compiles the interprocess named-pipe transport in safe Rust) and mergeStateStatus was CLEAN"
-    },
-    {
-      "id": "S27-MAIN-CI",
-      "command": "inspect main check runs on f0db0fd63aff9cea4f4efc0411f61731132435ac",
-      "exit_code": 0,
-      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
+      "result": "full pnpm verify green on the branch (generation parity, format, lint, typecheck, builds, package tests, licenses, S00-S28 verifiers including the new verify-s28 with 142 checks, 50 governance tests) and the whitespace contract holds. verify-s26's extension-boundary check evolved honestly: the shell may require its own dependency-free src/ modules (each verified to resolve inside the extension), while Node built-ins and npm packages remain forbidden"
     }
   ],
-  "known_blockers": [],
-  "pending": [],
-  "last_verified_at": "2026-08-29T03:35:14Z",
-  "pull_request": {
-    "number": 73,
-    "url": "https://github.com/SunArthurX/saber-harness/pull/73",
-    "state": "MERGED",
-    "merge_commit": "f0db0fd63aff9cea4f4efc0411f61731132435ac"
-  }
+  "known_blockers": [
+    "runtime three-OS launch, restart-restore and corrupt-layout recovery inside a packaged app remain hosted-CI evidence (desktop:build matrix) and are not claimed locally"
+  ],
+  "pending": [
+    "push segment/S28-workbench-shell and open the protected PR",
+    "five required checks green (repository-verification, monorepo ubuntu/macos/windows, dependency-audit) plus mergeStateStatus CLEAN",
+    "squash-merge, land the completion record, tag annotated s28-complete on the record merge commit with peeled-SHA verification"
+  ],
+  "last_verified_at": "2026-08-29T04:04:00Z",
+  "pull_request": null
 }
