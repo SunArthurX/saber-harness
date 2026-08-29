@@ -148,12 +148,12 @@ fn handle_instance(
     token: &str,
     token_spent: Arc<AtomicBool>,
 ) -> Result<(), String> {
+    // Wait for the client explicitly; ERROR_PIPE_CONNECTED (the client
+    // raced us between CreateNamedPipeW and here) is still a usable state.
     let connected = unsafe { ConnectNamedPipe(stream.handle, std::ptr::null_mut()) };
     if connected == 0 {
-        // ERROR_PIPE_CONNECTED (a client connected between creation and
-        // ConnectNamedPipe) still yields a usable instance.
-        let error = unsafe { windows_sys::Win32::Foundation::GetLastError() };
         const ERROR_PIPE_CONNECTED: u32 = 535;
+        let error = unsafe { windows_sys::Win32::Foundation::GetLastError() };
         if error != ERROR_PIPE_CONNECTED {
             return Err(format!("connect failed: {error}"));
         }
