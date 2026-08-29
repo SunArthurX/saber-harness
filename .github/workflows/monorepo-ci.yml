@@ -66,7 +66,7 @@ jobs:
       - name: Build the Core for the governed-run e2e
         run: cargo build -p saber-core --locked
       - name: Governed-run e2e over the real Core
-        run: pnpm desktop:e2e:governed-run
+        run: pnpm --filter @saber/ide-client build && pnpm desktop:e2e:governed-run
       - name: Scan repository safety invariants and secret patterns
         run: node scripts/verify-s00.mjs
       - name: Verify JavaScript and repository gates
