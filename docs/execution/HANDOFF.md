@@ -72,6 +72,11 @@ the workspace `state.vscdb`, which materialized all three saber
 containers with every view visible — including the command center
 under its fixed `saber-secondary` home — rather than screenshots.
 
+Milestone: the strict remote gate chain (S02-S38) now passes end to
+end on main (`node scripts/verify-remote-s38.mjs --branch main`,
+6632 checks) — contributed by the owner's Round-16 commit and landed
+through PR #103 after a conflict-free rebase onto origin/main.
+
 Follow-up audit: the stray `Untitled-1` from the palette session was
 an IME artifact (a fresh untouched session holds zero untitled
 editors and saber code never creates untitled documents). Keybinding

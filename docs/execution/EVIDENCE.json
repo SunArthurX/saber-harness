@@ -3,7 +3,7 @@
   "project": "saber",
   "segment": "S38",
   "status": "completed",
-  "branch": "segment/S38-keybinding-audit",
+  "branch": "segment/S38-remote-chain-green",
   "base": {
     "main_commit": "3bedc66b39548d6185df0080789e5b96f35a8682",
     "segment": "S37",
@@ -92,13 +92,19 @@
       "command": "fresh no-input dev launch + keybinding contribution audit + editor-state DB comparison",
       "exit_code": 0,
       "result": "closed the two open questions from the interactive pass. (1) The unexpected 'Untitled-1' editor: a fresh session launched and left completely untouched holds zero untitled editors in its editor-state DB (only the Getting Started input), and the saber-agent code contains no path that creates untitled documents (its only editor path opens read-only virtual-scheme documents through the registered saber-workbench provider) — the untitled editor in the earlier session was an artifact of synthetic IME-buffered typing, not a product defect. (2) The keybindings: contributions use the valid upstream format (key plus mac override of cmd+alt+*, no when-clauses) and the renderer logs contain zero keybinding-registration errors; live firing could not be verified because synthetic Option-modifier events do not reliably reach Electron and Chromium's accessibility tree is not exposed to assistive clients in this profile — recorded as an honest verification limit, while the commands themselves are already proven executable end to end through the earlier palette run"
+    },
+    {
+      "id": "S38-REMOTE-CHAIN-GREEN",
+      "command": "node scripts/verify-remote-s38.mjs --branch main",
+      "exit_code": 0,
+      "result": "the strict remote gate chain (S38 back through S02) passed end to end on main@5207672 for the first time: 6632 individual PASS lines covering every segment's local contracts, the same-SHA hosted CI runs on main, repository protection settings and local/remote SHA equality. The chain was contributed by the owner's Round-16 commit (verify-remote-s25..s38) and became runnable after that commit landed through PR #103 (preserved from a direct-to-main local commit that had diverged from origin/main; rebased conflict-free and re-verified with the full gate before landing)"
     }
   ],
   "known_blockers": [
     "the design-partner cohort KPIs and ring execution recorded here run against committed frozen fixtures; live partner cohorts execute the same contracts in the hosted program"
   ],
   "pending": [],
-  "last_verified_at": "2026-08-29T23:40:00Z",
+  "last_verified_at": "2026-08-29T23:59:00Z",
   "pull_request": {
     "number": 95,
     "url": "https://github.com/SunArthurX/saber-harness/pull/95",
