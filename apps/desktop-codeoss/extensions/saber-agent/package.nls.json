@@ -46,5 +46,6 @@
   "command.conversation.focus.title": "Focus Conversation",
   "command.conversation.retry.title": "Retry Last Message (New Event)",
   "command.conversation.previewContext.title": "Preview Context Before Send",
-  "command.conversation.excludeFragment.title": "Exclude Context Fragment"
+  "command.conversation.excludeFragment.title": "Exclude Context Fragment",
+  "command.run.openTimeline.title": "Open Run Timeline"
 }

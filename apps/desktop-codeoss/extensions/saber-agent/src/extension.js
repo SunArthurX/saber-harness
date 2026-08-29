@@ -34,6 +34,7 @@ const {
   serializeLayout,
 } = require("./layoutPersistence.js");
 const { ConversationStream } = require("./conversationModel.js");
+const { RunTimeline } = require("./runTimeline.js");
 const { ContextPreview } = require("./contextReceipt.js");
 const { FIXTURE_PROVENANCE } = require("./agentWorkspace.js");
 
@@ -218,6 +219,17 @@ function activate(context) {
           ...fixture.messages.map((message) => `- **${message.role}**: ${message.text}`),
           "",
           "This card is a labeled fixture ViewModel, not agent output.",
+        ].join("\n");
+      }
+      if (uri.path === "/run-timeline") {
+        const state = runTimeline.state();
+        return [
+          `# Run timeline — ${state.ux} (${vscode.l10n.t("fixture")})`,
+          "",
+          ...runTimeline.entries().map((entry) => `- ${entry.type}`),
+          "",
+          "Observable durable events only — no invented progress, no hidden thought.",
+          "The live journal replays from the Core over the supervision transport.",
         ].join("\n");
       }
       if (uri.path === "/specification-studio") {
@@ -468,6 +480,55 @@ function activate(context) {
     }
   });
   void FIXTURE_PROVENANCE;
+
+  // S30 — governed run timeline (projection over fixture events; the
+  // real journal arrives over the supervision transport).
+  const runTimeline = new RunTimeline();
+  runTimeline.ingest(
+    [
+      { eventId: "f1", type: "run.queued", runId: "run-fixture", payload: {} },
+      { eventId: "f2", type: "run.state_changed", runId: "run-fixture", payload: { to: "running" } },
+      {
+        eventId: "f3",
+        type: "run.effect_completed",
+        runId: "run-fixture",
+        payload: {
+          kind: "file.read",
+          summary: {
+            resource: "README.md",
+            realm: "local",
+            duration_ms: 2,
+            result_digest: "ff",
+            evidence_id: "intent-run-fixture-read",
+          },
+        },
+      },
+      { eventId: "f4", type: "run.waiting_approval", runId: "run-fixture", payload: { card: { action: "file.edit" } } },
+    ],
+    "run-fixture",
+  );
+  register("saber.run.openTimeline", async () => {
+    const state = runTimeline.state();
+    const summary = runTimeline
+      .entries()
+      .filter((entry) => entry.type === "run.effect_completed")
+      .map((entry) => {
+        const tool = RunTimeline.toolSummary(entry);
+        return `- ${tool.kind}: ${tool.resource} (${tool.realm}, ${tool.durationMs}ms, evidence ${tool.evidenceId})`;
+      })
+      .join("\n");
+    const document = await vscode.workspace.openTextDocument({
+      scheme: WORKBENCH_SCHEME,
+      path: "/run-timeline",
+    });
+    await vscode.window.showTextDocument(document, { preview: false });
+    vscode.window.showInformationMessage(
+      vscode.l10n.t(
+        `Run timeline: ${state.ux} (${state.eventCount} observable events; fixtures until the Core connects)`,
+      ),
+    );
+    void summary;
+  });
 
   // S26 commands retained.
   register("saber.workbench.open", () => openPlaceholder("/workbench", vscode.ViewColumn.One));

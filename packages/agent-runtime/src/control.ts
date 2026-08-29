@@ -4,8 +4,31 @@ export const MAX_FRAME_BYTES = 1024 * 1024;
 export const CURRENT_PROTOCOL_VERSION = "1.0.0";
 export const PREVIOUS_PROTOCOL_VERSION = "0.1.0";
 
-const METHODS = new Set<ControlMethod>(["run.steer", "run.cancel", "run.retry", "run.fork", "events.subscribe"]);
-const MUTATIONS = new Set<ControlMethod>(["run.steer", "run.cancel", "run.retry", "run.fork"]);
+const METHODS = new Set<ControlMethod>([
+  "run.steer",
+  "run.cancel",
+  "run.retry",
+  "run.fork",
+  "run.start",
+  "run.pause",
+  "run.resume",
+  "events.subscribe",
+  "approval.resolve",
+  "goal.create",
+  "plan.freeze",
+]);
+const MUTATIONS = new Set<ControlMethod>([
+  "run.steer",
+  "run.cancel",
+  "run.retry",
+  "run.fork",
+  "run.start",
+  "run.pause",
+  "run.resume",
+  "approval.resolve",
+  "goal.create",
+  "plan.freeze",
+]);
 
 export class ProtocolViolation extends Error {
   constructor(readonly code: string) {

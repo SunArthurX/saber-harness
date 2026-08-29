@@ -13,14 +13,35 @@ export const MAX_FRAME_BYTES = 1024 * 1024;
 export const CURRENT_PROTOCOL_VERSION = "1.0.0";
 export const PREVIOUS_PROTOCOL_VERSION = "0.1.0";
 
+/** Mutation methods — they require a context idempotency key. */
+const MUTATION_METHODS = new Set<IdeMethod>([
+  "run.steer",
+  "run.cancel",
+  "run.retry",
+  "run.fork",
+  "run.start",
+  "run.pause",
+  "run.resume",
+  "approval.resolve",
+  "goal.create",
+  "plan.freeze",
+  "context.exclude",
+  "context.revoke",
+]);
+
 /** IDE-side protocol methods (all routed through the trusted Core). */
 export type IdeMethod =
   | "run.steer"
   | "run.cancel"
   | "run.retry"
   | "run.fork"
+  | "run.start"
+  | "run.pause"
+  | "run.resume"
   | "events.subscribe"
   | "approval.resolve"
+  | "goal.create"
+  | "plan.freeze"
   | "context.exclude"
   | "context.revoke"
   | "core.initialize"
@@ -31,8 +52,13 @@ const METHODS = new Set<IdeMethod>([
   "run.cancel",
   "run.retry",
   "run.fork",
+  "run.start",
+  "run.pause",
+  "run.resume",
   "events.subscribe",
   "approval.resolve",
+  "goal.create",
+  "plan.freeze",
   "context.exclude",
   "context.revoke",
   "core.initialize",
@@ -75,6 +101,7 @@ export function encodeRequest(
   nowUnixMs: number,
   deadlineUnixMs: number,
   protocolVersion: string = CURRENT_PROTOCOL_VERSION,
+  idempotencyKey?: string,
 ): EncodedFrame {
   if (protocolVersion !== CURRENT_PROTOCOL_VERSION && protocolVersion !== PREVIOUS_PROTOCOL_VERSION) {
     throw new ProtocolViolation("incompatible_protocol");
@@ -110,12 +137,19 @@ export function encodeRequest(
       actor_id: actor.renderer_id,
       workspace_id: actor.workspace_id,
       deadline_unix_ms: deadlineUnixMs,
+      ...(idempotencyKey === undefined ? {} : { idempotency_key: idempotencyKey }),
     },
     params,
   };
   const bytes = new TextEncoder().encode(JSON.stringify(frame));
   if (bytes.byteLength > MAX_FRAME_BYTES) {
     throw new ProtocolViolation("frame_too_large");
+  }
+  // Frame limits stay the first contract; mutations then require their
+  // idempotency key (mirroring the Core's decode order: size first,
+  // then method semantics).
+  if (MUTATION_METHODS.has(method) && (typeof idempotencyKey !== "string" || idempotencyKey.length === 0)) {
+    throw new ProtocolViolation("idempotency_required");
   }
   return { bytes, request_id: requestId, method };
 }
@@ -141,10 +175,25 @@ export class IdeClient {
   }
 
   /** Issue one protocol request; every failure throws before any send. */
-  request(method: IdeMethod, params: Record<string, unknown>, nowUnixMs: number, deadlineUnixMs: number): EncodedFrame {
+  request(
+    method: IdeMethod,
+    params: Record<string, unknown>,
+    nowUnixMs: number,
+    deadlineUnixMs: number,
+    idempotencyKey?: string,
+  ): EncodedFrame {
     this.#sequence += 1;
     const requestId = `${this.#actor.renderer_id}-${this.#sequence.toString().padStart(6, "0")}`;
-    const frame = encodeRequest(method, this.#actor, requestId, params, nowUnixMs, deadlineUnixMs);
+    const frame = encodeRequest(
+      method,
+      this.#actor,
+      requestId,
+      params,
+      nowUnixMs,
+      deadlineUnixMs,
+      CURRENT_PROTOCOL_VERSION,
+      idempotencyKey,
+    );
     this.#transport.send(frame);
     return frame;
   }

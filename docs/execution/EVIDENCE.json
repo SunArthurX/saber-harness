@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S29",
-  "status": "completed",
-  "branch": "segment/S29-completion",
+  "segment": "S30",
+  "status": "in_progress",
+  "branch": "segment/S30-governed-agent-run",
   "base": {
-    "main_commit": "e33f70bd699313c8c9b9b6980af0a7ef74f9a8ee",
-    "segment": "S28",
-    "tag": "s28-complete",
-    "commit": "e33f70bd699313c8c9b9b6980af0a7ef74f9a8ee"
+    "main_commit": "f169e57498cc35bd5f479302eb345a075339ea31",
+    "segment": "S29",
+    "tag": "s29-complete",
+    "commit": "f169e57498cc35bd5f479302eb345a075339ea31"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
@@ -16,73 +16,57 @@
   "remote_head": "resolve-from-git",
   "checks": [
     {
-      "id": "S29-PREDECESSOR",
-      "command": "git rev-parse 's28-complete^{}' && git rev-parse origin/main",
+      "id": "S30-PREDECESSOR",
+      "command": "git rev-parse 's29-complete^{}' && git rev-parse origin/main",
       "exit_code": 0,
-      "result": "annotated s28-complete resolves to e33f70bd699313c8c9b9b6980af0a7ef74f9a8ee which equals origin/main; S29 branches from it"
+      "result": "annotated s29-complete resolves to f169e57498cc35bd5f479302eb345a075339ea31 which equals origin/main; S30 branches from it (S29 entry appended to completed_segments, repairing the drift)"
     },
     {
-      "id": "S29-MESSAGE-MODEL",
-      "command": "pnpm desktop:test:conversation",
+      "id": "S30-PROTOCOL-PARITY",
+      "command": "pnpm generate:check",
       "exit_code": 0,
-      "result": "12/12: ten message kinds render with distinct role labels; reconnect replays deduplicate by event ID; hidden chain-of-thought events are counted, never exposed; retry appends a new causal event (retryOf) without rewriting history; copy output redacts sensitive fields with markers; tool detail collapses by default while evidence navigation survives; streaming announcements are summarized per delta, never per message"
+      "result": "goal.create, plan.freeze, run.start, run.pause, run.resume and approval.resolve added once to the control schema and regenerated identically into Rust and TypeScript; decoder accepts them; agent-runtime and ide-client registries mirror the surface; mutations now carry context idempotency keys (encodeRequest enforces the key after the frame-size contract, preserving the earlier ordering test)"
     },
     {
-      "id": "S29-COMPOSER",
-      "command": "pnpm desktop:test:conversation",
+      "id": "S30-CORE-ENGINE",
+      "command": "cargo test -p saber-core --locked",
       "exit_code": 0,
-      "result": "composer state machine: ten states with a closed transition table (illegal edges throw); @/#//$ triggers resolve file/symbol/artifact, goal/run/conversation, command/workflow and governed-capability; + attachments gated on media, size, malware scan and sensitivity; queue and steer are separate operations with visible insertion boundaries (steer requires an event cursor); every failure path retains the draft and explains recovery"
+      "result": "run_engine.rs: governed run reaches approval then succeeds after exact approval (goal with frozen acceptance, immutable plan v1, file.read executed, file.edit blocked on a one-shot card, forged digest rejected, approval executes, net.request denied by policy before any attempt, independent verifier passes file_contains, terminal succeeded with bound evidence); approval replay and terminal regression fail closed; the engine index rebuilds from replayed events alone. Effects cannot escape the canonicalized worktree; command effects run node-only exact argv with the script inside the worktree"
     },
     {
-      "id": "S29-CONTEXT-RECEIPTS",
-      "command": "pnpm desktop:test:context-receipts",
+      "id": "S30-STORE-AND-DISPATCH",
+      "command": "cargo clippy -p saber-core -p saber-event-store --all-targets --locked -- -D warnings",
       "exit_code": 0,
-      "result": "9/9: fragments must declare all ten provenance fields (source id/type, revision, reason, trust, sensitivity, token estimate, transformation, destination provider, retention); secret-sensitivity fragments are refused before the preview; preview totals reconcile with sent receipts and every divergence is listed; exclusion removes before dispatch, records context.fragment_excluded evidence and the receipt reflects it; context chips expose name/source and a keyboard removal action"
+      "result": "the store gained exactly one additive append_core_event (transactional, idempotent, hash-chained); both the unix socket and the Windows named-pipe server dispatch run methods through the shared run_dispatch module and advertise the run capabilities in initialize"
     },
     {
-      "id": "S29-SELECTOR-POLICY",
-      "command": "pnpm desktop:test:context-receipts",
+      "id": "S30-PROJECTIONS",
+      "command": "pnpm desktop:test:goal-plan && pnpm desktop:test:approval-adversarial && pnpm desktop:test:run-controls",
       "exit_code": 0,
-      "result": "model registry displays deployment, context limit, price class and policy eligibility; realms expose boundary and data egress; governed-full autonomy is clamped to policy-granted capabilities (dropped capabilities surfaced as divergences — full access cannot bypass Core policy); budget requests clamp to both hard and policy ceilings across tokens, money, wall time and tool calls"
+      "result": "19/19: immutable plan versions with visible diff facets (acceptance changes always surfaced); eleven UX states mapped from six durable states with cursor dedup, stale-event non-regression and exact tool summaries (no invented progress); complete approval cards with deny always offered, narrowing that can only remove trailing argv, and every adversarial preflight (expired, digest mismatch, unknown card, changed plan, broadened scope, invalid decision); pause boundaries, steer placement, cancel propagation with compensation, resume revalidation, fork lineage, one projection feeding every surface and truthful quit options"
     },
     {
-      "id": "S29-PRIVACY-CANARIES",
-      "command": "pnpm desktop:test:redaction-canary",
+      "id": "S30-E2E-REAL-CORE",
+      "command": "pnpm desktop:e2e:governed-run",
       "exit_code": 0,
-      "result": "6/6: planted secret and PII canaries are detected in provider fixtures and clean fixtures verify clean; exclusion evidence agrees between preview and dispatch paths; revoke blocks future retrieval, cascades derived records and states plainly which already-contacted providers cannot be claimed deleted; drafts verify only in approved, encrypted, crash-dump-excluded, non-synced storage; redacted conversation copies keep canary values out"
+      "result": "27/27 against the real saber-core debug binary over the real unix socket: initialize with capabilities; goal.create; plan.freeze v1; run.start executes file.read then blocks on the exact file.edit card (one-shot, network none, deny offered); forged digest fails closed; steer applies now while blocked; pause bounds at the next step; resume revalidates and re-issues a fresh card; both approvals match their displayed digests and exact argv; the command.test step runs node scripts/check.mjs inside the fixture worktree and exits 0; the network step is denied by policy with no attempt ever recorded; the independent verifier binds two evidence refs and the run terminalizes succeeded; approval-precedes-effect ordering holds in the replayed journal; fork re-executes the plan and cancel is terminal and locked; a Core restart on the same encrypted store preserves all 44 events and both run states"
     },
     {
-      "id": "S29-CONVERSATION-A11Y",
-      "command": "pnpm desktop:test:a11y --journey conversation",
+      "id": "S30-FULL-GATES",
+      "command": "pnpm verify && cargo fmt --all -- --check && cargo clippy --workspace --all-targets --locked -- -D warnings && git diff --check origin/main",
       "exit_code": 0,
-      "result": "4/4: streaming announcements are rate-limited (one per window) and summarized; context chips are keyboard operable and their removal action is a contributed command; provider timeout, partial stream and offline failures retain the draft and explain recovery; the conversation journey is keyboard-reachable in the manifest (focus/retry/preview/exclude + keybinding)"
-    },
-    {
-      "id": "S29-FULL-GATES",
-      "command": "pnpm verify && git diff --check origin/main",
-      "exit_code": 0,
-      "result": "full pnpm verify green on the branch (format, lint, typecheck, builds, package tests, licenses, S00-S29 verifiers — verify-s28 grew to 146 checks over the larger manifest — and 81 governance tests); whitespace contract holds"
-    },
-    {
-      "id": "S29-PROTECTED-PR-MERGE",
-      "command": "gh pr merge 77 --squash",
-      "exit_code": 0,
-      "result": "PR #77 squash-merged as dd1b43f37de5a4a4c7b7bd8864e162fe92712588 after all five required checks passed and mergeStateStatus was CLEAN"
-    },
-    {
-      "id": "S29-MAIN-CI",
-      "command": "inspect main check runs on dd1b43f37de5a4a4c7b7bd8864e162fe92712588",
-      "exit_code": 0,
-      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
+      "result": "full pnpm verify green (generation parity, format, lint, typecheck, builds, package tests, licenses, S00-S30 verifiers — verify-s30 passes 106 checks — and 100 governance tests); Rust fmt and workspace clippy clean under -D warnings; whitespace contract holds"
     }
   ],
-  "known_blockers": ["live provider streaming remains governed-run evidence for S30 and is not claimed"],
-  "pending": [],
-  "last_verified_at": "2026-08-29T04:48:35Z",
-  "pull_request": {
-    "number": 77,
-    "url": "https://github.com/SunArthurX/saber-harness/pull/77",
-    "state": "MERGED",
-    "merge_commit": "dd1b43f37de5a4a4c7b7bd8864e162fe92712588"
-  }
+  "known_blockers": [
+    "the packaged-desktop journey (desktop:build matrix) remains hosted evidence; the local e2e drives the real Core binary directly rather than a packaged app",
+    "the deterministic fixture model route is the only executor: real provider-backed runs arrive with later segments"
+  ],
+  "pending": [
+    "push segment/S30-governed-agent-run and open the protected PR",
+    "five required checks green (monorepo legs now also run the real-Core e2e) plus mergeStateStatus CLEAN",
+    "squash-merge, completion record, annotated s30-complete with peeled-SHA verification"
+  ],
+  "last_verified_at": "2026-08-29T05:44:52Z",
+  "pull_request": null
 }

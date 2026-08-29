@@ -46,5 +46,6 @@
   "command.conversation.focus.title": "聚焦会话",
   "command.conversation.retry.title": "重试上一条消息（新事件）",
   "command.conversation.previewContext.title": "发送前预览上下文",
-  "command.conversation.excludeFragment.title": "排除上下文片段"
+  "command.conversation.excludeFragment.title": "排除上下文片段",
+  "command.run.openTimeline.title": "打开运行时间线"
 }

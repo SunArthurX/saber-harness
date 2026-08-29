@@ -94,10 +94,15 @@ test("version, method, frame-size, deadline and identity violations fail closed 
     () => encodeRequest("run.cancel", { renderer_id: "r", workspace_id: "w" }, "req", huge, 0, 10),
     /frame_too_large/,
   );
+  // Mutations require their context idempotency key once the frame is legal.
+  assert.throws(
+    () => encodeRequest("run.cancel", { renderer_id: "r", workspace_id: "w" }, "req", {}, 0, 10),
+    /idempotency_required/,
+  );
   assert.equal(transport.frames.length, 0, "nothing was sent for any violation");
 
   // The happy path sends exactly one validated frame.
-  client.request("run.cancel", { reason: "user" }, 0, 10_000);
+  client.request("run.cancel", { reason: "user" }, 0, 10_000, "idem-happy-1");
   assert.equal(transport.frames.length, 1);
   const decoded = JSON.parse(new TextDecoder().decode(transport.frames[0].bytes));
   assert.equal(decoded.method, "run.cancel");
