@@ -1,50 +1,46 @@
-# S36 Handoff — Packaging and Update
+# S37 Handoff — Quality and Security Gate
 
-Status: completed — PR #91 merged (adee5df) with all five
-required checks green and all six main contexts green on the merge
-commit; this record closes S36. The annotated s36-complete tag follows
-this record's merge; S37 starts from its runbook in a new execution
-round
+Status: in progress — the complete quality/security gate contract is
+implemented and tested (21 pure tests + the real bench and readiness
+drivers); the protected PR, hosted checks, completion record and
+s37-complete tag remain
 Date: 2026-08-29
-Branch: `segment/S36-completion`
-Base main: `066c7324fd64c25ad0af9c76403f494f906cd3d5` (`s35-complete`)
-Runbook: `docs/execution/desktop/S36-PACKAGING-UPDATE.md`
+Branch: `segment/S37-quality-security-gate`
+Base main: `92b05d5f6bb3da7ea6f8f49b9b24abdf8b981348` (`s36-complete`)
+Runbook: `docs/execution/desktop/S37-QUALITY-SECURITY-GATE.md`
 
 ## What landed
 
-- **packageDefinition** — three platform definitions (macOS hardened
-  runtime + notarization, Windows Authenticode per-user, Linux
-  deb/archive) with app id, locations, URL scheme, associations and
-  uninstall retention; explicit parity states; CI/KMS/HSM-only
-  signing; dev/prod identity separation; complete provenance with
-  offline verification.
-- **updateChannels** — four monotonic rings; client chain rejects
-  freeze/rollback/wrong channel/platform/expired; rollback without
-  silent data downgrade; active-run reconciliation; E7-governed
-  updater trust.
-- **storeMigration** — five recorded phases with atomic commits;
-  crash recovery at every phase never guesses; incompatible
-  downgrades refused; one migration truth across surfaces.
-- **updateRecovery** — six kill phases x six fault conditions with no
-  silent corruption or unsigned execution; complete offline bundles;
-  non-secret silent install; signed distribution policy; protective
-  uninstall.
-- **Scripts** — `package-desktop.mjs` emits real SHA-256 digests,
-  deterministic SBOM and provenance; `verify-offline-bundle.mjs`
-  re-verifies on clean-machine terms.
-- **Evidence**: 22 tests across three suites; verify-s36 (77 checks)
+- **performanceSlo** — twelve SLO metrics over low/mid/high reference
+  machines; median/P95 evaluation; raw metadata only.
+- **a11yLocalization** — keyboard journeys, three screen readers,
+  eight visual checks, P0/P1 gate with tracked P2/P3; zh/en
+  completeness with always-translated security decisions;
+  pseudo-localization clipping detection; formatting/IME/shortcut
+  contracts; the six-term glossary.
+- **securityRedteam** — thirteen threats with evidence and controls;
+  PJ-negative rule (brains/reflexes never touch immune containment);
+  contained remote dispatch with global Stop; honest solo/team
+  measurement; locked-provenance runtime images.
+- **chaosReliability** — eleven scenarios proving bounded retries,
+  containment, Safe Mode and retained evidence; backoff ceilings.
+- **readinessGate** — eleven required families, deterministic digest,
+  ready requires zero P0/P1, metadata-only hygiene.
+- **Scripts** — `bench-desktop.mjs` measures real workloads with
+  honest environment labeling; `readiness-desktop.mjs` gates on the
+  committed descriptor report.
+- **Evidence**: 21 tests across three suites; verify-s37 (119 checks)
   in local and hosted gates.
 
 ## Honest limits
 
-Real OS installers (dmg/notarization, Authenticode, deb) are built by
-the hosted release pipeline with CI/KMS-held keys; this repo carries
-the verifiable metadata layer and fixture signatures.
+Reference-machine SLO evaluation and full screen-reader manual passes
+run in the hosted release environment; this repo carries the
+contracts, the honest bench and the deterministic gate.
 
 ## Next actions
 
-1. Create annotated `s36-complete` on this record's merge commit;
-   verify the peeled SHA equals that main commit locally and remotely.
-2. S37 (quality/security gate) starts only from
-   `docs/execution/desktop/S37-QUALITY-SECURITY-GATE.md` in a new
-   execution round.
+1. Push, open the protected PR, wait for the five checks.
+2. Squash-merge; completion record; annotated `s37-complete`.
+3. S38 starts only from
+   `docs/execution/desktop/S38-DESIGN-PARTNER-PRODUCTION.md`.

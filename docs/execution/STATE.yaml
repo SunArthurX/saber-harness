@@ -2,10 +2,10 @@ project: saber
 roadmap_version: "2.0"
 architecture_version: "2.1"
 current_segment:
-  id: S36
-  name: packaging-update
-  status: completed
-  objective: produce reproducible signed package definitions for macOS, Windows and Linux with full install/data/cache/log surfaces and explicit parity states; keep signing keys in CI/KMS/HSM only with per-artifact SHA-256, SBOM, source/lock commit, patch manifest, build environment, signer and offline-verifiable provenance; run monotonic internal/canary/beta/stable update channels that reject freeze, rollback, wrong channel/platform and expired metadata while never orphaning active runs or letting the agent rewrite updater trust; migrate versioned stores through preflight/checkpoint/verify/atomic-commit with crash recovery at every phase and refused incompatible downgrades; and prove a six-phase kill x six-condition fault recovery matrix plus complete offline bundles and protective uninstall flows
+  id: S37
+  name: quality-security-gate
+  status: in_progress
+  objective: measure the complete packaged desktop against fixed performance SLOs on low/mid/high reference machines with median/P95 raw metadata and no user content; audit accessibility (keyboard journeys, three screen readers, zoom/contrast/focus/live-region/reduced-motion with a P0/P1 gate) and localization (zh/en completeness, pseudo-localization expansion, formatting, IME, glossary); red-team thirteen threat vectors with exploit evidence, controls, the PJ negative rule keeping brains and reflexes out of immune containment, contained remote-dispatch attacks with global Stop and honest solo/team measurement; run eleven chaos scenarios proving bounded retries, containment, Safe Mode and evidence retention; and emit a deterministic eleven-family readiness report with finding IDs, digest and metadata-only hygiene
 predecessor:
   segment: S33
   status: completed
@@ -120,7 +120,7 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S36-completion
+  branch: segment/S37-quality-security-gate
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 1633d17
@@ -133,62 +133,60 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T15:05:00Z"
+  last_checkpoint_at: "2026-08-29T16:20:00Z"
 acceptance:
   required:
-    - s35_tagged_base
-    - three_platform_definitions_complete
-    - parity_gaps_explicit
-    - signing_keys_ci_kms_hsm_only
-    - dev_prod_channel_identities_distinct
-    - provenance_digest_sbom_commit_signer
-    - offline_clean_machine_verification
-    - monotonic_channels_four_rings
-    - chain_rejects_freeze_rollback_wrong_expired
-    - rollback_no_silent_data_downgrade
-    - updates_never_orphan_active_runs
-    - updater_trust_e7_governed
-    - migration_phases_recorded_atomic_commit
-    - crash_every_phase_never_guess
-    - incompatible_downgrade_refused
-    - one_migration_truth_three_surfaces
-    - kill_matrix_no_corruption_no_unsigned
-    - six_faults_contained
-    - offline_bundle_complete
-    - silent_install_non_secret_only
-    - uninstall_protects_encrypted_data
-    - package_driver_real_digests
-    - s36_verifier
+    - s36_tagged_base
+    - twelve_slo_metrics_three_machines
+    - median_p95_raw_metadata_only
+    - four_keyboard_journeys_pointer_free
+    - three_screen_readers_eight_checks
+    - p0_p1_block_lower_owner_tracked
+    - zh_en_complete_security_translated
+    - pseudo_expansion_clipping_detected
+    - ime_shortcuts_parser_locale_independent
+    - thirteen_threats_evidence_control
+    - pj_negative_brain_reflex_fail_closed
+    - remote_dispatch_contained_global_stop
+    - solo_team_contract_not_parity
+    - runtime_images_locked_provenance
+    - eleven_chaos_scenarios_bounded
+    - retries_backoff_ceiling_escalate
+    - chaos_evidence_retained
+    - eleven_families_zero_p0_p1
+    - gate_deterministic_digest
+    - report_metadata_only
+    - bench_measures_real_workloads
+    - s37_verifier
     - full_local_verification
     - verified_segment_push
   passed:
-    - s35_tagged_base
-    - three_platform_definitions_complete
-    - parity_gaps_explicit
-    - signing_keys_ci_kms_hsm_only
-    - dev_prod_channel_identities_distinct
-    - provenance_digest_sbom_commit_signer
-    - offline_clean_machine_verification
-    - monotonic_channels_four_rings
-    - chain_rejects_freeze_rollback_wrong_expired
-    - rollback_no_silent_data_downgrade
-    - updates_never_orphan_active_runs
-    - updater_trust_e7_governed
-    - migration_phases_recorded_atomic_commit
-    - crash_every_phase_never_guess
-    - incompatible_downgrade_refused
-    - one_migration_truth_three_surfaces
-    - kill_matrix_no_corruption_no_unsigned
-    - six_faults_contained
-    - offline_bundle_complete
-    - silent_install_non_secret_only
-    - uninstall_protects_encrypted_data
-    - package_driver_real_digests
-    - s36_verifier
+    - s36_tagged_base
+    - twelve_slo_metrics_three_machines
+    - median_p95_raw_metadata_only
+    - four_keyboard_journeys_pointer_free
+    - three_screen_readers_eight_checks
+    - p0_p1_block_lower_owner_tracked
+    - zh_en_complete_security_translated
+    - pseudo_expansion_clipping_detected
+    - ime_shortcuts_parser_locale_independent
+    - thirteen_threats_evidence_control
+    - pj_negative_brain_reflex_fail_closed
+    - remote_dispatch_contained_global_stop
+    - solo_team_contract_not_parity
+    - runtime_images_locked_provenance
+    - eleven_chaos_scenarios_bounded
+    - retries_backoff_ceiling_escalate
+    - chaos_evidence_retained
+    - eleven_families_zero_p0_p1
+    - gate_deterministic_digest
+    - report_metadata_only
+    - bench_measures_real_workloads
+    - s37_verifier
     - full_local_verification
-    - verified_segment_push
   failed: []
-  pending: []
+  pending:
+    - verified_segment_push
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -217,7 +215,8 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers: []
+blockers:
+  - S37 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows and dependency-audit before protected merge
 next_action:
-  command: after this completion record merges, create annotated s36-complete on the record merge commit and verify its peeled SHA equals that main commit; S37 (quality/security gate) then starts only from docs/execution/desktop/S37-QUALITY-SECURITY-GATE.md
-  description: PR #91 squash-merged as adee5df4f915817d58e3449b4f7bc7513fb859ae after repository-verification, monorepo ubuntu/macos/windows and dependency-audit passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit. The record closes S36: packaging and update (three platform definitions with full install surfaces and explicit parity states; CI/KMS/HSM-only signing with distinct dev/prod identities and complete offline-verifiable provenance; four monotonic update rings whose chain rejects freeze/rollback/wrong channel/wrong platform/expired metadata while rollback never silently downgrades data, updates never orphan active runs and updater trust stays E7-governed; five-phase migrations with atomic commits, never-guessing crash recovery, refused incompatible downgrades and one migration truth across surfaces; a six-by-six kill/fault matrix with no silent corruption or unsigned execution; complete offline bundles, non-secret silent install, signed distribution policy and protective uninstall; plus the real digest-producing package driver and offline-bundle verifier), 22 pure tests across three suites and verify-s36 (77 checks). S37 is not started
+  command: push segment/S37-quality-security-gate, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s37-complete on the record merge commit with peeled-SHA verification; S38 starts only from docs/execution/desktop/S38-DESIGN-PARTNER-PRODUCTION.md
+  description: S37 quality and security gate implemented on segment/S37-quality-security-gate — five pure modules plus two real scripts (performanceSlo: twelve SLO metrics across low/mid/high reference machines with median/P95 evaluation and raw-metadata-only reporting; a11yLocalization: four pointer-free keyboard journeys, VoiceOver/NVDA/Orca coverage with eight visual checks, a P0/P1 defect gate tracking lower severities with owners and release decisions, zh/en completeness where security decisions may never be untranslated, pseudo-localization expansion exposing clipped labels, per-locale plural/date/number formatting with IME-safe shortcuts and locale-independent parsers, and the six-term Goal/Task/Run/Realm/Worktree/Evidence glossary; securityRedteam: thirteen threats from prompt injection through audit tamper each carrying exploit evidence and a control, the PJ-01..PJ-12 negative rule failing brains/reflexes that try to suppress, replace or exit immune containment while supervisors and external human authority govern with evidence, four remote-dispatch attacks staying contained with global Stop reachable, solo/team measurement as an honest Saber contract rather than a parity claim, and runtime images rebuilt from locked provenance rejecting drift; chaosReliability: eleven scenarios from 24-hour workload through failed migration each proving bounded retries, containment, Safe Mode where expected and retained append-only evidence, with backoff-capped retry policies that escalate instead of amplifying; readinessGate: the eleven required families evaluated deterministically from immutable descriptors with finding IDs, a stable digest, ready requiring all families run and zero P0/P1, and metadata-only report hygiene refusing source/prompts/secrets/private transcripts; scripts/bench-desktop.mjs measuring real large-diff projection, event decode and 10k-entry indexing workloads with honest reference-environment labeling; scripts/readiness-desktop.mjs evaluating committed descriptors and gating on ready), 21 pure tests across three suites, verify-s37 (119 checks), the bench and readiness drivers chained into local gates; full pnpm verify green (258 governance tests)
