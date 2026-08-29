@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S36",
-  "status": "in_progress",
-  "branch": "segment/S36-packaging-update",
+  "status": "completed",
+  "branch": "segment/S36-completion",
   "base": {
     "main_commit": "066c7324fd64c25ad0af9c76403f494f906cd3d5",
     "segment": "S35",
@@ -50,16 +50,29 @@
       "command": "pnpm verify",
       "exit_code": 0,
       "result": "full pnpm verify green — S00-S36 verifiers (verify-s36 passes 77 checks) and 237 governance tests"
+    },
+    {
+      "id": "S36-PROTECTED-PR-MERGE",
+      "command": "gh pr merge 91 --squash",
+      "exit_code": 0,
+      "result": "PR #91 squash-merged as adee5df4f915817d58e3449b4f7bc7513fb859ae after all five required checks passed and mergeStateStatus was CLEAN"
+    },
+    {
+      "id": "S36-MAIN-CI",
+      "command": "inspect main check runs on adee5df4f915817d58e3449b4f7bc7513fb859ae",
+      "exit_code": 0,
+      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
     }
   ],
   "known_blockers": [
     "real OS installers (dmg/notarization, Authenticode, deb) are built by the hosted release pipeline with CI/KMS-held keys; this repo carries the verifiable metadata layer and fixture signatures"
   ],
-  "pending": [
-    "push segment/S36-packaging-update and open the protected PR",
-    "five required checks green plus mergeStateStatus CLEAN",
-    "squash-merge, completion record, annotated s36-complete with peeled-SHA verification"
-  ],
-  "last_verified_at": "2026-08-29T14:15:00Z",
-  "pull_request": null
+  "pending": [],
+  "last_verified_at": "2026-08-29T15:05:00Z",
+  "pull_request": {
+    "number": 91,
+    "url": "https://github.com/SunArthurX/saber-harness/pull/91",
+    "state": "MERGED",
+    "merge_commit": "adee5df4f915817d58e3449b4f7bc7513fb859ae"
+  }
 }

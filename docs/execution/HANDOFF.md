@@ -1,11 +1,12 @@
 # S36 Handoff — Packaging and Update
 
-Status: in progress — the complete packaging/update contract is
-implemented and tested (22 pure tests + the real digest-producing
-package driver and offline verifier); the protected PR, hosted
-checks, completion record and s36-complete tag remain
+Status: completed — PR #91 merged (adee5df) with all five
+required checks green and all six main contexts green on the merge
+commit; this record closes S36. The annotated s36-complete tag follows
+this record's merge; S37 starts from its runbook in a new execution
+round
 Date: 2026-08-29
-Branch: `segment/S36-packaging-update`
+Branch: `segment/S36-completion`
 Base main: `066c7324fd64c25ad0af9c76403f494f906cd3d5` (`s35-complete`)
 Runbook: `docs/execution/desktop/S36-PACKAGING-UPDATE.md`
 
@@ -42,7 +43,8 @@ the verifiable metadata layer and fixture signatures.
 
 ## Next actions
 
-1. Push, open the protected PR, wait for the five checks.
-2. Squash-merge; completion record; annotated `s36-complete`.
-3. S37 starts only from
-   `docs/execution/desktop/S37-QUALITY-SECURITY-GATE.md`.
+1. Create annotated `s36-complete` on this record's merge commit;
+   verify the peeled SHA equals that main commit locally and remotely.
+2. S37 (quality/security gate) starts only from
+   `docs/execution/desktop/S37-QUALITY-SECURITY-GATE.md` in a new
+   execution round.

@@ -4,7 +4,7 @@ architecture_version: "2.1"
 current_segment:
   id: S36
   name: packaging-update
-  status: in_progress
+  status: completed
   objective: produce reproducible signed package definitions for macOS, Windows and Linux with full install/data/cache/log surfaces and explicit parity states; keep signing keys in CI/KMS/HSM only with per-artifact SHA-256, SBOM, source/lock commit, patch manifest, build environment, signer and offline-verifiable provenance; run monotonic internal/canary/beta/stable update channels that reject freeze, rollback, wrong channel/platform and expired metadata while never orphaning active runs or letting the agent rewrite updater trust; migrate versioned stores through preflight/checkpoint/verify/atomic-commit with crash recovery at every phase and refused incompatible downgrades; and prove a six-phase kill x six-condition fault recovery matrix plus complete offline bundles and protective uninstall flows
 predecessor:
   segment: S33
@@ -120,7 +120,7 @@ git:
   remote_web: https://github.com/SunArthurX/saber-harness
   visibility: public
   default_branch: main
-  branch: segment/S36-packaging-update
+  branch: segment/S36-completion
   local_head: resolve-from-git
   remote_head: resolve-from-git
   verified_segment_checkpoint: 1633d17
@@ -133,7 +133,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T14:15:00Z"
+  last_checkpoint_at: "2026-08-29T15:05:00Z"
 acceptance:
   required:
     - s35_tagged_base
@@ -186,9 +186,9 @@ acceptance:
     - package_driver_real_digests
     - s36_verifier
     - full_local_verification
-  failed: []
-  pending:
     - verified_segment_push
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -217,8 +217,7 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers:
-  - S36 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows and dependency-audit before protected merge
+blockers: []
 next_action:
-  command: push segment/S36-packaging-update, open the protected PR, wait for the five required checks, squash-merge, then land the completion record and tag annotated s36-complete on the record merge commit with peeled-SHA verification; S37 starts only from docs/execution/desktop/S37-QUALITY-SECURITY-GATE.md
-  description: S36 packaging and update implemented on segment/S36-packaging-update — four pure modules plus two real scripts (packageDefinition: three platform definitions with app id, install/data/cache/log locations, url scheme, file associations, uninstall retention, explicit unsupported-architecture states, CI/KMS/HSM-only signing locations, distinct dev/prod channel identities, provenance records requiring sha256/SBOM/source+lock commits/patch manifest/build environment/signer with fixture signatures verified on clean-machine terms; updateChannels: internal/canary/beta/stable rings with monotonic sequence targets, client chain verification rejecting freeze/rollback/wrong channel/wrong platform/expired metadata, ring rollback never silently downgrading data compatibility, update UI facts, active-run reconciliation deferring swap until checkpoint or takeover, updater trust E7-governed against agent/renderer/extension/remote content; storeMigration: five recorded phases with atomic version commits, crash recovery at every phase reopening old/restoring checkpoints/completing new or entering explicit recovery without guessing, incompatible downgrades refused or export-pathed, one migration truth across desktop/cli/web-supervisor; updateRecovery: six kill phases x six fault conditions matrix proving no silent corruption or unsigned execution, complete offline bundles with verification tool and instructions, documented non-secret silent install options, signed-policy proxy/mirror/air-gap, uninstall flows that ask and default to protecting encrypted data; scripts/package-desktop.mjs producing real SHA-256 digests, deterministic SBOM and provenance into dist/packages; scripts/verify-offline-bundle.mjs re-verifying digests, signatures and bundle completeness), 22 pure tests across three suites, verify-s36 (77 checks), the packaging driver and offline-bundle verifier chained into local gates; full pnpm verify green (237 governance tests). Hosted installer builds with real OS signing remain the release pipeline's job and are recorded as the honest limit
+  command: after this completion record merges, create annotated s36-complete on the record merge commit and verify its peeled SHA equals that main commit; S37 (quality/security gate) then starts only from docs/execution/desktop/S37-QUALITY-SECURITY-GATE.md
+  description: PR #91 squash-merged as adee5df4f915817d58e3449b4f7bc7513fb859ae after repository-verification, monorepo ubuntu/macos/windows and dependency-audit passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit. The record closes S36: packaging and update (three platform definitions with full install surfaces and explicit parity states; CI/KMS/HSM-only signing with distinct dev/prod identities and complete offline-verifiable provenance; four monotonic update rings whose chain rejects freeze/rollback/wrong channel/wrong platform/expired metadata while rollback never silently downgrades data, updates never orphan active runs and updater trust stays E7-governed; five-phase migrations with atomic commits, never-guessing crash recovery, refused incompatible downgrades and one migration truth across surfaces; a six-by-six kill/fault matrix with no silent corruption or unsigned execution; complete offline bundles, non-secret silent install, signed distribution policy and protective uninstall; plus the real digest-producing package driver and offline-bundle verifier), 22 pure tests across three suites and verify-s36 (77 checks). S37 is not started
