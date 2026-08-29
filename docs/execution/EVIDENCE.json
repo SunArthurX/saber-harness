@@ -1,14 +1,14 @@
 {
   "schema_version": 1,
   "project": "saber",
-  "segment": "S28",
-  "status": "completed",
-  "branch": "segment/S28-completion",
+  "segment": "S29",
+  "status": "in_progress",
+  "branch": "segment/S29-conversation-context",
   "base": {
-    "main_commit": "5f63b248e6396acd977e45245aaedb4167e94969",
-    "segment": "S27",
-    "tag": "s27-complete",
-    "commit": "5f63b248e6396acd977e45245aaedb4167e94969"
+    "main_commit": "e33f70bd699313c8c9b9b6980af0a7ef74f9a8ee",
+    "segment": "S28",
+    "tag": "s28-complete",
+    "commit": "e33f70bd699313c8c9b9b6980af0a7ef74f9a8ee"
   },
   "local_head": "resolve-from-git",
   "remote": "git@github.com:SunArthurX/saber-harness.git",
@@ -16,81 +16,62 @@
   "remote_head": "resolve-from-git",
   "checks": [
     {
-      "id": "S28-PREDECESSOR",
-      "command": "git rev-parse 's27-complete^{}' && git rev-parse origin/main",
+      "id": "S29-PREDECESSOR",
+      "command": "git rev-parse 's28-complete^{}' && git rev-parse origin/main",
       "exit_code": 0,
-      "result": "annotated s27-complete resolves to 5f63b248e6396acd977e45245aaedb4167e94969 which equals origin/main; S28 branches from it (completed_segments drift for S24/S26/S27 repaired with verified tag values)"
+      "result": "annotated s28-complete resolves to e33f70bd699313c8c9b9b6980af0a7ef74f9a8ee which equals origin/main; S29 branches from it"
     },
     {
-      "id": "S28-LAYOUT-LATTICE",
-      "command": "node --test scripts/tests/s28-workbench-shell.test.mjs",
+      "id": "S29-MESSAGE-MODEL",
+      "command": "pnpm desktop:test:conversation",
       "exit_code": 0,
-      "result": "S28-WP01 lattice is pure math: safe states at 1280/900/narrow, pane min/max clamps, keyboard splitter steps (16/64px) with bounded ceilings, named Focus/Build/Review/Team presets clamped on apply, default reset, Workspace/Task/Realm Layout Receipt binding revision identity, and theme tokens carrying light/dark/high-contrast values with a reduced-motion contract"
+      "result": "12/12: ten message kinds render with distinct role labels; reconnect replays deduplicate by event ID; hidden chain-of-thought events are counted, never exposed; retry appends a new causal event (retryOf) without rewriting history; copy output redacts sensitive fields with markers; tool detail collapses by default while evidence navigation survives; streaming announcements are summarized per delta, never per message"
     },
     {
-      "id": "S28-NAVIGATION-PROJECTIONS",
-      "command": "node --test scripts/tests/s28-workbench-shell.test.mjs",
+      "id": "S29-COMPOSER",
+      "command": "pnpm desktop:test:conversation",
       "exit_code": 0,
-      "result": "S28-WP02 store projects Projects/Goals/Tasks/Conversations/Runs with stable IDs, incremental upsert/remove bumps, nine view states (first-run..offline), saved group/workspace/timeline views, search and pin ordering (pinned first, archived last); selection is local intent and never mutates nodes; context menus are gated on viewItem states that match the TRANSITIONS matrix exactly"
+      "result": "composer state machine: ten states with a closed transition table (illegal edges throw); @/#//$ triggers resolve file/symbol/artifact, goal/run/conversation, command/workflow and governed-capability; + attachments gated on media, size, malware scan and sensitivity; queue and steer are separate operations with visible insertion boundaries (steer requires an event cursor); every failure path retains the draft and explains recovery"
     },
     {
-      "id": "S28-IDENTITY-GATING",
-      "command": "node --test scripts/tests/s28-workbench-shell.test.mjs",
+      "id": "S29-CONTEXT-RECEIPTS",
+      "command": "pnpm desktop:test:context-receipts",
       "exit_code": 0,
-      "result": "S28-WP03: describeIdentity/identityHeader render Task/Run/Worktree/Realm for complete identities and an explicit manual label otherwise; assertDestructiveAllowed fails closed on manual identity, missing fields (reporting which) and unknown actions; revisionBinding reports mismatches instead of hiding them. No destructive command exists in S28 — the gate is wired and tested ahead of governed runs"
+      "result": "9/9: fragments must declare all ten provenance fields (source id/type, revision, reason, trust, sensitivity, token estimate, transformation, destination provider, retention); secret-sensitivity fragments are refused before the preview; preview totals reconcile with sent receipts and every divergence is listed; exclusion removes before dispatch, records context.fragment_excluded evidence and the receipt reflects it; context chips expose name/source and a keyboard removal action"
     },
     {
-      "id": "S28-FIXTURE-WORKSPACE",
-      "command": "node --test scripts/tests/s28-workbench-shell.test.mjs",
+      "id": "S29-SELECTOR-POLICY",
+      "command": "pnpm desktop:test:context-receipts",
       "exit_code": 0,
-      "result": "S28-WP04: Conversation/Plan/Evidence/Vital-Bar ViewModels carry frozen fixture provenance (authoritative: false); evidence uses the S27 replay event shape; Command Center is placed in the secondary sidebar with defaultStartupRoute false and absent from the activity bar; the first-run walkthrough opens/creates Workspace+Goal via local commands with no remote or marketing URLs (asserted on serialized content)"
+      "result": "model registry displays deployment, context limit, price class and policy eligibility; realms expose boundary and data egress; governed-full autonomy is clamped to policy-granted capabilities (dropped capabilities surfaced as divergences — full access cannot bypass Core policy); budget requests clamp to both hard and policy ceilings across tokens, money, wall time and tool calls"
     },
     {
-      "id": "S28-LAYOUT-PERSISTENCE",
-      "command": "node --test scripts/tests/s28-workbench-shell.test.mjs",
+      "id": "S29-PRIVACY-CANARIES",
+      "command": "pnpm desktop:test:redaction-canary",
       "exit_code": 0,
-      "result": "S28-WP05: layouts serialize under LAYOUT_FORMAT_VERSION into dedicated storage keys (never run/policy keys, asserted); restore round-trips, clamps panes, replaces unavailable panes with explainable placeholders, falls back to the default lattice on corrupt payloads and unsupported versions without deleting run data, and refuses to switch Worktree/Realm silently (identity-mismatch returns the default lattice with the reason surfaced)"
+      "result": "6/6: planted secret and PII canaries are detected in provider fixtures and clean fixtures verify clean; exclusion evidence agrees between preview and dispatch paths; revoke blocks future retrieval, cascades derived records and states plainly which already-contacted providers cannot be claimed deleted; drafts verify only in approved, encrypted, crash-dump-excluded, non-synced storage; redacted conversation copies keep canary values out"
     },
     {
-      "id": "S28-ACCESSIBILITY",
-      "command": "pnpm desktop:test:a11y",
+      "id": "S29-CONVERSATION-A11Y",
+      "command": "pnpm desktop:test:a11y --journey conversation",
       "exit_code": 0,
-      "result": "S28-WP06: the seven-step keyboard path is fully bound to contributed commands and keybindings; landmarks cover all seven owned regions (navigation/main/status roles); live regions are polite with state-changes-only announcement and none-while-streaming; WCAG contrast passes the audited token pairs in light/dark/high-contrast (ratio implementation validated against black/white=21); 200% zoom reflow keeps panes legal or stacks narrow; long paths truncate in the middle; zh/en string tables keep exact parity; pointer target >=24px, focus ring token and reduced motion contracted"
+      "result": "4/4: streaming announcements are rate-limited (one per window) and summarized; context chips are keyboard operable and their removal action is a contributed command; provider timeout, partial stream and offline failures retain the draft and explain recovery; the conversation journey is keyboard-reachable in the manifest (focus/retry/preview/exclude + keybinding)"
     },
     {
-      "id": "S28-SMOKE-WORKSPACE",
-      "command": "pnpm desktop:smoke --workspace fixtures/repos/basic",
-      "exit_code": 0,
-      "result": "static smoke over the patched upstream worktree now also asserts the S28 shell surface (five navigation views in the default container, evidence drawer in the bottom panel, command center secondary and absent from the activity bar, full keyboard path and splitter keybindings keybound, zh/en parity) and validates a real workspace fixture (fixtures/repos/basic) for the default-route journey; runtime three-OS launch remains hosted evidence"
-    },
-    {
-      "id": "S28-FULL-GATES",
+      "id": "S29-FULL-GATES",
       "command": "pnpm verify && git diff --check origin/main",
       "exit_code": 0,
-      "result": "full pnpm verify green on the branch (generation parity, format, lint, typecheck, builds, package tests, licenses, S00-S28 verifiers including the new verify-s28 with 142 checks, 50 governance tests) and the whitespace contract holds. verify-s26's extension-boundary check evolved honestly: the shell may require its own dependency-free src/ modules (each verified to resolve inside the extension), while Node built-ins and npm packages remain forbidden"
-    },
-    {
-      "id": "S28-PROTECTED-PR-MERGE",
-      "command": "gh pr merge 75 --squash",
-      "exit_code": 0,
-      "result": "PR #75 squash-merged as 4aceea50fe18dd6b946008ae8e5a84f2ac073422 after repository-verification, monorepo ubuntu/macos/windows and dependency-audit all passed and mergeStateStatus was CLEAN"
-    },
-    {
-      "id": "S28-MAIN-CI",
-      "command": "inspect main check runs on 4aceea50fe18dd6b946008ae8e5a84f2ac073422",
-      "exit_code": 0,
-      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
+      "result": "full pnpm verify green on the branch (format, lint, typecheck, builds, package tests, licenses, S00-S29 verifiers — verify-s28 grew to 146 checks over the larger manifest — and 81 governance tests); whitespace contract holds"
     }
   ],
   "known_blockers": [
-    "runtime three-OS launch, restart-restore and corrupt-layout recovery inside a packaged app remain hosted desktop:build evidence for later segments and are not claimed locally"
+    "live streaming against a real provider is governed-run evidence (S30+) and is not claimed here; all conversation data in the shell is labeled fixture data"
   ],
-  "pending": [],
-  "last_verified_at": "2026-08-29T04:17:02Z",
-  "pull_request": {
-    "number": 75,
-    "url": "https://github.com/SunArthurX/saber-harness/pull/75",
-    "state": "MERGED",
-    "merge_commit": "4aceea50fe18dd6b946008ae8e5a84f2ac073422"
-  }
+  "pending": [
+    "push segment/S29-conversation-context and open the protected PR",
+    "five required checks green plus mergeStateStatus CLEAN",
+    "squash-merge, completion record, annotated s29-complete with peeled-SHA verification"
+  ],
+  "last_verified_at": "2026-08-29T04:35:59Z",
+  "pull_request": null
 }

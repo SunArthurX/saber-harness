@@ -33,6 +33,9 @@ const {
   restoreLayout,
   serializeLayout,
 } = require("./layoutPersistence.js");
+const { ConversationStream } = require("./conversationModel.js");
+const { ContextPreview } = require("./contextReceipt.js");
+const { FIXTURE_PROVENANCE } = require("./agentWorkspace.js");
 
 const WORKBENCH_SCHEME = "saber-workbench";
 const NOT_CONNECTED = "not-connected";
@@ -372,6 +375,99 @@ function activate(context) {
       vscode.l10n.t("Projection reconnect requested; the supervision transport owns connection state"),
     );
   });
+
+  // S29 — conversation and context (projections over fixture data).
+  const conversation = new ConversationStream();
+  conversation.ingest([
+    { eventId: "fixture-1", kind: "user", atMs: 1, payload: { text: "What will be sent to the model? (fixture)" } },
+    {
+      eventId: "fixture-2",
+      kind: "agent-summary",
+      atMs: 2,
+      payload: { text: "Exactly the fragments in the context preview (fixture).", evidenceRef: "run-1#3" },
+    },
+    {
+      eventId: "fixture-3",
+      kind: "tool-summary",
+      atMs: 3,
+      payload: { text: "read 2 files (fixture)", evidenceRef: "run-1#2" },
+    },
+  ]);
+  const contextPreview = new ContextPreview();
+  for (const fragment of [
+    {
+      sourceId: "src/hello.ts",
+      sourceType: "file-selection",
+      revision: "rev-fixture",
+      reason: "user-pinned",
+      trust: "high",
+      sensitivity: "internal",
+      tokenEstimate: 40,
+      transformation: "none",
+      destinationProvider: "local",
+      retentionPolicy: "request-only",
+    },
+    {
+      sourceId: "goal-first",
+      sourceType: "goal",
+      revision: "rev-fixture",
+      reason: "active-goal",
+      trust: "high",
+      sensitivity: "internal",
+      tokenEstimate: 25,
+      transformation: "summary",
+      destinationProvider: "local",
+      retentionPolicy: "request-only",
+    },
+  ]) {
+    contextPreview.add(fragment);
+  }
+  register("saber.conversation.focus", () => openPlaceholder("/conversation", vscode.ViewColumn.One));
+  register("saber.conversation.retry", async () => {
+    const messages = conversation.messages();
+    const last = messages[messages.length - 1];
+    if (!last) {
+      return;
+    }
+    conversation.retry(last.eventId, `retry-${Date.now()}`, Date.now());
+    vscode.window.showInformationMessage(
+      vscode.l10n.t("Retry appended as a new causal event; history is never rewritten"),
+    );
+  });
+  register("saber.conversation.previewContext", async () => {
+    const totals = contextPreview.totals();
+    const pick = await vscode.window.showQuickPick(
+      contextPreview.fragments().map((fragment) => ({
+        label: `${fragment.sourceId} (${fragment.tokenEstimate}t)`,
+        description: `${fragment.sourceType} → ${fragment.destinationProvider} · ${fragment.sensitivity}`,
+        sourceId: fragment.sourceId,
+      })),
+      {
+        placeHolder: vscode.l10n.t(
+          `Context preview: ${totals.fragmentCount} fragments, ${totals.tokenEstimate} tokens — exactly what the provider request will contain (fixture)`,
+        ),
+      },
+    );
+    if (pick) {
+      await vscode.commands.executeCommand("saber.conversation.excludeFragment", pick.sourceId);
+    }
+  });
+  register("saber.conversation.excludeFragment", async (sourceId) => {
+    if (typeof sourceId !== "string") {
+      return;
+    }
+    try {
+      const evidence = contextPreview.exclude(sourceId, Date.now());
+      vscode.window.showInformationMessage(
+        vscode.l10n.t(
+          `Excluded ${evidence.sourceId} before dispatch (evidence recorded; would have gone to ${evidence.wouldHaveGoneTo})`,
+        ),
+      );
+    } catch {
+      vscode.window.showErrorMessage(vscode.l10n.t("Unknown context fragment"));
+    }
+  });
+  void FIXTURE_PROVENANCE;
 
   // S26 commands retained.
   register("saber.workbench.open", () => openPlaceholder("/workbench", vscode.ViewColumn.One));
