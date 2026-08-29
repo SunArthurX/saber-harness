@@ -4,7 +4,7 @@ architecture_version: "2.1"
 current_segment:
   id: S30
   name: governed-agent-run
-  status: in_progress
+  status: completed
   objective: turn a conversation into an editable Goal and Plan, start a real governed Agent Run through the Core, observe durable Tool events, grant only exact one-shot approvals, and pause, steer, cancel, resume or fork without losing causal history — with the independent verifier evaluating frozen acceptance, network effects denied before any attempt, terminal states non-regressing, and the whole journal surviving a Core restart
 predecessor:
   segment: S29
@@ -99,6 +99,9 @@ completed_segments:
   - segment: S29
     tag: s29-complete
     commit: f169e57498cc35bd5f479302eb345a075339ea31
+  - segment: S30
+    tag: s30-complete
+    commit: 5c8598063f8a2eb5ce8484ccb0a6338fb2c83a77
   - segment: S25
     tag: s25-complete
     commit: cedaee7fca4b987777218556dcffca8a63a77fa1
@@ -121,7 +124,7 @@ execution:
   provider: openai
   model: codex-current
   started_at: "2026-08-26"
-  last_checkpoint_at: "2026-08-29T05:44:26Z"
+  last_checkpoint_at: "2026-08-29T06:10:28Z"
 acceptance:
   required:
     - s29_tagged_base
@@ -156,9 +159,9 @@ acceptance:
     - core_restart_preserves_journal
     - s30_verifier
     - full_local_verification
-  failed: []
-  pending:
     - verified_segment_push
+  failed: []
+  pending: []
 evidence:
   file: docs/execution/EVIDENCE.json
   last_verified_at: "2026-08-29T03:35:14Z"
@@ -187,8 +190,7 @@ decisions:
   - docs/adr/ADR-026-production-gate.md
   - docs/adr/ADR-027-trusted-agent-core-run.md
   - docs/adr/ADR-028-codeoss-desktop-primary-product.md
-blockers:
-  - S30 implementation PR must pass repository-verification, monorepo ubuntu/macos/windows (the legs now also run the real-Core governed-run e2e) and dependency-audit before protected merge; the packaged-desktop journey remains hosted desktop:build evidence
+blockers: []
 next_action:
-  command: push segment/S30-governed-agent-run, open the protected PR, wait for the five required checks (the monorepo legs run the real-Core e2e), squash-merge, then land the completion record and tag annotated s30-complete on the record merge commit with peeled-SHA verification; S31 starts only from docs/execution/desktop/S31-CHANGE-EVIDENCE-REVIEW.md
-  description: S30 governed agent run implemented on segment/S30-governed-agent-run — Core side: run_engine.rs (goals with frozen acceptance, immutable plan versions, run start bound to plan version/model route/Realm/worktree/policy snapshot/idempotency key, deterministic fixture executor for file read/edit + node-only exact-argv commands inside the canonicalized worktree, network effects denied by policy BEFORE any attempt, exact one-shot approval cards with digest/expiry/plan/scope/resource fail-closed validation, independent verifier over frozen acceptance with bound evidence, pause at safe boundaries, resume with policy-snapshot revalidation, steer as causal control events, cancel with compensation records, fork/retry as explicit lineage; the engine index is a disposable projection rebuilt by replay; store gained one additive append_core_event keeping transactional idempotency; both unix and windows transports dispatch through the shared run_dispatch; decoder extended to the six new methods) — protocol: goal.create/plan.freeze/run.start/run.pause/run.resume/approval.resolve added to schema, generated Rust/TS, agent-runtime and ide-client registries with context idempotency keys for mutations — projections: goalPlan (immutable versions with diff facets, binding tuple), runTimeline (eleven UX states, cursor dedup, stale events cannot regress terminals, exact tool summaries, no invented progress), approvalGate (complete cards, deny always, narrowing cannot broaden, every adversarial preflight), runControls (pause boundaries, steer placement, cancel propagation, resume revalidation, fork lineage, one projection for all surfaces, truthful quit options) — evidence: four suites (5+5+9 tests) and e2e-governed-run driving the REAL Core over the REAL socket through fixtures/repos/basic (read, approved exact edit, approved exact node test command, policy-denied network, pause/resume, steer, forged-digest rejection, fork+cancel, terminal lock, Core restart preserving the 44-event journal): 27/27 local checks; verify-s30 (106 checks) chained into local and hosted gates; full pnpm verify green; cargo fmt/clippy -D warnings clean; the monorepo CI matrix now builds the Core and runs the e2e on every leg
+  command: after this completion record merges, create annotated s30-complete on the record merge commit and verify its peeled SHA equals that main commit; S31 (change evidence review) then starts only from docs/execution/desktop/S31-CHANGE-EVIDENCE-REVIEW.md
+  description: PR #79 squash-merged as 5c8598063f8a2eb5ce8484ccb0a6338fb2c83a77 after repository-verification, monorepo ubuntu/macos/windows (each leg building the Core and running the real-Core governed-run e2e) and dependency-audit all passed with mergeStateStatus CLEAN; all six main contexts are green on the merge commit. The record closes S30: governed run engine with goals/plans/approvals/verifier over the encrypted store, six new protocol methods with mutation idempotency, four projection modules, 19 pure tests, the 27-check real-Core e2e now part of every monorepo CI leg, and verify-s30 (106 checks) in local and hosted gates. RT-1 MVP vertical reached: one real fixture task completes through the real Core with exact approvals and restart-surviving evidence. S31 is not started
