@@ -5,12 +5,15 @@ surface selected by ADR-028. The application must open the complete Desktop
 Agent Workbench by default; the loopback Web supervisor is an optional
 companion and is not an implementation substitute.
 
-Current truth: the production Code-OSS/Electron shell has not landed yet. S26
-is in progress — the reproducible bootstrap exists (pinned upstream, atomic
-digest-verified cache, reversible patch series, built-in `saber-agent`
-extension skeleton, static smoke), but the full Electron compile,
-three-platform development packages and runtime launch smoke have not run,
-and no packaged desktop application is claimed. See
+Current truth: the desktop plan (S00-S38) is complete. The reproducible
+bootstrap is proven end to end on darwin-arm64: pinned upstream,
+atomic digest-verified cache, reversible patch series, built-in
+`saber-agent` extension, static smoke, full Electron compile (0 errors)
+and the runtime dev launch — bounded launch smoke plus persistent
+workbench launches over a fixture workspace (recorded as S38
+post-plan evidence in `docs/execution/EVIDENCE.json`). Not yet
+claimed: three-platform packaged installers and launch smoke on
+Windows/Linux — those remain hosted release-pipeline evidence. See
 `UPSTREAM-AND-SUPPLY-CHAIN.md` for the supply-chain record.
 
 S26 commands (from the repository root):
