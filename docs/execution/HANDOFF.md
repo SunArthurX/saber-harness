@@ -65,5 +65,9 @@ view into Explorer. Machine note: compiles ran through PATH-first
 gcc/g++ shims pinning CLT clang 17 + the MacOSX15.4 SDK libc++
 (this Mac's selected Xcode 14 lacks the needed C++20 headers); the
 shims live outside the repository. Screen Recording was not granted,
-so verification used window titles, process state and app logs
-rather than screenshots.
+so verification used window titles, process state, app logs, real
+palette-driven command execution (the extension host recorded
+`onCommand:saber.workbench.open` activating saber.saber-agent) and
+the workspace `state.vscdb`, which materialized all three saber
+containers with every view visible — including the command center
+under its fixed `saber-secondary` home — rather than screenshots.
