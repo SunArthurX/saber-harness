@@ -2,8 +2,8 @@
   "schema_version": 1,
   "project": "saber",
   "segment": "S28",
-  "status": "in_progress",
-  "branch": "segment/S28-workbench-shell",
+  "status": "completed",
+  "branch": "segment/S28-completion",
   "base": {
     "main_commit": "5f63b248e6396acd977e45245aaedb4167e94969",
     "segment": "S27",
@@ -68,16 +68,29 @@
       "command": "pnpm verify && git diff --check origin/main",
       "exit_code": 0,
       "result": "full pnpm verify green on the branch (generation parity, format, lint, typecheck, builds, package tests, licenses, S00-S28 verifiers including the new verify-s28 with 142 checks, 50 governance tests) and the whitespace contract holds. verify-s26's extension-boundary check evolved honestly: the shell may require its own dependency-free src/ modules (each verified to resolve inside the extension), while Node built-ins and npm packages remain forbidden"
+    },
+    {
+      "id": "S28-PROTECTED-PR-MERGE",
+      "command": "gh pr merge 75 --squash",
+      "exit_code": 0,
+      "result": "PR #75 squash-merged as 4aceea50fe18dd6b946008ae8e5a84f2ac073422 after repository-verification, monorepo ubuntu/macos/windows and dependency-audit all passed and mergeStateStatus was CLEAN"
+    },
+    {
+      "id": "S28-MAIN-CI",
+      "command": "inspect main check runs on 4aceea50fe18dd6b946008ae8e5a84f2ac073422",
+      "exit_code": 0,
+      "result": "repository verification, three-platform monorepo CI, dependency audit and main provenance all concluded successfully on the merge commit"
     }
   ],
   "known_blockers": [
-    "runtime three-OS launch, restart-restore and corrupt-layout recovery inside a packaged app remain hosted-CI evidence (desktop:build matrix) and are not claimed locally"
+    "runtime three-OS launch, restart-restore and corrupt-layout recovery inside a packaged app remain hosted desktop:build evidence for later segments and are not claimed locally"
   ],
-  "pending": [
-    "push segment/S28-workbench-shell and open the protected PR",
-    "five required checks green (repository-verification, monorepo ubuntu/macos/windows, dependency-audit) plus mergeStateStatus CLEAN",
-    "squash-merge, land the completion record, tag annotated s28-complete on the record merge commit with peeled-SHA verification"
-  ],
-  "last_verified_at": "2026-08-29T04:04:00Z",
-  "pull_request": null
+  "pending": [],
+  "last_verified_at": "2026-08-29T04:17:02Z",
+  "pull_request": {
+    "number": 75,
+    "url": "https://github.com/SunArthurX/saber-harness/pull/75",
+    "state": "MERGED",
+    "merge_commit": "4aceea50fe18dd6b946008ae8e5a84f2ac073422"
+  }
 }

@@ -1,8 +1,9 @@
 # S28 Handoff — Desktop Workbench Shell
 
-Status: in progress — the complete shell contract is implemented, tested
-locally and chained into every gate; the protected PR, hosted checks,
-completion record and s28-complete tag remain
+Status: completed — PR #75 merged (4aceea5) with all five required
+checks green and all six main contexts green on the merge commit; this
+record closes S28. The annotated s28-complete tag follows this record's
+merge, then S29 starts from its runbook in a new execution round
 Date: 2026-08-29
 Branch: `segment/S28-workbench-shell`
 Base main: `5f63b248e6396acd977e45245aaedb4167e94969` (`s27-complete`)
@@ -79,22 +80,8 @@ package has a focused check with real local results; the full
 
 ## Next actions
 
-1. Push `segment/S28-workbench-shell`, open the protected PR.
-2. Wait for repository-verification, monorepo ubuntu/macos/windows and
-   dependency-audit; require mergeStateStatus CLEAN.
-3. Squash-merge; land the completion record (STATE/EVIDENCE/HANDOFF);
-   tag annotated `s28-complete` on the record merge commit and verify
-   the peeled SHA equals that main commit locally and remotely.
-4. Do not start S29 before `s28-complete` exists; S29 begins from
+1. Create annotated `s28-complete` on this record's merge commit and
+   verify the peeled SHA equals that main commit locally and remotely.
+2. S29 (conversation/context) starts only from
    `docs/execution/desktop/S29-CONVERSATION-CONTEXT.md` in a new
    execution round.
-
-## Honest limits
-
-- All workbench data is fixture data with frozen provenance; the Core is
-  not connected by the shell yet (S27 transport exists; binding lands
-  with governed runs in S30).
-- No agent execution, no effect path, no webview: the shell cannot run
-  commands, read secrets or mutate Core state.
-- Runtime launch/restart/corrupt-layout evidence on real packaged builds
-  is hosted-CI evidence (desktop:build matrix) and is recorded as such.
