@@ -3,6 +3,6 @@ packages:
   - "packages/*"
 
 catalog:
-  "@biomejs/biome": 2.5.10
+  "@biomejs/biome": 2.5.11
   "@types/node": 24.13.3
   typescript: 7.0.2
