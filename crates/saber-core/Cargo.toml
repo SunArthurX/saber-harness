@@ -19,7 +19,7 @@ serde_json = "=1.0.151"
 sha2 = "=0.10.9"
 
 [target."cfg(windows)".dependencies]
-interprocess = { version = "=2.4.3", default-features = false, features = [] }
+interprocess = { version = "=2.4.4", default-features = false, features = [] }
 
 [dev-dependencies]
 tempfile = "=3.27.0"
